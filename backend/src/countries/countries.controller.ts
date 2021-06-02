@@ -7,17 +7,19 @@ export class CountriesController {
     constructor(private generalFunctionService: GeneralFunctionService, private httpService:HttpService) {}
 
     @Get('/all')
-    async getAll(): Promise<any> {
+    async getAll(){
 
         try{
             let endpoint ="/geoinfo/countries"
 
-            let instance = this.generalFunctionService.getInstance()
-            instance.get(process.env.API_URL+endpoint) 
-
-            const agent = this.generalFunctionService.getAgent()
-        
             let header = this.generalFunctionService.getHeader();
+            const agent = this.generalFunctionService.getAgent()
+
+            /*let instance = this.generalFunctionService.getInstance()
+            await instance.get(process.env.API_URL+endpoint, {
+                headers:header,
+                httpsAgent: agent
+            })*/
           
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
                 headers:header,
