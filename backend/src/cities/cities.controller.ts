@@ -13,9 +13,6 @@ export class CitiesController {
         try{
             let endpoint ="/geoinfo/countries/"+country_code+"/provinces-states/"+province_state_code+"/cities"
 
-            //let instance = this.generalFunctionService.getInstance()
-            //instance.get(process.env.API_URL+endpoint) 
-
             const agent = this.generalFunctionService.getAgent()
         
             let header = this.generalFunctionService.getHeader();

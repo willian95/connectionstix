@@ -12,9 +12,6 @@ export class TagsController {
         try{
             let endpoint ="/commerce/product-tags"
 
-            let instance = this.generalFunctionService.getInstance()
-            instance.get(process.env.API_URL+endpoint) 
-
             const agent = this.generalFunctionService.getAgent()
         
             let header = this.generalFunctionService.getHeader();

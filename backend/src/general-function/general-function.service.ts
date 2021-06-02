@@ -37,16 +37,6 @@ export class GeneralFunctionService {
         
     }
 
-    getInstance(){
-        let instance = axios.create({
-            httpsAgent: new https.Agent({  
-                rejectUnauthorized: false
-            })
-        });
-
-        return instance
-    }
-
     getAgent(){
         let agent = new https.Agent({  
             rejectUnauthorized: false

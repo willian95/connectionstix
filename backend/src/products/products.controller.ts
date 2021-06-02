@@ -12,9 +12,6 @@ export class ProductsController {
         try{
             let endpoint ="/commerce/products"
 
-            let instance = this.generalFunctionService.getInstance()
-            instance.get(process.env.API_URL+endpoint) 
-
             const agent = this.generalFunctionService.getAgent()
         
             let header = this.generalFunctionService.getHeader();
@@ -41,9 +38,6 @@ export class ProductsController {
         try{
             let endpoint ="/commerce/products/"+id
 
-            let instance = this.generalFunctionService.getInstance()
-            instance.get(process.env.API_URL+endpoint) 
-
             const agent = this.generalFunctionService.getAgent()
         
             let header = this.generalFunctionService.getHeader();
@@ -69,9 +63,6 @@ export class ProductsController {
         try{
             let endpoint ="/commerce/products/"+id+"/nearby"
 
-            let instance = this.generalFunctionService.getInstance()
-            instance.get(process.env.API_URL+endpoint) 
-
             const agent = this.generalFunctionService.getAgent()
         
             let header = this.generalFunctionService.getHeader();
@@ -96,9 +87,6 @@ export class ProductsController {
 
         try{
             let endpoint ="/commerce/products/"+id+"/availability"
-
-            let instance = this.generalFunctionService.getInstance()
-            instance.get(process.env.API_URL+endpoint) 
 
             const agent = this.generalFunctionService.getAgent()
         
