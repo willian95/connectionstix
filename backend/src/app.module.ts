@@ -1,14 +1,21 @@
-import { Module } from '@nestjs/common';
+import { Module, HttpModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TestController } from './test/test.controller';
 
 
 import { ConfigModule } from '@nestjs/config';
+import { GeneralFunctionService } from './general-function/general-function.service';
+import { ProductsController } from './products/products.controller';
+import { ProductsService } from './products/products.service';
+import { CountriesController } from './countries/countries.controller';
+import { CountriesService } from './countries/countries.service';
+import { TagsController } from './tags/tags.controller';
+import { ProvincesController } from './provinces/provinces.controller';
+import { CitiesController } from './cities/cities.controller';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
-  controllers: [AppController, TestController],
-  providers: [AppService],
+  imports: [ConfigModule.forRoot(), HttpModule],
+  controllers: [AppController, ProductsController, CountriesController, TagsController, ProvincesController, CitiesController],
+  providers: [AppService, GeneralFunctionService, ProductsService, CountriesService],
 })
 export class AppModule {}
