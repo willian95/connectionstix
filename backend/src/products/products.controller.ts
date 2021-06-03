@@ -1,4 +1,4 @@
-import { Controller, Get, HttpService, Param } from '@nestjs/common';
+import { Controller, Get, HttpService, Param, Post, Body } from '@nestjs/common';
 import {GeneralFunctionService} from '../general-function/general-function.service'; 
 
 @Controller('products')
@@ -82,26 +82,32 @@ export class ProductsController {
 
     }
 
-    @Get('availability/:id')
-    async availability(@Param('id') id): Promise<any> {
+    @Post('availability/:id')
+    async availability(@Param() id, @Body() body){
+
 
         try{
             let endpoint ="/commerce/products/"+id+"/availability"
 
-            const agent = this.generalFunctionService.getAgent()
-        
+            var agent = this.generalFunctionService.getAgent()
             let header = this.generalFunctionService.getHeader();
-          
-            let response = await this.httpService.get(process.env.API_URL+endpoint, {
+            
+            let response = await this.httpService.post(process.env.API_URL+endpoint,{
+                from_date: body.from_date, 
+                to_date: body.to_date, 
+                price_types: body.price_types,
+                only_available:body.only_available
+            },{
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
         
-            return response.data.data.products
+            return response
 
         }catch(err){
 
-            return err.response.data
+
+            return err.response.data 
 
         }  
 
