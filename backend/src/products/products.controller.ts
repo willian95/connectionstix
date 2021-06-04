@@ -82,21 +82,20 @@ export class ProductsController {
 
     }
 
-    @Post('availability/:id')
-    async availability(@Param() id, @Body() body){
-
+    @Post('availability/')
+    async availability(@Body() body){
 
         try{
-            let endpoint ="/commerce/products/"+id+"/availability"
+           
+            let endpoint ="/commerce/products/"+body.id+"/availability"
 
             var agent = this.generalFunctionService.getAgent()
             let header = this.generalFunctionService.getHeader();
-            
+
             let response = await this.httpService.post(process.env.API_URL+endpoint,{
                 from_date: body.from_date, 
                 to_date: body.to_date, 
-                price_types: body.price_types,
-                only_available:body.only_available
+                price_types: body.price_types
             },{
                 headers:header,
                 httpsAgent: agent
@@ -106,8 +105,8 @@ export class ProductsController {
 
         }catch(err){
 
-
-            return err.response.data 
+    
+            return err.response.data
 
         }  
 

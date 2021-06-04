@@ -186,4 +186,88 @@ export class OrdersController {
 
     }
 
+    @Post("discount-order")
+    async addDiscountToOrder(@Body() body){
+
+        try{
+            let endpoint ="/commerce/orders/"+body.order_number+"/discount"
+
+            let header = this.generalFunctionService.getHeader();
+            const agent = this.generalFunctionService.getAgent()
+
+            let response = await this.httpService.post(process.env.API_URL+endpoint,
+                {
+                    discount_code: body.discount_code
+                },
+                {
+                    headers:header,
+                    httpsAgent: agent
+                }
+            ).toPromise()
+        
+            return response.data
+
+        }catch(err){
+
+            return err.response.data
+
+        }  
+
+    }
+
+    @Post("discount-item")
+    async addDiscountToItem(@Body() body){
+
+        try{
+            let endpoint ="/commerce/orders/"+body.order_number+"/items/"+body.item_id+"/discount"
+
+            let header = this.generalFunctionService.getHeader();
+            const agent = this.generalFunctionService.getAgent()
+
+            let response = await this.httpService.post(process.env.API_URL+endpoint,
+                {
+                    discount_code: body.discount_code
+                },
+                {
+                    headers:header,
+                    httpsAgent: agent
+                }
+            ).toPromise()
+        
+            return response.data
+
+        }catch(err){
+
+            return err.response.data
+
+        }  
+
+    }
+
+    @Get("item-count/:order_number")
+    async itemCount(@Param('order_number') order_number){
+
+        try{
+            let endpoint ="/commerce/orders/"+order_number+"/items/count"
+
+            let header = this.generalFunctionService.getHeader();
+            const agent = this.generalFunctionService.getAgent()
+
+            let response = await this.httpService.get(process.env.API_URL+endpoint,
+                {
+                    headers:header,
+                    httpsAgent: agent
+                }
+            ).toPromise()
+        
+            return response.data
+
+        }catch(err){
+
+            return err.response.data
+
+        }  
+
+    }
+
 }
