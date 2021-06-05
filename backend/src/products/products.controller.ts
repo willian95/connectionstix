@@ -100,13 +100,13 @@ export class ProductsController {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
-        
-            return response
+            console.log(response)
+            return response.data
 
         }catch(err){
 
-    
-            return err.response.data
+            console.log(err)
+            return err.response
 
         }  
 
