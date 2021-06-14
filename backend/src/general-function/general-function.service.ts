@@ -4,7 +4,6 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc';
 import sha512 from 'js-sha512';
 import utf8 from 'utf8'
-import axios from 'axios';
 import * as https from 'https';
 
 @Injectable()
@@ -37,16 +36,6 @@ export class GeneralFunctionService {
         
     }
 
-    getInstance(){
-        let instance = axios.create({
-            httpsAgent: new https.Agent({  
-                rejectUnauthorized: false
-            })
-        });
-
-        return instance
-    }
-
     getAgent(){
         let agent = new https.Agent({  
             rejectUnauthorized: false
@@ -54,5 +43,6 @@ export class GeneralFunctionService {
 
         return agent
     }
+
 
 }

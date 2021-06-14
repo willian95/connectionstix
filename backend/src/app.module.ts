@@ -12,10 +12,12 @@ import { CountriesService } from './countries/countries.service';
 import { TagsController } from './tags/tags.controller';
 import { ProvincesController } from './provinces/provinces.controller';
 import { CitiesController } from './cities/cities.controller';
+import { OrdersController } from './orders/orders.controller';
+import { ConnectionTestController } from './connection-test/connection-test.controller';
 
 @Module({
   imports: [ConfigModule.forRoot(), HttpModule],
-  controllers: [AppController, ProductsController, CountriesController, TagsController, ProvincesController, CitiesController],
+  controllers: [AppController, ProductsController, CountriesController, TagsController, ProvincesController, CitiesController, OrdersController, ConnectionTestController],
   providers: [AppService, GeneralFunctionService, ProductsService, CountriesService],
 })
 export class AppModule {}
