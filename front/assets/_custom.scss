@@ -1,0 +1,73 @@
+
+body{
+  font-family: 'Poppins', sans-serif;
+ 
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+img{
+  width: 100%;
+height: 100%;
+}
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
+
+  box-shadow: none;
+}
+.v-text-field.v-text-field--solo .v-label {
+
+  color: #000;
+  font-size: 1.2rem;
+  padding-left: 1rem;
+  font-weight: 500;
+}
+.v-select__slot {
+  border-radius: 10px;
+  height: 9vh;
+  border: 1px solid #cacaca;
+  border-radius: 10px;
+}
+.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded) > .v-input__control > .v-input__slot, .v-text-field.v-text-field--enclosed .v-text-field__details {
+  padding: 0;
+}
+.v-list-item__title {
+  color: #000;
+  font-weight: 500;
+
+}
+.mdi-menu-down::before {
+  content: "\F035D";
+  color: #000;
+  font-weight: bold;
+  font-size: 2rem;
+}
+.btn{
+  background: #EF1856;
+    color: #fff;
+    min-width: auto;
+    border-radius: 9px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+
+.mt-12{
+  margin-top: 12rem;
+  @include respond-to(xs) {
+    margin-top: 20rem;
+  }
+}
+@include respond-to(xs) {
+body,html{
+  overflow-x: hidden;
+}
+.center{
+  text-align: center;
+}
+}
+

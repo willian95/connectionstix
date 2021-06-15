@@ -1,0 +1,721 @@
+<template>
+  <div>
+    <NavbarView></NavbarView>
+    <!------------------------------------>
+
+    <div class="container main-checkout">
+      <v-row no-gutters>
+        <v-col cols="12" sm="6" md="8">
+          <v-card class="pa-2" outlined tile>
+            <p>
+              Almost there! Complete all personal details and review your order:
+            </p>
+          </v-card>
+        </v-col>
+        <v-col cols="6" md="4">
+          <v-card class="pa-2 end" outlined tile>
+            <div>
+              <p>Total</p>
+              <br />
+              <span>$ 599 CAD</span>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
+        <v-expansion-panel>
+          <v-expansion-panel-header
+            ><img
+              class="icon-arrow"
+              src="~assets/images/iconos/arrow.png"
+              alt=""
+            />
+            Review your selected attraction(s)</v-expansion-panel-header
+          >
+          <v-expansion-panel-content>
+            <div class="content-panel">
+              <v-row no-gutters class="row-center">
+                <v-col cols="12" sm="4" md="4">
+                  <v-card class="pa-2" outlined tile>
+                    <p class="txt-panel">$ 599 CAD</p>
+                    <div class="info-panel">
+                      <p>Niagara falls awesomeness!</p>
+                      <img class="" src="~assets/images/banner-2.png" alt="" />
+                    </div>
+                  </v-card>
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
+                  <v-card class="pa-2" outlined tile>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/icon1.png"
+                          alt=""
+                        />
+                        <p>Adult $ 25</p>
+                      </div>
+                      <div class="content-mx">
+                        <div class="style-btn">-</div>
+                        <p>2</p>
+                        <div class="style-btn">+</div>
+                      </div>
+                    </div>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/icon2.png"
+                          alt=""
+                        />
+                        <p>Senior $ 25</p>
+                      </div>
+                      <div class="content-mx">
+                        <div class="style-btn">-</div>
+                        <p>2</p>
+                        <div class="style-btn">+</div>
+                      </div>
+                    </div>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/icon3.png"
+                          alt=""
+                        />
+                        <p>Child $ 25</p>
+                      </div>
+                      <div class="content-mx">
+                        <div class="style-btn">-</div>
+                        <p>2</p>
+                        <div class="style-btn">+</div>
+                      </div>
+                    </div>
+                  </v-card>
+                </v-col>
+                <v-col cols="12" sm="3" md="3">
+                  <v-card class="pa-2" outlined tile>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/calendar.png"
+                          alt=""
+                        />
+                        <p>11/22/2021</p>
+                      </div>
+                    </div>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/reloj.png"
+                          alt=""
+                        />
+                        <p>2:00 PM</p>
+                      </div>
+                    </div>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/info.png"
+                          alt=""
+                        />
+                        <p>More info</p>
+                      </div>
+                    </div>
+                  </v-card>
+                </v-col>
+                <v-col cols="12" sm="1" md="1">
+                  <v-card class="pa-2" outlined tile>
+                    <img
+                      class="trash-icon"
+                      src="~assets/images/iconos/trash.png"
+                      alt=""
+                    />
+                  </v-card>
+                </v-col>
+              </v-row>
+            </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <!------------------------->
+        <v-expansion-panel>
+          <v-expansion-panel-content class="content-panel_style">
+            <div class="content-panel ">
+              <v-row no-gutters class="row-center">
+                <v-col class="mt--5" cols="12" sm="4" md="4">
+                  <v-card class="pa-2" outlined tile>
+                    <p class="txt-panel">$ 599 CAD</p>
+                    <div class="info-panel">
+                      <p>Niagara falls awesomeness!</p>
+                      <img class="" src="~assets/images/banner-2.png" alt="" />
+                    </div>
+                  </v-card>
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
+                  <v-card class="pa-2" outlined tile>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/icon1.png"
+                          alt=""
+                        />
+                        <p>Adult $ 25</p>
+                      </div>
+                      <div class="content-mx">
+                        <div class="style-btn">-</div>
+                        <p>2</p>
+                        <div class="style-btn">+</div>
+                      </div>
+                    </div>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/icon2.png"
+                          alt=""
+                        />
+                        <p>Senior $ 25</p>
+                      </div>
+                      <div class="content-mx">
+                        <div class="style-btn">-</div>
+                        <p>2</p>
+                        <div class="style-btn">+</div>
+                      </div>
+                    </div>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/icon3.png"
+                          alt=""
+                        />
+                        <p>Child $ 25</p>
+                      </div>
+                      <div class="content-mx">
+                        <div class="style-btn">-</div>
+                        <p>2</p>
+                        <div class="style-btn">+</div>
+                      </div>
+                    </div>
+                  </v-card>
+                  <!-------------------->
+                  <div class="main-min main-flex">
+                    <div class="flex flex-center">
+                      <img
+                        class=""
+                        src="~assets/images/iconos/info.png"
+                        alt=""
+                      />
+                      <p>More info</p>
+                    </div>
+                  </div>
+                </v-col>
+                <v-col cols="12" sm="3" md="3">
+                  <v-card class="pa-2" outlined tile>
+                    <p>Departure</p>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/arrow1.png"
+                          alt=""
+                        />
+                        <p>11/22/2021</p>
+                      </div>
+                    </div>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/reloj.png"
+                          alt=""
+                        />
+                        <p>2:00 PM</p>
+                      </div>
+                    </div>
+                    <p>From Toronto to Montreal</p>
+                    <p class="mt4">Return</p>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/arrow2.png"
+                          alt=""
+                        />
+                        <p>11/22/2021</p>
+                      </div>
+                    </div>
+                    <div class="main-min">
+                      <div class="flex">
+                        <img
+                          class=""
+                          src="~assets/images/iconos/reloj.png"
+                          alt=""
+                        />
+                        <p>2:00 PM</p>
+                      </div>
+                    </div>
+                    <p>From Toronto to Montreal</p>
+                  </v-card>
+                </v-col>
+                <v-col cols="12" sm="1" md="1">
+                  <v-card class="pa-2" outlined tile>
+                    <img
+                      class="trash-icon"
+                      src="~assets/images/iconos/trash.png"
+                      alt=""
+                    />
+                  </v-card>
+                </v-col>
+              </v-row>
+            </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <!--------------slider items------------->
+        <v-expansion-panel>
+          <v-expansion-panel-header
+            ><img
+              class="icon-arrow"
+              src="~assets/images/iconos/arrow.png"
+              alt=""
+            />
+            More options to choose for...</v-expansion-panel-header
+          >
+          <v-expansion-panel-content>
+            <v-container>
+              <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
+                <v-slide-group
+                  mobile-break-point="1000"
+                  show-arrows
+                  center-active
+                >
+                  <v-btn
+                    class="mx-2"
+                    active-class="purple white--text"
+                    depressed
+                    rounded
+                  ></v-btn>
+                  <v-slide-item v-for="(slide, i) in slidesenvents" :key="i">
+                    <v-card class="ma-4 card-slide_events">
+                      <v-img contain :src="slide.image"></v-img>
+                      <v-card-text>
+                        <h3>{{ slide.title }}</h3>
+                        <p>{{ slide.description }}</p>
+                        <div class="txt-star">
+                          <NuxtLink class="" :to="{ path: '/attraction' }">
+                            <img
+                              class="icon-cart"
+                              src="~assets/images/iconos/cart2.png"
+                              alt=""
+                            />
+                            Book now!</NuxtLink
+                          >
+                        </div>
+                      </v-card-text>
+                    </v-card>
+                  </v-slide-item>
+                </v-slide-group>
+              </v-sheet>
+            </v-container>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <!------------Billing info------------------>
+        <v-expansion-panel>
+          <v-expansion-panel-header
+            ><img
+              class="icon-arrow"
+              src="~assets/images/iconos/arrow.png"
+              alt=""
+            />
+            Billing info</v-expansion-panel-header
+          >
+          <v-expansion-panel-content class="main-card">
+            <v-row>
+              <v-col cols="12" sm="1" md="3">
+                <label for="">Name on card</label>
+                <v-text-field
+                  label="Pedro Pérez Pereira"
+                  single-line
+                  outlined
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="1" md="3">
+                <label for="">Card number</label>
+                <v-text-field
+                  label="1234 5678 9012 3456"
+                  single-line
+                  outlined
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="1" md="3">
+                <label for="">Expiration date</label>
+                <v-text-field label="01/19" single-line outlined></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="1" md="3">
+                <label for="">Security code</label>
+                <v-text-field label="123" single-line outlined></v-text-field>
+              </v-col>
+            </v-row>
+            <div class="paymethod">
+              <p>Payment Method</p>
+              <v-row>
+                <v-col cols="12" sm="4" md="4">
+                  <v-radio-group v-model="radios" mandatory>
+                    <div class="radio-main">
+                      <img src="~assets/images/iconos/master.png" alt="" />
+                      <v-radio label="" value="radio-1"></v-radio>
+                    </div>
+
+                    <div class="radio-main">
+                      <img src="~assets/images/iconos/visa.png" alt="" />
+                      <v-radio label="" value="radio-2"></v-radio>
+                    </div>
+                  </v-radio-group>
+                </v-col>
+
+                <v-col class="center" cols="12" sm="4" md="4">
+                  <div class="total_txt">
+                    <p>Total</p>
+                    <p>$ 599 CAD</p>
+                  </div>
+                </v-col>
+                <v-col class="center"  cols="12" sm="4" md="4">
+                  <a href="" class="btn">Proceed to Checkout</a>
+                </v-col>
+              </v-row>
+            </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
+      <!---------------------------------------->
+      <p><strong>Cancellation policy</strong></p>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem </p>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data: () => ({
+    panel: [0, 1, 2, 3],
+    disabled: false,
+    readonly: false,
+
+    slidesenvents: [
+      {
+        title: "The water boat",
+        image: "http://imgfz.com/i/6eIWYLv.png",
+        description: "$38 CAD/Person"
+      },
+      {
+        title: "The wonderland",
+        image: "http://imgfz.com/i/6eIWYLv.png",
+        description: "$33 CAD/Person"
+      },
+      {
+        title: "The night trip",
+        image: "http://imgfz.com/i/6eIWYLv.png",
+        description: "$27 CAD/Person"
+      },
+      {
+        title: "The night trip",
+        image: "http://imgfz.com/i/6eIWYLv.png",
+        description: "$27 CAD/Person"
+      }
+    ]
+  })
+};
+</script>
+
+<style lang="scss">
+.main-checkout {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  padding: 0 6rem;
+
+  .v-card {
+    border: none;
+  }
+
+  .end {
+    display: flex;
+    justify-content: flex-end;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    text-align: end;
+
+    div {
+      text-align: center;
+    }
+  }
+
+  .v-expansion-panel--active > .v-expansion-panel-header {
+    background: #ef1856;
+    color: #fff;
+    min-height: 45px;
+    font-size: 1rem;
+
+    .v-icon {
+      display: none;
+    }
+  }
+
+  .icon-arrow {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    flex: unset;
+    margin-right: 10px;
+  }
+
+  .info-panel {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+      position: absolute;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    img {
+      border-radius: 15px;
+      height: 150px;
+      width: 300px;
+      object-fit: cover;
+    }
+  }
+
+  .content-panel {
+    margin-top: 3rem;
+
+    .flex {
+      display: flex;
+    }
+
+    .txt-panel {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding-bottom: 9px;
+    }
+
+    .row-center {
+      display: flex;
+      align-items: center;
+    }
+
+    .main-min {
+      display: grid;
+      margin-bottom: 1rem;
+      grid-template-columns: 1fr 1fr;
+
+      img {
+        width: 25px;
+        height: 27px;
+        object-fit: contain;
+        margin-right: 10px;
+      }
+
+      .content-mx {
+        display: flex;
+        margin-left: 1.4rem;
+
+        p {
+          margin: 0 0.8rem;
+        }
+
+        .style-btn {
+          background: #ef1856;
+          border-radius: 18%;
+          height: 21px;
+          width: 20px;
+          color: #fff;
+          font-size: 1.2rem;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .trash-icon {
+      width: 20px;
+      height: 25px;
+    }
+  }
+
+  .v-expansion-panel-content {
+    display: flex;
+    border: 1px solid #d2d2d2;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  .v-expansion-panel::before {
+    box-shadow: none;
+  }
+
+  .content-panel_style {
+    margin-top: 4rem;
+    border-radius: 20px;
+
+    .main-min {
+      p {
+        font-weight: 500;
+      }
+    }
+
+    .mt4 {
+      margin-top: 1.4rem;
+    }
+  }
+
+  .flex-center {
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .main-flex {
+    display: flex !important;
+  }
+
+  .mt--5 {
+    margin-top: -6rem;
+  }
+
+  /************/
+  .slide_events {
+    margin-bottom: 0;
+    margin: 3rem 0;
+    .mdi-chevron-left {
+      color: #ef1856 !important;
+      z-index: 1;
+      top: 1rem;
+      font-size: 5rem;
+      right: 20px;
+
+      font-size: 5rem;
+    }
+    .mdi-chevron-left::before {
+      color: #ef1856;
+    }
+    .mdi-chevron-right {
+      color: #ef1856 !important;
+      z-index: 1;
+
+      font-size: 5rem;
+    }
+    .v-image__image--contain {
+      background-size: cover;
+    }
+    .card-slide_events {
+      box-shadow: 0px 2px 10px rgb(0 0 0 / 25%) !important;
+      border-radius: 15px;
+      margin-bottom: 1rem;
+      .theme--light.v-image {
+        width: 274px;
+        height: 182px;
+      }
+    }
+    .v-card__text {
+      color: #000 !important;
+      p {
+        font-weight: 500;
+      }
+      a {
+        color: #ef1856;
+      }
+    }
+    .v-btn:not(.v-btn--round).v-size--default {
+      display: none;
+    }
+
+    .v-slide-group__next,
+    .v-slide-group__prev {
+      flex: 0 1 34px;
+      min-width: 0;
+    }
+    .v-slide-group__content {
+      gap: 18px;
+    }
+    .icon-cart {
+      width: 21px;
+      height: 21px;
+      object-fit: contain;
+      padding-top: 4px;
+      margin-right: 7px;
+      margin-top: 0.5rem;
+    }
+  }
+}
+.paymethod {
+  
+  .theme--light.v-label {
+    font-size: 1rem;
+    color: #000 !important;
+    padding-left: 1rem;
+ 
+  }
+  .v-text-field--filled > .v-input__control > .v-input__slot,
+  .v-text-field--full-width > .v-input__control > .v-input__slot,
+  .v-text-field--outlined > .v-input__control > .v-input__slot {
+    min-height: 45px;
+  }
+  .v-radio-group {
+    display: flex;
+  }
+  .v-input--radio-group--column .v-input--radio-group__input {
+    flex-direction: initial;
+  }
+  .radio-main {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 3rem;
+    img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+  }
+  .theme--light.v-icon {
+    color: rgb(239 24 86);
+  }
+  .total_txt {
+    text-align: center;
+    p {
+      font-weight: bold;
+      color: #000;
+      font-size: 1.2rem;
+    }
+  }
+  .btn{
+    padding: 10px;
+    text-decoration: none;
+  }
+  .center{
+        justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+}
+ .main-card {
+    padding-top: 3rem;
+        margin-bottom: 5rem;
+ }
+</style>

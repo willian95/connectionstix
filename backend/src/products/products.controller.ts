@@ -32,6 +32,69 @@ export class ProductsController {
         
     }
 
+    @Post('/list')
+    async getProductList(@Body() body): Promise<any> {
+
+        try{
+
+            let parameterString = ""
+            if(this.setParameterString(body).length > 0){
+                parameterString += "?"+this.setParameterString(body)
+            }
+
+            let endpoint ="/commerce/products"+parameterString
+
+            const agent = this.generalFunctionService.getAgent()
+        
+            let header = this.generalFunctionService.getHeader();
+          
+            let response = await this.httpService.get(process.env.API_URL+endpoint, {
+                headers:header,
+                httpsAgent: agent
+            }).toPromise()
+        
+            return response.data
+
+        }catch(err){
+
+            return err.response.data
+
+        }   
+
+        
+    }
+
+    setParameterString(body){
+
+        let parameterString = ""
+        if(body.country){
+            parameterString += "country_code="+body.country 
+        }
+
+        if(body.state){
+            if(body.country){
+                parameterString += "&"
+            }
+            parameterString += "province_state_code="+body.state 
+        }
+
+        if(body.city){
+            if(body.city){
+                parameterString += "&"
+            }
+            parameterString += "city_code="+body.city 
+        }
+
+        if(body.tag){
+            if(parameterString.length > 0){
+                parameterString += "&"
+            }
+            parameterString += "tag_id="+body.tag 
+        }
+
+        return parameterString
+    }
+
     @Get(':id')
     async find(@Param('id') id): Promise<any> {
 
