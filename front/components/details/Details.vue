@@ -4,99 +4,50 @@
       <v-col cols="6" md="4">
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
           <div>
-            <div class="main-min">
+            <div v-if="checkAvailability">
+              <client-only>
+                <date-picker
+                  placeholder="MM/DD/YYYY"
+                  format="MM/dd/yyyy"
+                  v-model="date_today" />
+              </client-only>
+            </div>  
+            
+            <div class="main-min" v-for="(price, index) in pricing.prices" :key="index">
               <div class="flex">
-                <img class="" src="~assets/images/iconos/icon1.png" alt="" />
-                <p>Adult $ 25</p>
+                
+                
+                  <p>{{ price.price_type_name }} {{ pricing.currency_symbol }} {{ price.current_price }} {{ pricing.currency_code }}</p>
+                  <small>(<span v-if="price.age.minimum">min: {{ price.age.minimum }} {{ price.age.unit}}</span>
+                  <span v-if="price.age.maximum">max: {{ price.age.maximum }} {{ price.age.unit}}</span>)</small>
+               
               </div>
               <div class="content-mx">
-                <div class="style-btn">-</div>
-                <p>2</p>
-                <div class="style-btn">+</div>
+                <div class="style-btn" @click="substract(price.price_type_id)">-</div>
+                <p v-if="prices.length > 0">{{ prices[index].amount }}</p>
+                <div class="style-btn" @click="add(price.price_type_id, price.current_price)">+</div>
               </div>
+
+            
             </div>
-            <div class="main-min">
-              <div class="flex">
-                <img class="" src="~assets/images/iconos/icon1.png" alt="" />
-                <p>Senior $ 25</p>
-              </div>
-              <div class="content-mx">
-                <div class="style-btn">-</div>
-                <p>2</p>
-                <div class="style-btn">+</div>
-              </div>
-            </div>
-            <div class="main-min">
-              <div class="flex">
-                <img class="" src="~assets/images/iconos/icon1.png" alt="" />
-                <p>Child $ 25</p>
-              </div>
-              <div class="content-mx">
-                <div class="style-btn">-</div>
-                <p>2</p>
-                <div class="style-btn">+</div>
-              </div>
-            </div>
+
+            
           </div>
 
           <div class="main-book">
             <div class="main-price">
               <p><strong>Total </strong></p>
-              <p><strong>$ 399 CAD</strong></p>
+              <p><strong>{{ pricing.currency_symbol }} {{ total }} {{ pricing.currency_code }}</strong></p>
             </div>
             <a href="" class="btn">Book now</a>
           </div>
         </v-card>
 
-          <v-card class="pa-2 book-shadows " outlined tile>
-          <div>
-            <div class="main-min">
-              <div class="flex">
-                <img class="" src="~assets/images/iconos/icon1.png" alt="" />
-                <p>Adult $ 25</p>
-              </div>
-              <div class="content-mx">
-                <div class="style-btn">-</div>
-                <p>2</p>
-                <div class="style-btn">+</div>
-              </div>
-            </div>
-            <div class="main-min">
-              <div class="flex">
-                <img class="" src="~assets/images/iconos/icon1.png" alt="" />
-                <p>Senior $ 25</p>
-              </div>
-              <div class="content-mx">
-                <div class="style-btn">-</div>
-                <p>2</p>
-                <div class="style-btn">+</div>
-              </div>
-            </div>
-            <div class="main-min">
-              <div class="flex">
-                <img class="" src="~assets/images/iconos/icon1.png" alt="" />
-                <p>Child $ 25</p>
-              </div>
-              <div class="content-mx">
-                <div class="style-btn">-</div>
-                <p>2</p>
-                <div class="style-btn">+</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="main-book">
-            <div class="main-price">
-              <p><strong>Total </strong></p>
-              <p><strong>$ 399 CAD</strong></p>
-            </div>
-            <a href="" class="btn">Book now</a>
-          </div>
-        </v-card>
+          
       </v-col>
       <v-col cols="12" sm="6" md="8">
         <v-card class="pa-2 card-shadows" outlined tile>
-          <h3 class="title-custom">Niagara falls</h3>
+          <h3 class="title-custom">{{ title }}</h3>
           <div class="custom-ubication">
             <img class="map" src="~assets/images/iconos/mapa.png" alt="" />
             <div>
@@ -116,150 +67,80 @@
               </ul>
             </div>
           </div>
-          <h3 class="title-custom">Attraction address</h3>
-          <p>North Hollywood Av. 187th Street Denver, Colorado - 88999</p>
+          <h3 class="title-custom" v-if="address">Attraction address</h3>
+          <p>{{ address }}</p>
 
           <v-row class="mt-1">
             <v-col class="line" cols="6" md="6">
               <h3 class="title-custom">Opening hours</h3>
               <ul>
-                <li>Monday - Friday: 9 AM to 6 PM</li>
-                <li>Saturday: 9 AM to 6 PM</li>
-                <li>Sunday: 9 AM to 6 PM</li>
+                <li v-for="(openingHour, index) in operationHours" :key="index">
+                  {{ openingHour.day }}: 
+                  <span v-if="openingHour.open == null && openingHour.close == null">Closed all day</span>
+                  <span v-else>
+                    {{ openingHour.open }} to {{ openingHour.close }}
+                  </span>
+                </li>
               </ul>
             </v-col>
-            <v-col cols="6" md="6">
+            <v-col cols="6" md="6" v-if="duration.length">
               <h3 class="title-custom">Duration</h3>
 
-              <p>1.5 hr aprox</p>
+              <p>{{ duration.length }} {{ duration.unit }}</p>
 
-              <h3 class="title-custom mt2">Minimum height & age</h3>
+              <!--<h3 class="title-custom mt2">Minimum height & age</h3>
               <ul>
                 <li>5,6 - 1,70 CM</li>
                 <li>8 years ></li>
-              </ul>
+              </ul>-->
             </v-col>
           </v-row>
           <div class="descripon">
-            <h3 class="title-custom">Description</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-              nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
-              tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-              consequat. Duis autem
+            <h3 class="title-custom" v-if="description">Description</h3>
+            <p v-if="description">
+              {{ description }}
             </p>
 
-            <h3 class="title-custom">Highlights</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-              nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
-              tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-              consequat. Duis autem
-            </p>
+            <h3 class="title-custom" v-if="highlights.length > 0">Highlights</h3>
+            <ul>
+              <li v-for="(highlight, index) in highlights" :key="index">{{ highlight }}</li>
+            </ul>
+      
 
             <div>
               <h3 class="title-custom">Know before you go</h3>
               <div class="know-info">
-                <div class="item">
+                <div class="item" v-for="(inclusion, index) in inclusions" :key="index">
                   <div>
-                    <img src="~assets/images/iconos/pet.png" alt="" />
-                    <p>Pet friendly</p>
+                    <!--<img src="~assets/images/iconos/pet.png" alt="" />-->
+                    <p>{{ inclusion }}:</p>
                   </div>
                   <img src="~assets/images/iconos/check.png" alt="" />
                 </div>
-                <div class="item">
+                <div class="item" v-for="(exclusion, index) in exclusions" :key="index">
                   <div>
-                    <img src="~assets/images/iconos/luggage.png" alt="" />
-                    <p>Luggage storage</p>
+                    <!--<img src="~assets/images/iconos/wheelcair.png" alt="" />-->
+                    <p>{{ exclusion }}:</p>
                   </div>
                   <img src="~assets/images/iconos/nocheck.png" alt="" />
                 </div>
-                <div class="item">
+
+              </div>
+              <div class="know-info">
+                <div class="item" v-for="(know, index) in knowBeforeYouGoChecklist" :key="index">
                   <div>
-                    <img src="~assets/images/iconos/guided.png" alt="" />
-                    <p>Guided tour/ Whisper:</p>
-                  </div>
-                  <img src="~assets/images/iconos/nocheck.png" alt="" />
-                </div>
-                <div class="item">
-                  <div>
-                    <img src="~assets/images/iconos/washroom.png" alt="" />
-                    <p>Washroom availability</p>
-                  </div>
-                  <img src="~assets/images/iconos/check.png" alt="" />
-                </div>
-                <div class="item">
-                  <div>
-                    <img src="~assets/images/iconos/wheelcair.png" alt="" />
-                    <p>Wheelchair accessible:</p>
-                  </div>
-                  <img src="~assets/images/iconos/nocheck.png" alt="" />
-                </div>
-                <div class="item">
-                  <div>
-                    <img src="~assets/images/iconos/service.png" alt="" />
-                    <p>Shuttle service</p>
+                    <img :src="know.icon" alt="" />
+                    <p>{{ know.label }}</p>
                   </div>
                   <img src="~assets/images/iconos/check.png" alt="" />
                 </div>
               </div>
-              <p>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
-                diam nonummy nibh euismod tincidunt ut laoreet dolore magna
-                aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
-                nostrud exerci tation ullamcorper suscipit lobortis nisl ut
-                aliquip ex ea commodo consequat. Duis autem
-              </p>
 
-              <div class="info-icon_a">
-                <a href="">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="29.956"
-                    height="30"
-                    viewBox="0 0 29.956 30"
-                  >
-                    <g
-                      id="Grupo_296"
-                      data-name="Grupo 296"
-                      transform="translate(-2012.681 -2492.042)"
-                    >
-                      <path
-                        id="Trazado_279"
-                        data-name="Trazado 279"
-                        d="M2027.637,2492.042a15,15,0,1,1-14.956,15,15.018,15.018,0,0,1,14.956-15"
-                        fill="#ef1856"
-                      />
-                      <g id="Grupo_295" data-name="Grupo 295">
-                        <path
-                          id="Trazado_280"
-                          data-name="Trazado 280"
-                          d="M2023.527,2503.178a4.4,4.4,0,0,1,3.154-2.868,4.07,4.07,0,0,1,4.793,1.952c.9,1.961-.248,3.575-1.82,4.676a3.933,3.933,0,0,0-2.067,3,8.688,8.688,0,0,0-.038.906"
-                          fill="none"
-                          stroke="#fff"
-                          stroke-linecap="round"
-                          stroke-miterlimit="10"
-                          stroke-width="2.333"
-                        />
-                        <circle
-                          id="Elipse_23"
-                          data-name="Elipse 23"
-                          cx="0.999"
-                          cy="0.999"
-                          r="0.999"
-                          transform="translate(2026.54 2513.766)"
-                          fill="#fff"
-                        />
-                      </g>
-                    </g>
-                  </svg>
+              <ul>
+                <li v-for="(optional, index) in knowBeforeYouGoOptional" :key="index">{{ optional }}</li>
+              </ul>
 
-                  If you have questions, contact us! We’ll reach you in less
-                  than 10 mins</a
-                >
-              </div>
+              
             </div>
 
             <h3 class="title-custom">Cancellation policy</h3>
@@ -276,6 +157,98 @@
     </v-row>
   </v-container>
 </template>
+
+<script>
+
+  export default {
+    props:["description", "title", "highlights", "inclusions", "exclusions", "knowBeforeYouGoChecklist", "knowBeforeYouGoOptional", "cancellationPolicy", "operationHours", "duration", "address", "checkAvailability", "pricing"],
+    data(){
+      return{
+        prices:[],
+        total:0,
+        date_today:new Date()
+      }
+    },
+    methods:{
+      add(priceTypeId, price){
+
+        let res = this.checkDuplicate(priceTypeId, price)
+        console.log(res, this.prices)
+        if(res.exists == true){
+
+          this.prices[res.priceIndex].amount = this.prices[res.priceIndex].amount + 1
+
+        }
+
+        this.getTotal()
+
+      },
+      substract(priceTypeId){
+
+        let res = this.checkDuplicate(priceTypeId)
+
+        if(res.exists == true){
+          if(this.prices[res.priceIndex].amount > 0){
+            this.prices[res.priceIndex].amount = this.prices[res.priceIndex].amount - 1
+          }
+        }
+
+        this.getTotal()
+
+      },
+      checkDuplicate(priceTypeId){
+        
+        let exists = false
+        let priceIndex = 0
+        this.prices.forEach((data, index) => {
+
+          if(data.priceTypeId == priceTypeId){
+            exists = true
+            priceIndex = index
+          }
+
+        })
+
+        return {exists, priceIndex}
+
+      },
+      showAmount(priceTypeId){
+
+        var sum = 0;
+        this.prices.forEach(data => {
+
+          if(data.priceTypeId == priceTypeId){
+            sum = sum + data.amount
+          }
+
+        })
+
+        return sum
+
+      },
+      getTotal(){
+        this.total = 0
+        this.prices.forEach(data => {
+        
+          this.total += data.amount * data.price
+
+        })
+
+      }
+    },
+    watch:{
+      pricing: function(newVal, oldVal){
+        newVal.prices.forEach(data => {
+          console.log(data)
+          this.prices.push({priceTypeId: data.price_type_id, amount: 0, price: data.current_price})
+
+        })
+      }
+    }
+    
+
+  }
+</script>
 
 <style lang="scss">
 .custom-details {

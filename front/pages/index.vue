@@ -56,7 +56,7 @@
                             {{ item.pricing.currency_symbol }} {{ price.current_price }} {{ item.pricing.currency_code }} / {{ price.price_type_name }}
                           </p>
                           <div class="txt-star">
-                            <NuxtLink class="" :to="{ path: '/attraction' }"
+                            <NuxtLink class="" :to="{ path: '/attractions/'+item.product_id }"
                               >More info</NuxtLink
                             >
                           </div>
@@ -69,7 +69,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -159,6 +159,7 @@ export default {
     }
   },
   created(){
+    
     this.getTags()
     this.getAllProducts()
   }
