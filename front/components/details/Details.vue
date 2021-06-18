@@ -39,7 +39,7 @@
               <p><strong>Total </strong></p>
               <p><strong>{{ pricing.currency_symbol }} {{ total }} {{ pricing.currency_code }}</strong></p>
             </div>
-            <a href="" class="btn">Book now</a>
+            <button :disabled="total == 0" href="" class="btn" @click="bookNow()">Book now</button>
           </div>
         </v-card>
 
@@ -161,10 +161,11 @@
 <script>
 
   export default {
-    props:["description", "title", "highlights", "inclusions", "exclusions", "knowBeforeYouGoChecklist", "knowBeforeYouGoOptional", "cancellationPolicy", "operationHours", "duration", "address", "checkAvailability", "pricing"],
+    props:["description", "title", "highlights", "inclusions", "exclusions", "knowBeforeYouGoChecklist", "knowBeforeYouGoOptional", "cancellationPolicy", "operationHours", "duration", "address", "checkAvailability", "pricing", "productId"],
     data(){
       return{
         prices:[],
+        priceTypes:[],
         total:0,
         date_today:new Date()
       }
@@ -234,12 +235,85 @@
 
         })
 
+      },
+      bookNow(){
+
+        this.getLocalStorageOrders()
+
+      },
+      async getLocalStorageOrders(){
+
+        if(process.browser){
+
+          let order = window.localStorage.getItem("orders")
+          if(order == null){
+            order = await this.storeOrder()
+          }
+
+          this.addItem(order)
+
+        }
+
+      },
+      async storeOrder(){
+        
+        let res = await this.$axios.post("orders/create")
+        window.localStorage.setItem("orders", res.data.order_number)
+        return res.data.order_number
+
+      },
+      async addItem(order){
+
+        this.formatPriceTypes()
+
+        let res = await this.$axios.post("orders/add-item", {
+          "request_number": order,
+          "product_id": this.productId,
+          "price_types":this.priceTypes,
+          "from_datetime":"",
+          "to_datetime":""
+        })
+
+        if(res.data.status.result_messages[0] == "OK"){
+          this.$swal({
+            text:"Product booked",
+            icon: "success"
+          }).then(ans =>{
+
+            this.prices.forEach((data, index) => {
+              this.prices[index].amount = 0
+            })
+
+            this.$router.push("/checkout")
+
+          })
+        }else{
+
+          this.$swal({
+            text:res.data.status.result_messages[0],
+            icon: "error"
+          })
+
+        }
+
+      },
+      formatPriceTypes(){
+        this.priceTypes = []
+        this.prices.forEach(data => {
+
+          if(data.amount > 0){
+            this.priceTypes.push({"price_type_id": data.priceTypeId, "quantity": data.amount})
+          } 
+          
+
+        })
+
       }
     },
     watch:{
       pricing: function(newVal, oldVal){
         newVal.prices.forEach(data => {
-          console.log(data)
+         
           this.prices.push({priceTypeId: data.price_type_id, amount: 0, price: data.current_price})
 
         })

@@ -46,7 +46,7 @@ export default {
   buildModules: [
     // Simple usage
     '@nuxtjs/vuetify',
-
+    'vue-sweetalert2/nuxt',
 
    
   ],

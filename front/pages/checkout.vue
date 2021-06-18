@@ -4,24 +4,6 @@
     <!------------------------------------>
 
     <div class="container main-checkout">
-      <v-row no-gutters>
-        <v-col cols="12" sm="6" md="8">
-          <v-card class="pa-2" outlined tile>
-            <p>
-              Almost there! Complete all personal details and review your order:
-            </p>
-          </v-card>
-        </v-col>
-        <v-col cols="6" md="4">
-          <v-card class="pa-2 end" outlined tile>
-            <div>
-              <p>Total</p>
-              <br />
-              <span>$ 599 CAD</span>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
         <v-expansion-panel>
           <v-expansion-panel-header
@@ -33,249 +15,14 @@
             Review your selected attraction(s)</v-expansion-panel-header
           >
           <v-expansion-panel-content>
-            <div class="content-panel">
-              <v-row no-gutters class="row-center">
-                <v-col cols="12" sm="4" md="4">
-                  <v-card class="pa-2" outlined tile>
-                    <p class="txt-panel">$ 599 CAD</p>
-                    <div class="info-panel">
-                      <p>Niagara falls awesomeness!</p>
-                      <img class="" src="~assets/images/banner-2.png" alt="" />
-                    </div>
-                  </v-card>
-                </v-col>
-                <v-col cols="12" sm="4" md="4">
-                  <v-card class="pa-2" outlined tile>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/icon1.png"
-                          alt=""
-                        />
-                        <p>Adult $ 25</p>
-                      </div>
-                      <div class="content-mx">
-                        <div class="style-btn">-</div>
-                        <p>2</p>
-                        <div class="style-btn">+</div>
-                      </div>
-                    </div>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/icon2.png"
-                          alt=""
-                        />
-                        <p>Senior $ 25</p>
-                      </div>
-                      <div class="content-mx">
-                        <div class="style-btn">-</div>
-                        <p>2</p>
-                        <div class="style-btn">+</div>
-                      </div>
-                    </div>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/icon3.png"
-                          alt=""
-                        />
-                        <p>Child $ 25</p>
-                      </div>
-                      <div class="content-mx">
-                        <div class="style-btn">-</div>
-                        <p>2</p>
-                        <div class="style-btn">+</div>
-                      </div>
-                    </div>
-                  </v-card>
-                </v-col>
-                <v-col cols="12" sm="3" md="3">
-                  <v-card class="pa-2" outlined tile>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/calendar.png"
-                          alt=""
-                        />
-                        <p>11/22/2021</p>
-                      </div>
-                    </div>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/reloj.png"
-                          alt=""
-                        />
-                        <p>2:00 PM</p>
-                      </div>
-                    </div>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/info.png"
-                          alt=""
-                        />
-                        <p>More info</p>
-                      </div>
-                    </div>
-                  </v-card>
-                </v-col>
-                <v-col cols="12" sm="1" md="1">
-                  <v-card class="pa-2" outlined tile>
-                    <img
-                      class="trash-icon"
-                      src="~assets/images/iconos/trash.png"
-                      alt=""
-                    />
-                  </v-card>
-                </v-col>
-              </v-row>
+            <div v-for="item in items" :key="item.item_id">
+              <Detail :thumbnail="item.thumbnail" :itemId="item.item_id" :prices="item.pricing.price_types" :productName="item.product_name" :currencySymbol="currencySymbol" :currencyCode="currencyCode" :remove="remove" :order="order" :getItems="getItems"/>
             </div>
           </v-expansion-panel-content>
         </v-expansion-panel>
 
         <!------------------------->
-        <v-expansion-panel>
-          <v-expansion-panel-content class="content-panel_style">
-            <div class="content-panel ">
-              <v-row no-gutters class="row-center">
-                <v-col class="mt--5" cols="12" sm="4" md="4">
-                  <v-card class="pa-2" outlined tile>
-                    <p class="txt-panel">$ 599 CAD</p>
-                    <div class="info-panel">
-                      <p>Niagara falls awesomeness!</p>
-                      <img class="" src="~assets/images/banner-2.png" alt="" />
-                    </div>
-                  </v-card>
-                </v-col>
-                <v-col cols="12" sm="4" md="4">
-                  <v-card class="pa-2" outlined tile>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/icon1.png"
-                          alt=""
-                        />
-                        <p>Adult $ 25</p>
-                      </div>
-                      <div class="content-mx">
-                        <div class="style-btn">-</div>
-                        <p>2</p>
-                        <div class="style-btn">+</div>
-                      </div>
-                    </div>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/icon2.png"
-                          alt=""
-                        />
-                        <p>Senior $ 25</p>
-                      </div>
-                      <div class="content-mx">
-                        <div class="style-btn">-</div>
-                        <p>2</p>
-                        <div class="style-btn">+</div>
-                      </div>
-                    </div>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/icon3.png"
-                          alt=""
-                        />
-                        <p>Child $ 25</p>
-                      </div>
-                      <div class="content-mx">
-                        <div class="style-btn">-</div>
-                        <p>2</p>
-                        <div class="style-btn">+</div>
-                      </div>
-                    </div>
-                  </v-card>
-                  <!-------------------->
-                  <div class="main-min main-flex">
-                    <div class="flex flex-center">
-                      <img
-                        class=""
-                        src="~assets/images/iconos/info.png"
-                        alt=""
-                      />
-                      <p>More info</p>
-                    </div>
-                  </div>
-                </v-col>
-                <v-col cols="12" sm="3" md="3">
-                  <v-card class="pa-2" outlined tile>
-                    <p>Departure</p>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/arrow1.png"
-                          alt=""
-                        />
-                        <p>11/22/2021</p>
-                      </div>
-                    </div>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/reloj.png"
-                          alt=""
-                        />
-                        <p>2:00 PM</p>
-                      </div>
-                    </div>
-                    <p>From Toronto to Montreal</p>
-                    <p class="mt4">Return</p>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/arrow2.png"
-                          alt=""
-                        />
-                        <p>11/22/2021</p>
-                      </div>
-                    </div>
-                    <div class="main-min">
-                      <div class="flex">
-                        <img
-                          class=""
-                          src="~assets/images/iconos/reloj.png"
-                          alt=""
-                        />
-                        <p>2:00 PM</p>
-                      </div>
-                    </div>
-                    <p>From Toronto to Montreal</p>
-                  </v-card>
-                </v-col>
-                <v-col cols="12" sm="1" md="1">
-                  <v-card class="pa-2" outlined tile>
-                    <img
-                      class="trash-icon"
-                      src="~assets/images/iconos/trash.png"
-                      alt=""
-                    />
-                  </v-card>
-                </v-col>
-              </v-row>
-            </div>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+        
         <!--------------slider items------------->
         <v-expansion-panel>
           <v-expansion-panel-header
@@ -400,8 +147,17 @@
   </div>
 </template>
 <script>
+
+import Detail from "~/components/checkout/Detail";
+
 export default {
   data: () => ({
+    
+    order:"",
+    currencySymbol:"",
+    currencyCode:"",
+    items:[],
+    total:0,
     panel: [0, 1, 2, 3],
     disabled: false,
     readonly: false,
@@ -428,7 +184,59 @@ export default {
         description: "$27 CAD/Person"
       }
     ]
-  })
+  }),
+  components:{Detail},
+  methods:{
+
+    async getItems(){
+
+      if(process.browser){
+
+        let order = window.localStorage.getItem("orders")
+        if(order != null){
+
+          let res = await this.$axios.get("orders/item-list/"+order)
+          this.items = res.data.items
+          this.currencyCode = res.data.currency_code
+          this.currencySymbol = res.data.currency_symbol
+          this.order = order
+        }
+
+      }
+
+    },
+
+    async remove(itemId){
+
+      let res = await this.$axios.post("/orders/item-delete", {
+        "request_number": this.order,
+        "item_id": itemId
+      })
+
+      if(res.data.status.result_messages[0] == "OK"){
+          this.$swal({
+            text:"Product removed",
+            icon: "success"
+          }).then(ans =>{
+
+            this.getItems()
+
+          })
+        }else{
+
+          this.$swal({
+            text:res.data.status.result_messages[0],
+            icon: "error"
+          })
+
+        }
+
+    }
+
+  },
+  created(){
+    this.getItems()
+  }
 };
 </script>
 

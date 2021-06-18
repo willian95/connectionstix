@@ -33,7 +33,7 @@
         </v-slide-group>
       </v-sheet>
     </v-container>
-    <Details :description="description" :title="title" :highlights="highlights" :inclusions="inclusions" :exclusions="exclusions" :knowBeforeYouGoChecklist="knowBeforeYouGoChecklist" :knowBeforeYouGoOptional="knowBeforeYouGoOptional" :cancellationPolicy="cancellationPolicy" :operationHours="operationHours" :duration="duration" :address="address" :checkAvailability="checkAvailability" :pricing="pricing"></Details>
+    <Details :description="description" :title="title" :highlights="highlights" :inclusions="inclusions" :exclusions="exclusions" :knowBeforeYouGoChecklist="knowBeforeYouGoChecklist" :knowBeforeYouGoOptional="knowBeforeYouGoOptional" :cancellationPolicy="cancellationPolicy" :operationHours="operationHours" :duration="duration" :address="address" :checkAvailability="checkAvailability" :pricing="pricing" :productId="productId"></Details>
     <!---------------------------------------------------------------->
     <v-container v-if="nearby.length > 0">
       <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
@@ -75,6 +75,7 @@ export default {
   components: { NavbarView, Details },
 
   data: () => ({
+    productId:"",
     mainImage:"",
     title:"",
     images:[],
@@ -134,11 +135,12 @@ export default {
       let res = await this.$axios.get("products/nearby/"+id)
       this.nearby = res.data ? res.data : []
 
-    }
+    },
+    
 
   },
   created(){
-
+    this.productId = this.$route.params.id
     this.getData(this.$route.params.id)
     this.getNearbyProducts(this.$route.params.id)
 
