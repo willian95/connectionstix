@@ -163,6 +163,13 @@ export default {
     padding: 1rem 5.8rem;
     margin-top: 1rem;
   }
+
+  .v-input textarea {
+    padding-right: 1rem;
+}
+.center{
+      text-align: center;
+}
 }
 .v-text-field.v-text-field--solo .v-input__control {
   min-height: 10px;

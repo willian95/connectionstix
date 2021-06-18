@@ -14,7 +14,10 @@
       </div>
     </div>
     <div>
-      <NuxtLink class="nav-link" :to="{ path: '/checkout'}"><img src="~assets/images/iconos/cart.png" alt=""></NuxtLink>
+      <NuxtLink class="nav-link" :to="{ path: '/checkout'}">
+      <img src="~assets/images/iconos/cart.png" alt="">
+      <p>0</p>
+      </NuxtLink>
     </div>
   </header>
 </template>
@@ -106,6 +109,21 @@ header {
     .v-select__selection--comma {
       color: #fff;
       
+    }
+  }
+  .nav-link{
+        position: relative;
+    text-decoration: none;
+    p{
+          background: #ef1856;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    top: -25px;
+    right: -10px;
     }
   }
 }
