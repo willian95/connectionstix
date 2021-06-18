@@ -227,6 +227,12 @@
         return sum
 
       },
+      async getCartCount(order){
+
+        let res = await this.$axios.get("orders/item-count/"+order)
+        return res.data.data.number_of_items
+
+      },
       getTotal(){
         this.total = 0
         this.prices.forEach(data => {
@@ -239,6 +245,7 @@
       bookNow(){
 
         this.getLocalStorageOrders()
+        
 
       },
       async getLocalStorageOrders(){
@@ -269,7 +276,7 @@
         let toDate=""
 
         if(this.checkAvailability){
-          let fromDate = this.date_today
+          fromDate = this.date_today
         }
 
 
@@ -285,12 +292,14 @@
           this.$swal({
             text:"Product booked",
             icon: "success"
-          }).then(ans =>{
+          }).then(async (ans) =>{
 
             this.prices.forEach((data, index) => {
               this.prices[index].amount = 0
             })
 
+            let numberItems = await this.getCartCount(order)
+            this.$store.dispatch("storeCartAmount", numberItems)
             this.$router.push("/checkout")
 
           })
