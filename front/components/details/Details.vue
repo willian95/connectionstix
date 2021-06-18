@@ -289,17 +289,20 @@
         })
 
         if(res.data.status.result_messages[0] == "OK"){
+
+          let numberItems = await this.getCartCount(order)
+          await this.$store.dispatch("storeCartAmount", {amount: numberItems})
+
           this.$swal({
             text:"Product booked",
             icon: "success"
-          }).then(async (ans) =>{
+          }).then(ans =>{
 
             this.prices.forEach((data, index) => {
               this.prices[index].amount = 0
             })
 
-            let numberItems = await this.getCartCount(order)
-            this.$store.dispatch("storeCartAmount", numberItems)
+            
             this.$router.push("/checkout")
 
           })

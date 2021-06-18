@@ -12,7 +12,7 @@
       </div>
     </div>
     <div>
-      <NuxtLink class="nav-link" :to="{ path: '/checkout'}"><img src="~assets/images/iconos/cart.png" alt=""></NuxtLink>
+      <NuxtLink class="nav-link" :to="{ path: '/checkout'}"><img src="~assets/images/iconos/cart.png" alt=""><p class="bg-light">{{ numberItems }}</p></NuxtLink>
     </div>
   </header>
 </template>

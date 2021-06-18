@@ -206,6 +206,13 @@ export default {
 
     },
 
+    async getCartCount(order){
+
+      let res = await this.$axios.get("orders/item-count/"+order)
+      return res.data.data.number_of_items
+
+    },
+
     async remove(itemId){
 
       let res = await this.$axios.post("/orders/item-delete", {
@@ -214,6 +221,10 @@ export default {
       })
 
       if(res.data.status.result_messages[0] == "OK"){
+
+          let numberItems = await this.getCartCount(this.order)
+          await this.$store.dispatch("storeCartAmount", {amount: numberItems})
+
           this.$swal({
             text:"Product removed",
             icon: "success"

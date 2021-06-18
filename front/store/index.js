@@ -1,5 +1,5 @@
 export const state = () => ({
-    amount:"",
+    amount:0
 })
   
 export const getters = {
@@ -12,15 +12,18 @@ export const getters = {
 export const actions = {
 
     storeCartAmount({commit}, {amount}){
-        commit('storeSearch', {amount})
+        console.log("called from another mutation", {amount}, amount)
+        commit('storeAmount', {amount})
     },
 
 }
 
 export const mutations = {
 
-    storeCartAmount(state, {value}){
+    storeAmount(state, value){
+        console.log("called from another mutation", value)
         state.amount = value
+      
     }
 
 }

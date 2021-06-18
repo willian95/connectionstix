@@ -16,7 +16,7 @@
     <div>
       <NuxtLink class="nav-link" :to="{ path: '/checkout'}">
       <img src="~assets/images/iconos/cart.png" alt="">
-      <p>0</p>
+      <p>{{ numberItems }}</p>
       </NuxtLink>
     </div>
   </header>
@@ -24,10 +24,41 @@
 <script>
 export default {
   name: "Navbar",
+  computed: {
+      numberItems () {
+          return this.$store.getters["getCartAmount"] != 0 ? this.$store.getters["getCartAmount"].amount : 0
+      // Or return basket.getters.fruitsCount
+      // (depends on your design decisions).
+      }
+  },
   data: () => ({
     language: ["ENGLISH", "SPANISH"],
     currency: ["US", "CAD"]
-  })
+  }),
+  methods:{
+    async getCartCount(order){
+
+      let res = await this.$axios.get("orders/item-count/"+order)
+      return res.data.data.number_of_items
+
+    },
+     async getLocalStorageOrders(){
+
+        if(process.browser){
+
+          let order = window.localStorage.getItem("orders")
+          let numberItems = await this.getCartCount(order)
+          await this.$store.dispatch("storeCartAmount", {amount: numberItems})
+
+        }
+
+      },
+  },
+  created(){
+
+    this.getLocalStorageOrders()
+
+  }
 };
 </script>
 
