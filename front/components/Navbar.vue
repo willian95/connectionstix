@@ -111,20 +111,6 @@ header {
       
     }
   }
-  .nav-link{
-        position: relative;
-    text-decoration: none;
-    p{
-          background: #ef1856;
-    border-radius: 50%;
-    height: 25px;
-    width: 25px;
-    text-align: center;
-    color: #fff;
-    position: absolute;
-    top: -25px;
-    right: -10px;
-    }
-  }
+ 
 }
 </style>

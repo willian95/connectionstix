@@ -278,7 +278,7 @@ export default {
     width: 20px;
     height: 20px;
     display: flex;
-    flex: unset;
+    flex: unset!important;
     margin-right: 10px;
   }
 
@@ -467,6 +467,10 @@ export default {
       margin-top: 0.5rem;
     }
   }
+}
+.v-input .v-label {
+
+    padding-left: 10px;
 }
 .paymethod {
   
