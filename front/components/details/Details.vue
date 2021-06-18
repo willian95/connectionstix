@@ -161,13 +161,13 @@
 <script>
 
   export default {
-    props:["description", "title", "highlights", "inclusions", "exclusions", "knowBeforeYouGoChecklist", "knowBeforeYouGoOptional", "cancellationPolicy", "operationHours", "duration", "address", "checkAvailability", "pricing", "productId"],
+    props:["description", "title", "highlights", "inclusions", "exclusions", "knowBeforeYouGoChecklist", "knowBeforeYouGoOptional", "cancellationPolicy", "operationHours", "duration", "address", "checkAvailability", "nextDateAvailable", "pricing", "productId"],
     data(){
       return{
         prices:[],
         priceTypes:[],
         total:0,
-        date_today:new Date()
+        date_today:""
       }
     },
     methods:{
@@ -265,12 +265,19 @@
       async addItem(order){
 
         this.formatPriceTypes()
+        let fromDate=""
+        let toDate=""
+
+        if(this.checkAvailability){
+          let fromDate = this.date_today
+        }
+
 
         let res = await this.$axios.post("orders/add-item", {
           "request_number": order,
           "product_id": this.productId,
           "price_types":this.priceTypes,
-          "from_datetime":"",
+          "from_datetime": fromDate,
           "to_datetime":""
         })
 
@@ -317,6 +324,11 @@
           this.prices.push({priceTypeId: data.price_type_id, amount: 0, price: data.current_price})
 
         })
+      },
+      nextDateAvailable: function(newVal, oldVal){
+
+        this.date_today = newVal
+
       }
     }
     

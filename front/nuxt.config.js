@@ -46,8 +46,7 @@ export default {
   buildModules: [
     // Simple usage
     '@nuxtjs/vuetify',
-    'vue-sweetalert2/nuxt',
-
+    'vue-sweetalert2/nuxt'
    
   ],
   styleResources: {
