@@ -262,6 +262,7 @@ export default {
     payment_data:"",
     deliveryMethods:["text", "email"],
     ticket_delivery_method:"email",
+    payment_data:"",
 
     slidesenvents: [
       {
@@ -374,37 +375,37 @@ export default {
     },
     async checkout(){
 
-      /*customer_first_name:"",
-      customer_last_name:"",
-      customer_email:"",
-      phone:"",
-      address_line1:"",
-      address_line2:"",
-      city:"",
-      province_state:"",
-      postal_zip_code:"",
-      country:"",
+      /*
       payment_provider_id:"",
       payment_data:"",
       ticket_delivery_method:"",*/
 
+      this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id
+
+      if(this.payment_provider_id == 26){
+        this.payment_data = {
+          "order_id":this.order
+        }
+      }
+
       let res = await this.$axios.post("checkout",{
 
-        customer_first_name:"",
-        customer_last_name:"",
-        customer_email:"",
-        phone:"",
-        address_line1:"",
-        address_line2:"",
-        city:"",
-        province_state:"",
-        postal_zip_code:"",
-        country:"",
+        customer_first_name:this.customer_first_name,
+        customer_last_name:this.customer_last_name,
+        customer_email:this.customer_email,
+        phone:this.phone,
+        address_line1:this.address_line1,
+        address_line2:this.address_line2,
+        city:this.city,
+        province_state:this.province_state,
+        postal_zip_code:this.postal_zip_code,
+        country:this.country,
+        payment_provider_id:this.payment_provider_id,
+        payment_data:this.payment_data
 
-
-      },{
 
       })
+
 
     }
 
