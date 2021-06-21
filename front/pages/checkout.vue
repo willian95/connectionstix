@@ -82,53 +82,136 @@
             Billing info</v-expansion-panel-header
           >
           <v-expansion-panel-content class="main-card">
-            <v-row>
-              <v-col cols="12" sm="1" md="3">
-                <label for="">Name on card</label>
-                <v-text-field
-                  label="Pedro Pérez Pereira"
-                  single-line
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="1" md="3">
-                <label for="">Card number</label>
-                <v-text-field
-                  label="1234 5678 9012 3456"
-                  single-line
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="1" md="3">
-                <label for="">Expiration date</label>
-                <v-text-field label="01/19" single-line outlined></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="1" md="3">
-                <label for="">Security code</label>
-                <v-text-field label="123" single-line outlined></v-text-field>
-              </v-col>
-            </v-row>
+            <template v-if="selectedPaymentProvider != ''">
+              <v-row v-if="selectedPaymentProvider.prompt_billing_address == true">
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">First name</label>
+                  <v-text-field
+                    label="Pedro Pérez Pereira"
+                    single-line
+                    outlined
+                    v-model="customer_first_name"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Lastname</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="customer_last_name"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Email</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="customer_email"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Phone</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="phone"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Address 1</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="address_line1"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Address 2</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="address_line2"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">City</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="city"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Province state</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="province_state"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Postal zip code</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="postal_zip_code"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Country</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="country"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Ticket delivery</label>
+                  <v-select :items="deliveryMethods" solo v-model="ticket_delivery_method"></v-select>
+                </v-col>
+                
+              </v-row>
+            </template>
+            
             <div class="paymethod">
               <p>Payment Method</p>
               <v-row>
                 <v-col cols="12" sm="4" md="4">
                   <v-radio-group v-model="radios" mandatory>
-                    <div class="radio-main">
-                      <img src="~assets/images/iconos/master.png" alt="" />
-                      <v-radio label="" value="radio-1"></v-radio>
+                    
+                    <div class="radio-main" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-'+index">
+                      {{ paymentProvider.payment_provider_name }}
+                      <v-radio :key="'radioButton-'+index" :value="index" @click="getInfoFromSelectedPaymentProvider()"></v-radio>
                     </div>
 
-                    <div class="radio-main">
+                    <!--<div class="radio-main">
                       <img src="~assets/images/iconos/visa.png" alt="" />
                       <v-radio label="" value="radio-2"></v-radio>
-                    </div>
+                    </div>-->
                   </v-radio-group>
                 </v-col>
 
                 <v-col class="center" cols="12" sm="4" md="4">
                   <div class="total_txt">
                     <p>Total</p>
-                    <p>$ 599 CAD</p>
+                    <p>$ {{ total }} CAD</p>
                   </div>
                 </v-col>
                 <v-col class="center"  cols="12" sm="4" md="4">
@@ -161,6 +244,24 @@ export default {
     panel: [0, 1, 2, 3],
     disabled: false,
     readonly: false,
+    paymentProviders:[],
+    radios:0,
+    selectedPaymentProvider:"",
+
+    customer_first_name:"",
+    customer_last_name:"",
+    customer_email:"",
+    phone:"",
+    address_line1:"",
+    address_line2:"",
+    city:"",
+    province_state:"",
+    postal_zip_code:"",
+    country:"",
+    payment_provider_id:"",
+    payment_data:"",
+    deliveryMethods:["text", "email"],
+    ticket_delivery_method:"email",
 
     slidesenvents: [
       {
@@ -200,12 +301,18 @@ export default {
           this.currencyCode = res.data.currency_code
           this.currencySymbol = res.data.currency_symbol
           this.order = order
+          this.getTotal()
         }
 
       }
 
     },
-
+    getTotal(){
+      this.total = 0
+      this.items.forEach(data => {
+        this.total = this.total + (data.pricing.price_types[0].current_price * data.pricing.price_types[0].quantity)
+      })
+    },
     async getCartCount(order){
 
       let res = await this.$axios.get("orders/item-count/"+order)
@@ -224,13 +331,13 @@ export default {
 
           let numberItems = await this.getCartCount(this.order)
           await this.$store.dispatch("storeCartAmount", {amount: numberItems})
-
+          
           this.$swal({
             text:"Product removed",
             icon: "success"
           }).then(ans =>{
 
-            this.getItems()
+            _this.getItems()
 
           })
         }else{
@@ -242,11 +349,71 @@ export default {
 
         }
 
+    },
+    getInfoFromSelectedPaymentProvider(){
+      this.paymentProviders.forEach((data, index) => {
+
+        if(index == this.radios){
+
+          this.selectedPaymentProvider = data
+
+        }
+
+      })
+    },
+    async getPaymentProviders(){
+
+      let res = await this.$axios.post("checkout/payment-providers",{
+        order_number: this.order
+      })
+
+      this.paymentProviders = res.data.data
+
+      this.getInfoFromSelectedPaymentProvider()
+
+    },
+    async checkout(){
+
+      /*customer_first_name:"",
+      customer_last_name:"",
+      customer_email:"",
+      phone:"",
+      address_line1:"",
+      address_line2:"",
+      city:"",
+      province_state:"",
+      postal_zip_code:"",
+      country:"",
+      payment_provider_id:"",
+      payment_data:"",
+      ticket_delivery_method:"",*/
+
+      let res = await this.$axios.post("checkout",{
+
+        customer_first_name:"",
+        customer_last_name:"",
+        customer_email:"",
+        phone:"",
+        address_line1:"",
+        address_line2:"",
+        city:"",
+        province_state:"",
+        postal_zip_code:"",
+        country:"",
+
+
+      },{
+
+      })
+
     }
 
   },
-  created(){
-    this.getItems()
+  async created(){
+    await this.getItems()
+    if(this.order){
+      this.getPaymentProviders()
+    }
   }
 };
 </script>
