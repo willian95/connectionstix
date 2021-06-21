@@ -34,7 +34,7 @@ export class CheckoutController {
             const agent = this.generalFunctionService.getAgent()
         
             let header = this.generalFunctionService.getHeader();
-          
+
             let response = await this.httpService.post(process.env.API_URL+endpoint,{
 
                 "customer" : {

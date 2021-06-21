@@ -181,12 +181,13 @@
                     v-model="country"
                   ></v-text-field>
                 </v-col>
-
+                
+              </v-row>
+              <v-row>
                 <v-col cols="12" sm="1" md="3">
                   <label for="">Ticket delivery</label>
                   <v-select :items="deliveryMethods" solo v-model="ticket_delivery_method"></v-select>
                 </v-col>
-                
               </v-row>
             </template>
             
@@ -215,7 +216,7 @@
                   </div>
                 </v-col>
                 <v-col class="center"  cols="12" sm="4" md="4">
-                  <a href="" class="btn">Proceed to Checkout</a>
+                  <button class="btn" @click="checkout()">Proceed to Checkout</button>
                 </v-col>
               </v-row>
             </div>
@@ -375,17 +376,14 @@ export default {
     },
     async checkout(){
 
-      /*
-      payment_provider_id:"",
-      payment_data:"",
-      ticket_delivery_method:"",*/
-
       this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id
 
       if(this.payment_provider_id == 26){
         this.payment_data = {
           "order_id":this.order
         }
+      }else if(this.payment_provider_id == 4){
+       
       }
 
       let res = await this.$axios.post("checkout",{
@@ -400,11 +398,14 @@ export default {
         province_state:this.province_state,
         postal_zip_code:this.postal_zip_code,
         country:this.country,
+        order_number:this.order,
         payment_provider_id:this.payment_provider_id,
-        payment_data:this.payment_data
-
+        payment_data:this.payment_data,
+        ticket_delivery_method:this.ticket_delivery_method
 
       })
+
+      console.log(res)
 
 
     }
