@@ -80,7 +80,7 @@
 <script>
 export default {
 
-    props:["productName", "thumbnail", "prices", "remove", "itemId", "currencyCode", "currencySymbol", "order"],
+    props:["productName", "thumbnail", "prices", "remove", "itemId", "currencyCode", "currencySymbol", "order", "getItems"],
     data(){
         return{
             total:0,
