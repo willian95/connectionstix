@@ -9,7 +9,8 @@ import Vuetify, {
   VStepperHeader,
   VStepperStep,
   VStepperItems,
-  VDivider
+  VDivider,
+  VDialog,
 } from "vuetify/lib";
 import es from "vuetify/lib/locale/es";
 /*   */
@@ -23,7 +24,8 @@ Vue.use(Vuetify, {
     VStepperHeader,
     VStepperStep,
     VStepperItems,
-    VDivider
+    VDivider,
+    VDialog
   }
   /*      directives: {
        Ripple,
@@ -41,7 +43,14 @@ const vuetify = new Vuetify({
     iconfont: 'mdiSvg',
   }
 });
+import VuetifyDialog from 'vuetify-dialog'
+import 'vuetify-dialog/dist/vuetify-dialog.css'
 
+Vue.use(VuetifyDialog, {
+  context: {
+    vuetify
+  }
+})
 export default ({ app }, inject) => {
   app.vuetify = vuetify;
 };

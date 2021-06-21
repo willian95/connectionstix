@@ -18,7 +18,8 @@
     "sass": "~1.32.6",
     "vue-sweetalert2": "^4.3.1",
     "vueisotope": "3.1.2",
-    "vuejs-datepicker": "^1.6.2"
+    "vuejs-datepicker": "^1.6.2",
+    "vuetify-dialog": "^2.0.16"
   },
   "devDependencies": {
     "@nuxtjs/style-resources": "^1.1.0",
