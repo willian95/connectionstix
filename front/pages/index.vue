@@ -1,16 +1,16 @@
 <template>
   <div class="" id="app" data-app>
     <div>
-        <Navbar />
+      <Navbar />
       <!---    <Logo />-->
-      <Banner :getFilteredProducts="getFilteredProducts"/>
+      <Banner :getFilteredProducts="getFilteredProducts" />
       <div class="content-mix mt-12">
         <div class="row">
           <div class="col-md-12 ">
             <ul class="list-unstyled mb-0">
-              <li class="mb-3" v-for="(tag, index) in tagList" :key="index" >
+              <li class="mb-3" v-for="(tag, index) in tagList" :key="index">
                 <div>
-                    <img :src="tag.icon" alt="">
+                  <img class="img-icon" :src="tag.icon" alt="" />
                 </div>
                 <div
                   class="cursore-pointer"
@@ -26,37 +26,34 @@
           </div>
           <div class="col-md-12">
             <div class="m-auto w-100">
-              <div>
-            
-
-              </div>
+              <div></div>
               <p class="title-mix">See all</p>
               <no-ssr>
-                <isotope
-                  class="mix-grid"
-                  ref="projects"
-                  :list="projects"
-                >
+                <isotope class="mix-grid" ref="projects" :list="projects">
                   <div
                     class="text-white thumbnail "
                     v-for="(item, index) in projects"
                     :key="index"
                   >
                     <div class="cursore-pointer d-block pos-r p-1">
-                      <img
-                        class="w-100"
-                        :src="item.thumbnail"
-                      />
+                      <img class="w-100" :src="item.thumbnail" />
                       <div
                         class="pin pin-xy d-flex text-white thumbnail-overlay  text-mix"
                       >
                         <div class="m-auto fs-16 star-txt ">
                           <h3>{{ item.product_name }}</h3>
-                          <p v-for="(price, index) in item.pricing.prices" v-bind:key="index">
-                            {{ item.pricing.currency_symbol }} {{ price.current_price }} {{ item.pricing.currency_code }} / {{ price.price_type_name }}
+                          <p
+                            v-for="(price, index) in item.pricing.prices"
+                            v-bind:key="index"
+                          >
+                            {{ item.pricing.currency_symbol }}
+                            {{ price.current_price }}
+                            {{ item.pricing.currency_code }} /
+                            {{ price.price_type_name }}
                           </p>
                           <div class="txt-star">
-                            <NuxtLink class="" :to="{ path: '/attractions/'+item.product_id }"
+                            <NuxtLink
+                              :to="{ path: '/attractions/' + item.product_id }"
                               >More info</NuxtLink
                             >
                           </div>
@@ -83,7 +80,7 @@ export default {
   data() {
     return {
       filterOption: "See All",
-      tagList:[],
+      tagList: [],
       option: {
         getFilterData: {
           /*"See All"() {
@@ -94,7 +91,6 @@ export default {
               .map(x => x === "Hop on/ Hop off")
               .includes(true);
           },*/
-
         }
       },
 
@@ -109,81 +105,67 @@ export default {
         this.filterOption = key;
       }
     },
-    async getAllProducts(){
-
-      let res = await this.$axios.get("products/all")
-      this.projects = res.data
-
+    async getAllProducts() {
+      let res = await this.$axios.get("products/all");
+      this.projects = res.data;
     },
-    async getFilteredProducts(countryCode, state, city){
+    async getFilteredProducts(countryCode, state, city) {
+      let res = await this.$axios.post("products/list", {
+        country: countryCode,
+        state: state,
+        city: city
+      });
 
-      let res = await this.$axios.post("products/list",{
-        "country": countryCode,
-        "state": state,
-        "city": city
-      })
-
-      if(res.data.status.result_messages[0] == "OK"){
-        this.projects = res.data.data.products
-      }else{
-
+      if (res.data.status.result_messages[0] == "OK") {
+        this.projects = res.data.data.products;
+      } else {
         //show products not found
-
       }
-      
-
     },
-    async getProductsByTag(tag){
+    async getProductsByTag(tag) {
+      let res = await this.$axios.post("products/list", {
+        tag: tag
+      });
 
-      let res = await this.$axios.post("products/list",{
-        "tag": tag
-      })
+      console.log(res);
 
-      console.log(res)
-
-      if(res.data.status.result_messages[0] == "OK"){
-        this.projects = res.data.data.products
-      }else{
-
+      if (res.data.status.result_messages[0] == "OK") {
+        this.projects = res.data.data.products;
+      } else {
         //show products not found
-
       }
-
     },
-    async getTags(){
-
-      let res = await this.$axios.get("tags/all")
-      this.tagList = res.data
-
-
+    async getTags() {
+      let res = await this.$axios.get("tags/all");
+      this.tagList = res.data;
     }
   },
-  created(){
-    
-    this.getTags()
-    this.getAllProducts()
+  created() {
+    this.getTags();
+    this.getAllProducts();
   }
 };
 </script>
 
-<style  lang="scss">
+<style lang="scss">
 .content-mix {
   padding: 0 10rem;
   margin-bottom: 12rem;
-    @include respond-to(xs) {
-  padding: 0 0;
-         margin-bottom: 20rem;
-    }
+  @include respond-to(xs) {
+    padding: 0 0;
+    padding-bottom: 25rem;
+  }
 
   & ul {
     list-style: none;
     display: flex;
     text-align: center;
     width: 100%;
-        @include respond-to(xs) {
-    display: inline-flex;
-    overflow: scroll;
-        }
+    @include respond-to(xs) {
+      display: inline-flex;
+      overflow: scroll;
+      margin-top: 3rem;
+    }
   }
   & li {
     color: #00000066;
@@ -191,12 +173,12 @@ export default {
     line-height: 1;
     padding: 0 3rem;
     cursor: pointer;
-     @include respond-to(xs) {
-    line-height: 1.3;
-    padding: 0;
-    font-size: .8rem;
-    min-width: 80px;
-     }
+    @include respond-to(xs) {
+      line-height: 1.3;
+      padding: 0;
+      font-size: 0.8rem;
+      min-width: 90px;
+    }
   }
   & .title-mix {
     text-align: center;
@@ -238,10 +220,10 @@ export default {
       border-radius: 15px;
       text-align: start;
       width: 30%;
-       @include respond-to(xs) {
-    width: 100%;
-    margin: 10px;
-       }
+      @include respond-to(xs) {
+        width: 100%;
+        margin: 10px;
+      }
 
       & img {
         height: 170px;
@@ -251,19 +233,20 @@ export default {
         border-top-right-radius: 15px;
       }
     }
-   & .text-mix {
+    & .text-mix {
       font-weight: bold;
       font-size: 1.1rem;
       padding: 10px 10px;
       display: flex;
       align-items: flex-start;
-    justify-content: flex-start;
+      justify-content: flex-start;
       text-align: start;
       & .star-txt {
         text-align: start !important;
       }
     }
-    & h3,p {
+    & h3,
+    p {
       text-align: start;
     }
     p {
@@ -278,12 +261,21 @@ export default {
       display: flex;
       align-items: flex-start;
       justify-content: flex-start;
-    text-align: start;
+      text-align: start;
     }
   }
-  .text-success{
+  .text-success {
     color: #ef1856;
     border-bottom: 1px solid #ef1856;
+  }
+
+  .img-icon {
+    width: 40px;
+    height: 100%;
+    margin-bottom: 0.5rem;
+    @include respond-to(xs) {
+      width: 25px;
+    }
   }
 }
 </style>

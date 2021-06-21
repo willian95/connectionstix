@@ -446,6 +446,10 @@ export default {
       .theme--light.v-image {
         width: 274px;
         height: 182px;
+         @include respond-to(xs) {
+          width: 163px;
+          height: 87px;
+         }
       }
     }
     .v-card__text {
