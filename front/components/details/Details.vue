@@ -615,6 +615,7 @@ display: grid;
 
     padding-bottom: 3rem;
     padding-top: 3rem;
+    padding-left: 13px;
     .main-book {
       line-height: 0;
       text-align: center;
