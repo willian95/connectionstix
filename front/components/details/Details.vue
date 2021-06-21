@@ -4,46 +4,91 @@
       <v-col cols="6" md="4">
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
           <div>
+            <div class="interior">
+              <a class="btn" href="#open-modal">Dame clic</a>
+            </div>
+          </div>
+          <div id="open-modal" class="modal-window open-modal">
+            <div>
+              <v-data-table
+                v-model="selected"
+                :headers="headers"
+                :items="desserts"
+                item-key="dates"
+                show-select
+                class="elevation-1"
+              >
+              </v-data-table>
+
+              <a href="#" title="Close" class="modal-close">x</a>
+            </div>
+          </div>
+
+          <div>
             <div v-if="checkAvailability">
               <client-only>
                 <date-picker
                   placeholder="MM/DD/YYYY"
                   format="MM/dd/yyyy"
-                  v-model="date_today" />
+                  v-model="date_today"
+                />
               </client-only>
-            </div>  
-            
-            <div class="main-min" v-for="(price, index) in pricing.prices" :key="index">
-              <div class="flex">
-                
-                
-                  <p>{{ price.price_type_name }} {{ pricing.currency_symbol }} {{ price.current_price }} {{ pricing.currency_code }}</p>
-                  <small>(<span v-if="price.age.minimum">min: {{ price.age.minimum }} {{ price.age.unit}}</span>
-                  <span v-if="price.age.maximum">max: {{ price.age.maximum }} {{ price.age.unit}}</span>)</small>
-               
-              </div>
-              <div class="content-mx">
-                <div class="style-btn" @click="substract(price.price_type_id)">-</div>
-                <p v-if="prices.length > 0">{{ prices[index].amount }}</p>
-                <div class="style-btn" @click="add(price.price_type_id, price.current_price)">+</div>
-              </div>
-
-            
             </div>
 
-            
+            <div
+              class="main-min"
+              v-for="(price, index) in pricing.prices"
+              :key="index"
+            >
+              <div class="flex">
+                <p>
+                  {{ price.price_type_name }} {{ pricing.currency_symbol }}
+                  {{ price.current_price }} {{ pricing.currency_code }}
+                </p>
+                <small
+                  >(<span v-if="price.age.minimum"
+                    >min: {{ price.age.minimum }} {{ price.age.unit }}</span
+                  >
+                  <span v-if="price.age.maximum"
+                    >max: {{ price.age.maximum }} {{ price.age.unit }}</span
+                  >)</small
+                >
+              </div>
+              <div class="content-mx">
+                <div class="style-btn" @click="substract(price.price_type_id)">
+                  -
+                </div>
+                <p v-if="prices.length > 0">{{ prices[index].amount }}</p>
+                <div
+                  class="style-btn"
+                  @click="add(price.price_type_id, price.current_price)"
+                >
+                  +
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="main-book">
             <div class="main-price">
               <p><strong>Total </strong></p>
-              <p><strong>{{ pricing.currency_symbol }} {{ total }} {{ pricing.currency_code }}</strong></p>
+              <p>
+                <strong
+                  >{{ pricing.currency_symbol }} {{ total }}
+                  {{ pricing.currency_code }}</strong
+                >
+              </p>
             </div>
-            <button :disabled="total == 0" href="" class="btn" @click="bookNow()">Book now</button>
+            <button
+              :disabled="total == 0"
+              href=""
+              class="btn"
+              @click="bookNow()"
+            >
+              Book now
+            </button>
           </div>
         </v-card>
-
-          
       </v-col>
       <v-col cols="12" sm="6" md="8">
         <v-card class="pa-2 card-shadows" outlined tile>
@@ -75,8 +120,11 @@
               <h3 class="title-custom">Opening hours</h3>
               <ul>
                 <li v-for="(openingHour, index) in operationHours" :key="index">
-                  {{ openingHour.day }}: 
-                  <span v-if="openingHour.open == null && openingHour.close == null">Closed all day</span>
+                  {{ openingHour.day }}:
+                  <span
+                    v-if="openingHour.open == null && openingHour.close == null"
+                    >Closed all day</span
+                  >
                   <span v-else>
                     {{ openingHour.open }} to {{ openingHour.close }}
                   </span>
@@ -101,33 +149,47 @@
               {{ description }}
             </p>
 
-            <h3 class="title-custom" v-if="highlights.length > 0">Highlights</h3>
+            <h3 class="title-custom" v-if="highlights.length > 0">
+              Highlights
+            </h3>
             <ul>
-              <li v-for="(highlight, index) in highlights" :key="index">{{ highlight }}</li>
+              <li v-for="(highlight, index) in highlights" :key="index">
+                {{ highlight }}
+              </li>
             </ul>
-      
 
             <div>
               <h3 class="title-custom">Know before you go</h3>
               <div class="know-info">
-                <div class="item" v-for="(inclusion, index) in inclusions" :key="index">
+                <div
+                  class="item"
+                  v-for="(inclusion, index) in inclusions"
+                  :key="index"
+                >
                   <div>
                     <!--<img src="~assets/images/iconos/pet.png" alt="" />-->
                     <p>{{ inclusion }}:</p>
                   </div>
                   <img src="~assets/images/iconos/check.png" alt="" />
                 </div>
-                <div class="item" v-for="(exclusion, index) in exclusions" :key="index">
+                <div
+                  class="item"
+                  v-for="(exclusion, index) in exclusions"
+                  :key="index"
+                >
                   <div>
                     <!--<img src="~assets/images/iconos/wheelcair.png" alt="" />-->
                     <p>{{ exclusion }}:</p>
                   </div>
                   <img src="~assets/images/iconos/nocheck.png" alt="" />
                 </div>
-
               </div>
               <div class="know-info">
-                <div class="item" v-for="(know, index) in knowBeforeYouGoChecklist" :key="index">
+                <div
+                  class="item"
+                  v-for="(know, index) in knowBeforeYouGoChecklist"
+                  :key="index"
+                >
                   <div>
                     <img :src="know.icon" alt="" />
                     <p>{{ know.label }}</p>
@@ -137,10 +199,13 @@
               </div>
 
               <ul>
-                <li v-for="(optional, index) in knowBeforeYouGoOptional" :key="index">{{ optional }}</li>
+                <li
+                  v-for="(optional, index) in knowBeforeYouGoOptional"
+                  :key="index"
+                >
+                  {{ optional }}
+                </li>
               </ul>
-
-              
             </div>
 
             <h3 class="title-custom">Cancellation policy</h3>
@@ -159,193 +224,200 @@
 </template>
 
 <script>
+export default {
+  props: [
+    "description",
+    "title",
+    "highlights",
+    "inclusions",
+    "exclusions",
+    "knowBeforeYouGoChecklist",
+    "knowBeforeYouGoOptional",
+    "cancellationPolicy",
+    "operationHours",
+    "duration",
+    "address",
+    "checkAvailability",
+    "nextDateAvailable",
+    "pricing",
+    "productId"
+  ],
+  data() {
+    return {
+      prices: [],
+      priceTypes: [],
+      total: 0,
+      date_today: "",
 
-  export default {
-    props:["description", "title", "highlights", "inclusions", "exclusions", "knowBeforeYouGoChecklist", "knowBeforeYouGoOptional", "cancellationPolicy", "operationHours", "duration", "address", "checkAvailability", "nextDateAvailable", "pricing", "productId"],
-    data(){
-      return{
-        prices:[],
-        priceTypes:[],
-        total:0,
-        date_today:""
+      headers: [
+        
+        {
+          sortable: false,
+          text: "Date",
+          value: "dates"
+        },
+
+        { text: "Time", value: "time",  sortable: false },
+        { text: "From", value: "from",sortable: false  },
+        { text: "To", value: "to",sortable: false  },
+        { text: "Price", value: "price",sortable: false  }
+      ],
+      desserts: [
+        {
+          dates: "2021/11/22",
+          time: "2:00 PM",
+          from: "Toronto, ON",
+          to: "Montereal",
+          price: "$ 20,00 (Flat rate)"
+        },
+        {
+          dates: "2021/11/22",
+          time: "2:00 PM",
+          from: "Toronto, ON",
+          to: "Montereal",
+          price: "$ 20,00 (Flat rate)"
+        }
+      ]
+    };
+  },
+  methods: {
+    add(priceTypeId, price) {
+      let res = this.checkDuplicate(priceTypeId, price);
+      console.log(res, this.prices);
+      if (res.exists == true) {
+        this.prices[res.priceIndex].amount =
+          this.prices[res.priceIndex].amount + 1;
+      }
+
+      this.getTotal();
+    },
+    substract(priceTypeId) {
+      let res = this.checkDuplicate(priceTypeId);
+
+      if (res.exists == true) {
+        if (this.prices[res.priceIndex].amount > 0) {
+          this.prices[res.priceIndex].amount =
+            this.prices[res.priceIndex].amount - 1;
+        }
+      }
+
+      this.getTotal();
+    },
+    checkDuplicate(priceTypeId) {
+      let exists = false;
+      let priceIndex = 0;
+      this.prices.forEach((data, index) => {
+        if (data.priceTypeId == priceTypeId) {
+          exists = true;
+          priceIndex = index;
+        }
+      });
+
+      return { exists, priceIndex };
+    },
+    showAmount(priceTypeId) {
+      var sum = 0;
+      this.prices.forEach(data => {
+        if (data.priceTypeId == priceTypeId) {
+          sum = sum + data.amount;
+        }
+      });
+
+      return sum;
+    },
+    async getCartCount(order) {
+      let res = await this.$axios.get("orders/item-count/" + order);
+      return res.data.data.number_of_items;
+    },
+    getTotal() {
+      this.total = 0;
+      this.prices.forEach(data => {
+        this.total += data.amount * data.price;
+      });
+    },
+    bookNow() {
+      this.getLocalStorageOrders();
+    },
+    async getLocalStorageOrders() {
+      if (process.browser) {
+        let order = window.localStorage.getItem("orders");
+        if (order == null) {
+          order = await this.storeOrder();
+        }
+
+        this.addItem(order);
       }
     },
-    methods:{
-      add(priceTypeId, price){
+    async storeOrder() {
+      let res = await this.$axios.post("orders/create");
+      window.localStorage.setItem("orders", res.data.order_number);
+      return res.data.order_number;
+    },
+    async addItem(order) {
+      this.formatPriceTypes();
+      let fromDate = "";
+      let toDate = "";
 
-        let res = this.checkDuplicate(priceTypeId, price)
-        console.log(res, this.prices)
-        if(res.exists == true){
+      if (this.checkAvailability) {
+        fromDate = this.date_today;
+      }
 
-          this.prices[res.priceIndex].amount = this.prices[res.priceIndex].amount + 1
+      let res = await this.$axios.post("orders/add-item", {
+        request_number: order,
+        product_id: this.productId,
+        price_types: this.priceTypes,
+        from_datetime: fromDate,
+        to_datetime: ""
+      });
 
-        }
+      if (res.data.status.result_messages[0] == "OK") {
+        let numberItems = await this.getCartCount(order);
+        await this.$store.dispatch("storeCartAmount", { amount: numberItems });
 
-        this.getTotal()
+        this.$swal({
+          text: "Product booked",
+          icon: "success"
+        }).then(ans => {
+          this.prices.forEach((data, index) => {
+            this.prices[index].amount = 0;
+          });
 
-      },
-      substract(priceTypeId){
-
-        let res = this.checkDuplicate(priceTypeId)
-
-        if(res.exists == true){
-          if(this.prices[res.priceIndex].amount > 0){
-            this.prices[res.priceIndex].amount = this.prices[res.priceIndex].amount - 1
-          }
-        }
-
-        this.getTotal()
-
-      },
-      checkDuplicate(priceTypeId){
-        
-        let exists = false
-        let priceIndex = 0
-        this.prices.forEach((data, index) => {
-
-          if(data.priceTypeId == priceTypeId){
-            exists = true
-            priceIndex = index
-          }
-
-        })
-
-        return {exists, priceIndex}
-
-      },
-      showAmount(priceTypeId){
-
-        var sum = 0;
-        this.prices.forEach(data => {
-
-          if(data.priceTypeId == priceTypeId){
-            sum = sum + data.amount
-          }
-
-        })
-
-        return sum
-
-      },
-      async getCartCount(order){
-
-        let res = await this.$axios.get("orders/item-count/"+order)
-        return res.data.data.number_of_items
-
-      },
-      getTotal(){
-        this.total = 0
-        this.prices.forEach(data => {
-        
-          this.total += data.amount * data.price
-
-        })
-
-      },
-      bookNow(){
-
-        this.getLocalStorageOrders()
-        
-
-      },
-      async getLocalStorageOrders(){
-
-        if(process.browser){
-
-          let order = window.localStorage.getItem("orders")
-          if(order == null){
-            order = await this.storeOrder()
-          }
-
-          this.addItem(order)
-
-        }
-
-      },
-      async storeOrder(){
-        
-        let res = await this.$axios.post("orders/create")
-        window.localStorage.setItem("orders", res.data.order_number)
-        return res.data.order_number
-
-      },
-      async addItem(order){
-
-        this.formatPriceTypes()
-        let fromDate=""
-        let toDate=""
-
-        if(this.checkAvailability){
-          fromDate = this.date_today
-        }
-
-
-        let res = await this.$axios.post("orders/add-item", {
-          "request_number": order,
-          "product_id": this.productId,
-          "price_types":this.priceTypes,
-          "from_datetime": fromDate,
-          "to_datetime":""
-        })
-
-        if(res.data.status.result_messages[0] == "OK"){
-
-          let numberItems = await this.getCartCount(order)
-          await this.$store.dispatch("storeCartAmount", {amount: numberItems})
-
-          this.$swal({
-            text:"Product booked",
-            icon: "success"
-          }).then(ans =>{
-
-            this.prices.forEach((data, index) => {
-              this.prices[index].amount = 0
-            })
-
-            
-            this.$router.push("/checkout")
-
-          })
-        }else{
-
-          this.$swal({
-            text:res.data.status.result_messages[0],
-            icon: "error"
-          })
-
-        }
-
-      },
-      formatPriceTypes(){
-        this.priceTypes = []
-        this.prices.forEach(data => {
-
-          if(data.amount > 0){
-            this.priceTypes.push({"price_type_id": data.priceTypeId, "quantity": data.amount})
-          } 
-          
-
-        })
-
+          this.$router.push("/checkout");
+        });
+      } else {
+        this.$swal({
+          text: res.data.status.result_messages[0],
+          icon: "error"
+        });
       }
     },
-    watch:{
-      pricing: function(newVal, oldVal){
-        newVal.prices.forEach(data => {
-         
-          this.prices.push({priceTypeId: data.price_type_id, amount: 0, price: data.current_price})
-
-        })
-      },
-      nextDateAvailable: function(newVal, oldVal){
-
-        this.date_today = newVal
-
-      }
+    formatPriceTypes() {
+      this.priceTypes = [];
+      this.prices.forEach(data => {
+        if (data.amount > 0) {
+          this.priceTypes.push({
+            price_type_id: data.priceTypeId,
+            quantity: data.amount
+          });
+        }
+      });
     }
-    
-
+  },
+  watch: {
+    pricing: function(newVal, oldVal) {
+      newVal.prices.forEach(data => {
+        this.prices.push({
+          priceTypeId: data.price_type_id,
+          amount: 0,
+          price: data.current_price
+        });
+      });
+    },
+    nextDateAvailable: function(newVal, oldVal) {
+      this.date_today = newVal;
+    }
   }
+};
 </script>
 
 <style lang="scss">
@@ -552,11 +624,105 @@
     width: 200px;
     margin-bottom: 1.3rem;
     @include respond-to(xs) {
-       width: auto;
+      width: auto;
     }
   }
-  .mb-2{
+  .mb-2 {
     margin-bottom: 2rem;
   }
+
+  /**********modal**********/
+  .modal-window {
+    position: fixed;
+    background-color: rgb(0 0 0 / 57%);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+  }
+  .modal-window:target {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-window > div {
+    width: 900px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: white;
+        padding-top: 4rem;
+  }
+  .modal-window header {
+    font-weight: bold;
+  }
+  .modal-window h1 {
+    font-size: 150%;
+    margin: 0 0 15px;
+  }
+
+  .modal-close {
+    color: #7d7d7d;
+    line-height: 50px;
+    font-size: 1.5rem;
+    position: absolute;
+    top: 0;
+    width: auto;
+    text-decoration: none;
+    right: 29px;
+ 
+  }
+  .modal-close:hover {
+    color: black;
+  }
+
+  .modal-window > div {
+    border-radius: 1rem;
+  }
+
+  .modal-window div:not(:last-of-type) {
+    margin-bottom: 15px;
+  }
+
+  .theme--light.v-data-table
+    > .v-data-table__wrapper
+    > table
+    > thead
+    > tr:last-child
+    > th {
+    color: #ffff;
+   font-size: 1.2rem;
+  }
+  .v-data-table-header {
+    background: #ef1856;
+    color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+      .text-start:nth-child(1){
+    opacity: 0; 
 }
+  }
+  .v-data-footer{
+    display: none;
+  }
+  .theme--light.v-data-table {
+
+    border: 1px solid #00000017;
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr > td:not(.v-data-table__mobile-row), .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr > th:not(.v-data-table__mobile-row) {
+    border-bottom: thin solid rgba(0, 0, 0, 0.12);
+    border-bottom: 0;
+    color: #000;
+    font-size: 1.2rem;
+}
+}
+
 </style>

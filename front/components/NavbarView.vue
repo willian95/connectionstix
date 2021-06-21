@@ -106,6 +106,11 @@ export default {
       
     }
   }
+  .nav-link p {
+    background: #ffffff;
+    color: #ef1856;
+    border: 2px solid #ef1856;
+}
 }
 
 </style>

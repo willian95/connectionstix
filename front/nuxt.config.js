@@ -63,6 +63,7 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/style-resources',
+    'vuetify-dialog/nuxt',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
