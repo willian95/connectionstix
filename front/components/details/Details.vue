@@ -5,10 +5,10 @@
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
           <div>
             <div class="interior">
-              <a class="btn" href="#open-modal">Dame clic</a>
+              <button class="btn" @click="showDatesModal()">Dame clic</button>
             </div>
           </div>
-          <div id="open-modal" class="modal-window open-modal">
+          <div id="open-modal" :class="'modal-window open-modal '+modalClass">
             <div>
               <v-data-table
                 v-model="selected"
@@ -20,7 +20,7 @@
               >
               </v-data-table>
 
-              <a href="#" title="Close" class="modal-close">x</a>
+              <button title="Close" class="modal-close" @click="closeDatesModal()">x</button>
             </div>
           </div>
 
@@ -31,6 +31,12 @@
                   placeholder="MM/DD/YYYY"
                   format="MM/dd/yyyy"
                   v-model="date_today"
+                />
+
+                <date-picker
+                  placeholder="MM/DD/YYYY"
+                  format="MM/dd/yyyy"
+                  v-model="next_date"
                 />
               </client-only>
             </div>
@@ -247,7 +253,9 @@ export default {
       prices: [],
       priceTypes: [],
       total: 0,
-      date_today: "",
+      date_today: new Date(),
+      next_date:"",
+      modalClass:"custom-modal-close",
 
       headers: [
         
@@ -290,6 +298,16 @@ export default {
       }
 
       this.getTotal();
+    },
+    showDatesModal(){
+     
+      this.modalClass = "custom-modal-open"
+
+    },
+    closeDatesModal(){
+      
+      this.modalClass = "custom-modal-close"
+
     },
     substract(priceTypeId) {
       let res = this.checkDuplicate(priceTypeId);
@@ -336,7 +354,27 @@ export default {
       });
     },
     bookNow() {
-      this.getLocalStorageOrders();
+      if(this.checkAvailability == true){
+
+        this.availabilityCheck()
+      }else{
+        this.getLocalStorageOrders();
+      }
+      
+    },
+    async availabilityCheck(){
+
+      this.formatPriceTypes();
+
+      let res = await this.$axios.post("products/availability", {
+        id: this.productId,
+        from_date: this.date_today,
+        to_date: this.next_date,
+        price_types: this.priceTypes
+      });
+
+      console.log(res)
+
     },
     async getLocalStorageOrders() {
       if (process.browser) {
@@ -414,7 +452,7 @@ export default {
       });
     },
     nextDateAvailable: function(newVal, oldVal) {
-      this.date_today = newVal;
+      this.next_date = newVal;
     }
   }
 };
@@ -640,9 +678,6 @@ export default {
     bottom: 0;
     left: 0;
     z-index: 999;
-    visibility: hidden;
-    opacity: 0;
-    pointer-events: none;
     transition: all 0.3s;
   }
   .modal-window:target {
@@ -725,4 +760,12 @@ export default {
 }
 }
 
+.custom-modal-open{
+    visibility: visible;
+    opacity: 1;
+}
+
+.custom-modal-close{
+  display: none;
+}
 </style>
