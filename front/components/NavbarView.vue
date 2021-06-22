@@ -7,8 +7,6 @@
         <v-col class="d-flex" cols="12" sm="4">
           <v-select :items="language" label="English" solo></v-select>
         </v-col>
-
-       
       </div>
     </div>
     <div>

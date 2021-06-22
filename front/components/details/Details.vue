@@ -1,7 +1,7 @@
 <template>
   <v-container class="grey lighten-5 custom-details">
     <v-row no-gutters>
-      <v-col cols="6" md="4">
+      <v-col cols="12" md="4">
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
           <div>
             <div class="interior">
@@ -486,6 +486,9 @@ export default {
           width: 100px;
           height: 100%;
           object-fit: contain;
+            @include respond-to(xs) {
+             width: 65px;
+            }
         }
       }
     }
@@ -497,7 +500,10 @@ export default {
 
   p {
     font-size: 1.1rem;
-    margin-bottom: 3rem;
+       @include respond-to(xs) {
+          font-size: .8rem;
+       }
+   
   }
 
   .line::before {
@@ -513,9 +519,13 @@ export default {
 
     .col-md-6 {
       padding-left: 0;
+      span{
+           font-weight: 400;
+      }
     }
 
     li {
+      font-weight: bold;
       margin-bottom: 0.5rem;
     }
 
@@ -531,11 +541,18 @@ export default {
     margin-bottom: 2rem;
     grid-gap: 1.5rem 12rem;
     max-width: 90%;
+    @include respond-to(xs) {
+    grid-gap: 1.5rem 2.5rem;
+    }
 
     img {
       width: 35px;
       height: 35px;
       object-fit: contain;
+         @include respond-to(xs) {
+    width: 25px;
+    height: 25px;
+         }
     }
 
     .item {
@@ -578,16 +595,19 @@ export default {
     width: 71px !important;
     height: 100px !important;
     margin-left: 2rem;
+    @include respond-to(xs) {
+width: 40px !important;
+    }
   }
 
   .main-min {
-    display: grid;
-    margin-bottom: 1rem;
+display: grid;
+    margin-bottom: 2rem;
     grid-template-columns: 1fr 1fr;
-    height: 35px;
 
     @include respond-to(xs) {
-      grid-template-columns: 1fr;
+     padding: 20px;
+     margin-bottom: 0;
     }
 
     img {
@@ -621,9 +641,7 @@ export default {
     }
   }
 
-  .flex {
-    display: flex;
-  }
+
   .book-shadows {
     box-shadow: 0px 0px 8px #00000033;
     max-width: 360px;
@@ -635,6 +653,7 @@ export default {
 
     padding-bottom: 3rem;
     padding-top: 3rem;
+    padding-left: 13px;
     .main-book {
       line-height: 0;
       text-align: center;
@@ -670,6 +689,9 @@ export default {
   }
 
   /**********modal**********/
+  .interior{
+    margin-bottom: 2rem;
+  }
   .modal-window {
     position: fixed;
     background-color: rgb(0 0 0 / 57%);

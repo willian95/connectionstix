@@ -615,6 +615,10 @@ export default {
       .theme--light.v-image {
         width: 274px;
         height: 182px;
+         @include respond-to(xs) {
+          width: 163px;
+          height: 87px;
+         }
       }
     }
     .v-card__text {
@@ -709,5 +713,17 @@ export default {
  .main-card {
     padding-top: 3rem;
         margin-bottom: 5rem;
+ }
+   button:disabled {
+    background: #b9b9b9!important;
+}
+ .btn{
+ 
+background: #EF1856;
+    color: #fff;
+    min-width: auto;
+    border-radius: 9px!important;
+    padding: .5rem 2rem;
+    font-size: .7rem;
  }
 </style>
