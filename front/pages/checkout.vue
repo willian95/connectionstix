@@ -713,4 +713,16 @@ export default {
     padding-top: 3rem;
         margin-bottom: 5rem;
  }
+   button:disabled {
+    background: #b9b9b9!important;
+}
+ .btn{
+ 
+background: #EF1856;
+    color: #fff;
+    min-width: auto;
+    border-radius: 9px!important;
+    padding: .5rem 2rem;
+    font-size: .7rem;
+ }
 </style>

@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <button class="btn" :disabled="isDisabled" @click="update()">Update</button>
+           
             
             </v-card>
         </v-col>
@@ -72,6 +72,16 @@
                 />
             </v-card>
         </v-col>
+            <v-col class="section_check" cols="12" sm="12" md="12">
+               
+                  <v-text-field
+                    label="test"
+                    single-line
+                    outlined
+                    v-model="customer_first_name"
+                  ></v-text-field>
+                 <button class="btn" :disabled="isDisabled" @click="update()">Update</button>
+            </v-col>
         </v-row>
     </div>
 
@@ -185,3 +195,28 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.section_check {
+ display: flex;
+    padding: 8px !important;
+    align-items: center;
+      border-bottom: 1px solid #f7f7f7;
+    margin-top: 12px;
+
+    .v-input {
+margin-right: 17rem;
+    max-width: 200px;
+}
+ .v-input__control > .v-input__slot {
+  
+  min-height: 40px;
+}
+.v-text-field--outlined .v-label {
+    top: 10px;
+}
+.btn{
+    margin-top: -2rem;
+}
+    }
+</style>
