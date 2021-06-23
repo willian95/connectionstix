@@ -33,13 +33,13 @@ export class OrdersController {
 
     @Post('/add-item')
     async addItem(@Body() body){
-       
+        
         try{
             let endpoint ="/commerce/orders/"+body.request_number+"/items"
 
             let header = this.generalFunctionService.getHeader();
             const agent = this.generalFunctionService.getAgent()
-
+            
             let response = await this.httpService.post(process.env.API_URL+endpoint, {
 
                 product_id: body.product_id,
@@ -51,11 +51,11 @@ export class OrdersController {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
-        
+
             return response.data
 
         }catch(err){
-      
+            
             return err.response.data
 
         }  

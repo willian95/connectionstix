@@ -56,7 +56,7 @@
             <div
               class="main-min"
               v-for="(price, index) in pricing.prices"
-              :key="index"
+              :key="'price-'+index"
             >
               <div class="flex">
                 <p>
@@ -137,7 +137,7 @@
             <v-col class="line" cols="6" md="6">
               <h3 class="title-custom">Opening hours</h3>
               <ul>
-                <li v-for="(openingHour, index) in operationHours" :key="index">
+                <li v-for="(openingHour, index) in operationHours" :key="'open-'+index">
                   {{ openingHour.day }}:
                   <span
                     v-if="openingHour.open == null && openingHour.close == null"
@@ -171,7 +171,7 @@
               Highlights
             </h3>
             <ul>
-              <li v-for="(highlight, index) in highlights" :key="index">
+              <li v-for="(highlight, index) in highlights" :key="'highlight-'+index">
                 {{ highlight }}
               </li>
             </ul>
@@ -182,7 +182,7 @@
                 <div
                   class="item"
                   v-for="(inclusion, index) in inclusions"
-                  :key="index"
+                  :key="'inclusion-'+index"
                 >
                   <div>
                     <!--<img src="~assets/images/iconos/pet.png" alt="" />-->
@@ -193,7 +193,7 @@
                 <div
                   class="item"
                   v-for="(exclusion, index) in exclusions"
-                  :key="index"
+                  :key="'exclusion-'+index"
                 >
                   <div>
                     <!--<img src="~assets/images/iconos/wheelcair.png" alt="" />-->
@@ -206,7 +206,7 @@
                 <div
                   class="item"
                   v-for="(know, index) in knowBeforeYouGoChecklist"
-                  :key="index"
+                  :key="'know-'+index"
                 >
                   <div>
                     <img :src="know.icon" alt="" />
@@ -219,7 +219,7 @@
               <ul>
                 <li
                   v-for="(optional, index) in knowBeforeYouGoOptional"
-                  :key="index"
+                  :key="'optional-'+index"
                 >
                   {{ optional }}
                 </li>
@@ -382,6 +382,7 @@ export default {
 
       if(res.data.status){
         if(res.data.status.result_messages[0] != "OK"){
+     
           this.$swal({
             text:res.data.status.result_messages[0],
             icon:"error"
@@ -437,10 +438,18 @@ export default {
           this.$router.push("/checkout");
         });
       } else {
-        this.$swal({
-          text: res.data.status.result_messages[0],
-          icon: "error"
-        });
+
+        if(res.data.status.result_code == 1000){
+          window.localStorage.removeItem("orders");
+          this.getLocalStorageOrders()
+        }else{
+          this.$swal({
+            text: res.data.status.result_messages[0],
+            icon: "error"
+          });
+        }
+
+       
       }
     },
     formatPriceTypes() {

@@ -22,10 +22,6 @@ export default {
           "https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css"
       }
     ],
-    script: [
-      
-      
-    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

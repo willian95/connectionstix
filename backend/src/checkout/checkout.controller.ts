@@ -63,7 +63,7 @@ export class CheckoutController {
                 httpsAgent: agent
             }).toPromise()
         
-            return response.data.data
+            return response.data
 
         }catch(err){
 

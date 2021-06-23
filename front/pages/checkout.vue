@@ -119,6 +119,7 @@
                     single-line
                     outlined
                     v-model="phone"
+                    @keypress="isNumber($event)"
                   ></v-text-field>
                 </v-col>
 
@@ -169,6 +170,7 @@
                     single-line
                     outlined
                     v-model="postal_zip_code"
+                    @keypress="isNumber($event)"
                   ></v-text-field>
                 </v-col>
 
@@ -211,17 +213,13 @@
               <p>Payment Method</p>
               <v-row>
                 <v-col cols="12" sm="4" md="4">
-                  <v-radio-group v-model="radios" mandatory>
+                  <v-radio-group v-model="radios" mandatory v-show="showPayButton">
                     
                     <div class="radio-main" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-'+index">
                       {{ paymentProvider.payment_provider_name }}
                       <v-radio :key="'radioButton-'+index" :value="index" @click="getInfoFromSelectedPaymentProvider()"></v-radio>
                     </div>
 
-                    <!--<div class="radio-main">
-                      <img src="~assets/images/iconos/visa.png" alt="" />
-                      <v-radio label="" value="radio-2"></v-radio>
-                    </div>-->
                   </v-radio-group>
                 </v-col>
 
@@ -232,7 +230,19 @@
                   </div>
                 </v-col>
                 <v-col class="center"  cols="12" sm="4" md="4">
-                  <button class="btn" @click="checkout()">Proceed to Checkout</button>
+                  <button class="btn" @click="checkout()" v-if="selectedPaymentProvider.payment_provider_id != 4">Proceed to Checkout</button>
+     
+                  <button :disabled="payButtonDisabled" v-if="selectedPaymentProvider.payment_provider_id == 4" v-show="showPayButton" type="button"
+                      class="AcceptUI btn"
+                      data-billingAddressOptions='{"show":false, "required":false}' 
+                      :data-apiLoginID="selectedPaymentProvider.data.an_api_login_id" 
+                      :data-clientKey="selectedPaymentProvider.data.an_public_client_key"
+                      data-acceptUIFormBtnTxt="Submit"
+                      data-acceptUIFormHeaderTxt="Card Information"
+                      data-paymentOptions='{"showCreditCard": true, "showBankAccount": true}' 
+                      data-responseHandler="payResponse">Proceed to Authorize.net
+                  </button>
+          
                 </v-col>
               </v-row>
             </div>
@@ -246,11 +256,26 @@
     </div>
   </div>
 </template>
+
 <script>
 
 import Detail from "~/components/checkout/Detail";
 
 export default {
+  computed:{
+    payButtonDisabled(){
+
+      if(this.customer_first_name == "" || this.customer_last_name == "" || this.customer_email == "" || this.phone == "" || this.address_line1 == "" || this.address_line2 == "" || this.city == "" || this.province_state == "" || this.postal_zip_code == "" || this.country == ""){
+
+        return true
+
+      }
+
+      return false
+    
+
+    }
+  },
   data: () => ({
     
     order:"",
@@ -281,6 +306,8 @@ export default {
     ticket_delivery_method:"email",
     payment_data:"",
     discountCode:"",
+    showPayButton:false,
+    checkoutCount:0,
 
     slidesenvents: [
       {
@@ -308,6 +335,20 @@ export default {
   components:{Detail},
   methods:{
 
+    payResponse(response){
+        
+      this.payment_data = {
+        "opaque_data_descriptor" : response.opaqueData.dataDescriptor,
+        "opaque_data_value" : response.opaqueData.dataValue
+      }
+
+      if(this.checkoutCount == 0){
+        this.checkout()
+        this.checkoutCount++
+      }
+      
+
+    },
     async getItems(){
 
       if(process.browser){
@@ -336,13 +377,21 @@ export default {
         
       })
     },
+    isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+            evt.preventDefault();;
+        } else {
+            return true;
+        }
+    },
     async getCartCount(order){
 
       let res = await this.$axios.get("orders/item-count/"+order)
       return res.data.data.number_of_items
 
     },
-
     async remove(itemId){
 
       let res = await this.$axios.post("/orders/item-delete", {
@@ -381,7 +430,7 @@ export default {
         if(index == this.radios){
 
           this.selectedPaymentProvider = data
-
+          
         }
 
       })
@@ -432,8 +481,6 @@ export default {
         this.payment_data = {
           "order_id":this.order
         }
-      }else if(this.payment_provider_id == 4){
-       
       }else if(this.payment_provider_id == 0){
 
         this.payment_data = null
@@ -444,7 +491,26 @@ export default {
 
       let res = await this.$axios.post("checkout",request)
 
-      console.log(res)
+      if(res.data.status.result_messages[0] == "OK"){
+        this.$swal({
+          text:"Payment completed successfully",
+          icon:"success"
+        }).then(ans => {
+
+          localStorage.removeItem("orders")
+          this.$router.push("/")
+
+        })
+      }else{
+
+        this.$swal({
+          text: res.data.status.result_code[0],
+          icon:"error"
+        })
+
+        this.checkoutCount = 0;
+
+      }
 
 
     },
@@ -477,6 +543,25 @@ export default {
       
 
     },
+    loadLibraries(){
+      if(process.browser){
+
+        window.setTimeout(() => {
+          this.showPayButton = true
+          let recaptchaScript = document.createElement('script')
+          recaptchaScript.setAttribute('src', 'https://jstest.authorize.net/v1/Accept.js')
+          document.body.appendChild(recaptchaScript)
+
+          let acceptUi = document.createElement('script')
+          acceptUi.setAttribute('src', 'https://jstest.authorize.net/v3/AcceptUI.js')
+          document.body.appendChild(acceptUi)
+
+          window.payResponse = this.payResponse;
+
+        }, 5000)
+      }
+    }
+
 
   },
   async created(){
@@ -484,8 +569,15 @@ export default {
     if(this.order){
       this.getPaymentProviders()
     }
+  },
+  mounted(){
+
+    
+    this.loadLibraries()
+    
+
   }
-};
+}
 </script>
 
 <style lang="scss">
