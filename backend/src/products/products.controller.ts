@@ -158,18 +158,18 @@ export class ProductsController {
             let response = await this.httpService.post(process.env.API_URL+endpoint,{
                 from_date: body.from_date.toString().substring(0, 10), 
                 to_date: body.to_date.toString().substring(0, 10), 
-                price_types: body.price_types
+                price_types: body.price_types,
+                only_available: true
             },{
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
 
-            console.log(response.status)
+            return response.data
 
         }catch(err){
 
-            console.log(err)
-            return err.response
+            return err.response.data
 
         }  
 

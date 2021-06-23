@@ -55,9 +55,9 @@ export class CheckoutController {
                     "payment_data" : { 
                         "payment_provider_id" : body.payment_provider_id,
                         "data" : body.payment_data 
-                    },
-                    "delivery_method" : body.ticket_delivery_method   
-                }
+                    },   
+                },
+                "delivery_method" : body.ticket_delivery_method
             },{
                 headers:header,
                 httpsAgent: agent

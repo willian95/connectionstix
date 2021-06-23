@@ -3,24 +3,36 @@
     <v-row no-gutters>
       <v-col cols="12" md="4">
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
-          <div>
-            <div class="interior">
-              <button class="btn" @click="showDatesModal()">Dame clic</button>
-            </div>
-          </div>
+          
           <div id="open-modal" :class="'modal-window open-modal '+modalClass">
-            <div>
-              <v-data-table
-                v-model="selected"
-                :headers="headers"
-                :items="desserts"
-                item-key="dates"
-                show-select
-                class="elevation-1"
-              >
-              </v-data-table>
+            <div style="height: 350px; overflow: auto">
+              <table style="width: 100%">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>From datetime</th>
+                    <th>To datetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(date, index) in availableDates" :key="'date-'+index">
+                    <td>
+                      <v-radio-group
+                        v-model="selectedAvailableDate"
+                        name="rowSelector">
+                        <v-radio :value="index"/>
+                      </v-radio-group>
+                    </td>
+                    <td>{{ date.from_datetime.substring(0, 10) }}</td>
+                    <td>{{ date.to_datetime.substring(0, 10) }}</td>
+                  </tr>
+                </tbody>
+              </table>
 
               <button title="Close" class="modal-close" @click="closeDatesModal()">x</button>
+            </div>
+            <div>
+              <button class="btn" @click="chooseDate()">Choose date</button>
             </div>
           </div>
 
@@ -86,7 +98,7 @@
               </p>
             </div>
             <button
-              :disabled="total == 0"
+              
               href=""
               class="btn"
               @click="bookNow()"
@@ -256,36 +268,14 @@ export default {
       date_today: new Date(),
       next_date:"",
       modalClass:"custom-modal-close",
-
+      selectedAvailableDate:"",
+      fromDate:"",
+      toDate:"",
       headers: [
-        
-        {
-          sortable: false,
-          text: "Date",
-          value: "dates"
-        },
-
-        { text: "Time", value: "time",  sortable: false },
-        { text: "From", value: "from",sortable: false  },
-        { text: "To", value: "to",sortable: false  },
-        { text: "Price", value: "price",sortable: false  }
+        { text: "From", value: "from_datetime",sortable: false  },
+        { text: "To", value: "to_datetime",sortable: false  },
       ],
-      desserts: [
-        {
-          dates: "2021/11/22",
-          time: "2:00 PM",
-          from: "Toronto, ON",
-          to: "Montereal",
-          price: "$ 20,00 (Flat rate)"
-        },
-        {
-          dates: "2021/11/22",
-          time: "2:00 PM",
-          from: "Toronto, ON",
-          to: "Montereal",
-          price: "$ 20,00 (Flat rate)"
-        }
-      ]
+      availableDates: []
     };
   },
   methods: {
@@ -298,6 +288,23 @@ export default {
       }
 
       this.getTotal();
+    },
+    chooseDate(){
+
+      if(this.selectedAvailableDate != ""){
+        this.closeDatesModal()
+        this.fromDate = this.availableDates[this.selectedAvailableDate].from_datetime
+        this.toDate = this.availableDates[this.selectedAvailableDate].to_datetime
+        this.getLocalStorageOrders()
+      }else{
+
+        this.$swal({
+          text:"You have to choose a date",
+          icon: "error"
+        })
+
+      }
+
     },
     showDatesModal(){
      
@@ -373,7 +380,20 @@ export default {
         price_types: this.priceTypes
       });
 
-      console.log(res)
+      if(res.data.status){
+        if(res.data.status.result_messages[0] != "OK"){
+          this.$swal({
+            text:res.data.status.result_messages[0],
+            icon:"error"
+          })
+        }else{
+          
+          this.availableDates = res.data.data.availability
+          this.showDatesModal()
+
+        }
+      }
+      
 
     },
     async getLocalStorageOrders() {
@@ -393,19 +413,13 @@ export default {
     },
     async addItem(order) {
       this.formatPriceTypes();
-      let fromDate = "";
-      let toDate = "";
-
-      if (this.checkAvailability) {
-        fromDate = this.date_today;
-      }
 
       let res = await this.$axios.post("orders/add-item", {
         request_number: order,
         product_id: this.productId,
         price_types: this.priceTypes,
-        from_datetime: fromDate,
-        to_datetime: ""
+        from_datetime: this.fromDate,
+        to_datetime: this.toDate
       });
 
       if (res.data.status.result_messages[0] == "OK") {

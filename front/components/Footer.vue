@@ -1,5 +1,5 @@
 <template>
-  <footer class="">
+  <footer class="" id="footer">
     <div class="row ">
       <div class="container">
         <div class="content-footer">
@@ -117,7 +117,14 @@
 export default {
   data: () => ({
     icons: ["mdi-instagram", "mdi-facebook", "mdi-twitter", "mdi-linkedin"]
-  })
+  }),
+  created(){
+    if(process.browser){
+      let color = localStorage.getItem("color")
+      console.log("color", color)
+      document.getElementById("footer").style.background = color;
+    } 
+  }
 };
 </script>
 <style lang="scss">

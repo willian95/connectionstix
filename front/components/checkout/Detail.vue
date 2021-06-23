@@ -78,9 +78,10 @@
                     label="test"
                     single-line
                     outlined
-                    v-model="customer_first_name"
+                    v-model="discountCode"
+                    v-if="discountEnabled"
                   ></v-text-field>
-                 <button class="btn" :disabled="isDisabled" @click="update()">Update</button>
+                 <button class="btn" :disabled="isDisabled && discountCode == ''" @click="update()">Update</button>
             </v-col>
         </v-row>
     </div>
@@ -90,14 +91,15 @@
 <script>
 export default {
 
-    props:["productName", "thumbnail", "prices", "remove", "itemId", "currencyCode", "currencySymbol", "order", "getItems"],
+    props:["productName", "thumbnail", "prices", "remove", "itemId", "currencyCode", "currencySymbol", "order", "getItems", "discountEnabled"],
     data(){
         return{
             total:0,
             amounts:[],
             priceTypes:[],
             oldAmounts:[],
-            isDisabled:true
+            isDisabled:true,
+            discountCode:""
         }
     },
     methods: {
@@ -140,6 +142,51 @@ export default {
 
         },
         async update(){
+            let discountResponse = true
+            let updateResponse = true
+
+            if(this.discountCode != ""){
+                discountResponse = await this.setDiscountCode()
+            }
+
+            if(!this.isDisabled){
+                updateResponse = await this.updateAmounts()
+            }
+
+            if(discountResponse && updateResponse){
+
+                this.$swal({
+                    text:"Item updated",
+                    icon: "success"
+                }).then(ans => {
+                    this.discountCode = ""
+                    this.getItems()
+
+                })
+
+            }
+
+        },
+        async setDiscountCode(){
+
+            let res = await this.$axios.post("orders/discount-item",{
+                "order_number": this.order,
+                "item_id": this.itemId,
+            })
+
+            if(res.data.status.result_messages[0] != "OK"){
+
+                this.$swal({
+                    text:res.data.status.result_messages[0],
+                    icon: "error"
+                })
+                return false
+            }
+
+            return true
+
+        },
+        async updateAmounts(){
 
             this.formatPriceTypes()
 
@@ -149,23 +196,18 @@ export default {
                 "price_types": this.priceTypes
             })
 
-            if(res.data.status.result_messages[0] == "OK"){
-                this.$swal({
-                    text:"Product updated",
-                    icon: "success"
-                }).then(ans =>{
-                    
-                    this.getItems()
-
-                })
-            }else{
+            if(res.data.status.result_messages[0] != "OK"){
 
                 this.$swal({
                     text:res.data.status.result_messages[0],
                     icon: "error"
                 })
 
+                return false
+
             }
+
+            return true
 
         },
         formatPriceTypes(){

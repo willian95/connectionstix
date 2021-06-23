@@ -7,7 +7,7 @@ import { Colors } from './entities/color.entity';
 @Injectable()
 export class ColorsService {
 
-  constructor(@InjectRepository(Colors) private colorRepository: Repository<Colors>) {}
+  constructor(@InjectRepository(Colors) public colorRepository: Repository<Colors>) {}
 
   async createColor(color: Colors) {
 

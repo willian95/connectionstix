@@ -3,21 +3,17 @@
     <div>
       <Navbar />
       <!---    <Logo />-->
-      <Banner :getFilteredProducts="getFilteredProducts" />
+      <Banner :getFilteredProducts="getFilteredProducts" :backImage="backImage"/>
       <div class="content-mix mt-12">
         <div class="row">
           <div class="col-md-12 ">
             <ul class="list-unstyled mb-0">
-              <li class="mb-3" v-for="(tag, index) in tagList" :key="index">
+              <li class="mb-3" v-for="(tag, index) in tagList" :key="'tag-'+index">
                 <div>
                   <img class="img-icon" :src="tag.icon" alt="" />
                 </div>
                 <div
                   class="cursore-pointer"
-                  :class="[
-                    key === filterOption ? 'text-success' : 'text-white'
-                  ]"
-                  @click="getProductsByTag(tag.tag_id)"
                 >
                   {{ tag.name }}
                 </div>
@@ -29,11 +25,11 @@
               <div></div>
               <p class="title-mix">See all</p>
               <no-ssr>
-                <isotope class="mix-grid" ref="projects" :list="projects">
+                <isotope class="mix-grid" ref="projects" :list="projects" :options="{}">
                   <div
                     class="text-white thumbnail "
                     v-for="(item, index) in projects"
-                    :key="index"
+                    :key="'projects-'+index"
                   >
                     <div class="cursore-pointer d-block pos-r p-1">
                       <img class="w-100" :src="item.thumbnail" />
@@ -44,7 +40,7 @@
                           <h3>{{ item.product_name }}</h3>
                           <p
                             v-for="(price, index) in item.pricing.prices"
-                            v-bind:key="index"
+                            v-bind:key="'item-'+index"
                           >
                             {{ item.pricing.currency_symbol }}
                             {{ price.current_price }}
@@ -81,18 +77,7 @@ export default {
     return {
       filterOption: "See All",
       tagList: [],
-      option: {
-        getFilterData: {
-          /*"See All"() {
-            return true;
-          },
-          " Hop on/ Hop off"(itemElem) {
-            return itemElem.categories
-              .map(x => x === "Hop on/ Hop off")
-              .includes(true);
-          },*/
-        }
-      },
+      backImage:'/banner.png',
 
       projects: []
     };
@@ -138,11 +123,40 @@ export default {
     async getTags() {
       let res = await this.$axios.get("tags/all");
       this.tagList = res.data;
+    },
+    async getConfig(){
+
+      let resColor = await this.$axios.get("colors/1")
+      
+
+    },
+    async getColor(){
+
+      let resColor = await this.$axios.get("colors/1")
+      
+      if(resColor.data[0].color){
+        if(process.browser){
+          localStorage.setItem("color", resColor.data[0].color)
+        }
+      }
+
+    },
+    async getImage(){
+
+      let resHero = await this.$axios.get("hero/1")
+      
+      if(resHero.data[0].image){
+        this.backImage = process.env.SERVER_URL+resHero.data[0].image
+      }
+      
     }
   },
   created() {
     this.getTags();
     this.getAllProducts();
+    this.getConfig()
+    this.getImage()
+    this.getColor()
   }
 };
 </script>

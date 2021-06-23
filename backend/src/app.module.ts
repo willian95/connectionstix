@@ -1,6 +1,10 @@
 import { Module, HttpModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { MulterModule } from '@nestjs/platform-express';
+import { ServeStaticModule } from '@nestjs/serve-static';
+
+import { join } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -17,6 +21,9 @@ import { OrdersController } from './orders/orders.controller';
 import { ConnectionTestController } from './connection-test/connection-test.controller';
 import { CheckoutController } from './checkout/checkout.controller';
 import { ColorsModule } from './cms/colors/colors.module';
+import { FilesController } from './cms/files/files.controller';
+import { HeroModule } from './cms/hero/hero.module';
+
 
 @Module({
   imports: [ConfigModule.forRoot(), HttpModule, TypeOrmModule.forRoot({
@@ -28,8 +35,17 @@ import { ColorsModule } from './cms/colors/colors.module';
     "database": "connectionstix",
     "autoLoadEntities": true,
     "synchronize": true
-}), ColorsModule],
-  controllers: [AppController, ProductsController, CountriesController, TagsController, ProvincesController, CitiesController, OrdersController, ConnectionTestController, CheckoutController],
+  }),
+  MulterModule.register({
+    dest: './uploads',
+  }),
+  ServeStaticModule.forRoot({
+    rootPath: join(__dirname, 'uploads'),
+  }),
+  ColorsModule,
+  HeroModule,
+  ConfigModule],
+  controllers: [AppController, ProductsController, CountriesController, TagsController, ProvincesController, CitiesController, OrdersController, ConnectionTestController, CheckoutController, FilesController],
   providers: [AppService, GeneralFunctionService, ProductsService, CountriesService],
 })
 export class AppModule {}

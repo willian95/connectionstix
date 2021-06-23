@@ -16,7 +16,7 @@
           >
           <v-expansion-panel-content>
             <div v-for="item in items" :key="item.item_id">
-              <Detail :thumbnail="item.thumbnail" :itemId="item.item_id" :prices="item.pricing.price_types" :productName="item.product_name" :currencySymbol="currencySymbol" :currencyCode="currencyCode" :remove="remove" :order="order" :getItems="getItems"/>
+              <Detail :thumbnail="item.thumbnail" :itemId="item.item_id" :prices="item.pricing.price_types" :productName="item.product_name" :currencySymbol="currencySymbol" :currencyCode="currencyCode" :remove="remove" :order="order" :getItems="getItems" :discountEnabled="item.pricing.discounts_enabled"/>
             </div>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -83,7 +83,7 @@
           >
           <v-expansion-panel-content class="main-card">
             <template v-if="selectedPaymentProvider != ''">
-              <v-row v-if="selectedPaymentProvider.prompt_billing_address == true">
+              <v-row>
                 <v-col cols="12" sm="1" md="3">
                   <label for="">First name</label>
                   <v-text-field
@@ -188,6 +188,22 @@
                   <label for="">Ticket delivery</label>
                   <v-select :items="deliveryMethods" solo v-model="ticket_delivery_method"></v-select>
                 </v-col>
+
+                
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">Discount code</label>
+                  <v-text-field
+                    label="1234 5678 9012 3456"
+                    single-line
+                    outlined
+                    v-model="discountCode"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="1" md="3">
+                  <button class="btn btn-success" @click="setDiscountCode()">update order</button>
+                </v-col>
               </v-row>
             </template>
             
@@ -264,6 +280,7 @@ export default {
     deliveryMethods:["text", "email"],
     ticket_delivery_method:"email",
     payment_data:"",
+    discountCode:"",
 
     slidesenvents: [
       {
@@ -312,7 +329,11 @@ export default {
     getTotal(){
       this.total = 0
       this.items.forEach(data => {
-        this.total = this.total + (data.pricing.price_types[0].current_price * data.pricing.price_types[0].quantity)
+  
+        data.pricing.price_types.forEach(prices => {
+          this.total = this.total + (prices.current_price * prices.quantity)
+        })
+        
       })
     },
     async getCartCount(order){
@@ -328,6 +349,8 @@ export default {
         "request_number": this.order,
         "item_id": itemId
       })
+
+      var _this = this
 
       if(res.data.status.result_messages[0] == "OK"){
 
@@ -374,6 +397,33 @@ export default {
       this.getInfoFromSelectedPaymentProvider()
 
     },
+    setFields(){
+
+      let request = null
+      
+
+        request = {
+          customer_first_name:this.customer_first_name,
+          customer_last_name:this.customer_last_name,
+          customer_email:this.customer_email,
+          phone:this.phone,
+          address_line1:this.address_line1,
+          address_line2:this.address_line2,
+          city:this.city,
+          province_state:this.province_state,
+          postal_zip_code:this.postal_zip_code,
+          country:this.country,
+          order_number:this.order,
+          payment_provider_id:this.payment_provider_id,
+          payment_data:this.payment_data,
+          ticket_delivery_method:this.ticket_delivery_method
+        }
+
+      
+
+      return request
+
+    },
     async checkout(){
 
       this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id
@@ -384,31 +434,49 @@ export default {
         }
       }else if(this.payment_provider_id == 4){
        
+      }else if(this.payment_provider_id == 0){
+
+        this.payment_data = null
+
       }
 
-      let res = await this.$axios.post("checkout",{
+      let request = this.setFields()
 
-        customer_first_name:this.customer_first_name,
-        customer_last_name:this.customer_last_name,
-        customer_email:this.customer_email,
-        phone:this.phone,
-        address_line1:this.address_line1,
-        address_line2:this.address_line2,
-        city:this.city,
-        province_state:this.province_state,
-        postal_zip_code:this.postal_zip_code,
-        country:this.country,
-        order_number:this.order,
-        payment_provider_id:this.payment_provider_id,
-        payment_data:this.payment_data,
-        ticket_delivery_method:this.ticket_delivery_method
-
-      })
+      let res = await this.$axios.post("checkout",request)
 
       console.log(res)
 
 
-    }
+    },
+    async setDiscountCode(){
+
+      let res = await this.$axios.post("orders/discount-order",{
+          "order_number": this.order,
+          "discount_code": this.discountCode
+      })
+
+      if(res.data.status.result_messages[0] != "OK"){
+
+          this.$swal({
+              text:res.data.status.result_messages[0],
+              icon: "error"
+          })
+   
+      }else{
+
+        this.$swal({
+          text:res.data.status.result_messages[0],
+          icon: "success"
+        }).then(ans => {
+
+          this.getItems()
+
+        })
+      }
+
+      
+
+    },
 
   },
   async created(){

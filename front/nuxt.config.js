@@ -1,4 +1,5 @@
 const webpack = require("webpack");
+require('dotenv').config()
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -46,7 +47,8 @@ export default {
   buildModules: [
     // Simple usage
     '@nuxtjs/vuetify',
-    'vue-sweetalert2/nuxt'
+    'vue-sweetalert2/nuxt',
+    '@nuxtjs/dotenv',
    
   ],
   styleResources: {

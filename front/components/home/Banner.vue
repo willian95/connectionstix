@@ -1,6 +1,6 @@
 <template>
   <div class="banner">
-    <img class="background" src="~assets/images/banner.png" alt="" />
+    <img class="background" :src="backImage" alt="" />
     <div class="banner__content">
       <img src="~assets/images/logo_color.png" alt="" />
       <h2>Book now!</h2>
@@ -24,7 +24,7 @@
           </v-col>
         </v-row>
         <div class="center">
-          <button class="btn" @click="getFilteredProducts(country, state, city)">
+          <button class="btn" @click="getFilteredProducts(country, state, city)" id="goBtn">
             Go
           </button>
         </div>
@@ -35,14 +35,15 @@
 
 <script>
 export default {
-  props:['getFilteredProducts'],
+  props:['getFilteredProducts', 'backImage'],
   data: () => ({
     countries: [],
     states: [],
     cities: [],
     country:"",
     state:"",
-    city:""
+    city:"",
+    image:""
   }),
   methods:{
 
@@ -70,9 +71,15 @@ export default {
     }
 
   },
-  created(){
+  mounted(){
     this.getCountries()
+    if(process.browser){
+      let color = localStorage.getItem("color")
+      
+      document.getElementById("goBtn").style.background = color;
+    }    
   }
+
 };
 </script>
 
