@@ -73,12 +73,12 @@
                 >
               </div>
               <div class="content-mx">
-                <div class="style-btn" @click="substract(price.price_type_id)">
+                <div class="style-btn change-color" @click="substract(price.price_type_id)">
                   -
                 </div>
                 <p v-if="prices.length > 0">{{ prices[index].amount }}</p>
                 <div
-                  class="style-btn"
+                  class="style-btn change-color"
                   @click="add(price.price_type_id, price.current_price)"
                 >
                   +
@@ -100,7 +100,7 @@
             <button
               
               href=""
-              class="btn"
+              class="btn change-color"
               @click="bookNow()"
             >
               Book now
@@ -473,10 +473,28 @@ export default {
           price: data.current_price
         });
       });
+
+      setTimeout(() => {
+        if(process.browser){
+          let color = localStorage.getItem("color")
+          
+          $(".change-color").css("background", color)
+        }
+      }, 1000)
+
     },
     nextDateAvailable: function(newVal, oldVal) {
       this.next_date = newVal;
     }
+  },
+  mounted(){
+
+    if(process.browser){
+      let color = localStorage.getItem("color")
+      
+      $(".change-color").css("background", color)
+    }  
+
   }
 };
 </script>

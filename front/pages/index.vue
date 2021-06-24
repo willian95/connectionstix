@@ -126,27 +126,23 @@ export default {
     },
     async getConfig(){
 
-      let resColor = await this.$axios.get("colors/1")
-      
+      let config = await this.$axios.get("configcms")
 
-    },
-    async getColor(){
+      if(config.data.hero){
+        this.backImage = process.env.SERVER_URL+config.data.hero
+      }
 
-      let resColor = await this.$axios.get("colors/1")
+      if(config.data.logo){
       
-      if(resColor.data[0].color){
         if(process.browser){
-          localStorage.setItem("color", resColor.data[0].color)
+          localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
         }
       }
 
-    },
-    async getImage(){
-
-      let resHero = await this.$axios.get("hero/1")
-      
-      if(resHero.data[0].image){
-        this.backImage = process.env.SERVER_URL+resHero.data[0].image
+      if(config.data[0].color){
+        if(process.browser){
+          localStorage.setItem("color", config.data.color)
+        }
       }
       
     }
@@ -155,8 +151,6 @@ export default {
     this.getTags();
     this.getAllProducts();
     this.getConfig()
-    this.getImage()
-    this.getColor()
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <header class="header-2">
+  <header class="header-2 change-color">
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
     <div class="dflex-sec">
            <nuxt-link :to="{ path: '/'}"><img class="brand" src="~assets/images/logo_w.png" alt="" /></nuxt-link>
@@ -20,7 +20,42 @@ export default {
   data: () => ({
     language: ["ENGLISH", "SPANISH"],
     currency: ["US", "CAD"]
-  })
+  }),
+  computed: {
+      numberItems () {
+          return this.$store.getters["getCartAmount"] != 0 ? this.$store.getters["getCartAmount"].amount : 0
+      }
+  },
+  methods:{
+
+    async getCartCount(order){
+
+      let res = await this.$axios.get("orders/item-count/"+order)
+      return res.data.data.number_of_items
+
+    },
+     async getLocalStorageOrders(){
+
+      if(process.browser){
+
+        let order = window.localStorage.getItem("orders")
+        let numberItems = await this.getCartCount(order)
+        await this.$store.dispatch("storeCartAmount", {amount: numberItems})
+
+      }
+
+    },
+
+  },
+  mounted(){
+    this.getLocalStorageOrders()
+    if(process.browser){
+      let color = localStorage.getItem("color")
+      
+      $(".change-color").css("background", color)
+    }  
+
+  }
 };
 </script>
 

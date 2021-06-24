@@ -20,21 +20,28 @@ import { CitiesController } from './cities/cities.controller';
 import { OrdersController } from './orders/orders.controller';
 import { ConnectionTestController } from './connection-test/connection-test.controller';
 import { CheckoutController } from './checkout/checkout.controller';
-import { ColorsModule } from './cms/colors/colors.module';
 import { FilesController } from './cms/files/files.controller';
-import { HeroModule } from './cms/hero/hero.module';
+import { UsersModule } from './users/users.module';
+import { ConfigcmsModule } from './cms/configcms/configcms.module';
+
+import { User } from './users/user.entity';
+import { Configcms } from './cms/configcms/configcms.entity';
+import { AuthModule } from './auth/auth.module';
+
+
+const entities = [User, Configcms];
 
 
 @Module({
   imports: [ConfigModule.forRoot(), HttpModule, TypeOrmModule.forRoot({
-    "type": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "username": "root",
-    "password": "",
-    "database": "connectionstix",
-    "autoLoadEntities": true,
-    "synchronize": true
+    type: process.env.DB_TYPE as any,
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT),
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    entities: entities,
+    synchronize: true,
   }),
   MulterModule.register({
     dest: './uploads',
@@ -42,9 +49,10 @@ import { HeroModule } from './cms/hero/hero.module';
   ServeStaticModule.forRoot({
     rootPath: join(__dirname, 'uploads'),
   }),
-  ColorsModule,
-  HeroModule,
-  ConfigModule],
+  ConfigModule,
+  UsersModule,
+  ConfigcmsModule,
+  AuthModule],
   controllers: [AppController, ProductsController, CountriesController, TagsController, ProvincesController, CitiesController, OrdersController, ConnectionTestController, CheckoutController, FilesController],
   providers: [AppService, GeneralFunctionService, ProductsService, CountriesService],
 })

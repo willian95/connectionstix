@@ -2,15 +2,12 @@
   <header>
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
     <div class="dflex-sec">
-      <nuxt-link :to="{ path: '/'}"><img class="brand" src="~assets/images/logo_w.png" alt="" /></nuxt-link>
+      <nuxt-link :to="{ path: '/'}"><img class="brand" :src="logo" alt="" /></nuxt-link>
       <div class="select-language">
         <v-col class="d-flex" cols="12" sm="4">
           <v-select :items="language" label="English" solo></v-select>
         </v-col>
 
-        <v-col class="d-flex" cols="12" sm="4">
-          <v-select :items="currency" label="US/CAD" solo></v-select>
-        </v-col>
       </div>
     </div>
     <div>
@@ -27,13 +24,11 @@ export default {
   computed: {
       numberItems () {
           return this.$store.getters["getCartAmount"] != 0 ? this.$store.getters["getCartAmount"].amount : 0
-      // Or return basket.getters.fruitsCount
-      // (depends on your design decisions).
       }
   },
   data: () => ({
     language: ["ENGLISH", "SPANISH"],
-    currency: ["US", "CAD"]
+    logo:""
   }),
   methods:{
     async getCartCount(order){
@@ -44,19 +39,27 @@ export default {
     },
      async getLocalStorageOrders(){
 
-        if(process.browser){
+      if(process.browser){
 
-          let order = window.localStorage.getItem("orders")
-          let numberItems = await this.getCartCount(order)
-          await this.$store.dispatch("storeCartAmount", {amount: numberItems})
+        let order = window.localStorage.getItem("orders")
+        let numberItems = await this.getCartCount(order)
+        await this.$store.dispatch("storeCartAmount", {amount: numberItems})
 
-        }
+      }
 
-      },
+    },
+    async getLogo(){
+
+      if(process.browser){
+        this.logo = window.localStorage.getItem("logo")
+      }
+
+    }
   },
-  created(){
+  mounted(){
 
     this.getLocalStorageOrders()
+    this.getLogo()
 
   }
 };
