@@ -5,51 +5,56 @@
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
           
           <div id="open-modal" :class="'modal-window open-modal '+modalClass">
-            <div style="height: 350px; overflow: auto">
+            <div  class="modal-table" >
               <table style="width: 100%">
                 <thead>
                   <tr>
-                    <th></th>
-                    <th>From datetime</th>
-                    <th>To datetime</th>
+                    <th class="th-start">From datetime</th>
+                    <th class="th-start">To datetime</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(date, index) in availableDates" :key="'date-'+index">
-                    <td>
-                      <v-radio-group
+                 
+                    <td class="td-flex"> <v-radio-group
                         v-model="selectedAvailableDate"
                         name="rowSelector">
                         <v-radio :value="index"/>
-                      </v-radio-group>
-                    </td>
-                    <td>{{ date.from_datetime.substring(0, 10) }}</td>
+                      </v-radio-group> 
+                      {{ date.from_datetime.substring(0, 10) }}</td>
                     <td>{{ date.to_datetime.substring(0, 10) }}</td>
                   </tr>
                 </tbody>
               </table>
 
               <button title="Close" class="modal-close" @click="closeDatesModal()">x</button>
+              <div class="btn-modal">
+                  <button class="btn" @click="chooseDate()">Choose date</button>
+              </div>
             </div>
-            <div>
-              <button class="btn" @click="chooseDate()">Choose date</button>
-            </div>
+         
+            
+           
           </div>
 
           <div>
             <div v-if="checkAvailability">
               <client-only>
-                <date-picker
+              <div class="date-custom">
+                  <date-picker
                   placeholder="MM/DD/YYYY"
                   format="MM/dd/yyyy"
                   v-model="date_today"
                 />
+              </div>
 
-                <date-picker
+               <div class="date-custom">
+                  <date-picker
                   placeholder="MM/DD/YYYY"
                   format="MM/dd/yyyy"
                   v-model="next_date"
                 />
+               </div>
               </client-only>
             </div>
 
@@ -643,6 +648,7 @@ display: grid;
     .content-mx {
       display: flex;
       margin-left: 1.4rem;
+          gap: 1rem;
 
       p {
         margin: 0 0.8rem;
@@ -730,8 +736,8 @@ display: grid;
     opacity: 1;
     pointer-events: auto;
   }
-  .modal-window > div {
-    width: 900px;
+  .modal-window .modal-table{
+    width: 700px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -803,8 +809,47 @@ display: grid;
     color: #000;
     font-size: 1.2rem;
 }
+
 }
 
+
+
+.date-custom{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+ & input{
+   border: 1px solid #06060652;
+    border-radius: 7px;
+    text-align: center;
+    max-width: 150px;
+    padding: .4rem 0;
+ }
+
+}
+.modal-table{
+     max-height: 400px;
+    overflow: auto;
+  .td-flex{
+        display: flex;
+    align-items: center;
+        height: 4rem;
+  }
+  .v-input--selection-controls {
+    margin-top: 24px;
+   
+    margin-right: 18px;
+}
+tr{
+  display: flex;
+    justify-content: space-around;
+}
+thead{
+  background: #ef1856;
+    color: #fff;
+    border-top-right-radius: 10px;
+}
+}
 .custom-modal-open{
     visibility: visible;
     opacity: 1;
@@ -813,4 +858,15 @@ display: grid;
 .custom-modal-close{
   display: none;
 }
+ .th-start{
+    text-align: start;
+  }
+  .btn-modal
+      {
+        margin-top: 2rem;
+    text-align: center;
+    .btn{
+      padding: .5rem 1.5rem;
+    }
+  }
 </style>

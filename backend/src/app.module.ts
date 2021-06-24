@@ -31,7 +31,7 @@ import { HeroModule } from './cms/hero/hero.module';
     "host": "localhost",
     "port": 3306,
     "username": "root",
-    "password": "",
+    "password": "root",
     "database": "connectionstix",
     "autoLoadEntities": true,
     "synchronize": true

@@ -72,6 +72,10 @@ body,html{
 .v-slide-group.v-item-group > .v-slide-group__next, .v-slide-group.v-item-group > .v-slide-group__prev {
   display: none;
 }
+.v-input--radio-group__input {
+
+  display: block;
+}
 }
 
 .nav-link{
