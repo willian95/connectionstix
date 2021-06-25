@@ -158,6 +158,9 @@ export default {
     img {
       height: 84vh;
       object-fit: cover;
+         @include respond-to(xs) {
+height: 30vh;
+         }
     }
 
     p {
@@ -176,6 +179,9 @@ export default {
     width: 100%;
     height: 84vh;
     position: absolute;
+     @include respond-to(xs) {
+height: 30vh;
+         }
   }
   .v-slide-group__content {
     gap: 20px;

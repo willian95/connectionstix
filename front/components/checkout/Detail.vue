@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-           
+             <button class="btn" :disabled="isDisabled && discountCode == ''" @click="update()">Update</button>
             
             </v-card>
         </v-col>
@@ -72,17 +72,22 @@
                 />
             </v-card>
         </v-col>
-            <v-col class="section_check" cols="12" sm="12" md="12">
+        <!---     <v-col class="section_check" cols="12" sm="12" md="12">
                
-                  <v-text-field
+                 <v-text-field
                     label="test"
                     single-line
                     outlined
                     v-model="discountCode"
                     v-if="discountEnabled"
                   ></v-text-field>
+<<<<<<< HEAD
+                 <button class="btn" :disabled="isDisabled && discountCode == ''" @click="update()">Update</button>
+            </v-col>--->
+=======
                  <button class="btn change-color" :disabled="isDisabled && discountCode == ''" @click="update()">Update</button>
             </v-col>
+>>>>>>> 4bbe28098a861ecbdd996a6a1cf54230effe8ff7
         </v-row>
     </div>
 
@@ -252,10 +257,18 @@ export default {
     align-items: center;
       border-bottom: 1px solid #f7f7f7;
     margin-top: 12px;
+    justify-content: space-between;
+    @include respond-to(xs) {
+display: block;
+    }
 
     .v-input {
-margin-right: 17rem;
-    max-width: 200px;
+
+    max-width: 300px;
+     @include respond-to(xs) {
+margin-right: 0;
+    max-width: 100%;
+     }
 }
  .v-input__control > .v-input__slot {
   

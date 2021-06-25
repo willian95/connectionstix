@@ -8,7 +8,7 @@
       <span> < 5 years kids/Free of charge*</span>
       <!------------------------------------>
       <v-container class="content-choose">
-        <v-row no-gutters>
+        <v-row >
           <v-col class="d-flex" cols="12" sm="4">
             <label for="">Choose country</label>
             <v-select v-model="country" :items="countries" label="Select..." item-text="country_code" solo @change="getStates()"></v-select>

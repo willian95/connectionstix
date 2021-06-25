@@ -590,6 +590,9 @@ export default {
   margin-top: 5rem;
   margin-bottom: 5rem;
   padding: 0 6rem;
+   @include respond-to(xs) {
+    padding: 0 .5rem;
+   }
 
   .v-card {
     border: none;
@@ -645,14 +648,22 @@ export default {
       height: 150px;
       width: 300px;
       object-fit: cover;
+       @include respond-to(xs) {
+          width: 100%;
+       }
     }
   }
 
   .content-panel {
     margin-top: 3rem;
-
+ @include respond-to(xs) {
+    text-align: center;
+ }
     .flex {
       display: flex;
+        @include respond-to(xs) {
+justify-content: center;
+        }
     }
 
     .txt-panel {
@@ -671,6 +682,9 @@ export default {
       display: grid;
       margin-bottom: 1rem;
       grid-template-columns: 1fr 1fr;
+        @include respond-to(xs) {
+grid-template-columns: 1fr;
+        }
 
       img {
         width: 25px;
@@ -682,6 +696,11 @@ export default {
       .content-mx {
         display: flex;
         margin-left: 1.4rem;
+        @include respond-to(xs) {
+align-items: center;
+    justify-content: center;
+        margin-left: 0;
+        }
 
         p {
           margin: 0 0.8rem;
