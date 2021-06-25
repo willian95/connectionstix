@@ -5,13 +5,13 @@
       <nuxt-link :to="{ path: '/'}"><img class="brand" :src="logo" alt="" /></nuxt-link>
       <div class="select-language">
         <v-col class="d-flex" cols="12" sm="4">
-          <v-select :items="language" label="English" solo></v-select>
+          <v-select :items="languages" solo v-model="language" @change="changeLanguage()"></v-select>
         </v-col>
 
       </div>
     </div>
     <div>
-      <NuxtLink class="nav-link" :to="{ path: '/checkout'}">
+      <NuxtLink class="nav-link" :to="localePath('/checkout')">
       <img src="~assets/images/iconos/cart.png" alt="">
       <p>{{ numberItems }}</p>
       </NuxtLink>
@@ -27,7 +27,8 @@ export default {
       }
   },
   data: () => ({
-    language: ["ENGLISH", "SPANISH"],
+    languages: ["en", "es"],
+    language:"",
     logo:""
   }),
   methods:{
@@ -54,12 +55,18 @@ export default {
         this.logo = window.localStorage.getItem("logo")
       }
 
+    },
+    changeLanguage(){
+
+      this.$i18n.setLocale(this.language)
+
     }
   },
   mounted(){
 
     this.getLocalStorageOrders()
     this.getLogo()
+    this.language = this.$i18n.locale
 
   }
 };

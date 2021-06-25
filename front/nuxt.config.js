@@ -45,12 +45,32 @@ export default {
     '@nuxtjs/vuetify',
     'vue-sweetalert2/nuxt',
     '@nuxtjs/dotenv',
+    'nuxt-i18n'
    
   ],
   styleResources: {
     scss: ['./assets/vars/*.scss',
     './assets/_mixins.scss' ,
     './assets/_custom.scss' ,]
+  },
+
+  i18n: {
+    lazy:true,
+    langDir:'lang',
+    locales: ['en', 'es'],
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    vueI18nLoader: true,
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.js'
+      },
+      {
+        code: 'es',
+        file: 'es-ES.js'
+      },
+    ],
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules

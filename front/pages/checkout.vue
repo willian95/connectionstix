@@ -12,11 +12,11 @@
               src="~assets/images/iconos/arrow.png"
               alt=""
             />
-            Review your selected attraction(s)</v-expansion-panel-header
+            {{ $t('reviewSelectedAttractions') }}</v-expansion-panel-header
           >
           <v-expansion-panel-content>
-            <div v-for="item in items" :key="item.item_id">
-              <Detail :thumbnail="item.thumbnail" :itemId="item.item_id" :prices="item.pricing.price_types" :productName="item.product_name" :currencySymbol="currencySymbol" :currencyCode="currencyCode" :remove="remove" :order="order" :getItems="getItems" :discountEnabled="item.pricing.discounts_enabled"/>
+            <div v-for="item in items" :key="'item-'+item.item_id">
+              <Detail :thumbnail="item.thumbnail" :itemId="item.item_id" :productId="item.product_id" :prices="item.pricing.price_types" :productName="item.product_name" :currencySymbol="currencySymbol" :currencyCode="currencyCode" :remove="remove" :order="order" :getItems="getItems" :discountEnabled="item.pricing.discounts_enabled" :checkUpdatedItems="checkUpdatedItems"/>
             </div>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -24,14 +24,14 @@
         <!------------------------->
         
         <!--------------slider items------------->
-        <v-expansion-panel>
+        <v-expansion-panel v-show="nearbyProducts.length > 0">
           <v-expansion-panel-header class="change-color"
             ><img
               class="icon-arrow"
               src="~assets/images/iconos/arrow.png"
               alt=""
             />
-            More options to choose for...</v-expansion-panel-header
+            {{ $t('moreOptions') }}</v-expansion-panel-header
           >
           <v-expansion-panel-content>
             <v-container>
@@ -47,24 +47,19 @@
                     depressed
                     rounded
                   ></v-btn>
-                  <v-slide-item v-for="(slide, i) in slidesenvents" :key="i">
-                    <v-card class="ma-4 card-slide_events">
-                      <v-img contain :src="slide.image"></v-img>
-                      <v-card-text>
-                        <h3>{{ slide.title }}</h3>
-                        <p>{{ slide.description }}</p>
-                        <div class="txt-star">
-                          <NuxtLink class="" :to="{ path: '/attraction' }">
-                            <img
-                              class="icon-cart"
-                              src="~assets/images/iconos/cart2.png"
-                              alt=""
-                            />
-                            Book now!</NuxtLink
-                          >
-                        </div>
-                      </v-card-text>
-                    </v-card>
+                  <v-slide-item v-for="(slide, i) in nearbyProducts" :key="i">
+                    <NuxtLink class="" :to="{ path: '/attractions/'+slide.product_id }">
+                      <v-card class="ma-4 card-slide_events">
+                        <v-img contain :src="slide.thumbnail"></v-img>
+                        <v-card-text>
+                          <h3>{{ slide.product_name }}</h3>
+                          <div class="txt-star">
+                            
+                              
+                          </div>
+                        </v-card-text>
+                      </v-card>
+                    </NuxtLink>
                   </v-slide-item>
                 </v-slide-group>
               </v-sheet>
@@ -79,64 +74,120 @@
               src="~assets/images/iconos/arrow.png"
               alt=""
             />
-            Billing info</v-expansion-panel-header
+            {{ $t('billingInfo') }}</v-expansion-panel-header
           >
           <v-expansion-panel-content class="main-card">
-            <template v-if="selectedPaymentProvider != ''">
+            <v-row v-if="isGrandTotalDiscountEnabled">
+              <v-col cols="12" sm="1" md="3" >
+                <label for="">{{ $t('discountCode') }}</label>
+                <v-text-field
+                  label="1234 5678 9012 3456"
+                  single-line
+                  outlined
+                  v-model="discountCode"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="1" md="3">
+                <button class="btn btn-success change-color" @click="setDiscountCode()">{{ $t('updateOrder') }}</button>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="center" cols="12" sm="4" md="4">
+                <div class="total_txt">
+                  <p>Total</p>
+                  <p>$ {{ total }} CAD</p>
+                </div>
+              </v-col>
+              <button class="btn" @click="setShowCheckout()">{{ $t('checkout') }}</button><NuxtLink class="btn" :to="{ path:'/' }"><button class="btn">{{ $t('continueShopping') }}</button></NuxtLink>
+            </v-row>
+
+            <div v-show="showCheckout">
               <v-row>
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">First name</label>
+                  <label for="">* {{ $t("firstName") }}</label>
                   <v-text-field
-                    label="Pedro Pérez Pereira"
+                    label="John"
                     single-line
                     outlined
                     v-model="customer_first_name"
-                  ></v-text-field>
+                  ></v-text-field>  
+                  <LocalErrorShow :errors="localErrors" :name="'name'" />
                 </v-col>
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">Lastname</label>
+                  <label for="">* {{ $t("lastname") }}</label>
                   <v-text-field
-                    label="1234 5678 9012 3456"
+                    label="Doe"
                     single-line
                     outlined
                     v-model="customer_last_name"
                   ></v-text-field>
+                  <LocalErrorShow :errors="localErrors" :name="'lastname'" />
                 </v-col>
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">Email</label>
+                  <label for="">* {{ $t("email") }}</label>
                   <v-text-field
-                    label="1234 5678 9012 3456"
+                    label="johndoe@email.com"
                     single-line
                     outlined
                     v-model="customer_email"
                   ></v-text-field>
+                  <LocalErrorShow :errors="localErrors" :name="'email'" />
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">Phone</label>
+                  <label for="">* {{ $t("phone") }}</label>
                   <v-text-field
-                    label="1234 5678 9012 3456"
+                    label="555123123"
                     single-line
                     outlined
                     v-model="phone"
                     @keypress="isNumber($event)"
                   ></v-text-field>
+                  <LocalErrorShow :errors="localErrors" :name="'phone'" />
+                </v-col>
+                
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="1" md="3">
+                  <label for="">{{ $t("ticketDelivery") }}</label>
+                  <v-select :items="deliveryMethods" solo v-model="ticket_delivery_method"></v-select>
                 </v-col>
 
+                
+              </v-row>
+
+               <v-row class="paymethod" v-show="showCheckout">
+                <p>{{ $t("paymentMethod") }}</p>
+                <v-row>
+                  <v-col cols="12" sm="4" md="4">
+                    <v-radio-group v-model="radios" mandatory v-show="showPayButton">
+                      
+                      <div class="radio-main" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-'+index">
+                        {{ paymentProvider.payment_provider_name == 'Authorize.net' ? 'Pay with card' : paymentProvider.payment_provider_name}}
+                        <v-radio :key="'radioButton-'+index" :value="index" @click="getInfoFromSelectedPaymentProvider()"></v-radio>
+                      </div>
+
+                    </v-radio-group>
+                  </v-col>
+                </v-row>
+                </v-row>
+
+              <v-row v-if="selectedPaymentProvider.prompt_billing_address == true">
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">Address 1</label>
+                  <label for="">* {{ $t('address1') }}</label>
                   <v-text-field
-                    label="1234 5678 9012 3456"
+                    label="john doe st"
                     single-line
                     outlined
                     v-model="address_line1"
                   ></v-text-field>
+                  <LocalErrorShow :errors="localErrors" :name="'address_line1'" />
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">Address 2</label>
+                  <label for="">{{ $t('address2') }}</label>
                   <v-text-field
-                    label="1234 5678 9012 3456"
+                    label="john any st"
                     single-line
                     outlined
                     v-model="address_line2"
@@ -144,115 +195,80 @@
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">City</label>
+                  <label for="">* {{ $t('city') }}</label>
                   <v-text-field
-                    label="1234 5678 9012 3456"
+                    label="San Diego"
                     single-line
                     outlined
                     v-model="city"
                   ></v-text-field>
+                  <LocalErrorShow :errors="localErrors" :name="'city'" />
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">Province state</label>
+                  <label for="">* {{ $t('provinceState') }}</label>
                   <v-text-field
-                    label="1234 5678 9012 3456"
+                    label="California"
                     single-line
                     outlined
                     v-model="province_state"
                   ></v-text-field>
+                  <LocalErrorShow :errors="localErrors" :name="'province_state'" />
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">Postal zip code</label>
+                  <label for="">* {{ $t('postalCode') }}</label>
                   <v-text-field
-                    label="1234 5678 9012 3456"
+                    label="100010101"
                     single-line
                     outlined
                     v-model="postal_zip_code"
                     @keypress="isNumber($event)"
                   ></v-text-field>
+                  <LocalErrorShow :errors="localErrors" :name="'postal_zip_code'" />
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">Country</label>
+                  <label for="">* {{ $t('cuntry') }}</label>
                   <v-text-field
-                    label="1234 5678 9012 3456"
+                    label="USA"
                     single-line
                     outlined
                     v-model="country"
                   ></v-text-field>
-                </v-col>
-                
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="1" md="3">
-                  <label for="">Ticket delivery</label>
-                  <v-select :items="deliveryMethods" solo v-model="ticket_delivery_method"></v-select>
-                </v-col>
-
-                
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="1" md="3">
-                  <label for="">Discount code</label>
-                  <v-text-field
-                    label="1234 5678 9012 3456"
-                    single-line
-                    outlined
-                    v-model="discountCode"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="1" md="3">
-                  <button class="btn btn-success change-color" @click="setDiscountCode()">update order</button>
+                  <LocalErrorShow :errors="localErrors" :name="'country'" />
                 </v-col>
               </v-row>
-            </template>
             
-            <div class="paymethod">
-              <p>Payment Method</p>
-              <v-row>
-                <v-col cols="12" sm="4" md="4">
-                  <v-radio-group v-model="radios" mandatory v-show="showPayButton">
-                    
-                    <div class="radio-main" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-'+index">
-                      {{ paymentProvider.payment_provider_name }}
-                      <v-radio :key="'radioButton-'+index" :value="index" @click="getInfoFromSelectedPaymentProvider()"></v-radio>
-                    </div>
-
-                  </v-radio-group>
-                </v-col>
-
-                <v-col class="center" cols="12" sm="4" md="4">
-                  <div class="total_txt">
-                    <p>Total</p>
-                    <p>$ {{ total }} CAD</p>
-                  </div>
-                </v-col>
+            
+              <v-row class="paymethod" v-show="showCheckout">
+              
                 <v-col class="center"  cols="12" sm="4" md="4">
-                  <button class="btn change-color" @click="checkout()" v-if="selectedPaymentProvider.payment_provider_id != 4">Proceed to Checkout</button>
-     
-                  <button :disabled="payButtonDisabled" v-if="selectedPaymentProvider.payment_provider_id == 4" v-show="showPayButton" type="button"
+
+                  <button class="btn change-color" @click="showRequiredFields()" v-if="payButtonDisabled">{{ $t('payNow') }}</button>
+
+                  <button class="btn change-color" @click="checkout()" v-if="selectedPaymentProvider.payment_provider_id != 4 && !payButtonDisabled">{{ $t('payNow') }}</button>
+
+                  <button v-show="selectedPaymentProvider.payment_provider_id == 4 && !payButtonDisabled" type="button"
                       class="AcceptUI btn change-color"
                       data-billingAddressOptions='{"show":false, "required":false}' 
-                      :data-apiLoginID="selectedPaymentProvider.data.an_api_login_id" 
-                      :data-clientKey="selectedPaymentProvider.data.an_public_client_key"
+                      :data-apiLoginID="selectedPaymentProvider ? selectedPaymentProvider.data.an_api_login_id : ''" 
+                      :data-clientKey="selectedPaymentProvider ? selectedPaymentProvider.data.an_public_client_key : ''"
                       data-acceptUIFormBtnTxt="Submit"
                       data-acceptUIFormHeaderTxt="Card Information"
                       data-paymentOptions='{"showCreditCard": true, "showBankAccount": true}' 
-                      data-responseHandler="payResponse">Proceed to Authorize.net
+                      data-responseHandler="payResponse">{{ $t('payNow') }}
                   </button>
           
                 </v-col>
               </v-row>
+
             </div>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
 
-      <!---------------------------------------->
-      <p><strong>Cancellation policy</strong></p>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem </p>
+      
     </div>
   </div>
 </template>
@@ -260,20 +276,34 @@
 <script>
 
 import Detail from "~/components/checkout/Detail";
+import LocalErrorShow from "../components/localError.vue";
 
 export default {
   computed:{
     payButtonDisabled(){
 
-      if(this.customer_first_name == "" || this.customer_last_name == "" || this.customer_email == "" || this.phone == "" || this.address_line1 == "" || this.address_line2 == "" || this.city == "" || this.province_state == "" || this.postal_zip_code == "" || this.country == ""){
+      var regex = /\S+@\S+\.\S+/;
 
-        return true
+      if(this.selectedPaymentProvider.prompt_billing_address == true){
+
+        if(this.customer_first_name == "" || this.customer_last_name == "" || this.customer_email == "" || this.phone == "" || this.address_line1 == "" || this.city == "" || this.province_state == "" || this.postal_zip_code == "" || this.country == "" || this.requestForUpdate == true || !regex.test(this.customer_email)){
+
+          return true
+
+        }
+
+      }else{
+
+        if(this.customer_first_name == "" || this.customer_last_name == "" || this.customer_email == "" || this.phone == "" || this.requestForUpdate == true || !regex.test(this.customer_email) ){
+
+          return true
+
+        }
 
       }
 
       return false
     
-
     }
   },
   data: () => ({
@@ -282,13 +312,20 @@ export default {
     currencySymbol:"",
     currencyCode:"",
     items:[],
+    nearbyProducts:[],
     total:0,
     panel: [0, 1, 2, 3],
     disabled: false,
     readonly: false,
     paymentProviders:[],
     radios:0,
+    isGrandTotalDiscountEnabled:false,
     selectedPaymentProvider:"",
+    localErrors:[],
+    newItemValues:[],
+    oldItemValues:[],
+    itemsAmountUpdated:true,
+    requestForUpdate:false,
 
     customer_first_name:"",
     customer_last_name:"",
@@ -308,31 +345,9 @@ export default {
     discountCode:"",
     showPayButton:false,
     checkoutCount:0,
-
-    slidesenvents: [
-      {
-        title: "The water boat",
-        image: "http://imgfz.com/i/6eIWYLv.png",
-        description: "$38 CAD/Person"
-      },
-      {
-        title: "The wonderland",
-        image: "http://imgfz.com/i/6eIWYLv.png",
-        description: "$33 CAD/Person"
-      },
-      {
-        title: "The night trip",
-        image: "http://imgfz.com/i/6eIWYLv.png",
-        description: "$27 CAD/Person"
-      },
-      {
-        title: "The night trip",
-        image: "http://imgfz.com/i/6eIWYLv.png",
-        description: "$27 CAD/Person"
-      }
-    ]
+    showCheckout:false,
   }),
-  components:{Detail},
+  components:{Detail, LocalErrorShow},
   methods:{
 
     payResponse(response){
@@ -361,21 +376,35 @@ export default {
           this.currencyCode = res.data.currency_code
           this.currencySymbol = res.data.currency_symbol
           this.order = order
-          this.getTotal()
+          this.requestForUpdate = false
+
+          this.items.forEach((item, index) => {
+
+            item.pricing.price_types.forEach((price, index) => {
+
+              this.oldItemValues.push({amount: price.quantity, price_type_id: price.price_type_id, product_id: item.product_id})
+
+            })
+
+          })
+
+          await this.getTotal()
         }
 
       }
 
     },
-    getTotal(){
-      this.total = 0
-      this.items.forEach(data => {
-  
-        data.pricing.price_types.forEach(prices => {
-          this.total = this.total + (prices.current_price * prices.quantity)
-        })
-        
-      })
+    async getTotal(){
+
+      let res = await this.$axios.get("orders/totals/"+this.order)
+      this.total = res.data.grand_total
+      this.isGrandTotalDiscountEnabled = res.data.discounts_enabled
+
+    },
+    setShowCheckout(){
+
+      this.showCheckout = true
+
     },
     isNumber(evt) {
         evt = (evt) ? evt : window.event;
@@ -473,18 +502,151 @@ export default {
       return request
 
     },
+    checkUpdatedItems(newPrices, productId){
+
+      newPrices.forEach((prices, index) =>{
+
+        let itemIndex = this.newItemValues.findIndex( item => item.price_type_id == prices.priceTypeId &&  item.product_id ==productId)
+
+        if(itemIndex < 0){
+
+          this.newItemValues.push({amount: prices.amount, price_type_id: prices.priceTypeId, product_id: productId})
+
+        }else{
+
+          this.newItemValues[itemIndex].amount = prices.amount
+          this.newItemValues[itemIndex].price_type_id = prices.priceTypeId
+          this.newItemValues[itemIndex].product_id = productId
+
+        }
+
+      })
+
+      
+      this.checkProductsDifferences()
+     
+
+    },
+    checkProductsDifferences(){
+
+      this.requestForUpdate = false
+
+      this.newItemValues.forEach((newValues, index) => {
+
+        this.oldItemValues.forEach((oldValues, index) => {
+
+          if(newValues.product_id == oldValues.product_id && newValues.price_type_id == oldValues.price_type_id){
+
+            if(newValues.amount != oldValues.amount){
+              this.requestForUpdate = true
+            }
+
+          }
+
+        })
+
+      })
+
+
+    },
+    showRequiredFields(){
+
+      
+      if(this.requestForUpdate == true){
+
+        this.$swal({
+          text:"One or more items need to be updated",
+          icon: "error"
+        })
+
+      }
+
+      this.localErrors = []
+      var regex = /\S+@\S+\.\S+/;
+
+      if(this.customer_first_name == ""){
+        this.localErrors.push({
+          name:"name",
+          message: "First name is required"
+        })
+      }
+
+      if(this.customer_last_name == ""){
+        this.localErrors.push({
+          name:"lastname",
+          message: "Lastname is required"
+        })
+      }
+
+      if(this.customer_email == ""){
+        this.localErrors.push({
+          name:"email",
+          message: "Email is required"
+        })
+      }
+
+      else if(!regex.test(this.customer_email)){
+
+        this.localErrors.push({
+          name:"email",
+          message: "Email is not valid"
+        })
+
+      }
+
+      if(this.phone == ""){
+        this.localErrors.push({
+          name:"phone",
+          message: "Phone is required"
+        })
+      }
+
+      if(this.selectedPaymentProvider.prompt_billing_address == true){
+
+        if(this.address_line1 == ""){
+          this.localErrors.push({
+            name:"address_line1",
+            message: "Address line 1 is required"
+          })
+        }
+
+        if(this.city == ""){
+          this.localErrors.push({
+            name:"city",
+            message: "City is required"
+          })
+        }
+
+        if(this.province_state == ""){
+          this.localErrors.push({
+            name:"province_state",
+            message: "Province state is required"
+          })
+        }
+
+        if(this.postal_zip_code == ""){
+          this.localErrors.push({
+            name:"postal_zip_code",
+            message: "Postal zip code is required"
+          })
+        }
+
+        if(this.country == ""){
+          this.localErrors.push({
+            name:"country",
+            message: "Country is required"
+          })
+        }
+
+      }
+
+    },
     async checkout(){
 
       this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id
 
       if(this.payment_provider_id == 26){
-        this.payment_data = {
-          "order_id":this.order
-        }
-      }else if(this.payment_provider_id == 0){
-
-        this.payment_data = null
-
+        this.payment_data = this.selectedPaymentProvider.data
       }
 
       let request = this.setFields()
@@ -560,12 +722,26 @@ export default {
 
         }, 5000)
       }
+    },
+    async nearbyProductsFetch(){
+      var itemIdArray = []
+  
+      this.items.forEach(data => {
+        itemIdArray.push(data.item_id)
+
+      })
+
+      let res = await this.$axios.get("products/nearby/"+itemIdArray[0])
+      this.nearbyProducts = res.data
+
     }
 
 
   },
   async created(){
     await this.getItems()
+    this.nearbyProductsFetch()
+    
     if(this.order){
       this.getPaymentProviders()
     }

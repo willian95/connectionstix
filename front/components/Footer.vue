@@ -9,34 +9,34 @@
           <div class="flex-footer">
             <ul>
               <li>
-                <NuxtLink class="nav-link" to="">Our company</NuxtLink>
+                <NuxtLink class="nav-link" to="">{{ $t('ourCompany') }}</NuxtLink>
               </li>
               <li>
                 <NuxtLink class="nav-link line-decorate" to=""
-                  ><strong>Terms & conditions</strong></NuxtLink
+                  ><strong>{{ $t('termConditions') }}</strong></NuxtLink
                 >
               </li>
               <li>
                 <NuxtLink class="nav-link line-decorate" to=""
-                  ><strong>Privacy policy</strong></NuxtLink
-                >
-              </li>
-            </ul>
-
-            <ul>
-              <li>
-                <NuxtLink class="nav-link" to="">Contact Us</NuxtLink>
-              </li>
-              <li>
-                <NuxtLink class="nav-link line-decorate" to=""
-                  ><strong>Help & support</strong></NuxtLink
+                  ><strong>{{ $t('privacyPolicy') }}</strong></NuxtLink
                 >
               </li>
             </ul>
 
             <ul>
               <li>
-                <NuxtLink class="nav-link" to="">Stay connect</NuxtLink>
+                <NuxtLink class="nav-link" to="">{{ $t('contactUs') }}</NuxtLink>
+              </li>
+              <li>
+                <NuxtLink class="nav-link line-decorate" to=""
+                  ><strong>{{ $t('helpSupport') }}</strong></NuxtLink
+                >
+              </li>
+            </ul>
+
+            <ul>
+              <li>
+                <NuxtLink class="nav-link" to="">{{ $t('stayConnect') }}</NuxtLink>
               </li>
               <div>
                 <svg
@@ -103,7 +103,7 @@
         <div class="col-md-12">
           <v-card-text class="py-2 white--text text-center last">
             <strong>
-              Connections TIX Inc Copyright © All Rights Reserved
+              Connections TIX Inc Copyright © {{ $t('allRightsReserved') }} 
               {{ new Date().getFullYear() }}</strong
             >
           </v-card-text>

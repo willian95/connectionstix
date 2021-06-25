@@ -2,92 +2,84 @@
 
     <div class="content-panel">
         <v-row no-gutters class="row-center">
-        <v-col cols="12" sm="4" md="4">
-            <v-card class="pa-2" outlined tile>
-            <p class="txt-panel">$ {{ total }} CAD</p>
-            <div class="info-panel">
-                <p>{{ productName }}</p>
-                <img class="" :src="thumbnail" alt="" />
-            </div>
-            </v-card>
-        </v-col>
-        <v-col cols="12" sm="4" md="4">
-            <v-card class="pa-2" outlined tile>
-            <div class="main-min" v-for="(amount, index) in amounts" :key="index">
-                <div class="flex">
-                
-                <p>{{ amount.price }} {{ currencySymbol }} {{ amount.price }} {{ currencyCode }}</p>
+            <v-col cols="12" sm="4" md="4">
+                <v-card class="pa-2" outlined tile>
+                <p class="txt-panel">$ {{ total }} CAD</p>
+                <div class="info-panel">
+                    <p>{{ productName }}</p>
+                    <img class="" :src="thumbnail" alt="" />
                 </div>
-                <div class="content-mx">
-                <div class="style-btn change-color" @click="substract(index)">-</div>
-                <p>{{ amount.amount }}</p>
-                <div class="style-btn change-color" @click="addItem(index)">+</div>
+                </v-card>
+            </v-col>
+            <v-col cols="12" sm="4" md="4">
+                <v-card class="pa-2" outlined tile>
+                <div class="main-min" v-for="(amount, index) in amounts" :key="index">
+                    <div class="flex">
+                    
+                    <p>{{ currencySymbol }} {{ amount.price }} {{ currencyCode }}</p>
+                    </div>
+                    <div class="content-mx">
+                    <div class="style-btn change-color" @click="substract(index)">-</div>
+                    <p>{{ amount.amount }}</p>
+                    <div class="style-btn change-color" @click="addItem(index)">+</div>
+                    </div>
                 </div>
-            </div>
 
-             <button class="btn" :disabled="isDisabled && discountCode == ''" @click="update()">Update</button>
-            
-            </v-card>
-        </v-col>
-        <v-col cols="12" sm="3" md="3">
-            <v-card class="pa-2" outlined tile>
-            <div class="main-min">
-                <div class="flex">
-                <img
-                    class=""
-                    src="~assets/images/iconos/calendar.png"
-                    alt=""
-                />
-                <p>11/22/2021</p>
-                </div>
-            </div>
-            <div class="main-min">
-                <div class="flex">
-                <img
-                    class=""
-                    src="~assets/images/iconos/reloj.png"
-                    alt=""
-                />
-                <p>2:00 PM</p>
-                </div>
-            </div>
-            <div class="main-min">
-                <div class="flex">
-                <img
-                    class=""
-                    src="~assets/images/iconos/info.png"
-                    alt=""
-                />
-                <p>More info</p>
-                </div>
-            </div>
-            </v-card>
-        </v-col>
-        <v-col cols="12" sm="1" md="1">
-            <v-card class="pa-2" outlined tile style="cursor:pointer;" @click="remove(itemId)">
-                <img
-                    class="trash-icon"
-                    src="~assets/images/iconos/trash.png"
-                    alt=""
-                />
-            </v-card>
-        </v-col>
-        <!---     <v-col class="section_check" cols="12" sm="12" md="12">
-               
-                 <v-text-field
-                    label="test"
+                <v-text-field
+                    :label="$t('discountCode')"
                     single-line
                     outlined
                     v-model="discountCode"
                     v-if="discountEnabled"
-                  ></v-text-field>
-<<<<<<< HEAD
-                 <button class="btn" :disabled="isDisabled && discountCode == ''" @click="update()">Update</button>
-            </v-col>--->
-=======
-                 <button class="btn change-color" :disabled="isDisabled && discountCode == ''" @click="update()">Update</button>
+                    ></v-text-field>
+
+                <button class="btn" :disabled="isDisabled  && discountCode == ''" @click="update()">{{ $t('update') }}</button>
+                
+                </v-card>
             </v-col>
->>>>>>> 4bbe28098a861ecbdd996a6a1cf54230effe8ff7
+            <v-col cols="12" sm="3" md="3">
+                <!--<v-card class="pa-2" outlined tile>
+                    <div class="main-min">
+                        <div class="flex">
+                        <img
+                            class=""
+                            src="~assets/images/iconos/calendar.png"
+                            alt=""
+                        />
+                        <p>11/22/2021</p>
+                        </div>
+                    </div>
+                    <div class="main-min">
+                        <div class="flex">
+                        <img
+                            class=""
+                            src="~assets/images/iconos/reloj.png"
+                            alt=""
+                        />
+                        <p>2:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="main-min">
+                        <div class="flex">
+                        <img
+                            class=""
+                            src="~assets/images/iconos/info.png"
+                            alt=""
+                        />
+                        <p>More info</p>
+                        </div>
+                    </div>
+                </v-card>-->
+            </v-col>
+            <v-col cols="12" sm="1" md="1">
+                <v-card class="pa-2" outlined tile style="cursor:pointer;" @click="remove(itemId)">
+                    <img
+                        class="trash-icon"
+                        src="~assets/images/iconos/trash.png"
+                        alt=""
+                    />
+                </v-card>
+            </v-col>
         </v-row>
     </div>
 
@@ -96,7 +88,7 @@
 <script>
 export default {
 
-    props:["productName", "thumbnail", "prices", "remove", "itemId", "currencyCode", "currencySymbol", "order", "getItems", "discountEnabled"],
+    props:["productName", "thumbnail", "prices", "remove", "itemId", "currencyCode", "currencySymbol", "order", "getItems", "discountEnabled", "checkUpdatedItems", "productId"],
     data(){
         return{
             total:0,
@@ -124,6 +116,7 @@ export default {
                 this.amounts[index].amount --
                 this.setTotal()
                 this.checkOldAndNewAmounts()
+                this.checkUpdatedItems(this.amounts, this.productId)
             }
 
         },
@@ -132,6 +125,8 @@ export default {
             this.amounts[index].amount++
             this.setTotal()
             this.checkOldAndNewAmounts()
+            this.checkUpdatedItems(this.amounts, this.productId)
+
 
         },
         checkOldAndNewAmounts(){
@@ -226,7 +221,23 @@ export default {
 
             })
 
+        },
+
+        setNewAmount(newVal){
+
+            this.amounts = []
+            this.oldAmounts = []
+            this.isDisabled = true
+
+            newVal.forEach((data, index) => {
+
+                this.amounts.push({priceTypeId: data.price_type_id, amount: data.quantity, price: data.current_price})
+                this.oldAmounts.push({priceTypeId: data.price_type_id, amount: data.quantity, price: data.current_price})
+
+            })
+
         }
+
     },
     created(){
         
@@ -239,6 +250,13 @@ export default {
 
         this.setTotal()
 
+    },
+    watch:{
+        prices: function(newVal, oldVal){
+
+            this.setNewAmount(newVal)
+
+        }
     },
     mounted(){
         if(process.browser){

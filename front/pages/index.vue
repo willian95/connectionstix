@@ -49,8 +49,8 @@
                           </p>
                           <div class="txt-star">
                             <NuxtLink
-                              :to="{ path: '/attractions/' + item.product_id }"
-                              >More info</NuxtLink
+                              :to="localePath('/attractions/' + item.product_id)"
+                              >{{ $t('moreInfo') }}</NuxtLink
                             >
                           </div>
                         </div>

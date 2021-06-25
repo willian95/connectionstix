@@ -2,15 +2,15 @@
   <header class="header-2 change-color">
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
     <div class="dflex-sec">
-           <nuxt-link :to="{ path: '/'}"><img class="brand" src="~assets/images/logo_w.png" alt="" /></nuxt-link>
+           <nuxt-link :to="localePath('/checkout')"><img class="brand" src="~assets/images/logo_w.png" alt="" /></nuxt-link>
       <div class="select-language">
         <v-col class="d-flex" cols="12" sm="4">
-          <v-select :items="language" label="English" solo></v-select>
+          <v-select :items="languages" v-model="language" solo @change="changeLanguage()"></v-select>
         </v-col>
       </div>
     </div>
     <div>
-      <NuxtLink class="nav-link" :to="{ path: '/checkout'}"><img src="~assets/images/iconos/cart.png" alt=""><p class="bg-light">{{ numberItems }}</p></NuxtLink>
+      <NuxtLink class="nav-link" :to="localePath('/checkout')"><img src="~assets/images/iconos/cart.png" alt=""><p class="bg-light">{{ numberItems }}</p></NuxtLink>
     </div>
   </header>
 </template>
@@ -18,7 +18,8 @@
 export default {
   name: "Navbar",
   data: () => ({
-    language: ["ENGLISH", "SPANISH"],
+    languages: ["en", "es"],
+    language:"",
     currency: ["US", "CAD"]
   }),
   computed: {
@@ -45,6 +46,11 @@ export default {
       }
 
     },
+    changeLanguage(){
+
+      this.$i18n.setLocale(this.language)
+
+    }
 
   },
   mounted(){
@@ -53,6 +59,7 @@ export default {
       let color = localStorage.getItem("color")
       
       $(".change-color").css("background", color)
+      this.language = this.$i18n.locale
     }  
 
   }

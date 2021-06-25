@@ -105,12 +105,12 @@
               </p>
             </div>
             <button
-              
+              :disabled="total <= 0"
               href=""
               class="btn change-color"
               @click="bookNow()"
             >
-              Book now
+              {{ $t('bookNow') }}
             </button>
           </div>
         </v-card>
@@ -137,12 +137,12 @@
               </ul>
             </div>
           </div>
-          <h3 class="title-custom" v-if="address">Attraction address</h3>
+          <h3 class="title-custom" v-if="address">{{ $t('attractionAddress') }}</h3>
           <p>{{ address }}</p>
 
           <v-row class="mt-1">
             <v-col class="line" cols="6" md="6">
-              <h3 class="title-custom">Opening hours</h3>
+              <h3 class="title-custom">{{ $t('openingHours') }}</h3>
               <ul>
                 <li v-for="(openingHour, index) in operationHours" :key="'open-'+index">
                   {{ openingHour.day }}:
@@ -157,7 +157,7 @@
               </ul>
             </v-col>
             <v-col cols="6" md="6" v-if="duration.length">
-              <h3 class="title-custom">Duration</h3>
+              <h3 class="title-custom">{{ $t('duration') }}</h3>
 
               <p>{{ duration.length }} {{ duration.unit }}</p>
 
@@ -169,13 +169,13 @@
             </v-col>
           </v-row>
           <div class="descripon">
-            <h3 class="title-custom" v-if="description">Description</h3>
+            <h3 class="title-custom" v-if="description">{{ $t('description') }}</h3>
             <p v-if="description">
               {{ description }}
             </p>
 
             <h3 class="title-custom" v-if="highlights.length > 0">
-              Highlights
+              {{ $t('hightlights') }}
             </h3>
             <ul>
               <li v-for="(highlight, index) in highlights" :key="'highlight-'+index">
@@ -184,7 +184,7 @@
             </ul>
 
             <div>
-              <h3 class="title-custom">Know before you go</h3>
+              <h3 class="title-custom">{{ $t('knowBefore') }}</h3>
               <div class="know-info">
                 <div
                   class="item"
@@ -233,7 +233,7 @@
               </ul>
             </div>
 
-            <h3 class="title-custom">Cancellation policy</h3>
+            <h3 class="title-custom">{{ $t('cancellationPolicy') }}</h3>
             <p>
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
               nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam

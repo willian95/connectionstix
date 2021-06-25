@@ -3,29 +3,29 @@
     <img class="background" :src="backImage" alt="" />
     <div class="banner__content">
       <img :src="logo" alt="" />
-      <h2>Book now!</h2>
-      <p>$15 CAD/Person</p>
-      <span> < 5 years kids/Free of charge*</span>
+      <h2>{{ $t('bookNow') }}</h2>
+      <p>{{ $t('homePrice') }}</p>
+      <span>{{ $t('homeKidPrice') }}</span>
       <!------------------------------------>
       <v-container class="content-choose">
         <v-row >
           <v-col class="d-flex" cols="12" sm="4">
-            <label for="">Choose country</label>
+            <label for="">{{ $t('chooseCountry') }}</label>
             <v-select v-model="country" :items="countries" label="Select..." item-text="country_code" solo @change="getStates()"></v-select>
           </v-col>
 
           <v-col class="d-flex" cols="12" sm="4">
-            <label for="">Choose state/province</label>
+            <label for="">{{ $t('chooseState') }}</label>
             <v-select v-model="state" :items="states" label="Select..." item-text="name" item-value="province_state_code" solo @change="getCities()"></v-select>
           </v-col>
           <v-col class="d-flex" cols="12" sm="4">
-            <label for="">Choose city</label>
+            <label for="">{{ $t('chooseCity') }}</label>
             <v-select v-model="city" :items="cities" label="Select..." item-text="name" item-value="city_code" solo></v-select>
           </v-col>
         </v-row>
         <div class="center">
           <button class="btn" @click="getFilteredProducts(country, state, city)" id="goBtn">
-            Go
+            {{ $t('homeGo') }}
           </button>
         </div>
       </v-container>
