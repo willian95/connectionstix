@@ -6,7 +6,7 @@
     <div class="container main-checkout">
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
         <v-expansion-panel>
-          <v-expansion-panel-header
+          <v-expansion-panel-header class="change-color"
             ><img
               class="icon-arrow"
               src="~assets/images/iconos/arrow.png"
@@ -25,7 +25,7 @@
         
         <!--------------slider items------------->
         <v-expansion-panel>
-          <v-expansion-panel-header
+          <v-expansion-panel-header class="change-color"
             ><img
               class="icon-arrow"
               src="~assets/images/iconos/arrow.png"
@@ -73,7 +73,7 @@
         </v-expansion-panel>
         <!------------Billing info------------------>
         <v-expansion-panel>
-          <v-expansion-panel-header
+          <v-expansion-panel-header class="change-color"
             ><img
               class="icon-arrow"
               src="~assets/images/iconos/arrow.png"
@@ -204,7 +204,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="1" md="3">
-                  <button class="btn btn-success" @click="setDiscountCode()">update order</button>
+                  <button class="btn btn-success change-color" @click="setDiscountCode()">update order</button>
                 </v-col>
               </v-row>
             </template>
@@ -230,10 +230,10 @@
                   </div>
                 </v-col>
                 <v-col class="center"  cols="12" sm="4" md="4">
-                  <button class="btn" @click="checkout()" v-if="selectedPaymentProvider.payment_provider_id != 4">Proceed to Checkout</button>
+                  <button class="btn change-color" @click="checkout()" v-if="selectedPaymentProvider.payment_provider_id != 4">Proceed to Checkout</button>
      
                   <button :disabled="payButtonDisabled" v-if="selectedPaymentProvider.payment_provider_id == 4" v-show="showPayButton" type="button"
-                      class="AcceptUI btn"
+                      class="AcceptUI btn change-color"
                       data-billingAddressOptions='{"show":false, "required":false}' 
                       :data-apiLoginID="selectedPaymentProvider.data.an_api_login_id" 
                       :data-clientKey="selectedPaymentProvider.data.an_public_client_key"
@@ -574,6 +574,11 @@ export default {
 
     
     this.loadLibraries()
+    if(process.browser){
+      let color = localStorage.getItem("color")
+      
+      $(".change-color").css("background", color)
+    }
     
 
   }

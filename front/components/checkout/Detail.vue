@@ -19,9 +19,9 @@
                 <p>{{ amount.price }} {{ currencySymbol }} {{ amount.price }} {{ currencyCode }}</p>
                 </div>
                 <div class="content-mx">
-                <div class="style-btn" @click="substract(index)">-</div>
+                <div class="style-btn change-color" @click="substract(index)">-</div>
                 <p>{{ amount.amount }}</p>
-                <div class="style-btn" @click="addItem(index)">+</div>
+                <div class="style-btn change-color" @click="addItem(index)">+</div>
                 </div>
             </div>
 
@@ -81,8 +81,13 @@
                     v-model="discountCode"
                     v-if="discountEnabled"
                   ></v-text-field>
+<<<<<<< HEAD
                  <button class="btn" :disabled="isDisabled && discountCode == ''" @click="update()">Update</button>
             </v-col>--->
+=======
+                 <button class="btn change-color" :disabled="isDisabled && discountCode == ''" @click="update()">Update</button>
+            </v-col>
+>>>>>>> 4bbe28098a861ecbdd996a6a1cf54230effe8ff7
         </v-row>
     </div>
 
@@ -233,6 +238,13 @@ export default {
         })
 
         this.setTotal()
+
+    },
+    mounted(){
+        if(process.browser){
+            let color = localStorage.getItem("color")
+            $(".change-color").css("background", color)
+        }
 
     }
 }

@@ -2,7 +2,7 @@
   <div class="banner">
     <img class="background" :src="backImage" alt="" />
     <div class="banner__content">
-      <img src="~assets/images/logo_color.png" alt="" />
+      <img :src="logo" alt="" />
       <h2>Book now!</h2>
       <p>$15 CAD/Person</p>
       <span> < 5 years kids/Free of charge*</span>
@@ -43,7 +43,8 @@ export default {
     country:"",
     state:"",
     city:"",
-    image:""
+    image:"",
+    logo:""
   }),
   methods:{
 
@@ -68,11 +69,19 @@ export default {
       this.cities = res.data
       
 
+    },
+    async getLogo(){
+
+      if(process.browser){
+        this.logo = window.localStorage.getItem("logo")
+      }
+
     }
 
   },
   mounted(){
     this.getCountries()
+    this.getLogo()
     if(process.browser){
       let color = localStorage.getItem("color")
       
