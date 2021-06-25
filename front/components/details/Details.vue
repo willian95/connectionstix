@@ -38,9 +38,10 @@
           </div>
 
           <div>
-            <div v-if="checkAvailability">
+            <div class="flex" v-if="checkAvailability">
               <client-only>
               <div class="date-custom">
+                <img src="~assets/images/iconos/calendar.png" alt="">
                   <date-picker
                   placeholder="MM/DD/YYYY"
                   format="MM/dd/yyyy"
@@ -49,6 +50,7 @@
               </div>
 
                <div class="date-custom">
+                  <img src="~assets/images/iconos/calendar.png" alt="">
                   <date-picker
                   placeholder="MM/DD/YYYY"
                   format="MM/dd/yyyy"
@@ -502,10 +504,18 @@ export default {
     .map {
       width: 300px;
       height: 100%;
+         @include respond-to(xs) {
+width: 200px;
+
+         }
     }
 
     div {
       margin-left: 4rem;
+ @include respond-to(xs) {
+margin-left: 0rem;
+         }
+
 
       ul {
         list-style: none;
@@ -745,6 +755,9 @@ display: grid;
     padding: 2em;
     background: white;
         padding-top: 4rem;
+        @include respond-to(xs) {
+          width: 100%;
+        }
   }
   .modal-window header {
     font-weight: bold;
@@ -818,14 +831,30 @@ display: grid;
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
- & input{
-   border: 1px solid #06060652;
+    border: 1px solid rgba(6,6,6,0.32157);
     border-radius: 7px;
     text-align: center;
-    max-width: 150px;
-    padding: .4rem 0;
+   
+    padding: 0.4rem 0;
+  padding: 8px 1rem;
+    align-items: center;
+ & input{
+   /*border: 1px solid #06060652;*/
+    border-radius: 7px;
+    text-align: center;
+        max-width: 150px;
  }
-
+img{
+      width: 27px;
+      margin-right: -15px;
+}
+}
+.flex{
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+        margin-bottom: 1rem;
 }
 .modal-table{
      max-height: 400px;
