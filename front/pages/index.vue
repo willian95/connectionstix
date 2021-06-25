@@ -139,7 +139,7 @@ export default {
         }
       }
 
-      if(config.data[0].color){
+      if(config.data.color){
         if(process.browser){
           localStorage.setItem("color", config.data.color)
         }

@@ -62,7 +62,30 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/style-resources',
     'vuetify-dialog/nuxt',
+    '@nuxtjs/auth-next'
   ],
+
+  auth: {
+    strategies:{
+      "local":{
+        token: {
+          property: 'access_token',
+        },
+        endpoints:{
+          login:{url: '/auth', method:"post"},
+          logout:{url: '/auth/logout', method:"post"},
+          user:{url: '/users', method:"get"},
+        },
+
+      },
+    },
+    watchLoggedIn: true,
+    redirect: {
+      logout: '/',
+      callback: '/login',
+      home: '/cms/dashboard'
+    },
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

@@ -47,12 +47,54 @@
 
 <script>
     export default {
+
+        middleware: 'auth',
+        auth:"guest",
         layout: 'cms/login',
         data(){
             return{
                 email:"",
                 password:""
             }
+        },
+        methods:{
+
+            async login(){
+
+                try{
+
+                    await this.$auth.loginWith('local', {
+                        data:{
+                            email:this.email,
+                            password:this.password
+                        }
+                    })
+                    
+                }catch(err){
+                    console.log("error", err)
+                    if(err.response.data.error){
+                        
+                        this.$swal({
+                            icon: 'error',
+                            text: err.response.data.error,
+                        })
+                    }
+                    if(err.response.data.errors){
+
+                        this.$swal({
+                            icon: 'error',
+                            text: "Hay campos que debes revisar",
+                            toast: true,
+                            position: 'top-end',
+                        })
+
+                        //this.errors = err.response.data.errors
+                    }
+
+                }
+
+            }
+
         }
     }
 </script>

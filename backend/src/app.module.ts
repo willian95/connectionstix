@@ -28,7 +28,6 @@ import { User } from './users/user.entity';
 import { Configcms } from './cms/configcms/configcms.entity';
 import { AuthModule } from './auth/auth.module';
 
-
 const entities = [User, Configcms];
 
 

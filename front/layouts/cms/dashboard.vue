@@ -69,7 +69,7 @@
 									</NuxtLink>
 								</li>
                                 <li class="menu-item" aria-haspopup="true">
-									<a class="menu-link">
+									<a class="menu-link" @click="logout()">
 										<i class="mensdfsdu-icon flaticon2-architecture-and-city"></i>
 										<span class="menu-text">Logout</span>
 									</a>
@@ -106,7 +106,7 @@
 								<div class="topbar-item">
 									<div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
 										<span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
-										<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">Sean</span>
+										<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">{{ $auth.user.email }}</span>
 										
 									</div>
 								</div>
@@ -242,7 +242,17 @@
 					type: "text/javascript"
 				},
             ]
-        }
+        },
+		methods:{
+
+			async logout(){
+
+				await this.$auth.logout()
+				this.$auth.redirect('home')
+
+			}
+
+		}
 
     }
 </script>
