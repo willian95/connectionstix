@@ -20,6 +20,9 @@ import {
 
     @Column()
     hero: string;
+
+    @Column()
+    overlay: boolean;
   
     @Column()
     @CreateDateColumn()

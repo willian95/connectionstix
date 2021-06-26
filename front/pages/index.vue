@@ -1,9 +1,9 @@
 <template>
   <div class="" id="app" data-app>
     <div>
-      <Navbar />
+      <Navbar :transparent="!overlay" :positionAbsolute="true"/>
       <!---    <Logo />-->
-      <Banner :getFilteredProducts="getFilteredProducts" :backImage="backImage"/>
+      <Banner :getFilteredProducts="getFilteredProducts" :backImage="backImage" v-show="!overlay"/>
       <div class="content-mix mt-12">
         <div class="row">
           <div class="col-md-12 ">
@@ -78,7 +78,7 @@ export default {
       filterOption: "See All",
       tagList: [],
       backImage:'/banner.png',
-
+      overlay:true,
       projects: []
     };
   },
@@ -127,6 +127,7 @@ export default {
     async getConfig(){
 
       let config = await this.$axios.get("configcms")
+      this.overlay =  config.data.overlay
 
       if(config.data.hero){
         this.backImage = process.env.SERVER_URL+config.data.hero
@@ -144,6 +145,16 @@ export default {
           localStorage.setItem("color", config.data.color)
         }
       }
+
+      if(config.data.overlay){
+        if(process.browser){
+          
+          localStorage.setItem("overlay", config.data.overlay)
+          
+        }
+      }
+
+      
       
     }
   },

@@ -261,7 +261,9 @@ export default {
     mounted(){
         if(process.browser){
             let color = localStorage.getItem("color")
-            $(".change-color").css("background", color)
+            if(color){
+                $(".change-color").css("background", color)
+            }
         }
 
     }

@@ -1,17 +1,17 @@
 <template>
   <div class="details-custom">
-    <NavbarView></NavbarView>
-    <div>
-      <div class="details-img">
-        <img class="" :src="mainImage" alt="" />
-        <div class="overlay"></div>
-        <div>
+    <Navbar :transparent="false" :positionAbsolute="false"></Navbar>
+    <div >
+      <div class="details-img mb-5"> 
+        <img class="" :src="mainImage" alt="" v-show="!overlay"/>
+        <div class="overlay" v-show="!overlay"></div>
+        <div v-show="!overlay">
           <p><strong>{{ title }}</strong></p>
         </div>
       </div>
     </div>
     <!-------------------------------------------------->
-    <v-container v-if="images.length > 1">
+    <v-container class="mt-5" v-if="images.length > 1">
       <v-sheet
         class="mt-5 mx-auto slider-images"
         elevation="8"
@@ -56,7 +56,7 @@
                 </div>
                 <div class="txt-star">
                   <NuxtLink class="" :to="{ path: '/attractions/'+slide.product_id }"
-                    >More info</NuxtLink
+                    >{{ $t('moreInfo') }}</NuxtLink
                   >
                 </div>
               </v-card-text>
@@ -69,16 +69,17 @@
 </template>
 
 <script>
-import NavbarView from "~/components/NavbarView";
+import Navbar from "~/components/Navbar";
 import Details from "~/components/details/Details";
 export default {
-  components: { NavbarView, Details },
+  components: { Navbar, Details },
 
   data: () => ({
     productId:"",
     mainImage:"",
     title:"",
     images:[],
+    overlay:true,
     description:"",
     highlights:[],
     inclusions:[],
@@ -138,6 +139,29 @@ export default {
       this.nearby = res.data ? res.data : []
 
     },
+    async getConfig(){
+
+      let config = await this.$axios.get("configcms")
+      this.overlay =  config.data.overlay
+
+      if(config.data.hero){
+        this.backImage = process.env.SERVER_URL+config.data.hero
+      }
+
+      if(config.data.logo){
+      
+        if(process.browser){
+          localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
+        }
+      }
+
+      if(config.data.color){
+        if(process.browser){
+          localStorage.setItem("color", config.data.color)
+        }
+      }
+      
+    }
     
 
   },
@@ -145,8 +169,14 @@ export default {
     this.productId = this.$route.params.id
     this.getData(this.$route.params.id)
     this.getNearbyProducts(this.$route.params.id)
+    this.getConfig()
 
-  }
+  },
+  watch: {
+    $route () {
+      console.log('route changed', this.$route)
+    }
+  },
 };
 </script>
 

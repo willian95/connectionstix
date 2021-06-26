@@ -4,7 +4,7 @@
       <div class="container">
         <div class="content-footer">
           <div class="center">
-            <img class="brand" src="~assets/images/logo_w.png" alt="" />
+            <img class="brand" :src="logo" alt="" />
           </div>
           <div class="flex-footer">
             <ul>
@@ -116,13 +116,27 @@
 <script>
 export default {
   data: () => ({
-    icons: ["mdi-instagram", "mdi-facebook", "mdi-twitter", "mdi-linkedin"]
+    icons: ["mdi-instagram", "mdi-facebook", "mdi-twitter", "mdi-linkedin"],
+    logo:""
   }),
-  created(){
-    if(process.browser){
+  methods:{
+
+    async getLogo(){
+
+      if(process.browser){
+        this.logo = window.localStorage.getItem("logo")
+      }
+
+    },
+
+  },
+  mounted(){
+    this.getLogo()
+     if(process.browser){
       let color = localStorage.getItem("color")
-      console.log("color", color)
-      document.getElementById("footer").style.background = color;
+      if(color){
+        document.getElementById("footer").style.background = color;
+      }
     } 
   }
 };

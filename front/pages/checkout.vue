@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavbarView></NavbarView>
+    <Navbar :transparent="false"></Navbar>
     <!------------------------------------>
 
     <div class="container main-checkout">
@@ -77,7 +77,7 @@
             {{ $t('billingInfo') }}</v-expansion-panel-header
           >
           <v-expansion-panel-content class="main-card">
-            <v-row v-if="isGrandTotalDiscountEnabled">
+            <v-row v-show="isGrandTotalDiscountEnabled">
               <v-col cols="12" sm="1" md="3" >
                 <label for="">{{ $t('discountCode') }}</label>
                 <v-text-field
@@ -88,7 +88,7 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="1" md="3">
-                <button class="btn btn-success change-color" @click="setDiscountCode()">{{ $t('updateOrder') }}</button>
+                <button class="btn change-color" @click="setDiscountCode()">{{ $t('updateOrder') }}</button>
               </v-col>
             </v-row>
             <v-row>
@@ -98,7 +98,7 @@
                   <p>$ {{ total }} CAD</p>
                 </div>
               </v-col>
-              <button class="btn" @click="setShowCheckout()">{{ $t('checkout') }}</button><NuxtLink class="btn" :to="{ path:'/' }"><button class="btn">{{ $t('continueShopping') }}</button></NuxtLink>
+              <button class="btn change-color" @click="setShowCheckout()">{{ $t('checkout') }}</button><NuxtLink class="btn change-color" :to="{ path:'/' }"><button class="btn change-color">{{ $t('continueShopping') }}</button></NuxtLink>
             </v-row>
 
             <div v-show="showCheckout">
@@ -242,12 +242,25 @@
             
             
               <v-row class="paymethod" v-show="showCheckout">
-              
+                
                 <v-col class="center"  cols="12" sm="4" md="4">
 
                   <button class="btn change-color" @click="showRequiredFields()" v-if="payButtonDisabled">{{ $t('payNow') }}</button>
 
-                  <button class="btn change-color" @click="checkout()" v-if="selectedPaymentProvider.payment_provider_id != 4 && !payButtonDisabled">{{ $t('payNow') }}</button>
+                  <no-ssr>
+                    <paypal-checkout
+                    v-if="selectedPaymentProvider.payment_provider_id != 4 && !payButtonDisabled"
+                    :env="paypalEnv"
+                    :amount="total.toString()"
+                    currency="CAD"
+                    :locale="$i18n.locale.toString() == 'en' ? $i18n.locale.toString()+'_US' : $i18n.locale.toString()+'_'+$i18n.locale.toString().toUpperCase()"
+                    :client="selectedPaymentProvider.data ? {[paypalEnv]:selectedPaymentProvider.data.client_id} : ''"
+                    payment-completed="paypalResponse"
+                    >
+                    </paypal-checkout>
+                  </no-ssr>
+
+                  <!--<button class="btn change-color" @click="checkout()" v-if="selectedPaymentProvider.payment_provider_id != 4 && !payButtonDisabled">{{ $t('payNow') }}</button>-->
 
                   <button v-show="selectedPaymentProvider.payment_provider_id == 4 && !payButtonDisabled" type="button"
                       class="AcceptUI btn change-color"
@@ -326,6 +339,7 @@ export default {
     oldItemValues:[],
     itemsAmountUpdated:true,
     requestForUpdate:false,
+    paypalEnv:'sandbox',
 
     customer_first_name:"",
     customer_last_name:"",
@@ -471,6 +485,7 @@ export default {
       })
 
       this.paymentProviders = res.data.data
+      this.selectedPaymentProvider = this.paymentProviders[0]
 
       this.getInfoFromSelectedPaymentProvider()
 
@@ -705,6 +720,9 @@ export default {
       
 
     },
+    paypalResponse(response){
+      console.log(response)
+    },
     loadLibraries(){
       if(process.browser){
 
@@ -734,6 +752,28 @@ export default {
       let res = await this.$axios.get("products/nearby/"+itemIdArray[0])
       this.nearbyProducts = res.data
 
+    },
+    async getConfig(){
+
+      let config = await this.$axios.get("configcms")
+
+      if(config.data.hero){
+        this.backImage = process.env.SERVER_URL+config.data.hero
+      }
+
+      if(config.data.logo){
+      
+        if(process.browser){
+          localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
+        }
+      }
+
+      if(config.data.color){
+        if(process.browser){
+          localStorage.setItem("color", config.data.color)
+        }
+      }
+      
     }
 
 
@@ -745,19 +785,28 @@ export default {
     if(this.order){
       this.getPaymentProviders()
     }
+
+    this.getConfig()
   },
   mounted(){
 
-    
+    this.paypalEnv = process.env.PAYPAL_ENV
     this.loadLibraries()
     if(process.browser){
       let color = localStorage.getItem("color")
       
-      $(".change-color").css("background", color)
+      if(color){
+        $(".change-color").css("background", color)
+      }
     }
     
 
-  }
+  },
+  watch: {
+    $route () {
+      console.log('route changed', this.$route)
+    }
+  },
 }
 </script>
 

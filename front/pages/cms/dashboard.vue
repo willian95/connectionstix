@@ -15,7 +15,7 @@
                                     <div class="card-title">
                                         <div class="card-label">
                                             <div class="font-weight-bolder">
-                                                <h2>Colors</h2>
+                                                <h2>Colors & overlay</h2>
                                             </div>
                                         </div>
                                     </div>
@@ -38,10 +38,25 @@
                                         
                                     </div>
                                     <!--end::Items-->
+                                    <!--begin::Items-->
+                                    <div>
+                                        <div class="row row-paddingless mb-10">
+                                            <div class="col-12">
+                                                <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" id="overlay" v-model="overlay">
+                                                    <label class="form-check-label" for="overlay">Overlay</label>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    <!--end::Items-->
                                 </div>
                                 <!--end::Body-->
                             </div>
                             <!--end::Mixed Widget 16-->
+                            
            
 
                         </div>
@@ -167,10 +182,13 @@
 <script>
     export default {
         layout:"cms/dashboard",
+        middleware:"auth",
+        auth:"auth",
         data(){
             return{
                 primaryColor:"",
                 onLoadingColor:false,
+                overlay:false,
 
                 imagePreview:"",
                 file:null,
@@ -313,7 +331,8 @@
                 let res = await this.$axios.post("configcms/store",{
                     hero: this.finalPictureName,
                     logo: this.finalLogoName,
-                    color: this.primaryColor
+                    color: this.primaryColor,
+                    overlay: this.overlay
                 })
 
                 if(res.data.success == true){
@@ -338,6 +357,7 @@
                 this.primaryColor = config.data.color
                 this.imagePreview = config.data.hero ? process.env.SERVER_URL+config.data.hero : ''
                 this.logoPreview = config.data.logo ? process.env.SERVER_URL+config.data.logo : ''
+                this.overlay = config.data.overlay
             }
 
         },

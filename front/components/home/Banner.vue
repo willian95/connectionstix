@@ -85,7 +85,9 @@ export default {
     if(process.browser){
       let color = localStorage.getItem("color")
       
-      document.getElementById("goBtn").style.background = color;
+      if(color){
+        document.getElementById("goBtn").style.background = color;
+      }
     }    
   }
 

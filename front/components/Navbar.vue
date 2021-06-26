@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="transparent == true ? 'header-2 '+navbarClass : 'header-2 change-color '+navbarClass" >
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
     <div class="dflex-sec">
       <nuxt-link :to="{ path: '/'}"><img class="brand" :src="logo" alt="" /></nuxt-link>
@@ -26,10 +26,12 @@ export default {
           return this.$store.getters["getCartAmount"] != 0 ? this.$store.getters["getCartAmount"].amount : 0
       }
   },
+  props:["transparent", "positionAbsolute"],
   data: () => ({
     languages: ["en", "es"],
     language:"",
-    logo:""
+    logo:"",
+    navbarClass:""
   }),
   methods:{
     async getCartCount(order){
@@ -60,30 +62,58 @@ export default {
 
       this.$i18n.setLocale(this.language)
 
+    },
+    getColor(){
+      if(process.browser){
+        if(this.transparent == false){
+          let color = localStorage.getItem("color")
+      
+          if(color){
+            $(".change-color").css("background", color)
+          }
+        }else{
+          $(".header-2").css("background", "transparent")
+        }
+      }
     }
   },
   mounted(){
 
     this.getLocalStorageOrders()
     this.getLogo()
+    this.getColor()
     this.language = this.$i18n.locale
 
-  }
+    if(this.positionAbsolute == true){
+      this.navbarClass = "absolute-position"
+    }
+
+  },
+  watch:{
+    transparent: function(newVal, oldVal){
+
+        this.transparent = newVal
+        this.getColor()
+
+    }
+  },
 };
 </script>
 
 <style lang="scss">
+.absolute-position{
+  position: absolute;
+}
 header {
-    display: flex;
+  display: flex;
   justify-content: space-between;
   width: 100%;
   align-items: center;
   background: transparent;
   padding: 0.5rem 7rem;
-  position: absolute;
   z-index: 9;
   top: 0;
- 
+
   .dflex-sec{
         display: inline-flex;
         align-items: inherit;
