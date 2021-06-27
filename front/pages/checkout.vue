@@ -844,7 +844,7 @@ export default {
         if (process.browser) {
           localStorage.setItem(
             "logo",
-            process.env.SERVER_URL+"/"+config.data.logo
+            process.env.SERVER_URL+config.data.logo
           );
         }
       }
