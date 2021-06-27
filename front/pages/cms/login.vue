@@ -3,7 +3,7 @@
 
         <div class="row">
             <div class="login100-more mask col-md-6"
-                style="background-image: url('../login.jpg');">
+                style="background-image: url('../login.jpg'); margin: 0">
 
 
                <!---- <p>Bienvenido a Aidacaceres CMS</p>--->
@@ -11,7 +11,7 @@
             <div class="login100-form validate-form col-md-6">
 
 
-                <form @submit.prevent="login()">
+                <form @submit.prevent="login()" style="width: 80%">
 
 
                     <div class="wrap-input100 validate-input">
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="container-login100-form-btn">
-                        <button class="login100-form-btn" type="submit">
+                        <button class="login100-form-btn text-white" type="submit">
                             Log In
                         </button>
                     </div>

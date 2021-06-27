@@ -2,7 +2,9 @@
   <header :class="transparent == true ? 'header-2 '+navbarClass : 'header-2 change-color '+navbarClass" >
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
     <div class="dflex-sec">
+      <client-only>
       <nuxt-link :to="{ path: '/'}"><img class="brand" :src="logo" alt="" /></nuxt-link>
+      </client-only>
       <div class="select-language">
         <v-col class="d-flex" cols="12" sm="4">
           <v-select :items="languages" solo v-model="language" @change="changeLanguage()"></v-select>

@@ -4,16 +4,20 @@
     <!------------------------------------>
 
     <div class="container main-checkout">
+      <client-only>
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
         <v-expansion-panel>
-          <v-expansion-panel-header class="change-color"
+          
+            <v-expansion-panel-header class="change-color"
             ><img
               class="icon-arrow"
               src="~assets/images/iconos/arrow.png"
               alt=""
             />
-            {{ $t('reviewSelectedAttractions') }}</v-expansion-panel-header
-          >
+            {{ $t("reviewSelectedAttractions") }}
+            </v-expansion-panel-header>
+          
+
           <v-expansion-panel-content>
             <center>
 
@@ -26,14 +30,28 @@
 
         
             </center>
-            <div v-for="item in items" :key="'item-'+item.item_id">
-              <Detail :thumbnail="item.thumbnail" :itemId="item.item_id" :productId="item.product_id" :prices="item.pricing.price_types" :productName="item.product_name" :currencySymbol="currencySymbol" :currencyCode="currencyCode" :remove="remove" :order="order" :getItems="getItems" :discountEnabled="item.pricing.discounts_enabled" :checkUpdatedItems="checkUpdatedItems"/>
+            <div v-for="item in items" :key="'item-' + item.item_id">
+              <Detail
+                :thumbnail="item.thumbnail"
+                :itemId="item.item_id"
+                :productId="item.product_id"
+                :prices="item.pricing.price_types"
+                :productName="item.product_name"
+                :currencySymbol="currencySymbol"
+                :currencyCode="currencyCode"
+                :remove="remove"
+                :order="order"
+                :getItems="getItems"
+                :discountEnabled="item.pricing.discounts_enabled"
+                :checkUpdatedItems="checkUpdatedItems"
+                :cancellationPolicy="item.cancellation_policy"
+              />
             </div>
           </v-expansion-panel-content>
         </v-expansion-panel>
 
         <!------------------------->
-        
+
         <!--------------slider items------------->
         <v-expansion-panel v-show="nearbyProducts.length > 0">
           <v-expansion-panel-header class="change-color"
@@ -42,7 +60,7 @@
               src="~assets/images/iconos/arrow.png"
               alt=""
             />
-            {{ $t('moreOptions') }}</v-expansion-panel-header
+            {{ $t("moreOptions") }}</v-expansion-panel-header
           >
           <v-expansion-panel-content>
             <v-container>
@@ -60,15 +78,15 @@
                     rounded
                   ></v-btn>
                   <v-slide-item v-for="(slide, i) in nearbyProducts" :key="i">
-                    <NuxtLink class="" :to="{ path: '/attractions/'+slide.product_id }">
+                    <NuxtLink
+                      class=""
+                      :to="{ path: '/attractions/' + slide.product_id }"
+                    >
                       <v-card class="ma-4 card-slide_events">
                         <v-img contain :src="slide.thumbnail"></v-img>
                         <v-card-text>
                           <h3>{{ slide.product_name }}</h3>
-                          <div class="txt-star">
-                            
-                              
-                          </div>
+                          <div class="txt-star"></div>
                         </v-card-text>
                       </v-card>
                     </NuxtLink>
@@ -86,39 +104,63 @@
               src="~assets/images/iconos/arrow.png"
               alt=""
             />
-            {{ $t('billingInfo') }}</v-expansion-panel-header
+            {{ $t("billingInfo") }}</v-expansion-panel-header
           >
-          <v-expansion-panel-content class="main-card">
-            <v-row v-show="isGrandTotalDiscountEnabled">
-              <v-col cols="12" sm="1" md="3" >
-                <label for="">{{ $t('discountCode') }}</label>
-                <v-text-field
-                  label="1234 5678 9012 3456"
-                  single-line
-                  outlined
-                  v-model="discountCode"
-                ></v-text-field>
+          <v-expansion-panel-content class="main-card ">
+            <v-row class="card-line">
+                  <v-col class="line" cols="12" sm="12" md="6">
+                <v-row class="" v-show="isGrandTotalDiscountEnabled">
+                  <v-col  cols="12" sm="12" md="12">
+                    <label for="">{{ $t("discountCode") }}</label>
+                    <v-text-field
+                      label="1234 5678 9012 3456"
+                      single-line
+                      outlined
+                      v-model="discountCode"
+                    ></v-text-field>
+
+                       <button class="btn change-color" @click="setDiscountCode()">
+                      {{ $t("updateOrder") }}
+                    </button>
+                     <v-progress-circular
+                      v-show="onLoadingOrderUpdate == true"
+                      indeterminate
+                      color="primary"
+                    ></v-progress-circular>
+                  </v-col>
+                 
+                </v-row>
               </v-col>
-              <v-col cols="12" sm="1" md="3">
-                <button class="btn change-color" @click="setDiscountCode()" v-show="!onLoadingOrderUpdate">{{ $t('updateOrder') }}</button>
-                <v-progress-circular
-                  v-show="onLoadingOrderUpdate == true"
-                  indeterminate
-                  color="primary"
-                ></v-progress-circular>
+              <v-col class="center" cols="12" sm="12" md="6">
+                <v-row>
+                  <v-col class="center" cols="12" sm="12" md="12">
+                    <div class="total_txt">
+                      <p>Total</p>
+                      <p>{{ grandTotalCurrencySymbol }} {{ total }} {{ grandTotalCurrencyCode }}</p>
+                    </div>
+                  </v-col>
+
+                  <v-col class="center" cols="12" sm="12" md="12">
+                    <div class="">
+                      <button
+                        class="btn change-color"
+                        @click="setShowCheckout()"
+                      >
+                        {{ $t("checkout") }}
+                      </button>
+                      <NuxtLink class="btn btn-borde" :to="{ path: '/' }"
+                        ><button class="change-text-color">
+                          {{ $t("continueShopping") }}
+                        </button></NuxtLink
+                      >
+                    </div>
+                  </v-col>
+                </v-row>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-col class="center" cols="12" sm="4" md="4">
-                <div class="total_txt">
-                  <p>Total</p>
-                  <p>{{ grandTotalCurrencySymbol }} {{ total }} {{ grandTotalCurrencyCode }}</p>
-                </div>
-              </v-col>
-              <button class="btn change-color" @click="setShowCheckout()">{{ $t('checkout') }}</button><NuxtLink class="btn change-color" :to="{ path:'/' }"><button class="btn change-color">{{ $t('continueShopping') }}</button></NuxtLink>
+          
             </v-row>
 
-            <div v-show="showCheckout">
+            <div class="main-form" v-show="showCheckout">
               <v-row>
                 <v-col cols="12" sm="1" md="3">
                   <label for="">* {{ $t("firstName") }}</label>
@@ -127,7 +169,7 @@
                     single-line
                     outlined
                     v-model="customer_first_name"
-                  ></v-text-field>  
+                  ></v-text-field>
                   <LocalErrorShow :errors="localErrors" :name="'name'" />
                 </v-col>
                 <v-col cols="12" sm="1" md="3">
@@ -162,47 +204,69 @@
                   ></v-text-field>
                   <LocalErrorShow :errors="localErrors" :name="'phone'" />
                 </v-col>
-                
               </v-row>
               <v-row>
                 <v-col cols="12" sm="1" md="3">
                   <label for="">{{ $t("ticketDelivery") }}</label>
-                  <v-select :items="deliveryMethods" solo v-model="ticket_delivery_method"></v-select>
+                  <v-select
+                    :items="deliveryMethods"
+                    solo
+                    v-model="ticket_delivery_method"
+                  ></v-select>
                 </v-col>
-
-                
               </v-row>
 
-               <v-row class="paymethod" v-show="showCheckout">
-                <p>{{ $t("paymentMethod") }}</p>
+              <v-row class="paymethod" v-show="showCheckout">
+             
                 <v-row>
-                  <v-col cols="12" sm="4" md="4">
-                    <v-radio-group v-model="radios" mandatory v-show="showPayButton">
-                      
-                      <div class="radio-main" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-'+index">
-                        {{ paymentProvider.payment_provider_name == 'Authorize.net' ? 'Pay with card' : paymentProvider.payment_provider_name}}
-                        <v-radio :key="'radioButton-'+index" :value="index" @click="getInfoFromSelectedPaymentProvider()"></v-radio>
+                     <p>{{ $t("paymentMethod") }}</p>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-radio-group
+                      v-model="radios"
+                      mandatory
+                      v-show="showPayButton"
+                    >
+                      <div
+                        class="radio-main"
+                        v-for="(paymentProvider, index) in paymentProviders"
+                        :key="'paymentProviders-' + index"
+                      >
+                        {{
+                          paymentProvider.payment_provider_name ==
+                          "Authorize.net"
+                            ? "Pay with card"
+                            : paymentProvider.payment_provider_name
+                        }}
+                        <v-radio
+                          :key="'radioButton-' + index"
+                          :value="index"
+                          @click="getInfoFromSelectedPaymentProvider()"
+                        ></v-radio>
                       </div>
-
                     </v-radio-group>
                   </v-col>
                 </v-row>
-                </v-row>
+              </v-row>
 
-              <v-row v-if="selectedPaymentProvider.prompt_billing_address == true">
+              <v-row
+                v-if="selectedPaymentProvider.prompt_billing_address == true"
+              >
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">* {{ $t('address1') }}</label>
+                  <label for="">* {{ $t("address1") }}</label>
                   <v-text-field
                     label="john doe st"
                     single-line
                     outlined
                     v-model="address_line1"
                   ></v-text-field>
-                  <LocalErrorShow :errors="localErrors" :name="'address_line1'" />
+                  <LocalErrorShow
+                    :errors="localErrors"
+                    :name="'address_line1'"
+                  />
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">{{ $t('address2') }}</label>
+                  <label for="">{{ $t("address2") }}</label>
                   <v-text-field
                     label="john any st"
                     single-line
@@ -212,7 +276,7 @@
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">* {{ $t('city') }}</label>
+                  <label for="">* {{ $t("city") }}</label>
                   <v-text-field
                     label="San Diego"
                     single-line
@@ -223,18 +287,21 @@
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">* {{ $t('provinceState') }}</label>
+                  <label for="">* {{ $t("provinceState") }}</label>
                   <v-text-field
                     label="California"
                     single-line
                     outlined
                     v-model="province_state"
                   ></v-text-field>
-                  <LocalErrorShow :errors="localErrors" :name="'province_state'" />
+                  <LocalErrorShow
+                    :errors="localErrors"
+                    :name="'province_state'"
+                  />
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">* {{ $t('postalCode') }}</label>
+                  <label for="">* {{ $t("postalCode") }}</label>
                   <v-text-field
                     label="100010101"
                     single-line
@@ -242,11 +309,14 @@
                     v-model="postal_zip_code"
                     @keypress="isNumber($event)"
                   ></v-text-field>
-                  <LocalErrorShow :errors="localErrors" :name="'postal_zip_code'" />
+                  <LocalErrorShow
+                    :errors="localErrors"
+                    :name="'postal_zip_code'"
+                  />
                 </v-col>
 
                 <v-col cols="12" sm="1" md="3">
-                  <label for="">* {{ $t('cuntry') }}</label>
+                  <label for="">* {{ $t("cuntry") }}</label>
                   <v-text-field
                     label="USA"
                     single-line
@@ -256,17 +326,20 @@
                   <LocalErrorShow :errors="localErrors" :name="'country'" />
                 </v-col>
               </v-row>
-            
-            
-              <v-row class="paymethod" v-show="showCheckout && !onLoadingCheckout">
-                
-                <v-col class="center"  cols="12" sm="4" md="4">
-                   <no-ssr>
-                  <button class="btn change-color" @click="showRequiredFields()" v-if="payButtonDisabled">{{ $t('payNow') }}</button>
+
+              <v-row class="paymethod" v-show="showCheckout  && !onLoadingCheckout">
+                <v-col class="center" cols="12" sm="12" md="12">
+                  <button
+                    class="btn change-color"
+                    @click="showRequiredFields()"
+                    v-if="payButtonDisabled"
+                  >
+                    {{ $t("payNow") }}
+                  </button>
 
                  
                     <paypal-checkout
-                    v-if="selectedPaymentProvider.payment_provider_id != 4 && !payButtonDisabled"
+                    v-if="selectedPaymentProvider.payment_provider_id == 26 && !payButtonDisabled"
                     :env="paypalEnv"
                     :amount="total.toString()"
                     :currency="grandTotalCurrencyCode"
@@ -275,21 +348,41 @@
                     v-on:payment-completed="paypalResponse"
                     >
                     </paypal-checkout>
+
+                    <button
+                      class="btn change-color"
+                      @click="checkout()"
+                      v-show="selectedPaymentProvider.payment_provider_id == 0 && !payButtonDisabled"
+                    >
+                      {{ $t("payNow") }}
+                    </button>
                  
 
-                  <!--<button class="btn change-color" @click="checkout()" v-if="selectedPaymentProvider.payment_provider_id != 4 && !payButtonDisabled">{{ $t('payNow') }}</button>-->
-
-                  <button v-show="selectedPaymentProvider.payment_provider_id == 4 && !payButtonDisabled" type="button"
-                      class="AcceptUI btn change-color"
-                      data-billingAddressOptions='{"show":false, "required":false}' 
-                      :data-apiLoginID="selectedPaymentProvider ? selectedPaymentProvider.data.an_api_login_id : ''" 
-                      :data-clientKey="selectedPaymentProvider ? selectedPaymentProvider.data.an_public_client_key : ''"
-                      data-acceptUIFormBtnTxt="Submit"
-                      data-acceptUIFormHeaderTxt="Card Information"
-                      data-paymentOptions='{"showCreditCard": true, "showBankAccount": true}' 
-                      data-responseHandler="payResponse">{{ $t('payNow') }}
+                  <button
+                    v-show="
+                      selectedPaymentProvider.payment_provider_id == 4 &&
+                        !payButtonDisabled
+                    "
+                    type="button"
+                    class="AcceptUI btn change-color"
+                    data-billingAddressOptions='{"show":false, "required":false}'
+                    :data-apiLoginID="
+                      selectedPaymentProvider.payment_provider_id == 4
+                        ? selectedPaymentProvider.data.an_api_login_id
+                        : ''
+                    "
+                    :data-clientKey="
+                      selectedPaymentProvider.payment_provider_id == 4
+                        ? selectedPaymentProvider.data.an_public_client_key
+                        : ''
+                    "
+                    data-acceptUIFormBtnTxt="Submit"
+                    data-acceptUIFormHeaderTxt="Card Information"
+                    data-paymentOptions='{"showCreditCard": true, "showBankAccount": true}'
+                    data-responseHandler="payResponse"
+                  >
+                    {{ $t("payNow") }}
                   </button>
-                   </no-ssr>
           
                 </v-col>
               </v-row>
@@ -305,395 +398,349 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
-
-      
+      </client-only>
     </div>
   </div>
 </template>
 
 <script>
-
 import Detail from "~/components/checkout/Detail";
 import LocalErrorShow from "../components/localError.vue";
 
 export default {
-  computed:{
-    payButtonDisabled(){
-
+  computed: {
+    payButtonDisabled() {
       var regex = /\S+@\S+\.\S+/;
 
-      if(this.selectedPaymentProvider.prompt_billing_address == true){
-
-        if(this.customer_first_name == "" || this.customer_last_name == "" || this.customer_email == "" || this.phone == "" || this.address_line1 == "" || this.city == "" || this.province_state == "" || this.postal_zip_code == "" || this.country == "" || this.requestForUpdate == true || !regex.test(this.customer_email)){
-
-          return true
-
+      if (this.selectedPaymentProvider.prompt_billing_address == true) {
+        if (
+          this.customer_first_name == "" ||
+          this.customer_last_name == "" ||
+          this.customer_email == "" ||
+          this.phone == "" ||
+          this.address_line1 == "" ||
+          this.city == "" ||
+          this.province_state == "" ||
+          this.postal_zip_code == "" ||
+          this.country == "" ||
+          this.requestForUpdate == true ||
+          !regex.test(this.customer_email)
+        ) {
+          return true;
         }
-
-      }else{
-
-        if(this.customer_first_name == "" || this.customer_last_name == "" || this.customer_email == "" || this.phone == "" || this.requestForUpdate == true || !regex.test(this.customer_email) ){
-
-          return true
-
+      } else {
+        if (
+          this.customer_first_name == "" ||
+          this.customer_last_name == "" ||
+          this.customer_email == "" ||
+          this.phone == "" ||
+          this.requestForUpdate == true ||
+          !regex.test(this.customer_email)
+        ) {
+          return true;
         }
-
       }
 
-      return false
-    
+      return false;
     }
   },
   data: () => ({
-    
-    order:"",
-    currencySymbol:"",
-    currencyCode:"",
-    items:[],
-    nearbyProducts:[],
-    total:0,
+    order: "",
+    currencySymbol: "",
+    currencyCode: "",
+    items: [],
+    nearbyProducts: [],
+    total: 0,
     grandTotalCurrencyCode:"",
     grandTotalCurrencySymbol:"",
     panel: [0, 1, 2, 3],
     disabled: false,
     readonly: false,
-    paymentProviders:[],
-    radios:0,
-    isGrandTotalDiscountEnabled:false,
-    selectedPaymentProvider:"",
-    localErrors:[],
-    newItemValues:[],
-    oldItemValues:[],
-    itemsAmountUpdated:true,
-    requestForUpdate:false,
-    paypalEnv:'sandbox',
+    paymentProviders: [],
+    radios: 0,
+    isGrandTotalDiscountEnabled: false,
+    selectedPaymentProvider: "",
+    localErrors: [],
+    newItemValues: [],
+    oldItemValues: [],
+    itemsAmountUpdated: true,
+    requestForUpdate: false,
+    paypalEnv: "sandbox",
     onLoadingAttraction:false,
     onLoadingOrderUpdate:false,
     onLoadingCheckout:false,
 
-    customer_first_name:"",
-    customer_last_name:"",
-    customer_email:"",
-    phone:"",
-    address_line1:"",
-    address_line2:"",
-    city:"",
-    province_state:"",
-    postal_zip_code:"",
-    country:"",
-    payment_provider_id:"",
-    payment_data:"",
-    deliveryMethods:["text", "email"],
-    ticket_delivery_method:"email",
-    payment_data:"",
-    discountCode:"",
-    showPayButton:false,
-    checkoutCount:0,
-    showCheckout:false,
+    customer_first_name: "",
+    customer_last_name: "",
+    customer_email: "",
+    phone: "",
+    address_line1: "",
+    address_line2: "",
+    city: "",
+    province_state: "",
+    postal_zip_code: "",
+    country: "",
+    payment_provider_id: "",
+    payment_data: "",
+    deliveryMethods: ["text", "email"],
+    ticket_delivery_method: "email",
+    payment_data: "",
+    discountCode: "",
+    showPayButton: false,
+    checkoutCount: 0,
+    showCheckout: false
   }),
-  components:{Detail, LocalErrorShow},
-  methods:{
-
-    payResponse(response){
-        
+  components: { Detail, LocalErrorShow },
+  methods: {
+    payResponse(response) {
       this.payment_data = {
-        "opaque_data_descriptor" : response.opaqueData.dataDescriptor,
-        "opaque_data_value" : response.opaqueData.dataValue
-      }
+        opaque_data_descriptor: response.opaqueData.dataDescriptor,
+        opaque_data_value: response.opaqueData.dataValue
+      };
 
-      if(this.checkoutCount == 0){
-        this.checkout()
-        this.checkoutCount++
+      if (this.checkoutCount == 0) {
+        this.checkout();
+        this.checkoutCount++;
       }
-      
-
     },
-    async getItems(){
-
-      if(process.browser){
-
-        let order = window.localStorage.getItem("orders")
-        if(order != null){
-          this.onLoadingAttraction = true
-          let res = await this.$axios.get("orders/item-list/"+order)
+    async getItems() {
+      if (process.browser) {
+        let order = window.localStorage.getItem("orders");
+        if (order != null) {
+           this.onLoadingAttraction = true
+          let res = await this.$axios.get("orders/item-list/" + order);
           this.onLoadingAttraction = false
-          this.items = res.data.items
-          this.currencyCode = res.data.currency_code
-          this.currencySymbol = res.data.currency_symbol
-          this.order = order
-          this.requestForUpdate = false
+          this.items = res.data.items;
+          this.currencyCode = res.data.currency_code;
+          this.currencySymbol = res.data.currency_symbol;
+          this.order = order;
+          this.requestForUpdate = false;
 
           this.items.forEach((item, index) => {
-
             item.pricing.price_types.forEach((price, index) => {
+              this.oldItemValues.push({
+                amount: price.quantity,
+                price_type_id: price.price_type_id,
+                product_id: item.product_id
+              });
+            });
+          });
 
-              this.oldItemValues.push({amount: price.quantity, price_type_id: price.price_type_id, product_id: item.product_id})
-
-            })
-
-          })
-
-          await this.getTotal()
+          await this.getTotal();
         }
-
       }
-
     },
-    async getTotal(){
-
-      let res = await this.$axios.get("orders/totals/"+this.order)
-      this.total = res.data.grand_total
+    async getTotal() {
+      let res = await this.$axios.get("orders/totals/" + this.order);
+      this.total = res.data.grand_total;
       this.isGrandTotalDiscountEnabled = res.data.discounts_enabled
       this.grandTotalCurrencyCode = res.data.currency_code
       this.grandTotalCurrencySymbol = res.data.currency_symbol
-
     },
-    setShowCheckout(){
-
-      this.showCheckout = true
-
+    setShowCheckout() {
+      this.showCheckout = true;
     },
     isNumber(evt) {
-        evt = (evt) ? evt : window.event;
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
-            evt.preventDefault();;
-        } else {
-            return true;
-        }
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
     },
-    async getCartCount(order){
-
-      let res = await this.$axios.get("orders/item-count/"+order)
-      return res.data.data.number_of_items
-
+    async getCartCount(order) {
+      let res = await this.$axios.get("orders/item-count/" + order);
+      return res.data.data.number_of_items;
     },
-    async remove(itemId){
-
+    async remove(itemId) {
       let res = await this.$axios.post("/orders/item-delete", {
-        "request_number": this.order,
-        "item_id": itemId
-      })
+        request_number: this.order,
+        item_id: itemId
+      });
 
-      var _this = this
+      var _this = this;
 
-      if(res.data.status.result_messages[0] == "OK"){
-
-          let numberItems = await this.getCartCount(this.order)
-          await this.$store.dispatch("storeCartAmount", {amount: numberItems})
-          
-          this.$swal({
-            text:"Product removed",
-            icon: "success"
-          }).then(ans =>{
-
-            _this.getItems()
-
-          })
-        }else{
-
-          this.$swal({
-            text:res.data.status.result_messages[0],
-            icon: "error"
-          })
-
-        }
-
-    },
-    getInfoFromSelectedPaymentProvider(){
-      this.paymentProviders.forEach((data, index) => {
-
-        if(index == this.radios){
-
-          this.selectedPaymentProvider = data
-          
-        }
-
-      })
-    },
-    async getPaymentProviders(){
-
-      let res = await this.$axios.post("checkout/payment-providers",{
-        order_number: this.order
-      })
-
-      this.paymentProviders = res.data.data
-      this.selectedPaymentProvider = this.paymentProviders[0]
-
-      this.getInfoFromSelectedPaymentProvider()
-
-    },
-    setFields(){
-
-      let request = null
-      
-
-        request = {
-          customer_first_name:this.customer_first_name,
-          customer_last_name:this.customer_last_name,
-          customer_email:this.customer_email,
-          phone:this.phone,
-          address_line1:this.address_line1,
-          address_line2:this.address_line2,
-          city:this.city,
-          province_state:this.province_state,
-          postal_zip_code:this.postal_zip_code,
-          country:this.country,
-          order_number:this.order,
-          payment_provider_id:this.payment_provider_id,
-          payment_data:this.payment_data,
-          ticket_delivery_method:this.ticket_delivery_method
-        }
-
-      
-
-      return request
-
-    },
-    checkUpdatedItems(newPrices, productId){
-
-      newPrices.forEach((prices, index) =>{
-
-        let itemIndex = this.newItemValues.findIndex( item => item.price_type_id == prices.priceTypeId &&  item.product_id ==productId)
-
-        if(itemIndex < 0){
-
-          this.newItemValues.push({amount: prices.amount, price_type_id: prices.priceTypeId, product_id: productId})
-
-        }else{
-
-          this.newItemValues[itemIndex].amount = prices.amount
-          this.newItemValues[itemIndex].price_type_id = prices.priceTypeId
-          this.newItemValues[itemIndex].product_id = productId
-
-        }
-
-      })
-
-      
-      this.checkProductsDifferences()
-     
-
-    },
-    checkProductsDifferences(){
-
-      this.requestForUpdate = false
-
-      this.newItemValues.forEach((newValues, index) => {
-
-        this.oldItemValues.forEach((oldValues, index) => {
-
-          if(newValues.product_id == oldValues.product_id && newValues.price_type_id == oldValues.price_type_id){
-
-            if(newValues.amount != oldValues.amount){
-              this.requestForUpdate = true
-            }
-
-          }
-
-        })
-
-      })
-
-
-    },
-    showRequiredFields(){
-
-      
-      if(this.requestForUpdate == true){
+      if (res.data.status.result_messages[0] == "OK") {
+        let numberItems = await this.getCartCount(this.order);
+        await this.$store.dispatch("storeCartAmount", { amount: numberItems });
 
         this.$swal({
-          text:"One or more items need to be updated",
+          text: "Product removed",
+          icon: "success"
+        }).then(ans => {
+          _this.getItems();
+        });
+      } else {
+        this.$swal({
+          text: res.data.status.result_messages[0],
           icon: "error"
-        })
+        });
+      }
+    },
+    getInfoFromSelectedPaymentProvider() {
+      this.paymentProviders.forEach((data, index) => {
+        if (index == this.radios) {
+          this.selectedPaymentProvider = data;
+          console.log(this.selectedPaymentProvider)
+        }
+      });
+    },
+    async getPaymentProviders() {
+      let res = await this.$axios.post("checkout/payment-providers", {
+        order_number: this.order
+      });
 
+      this.paymentProviders = res.data.data;
+      this.selectedPaymentProvider = this.paymentProviders[0];
+
+      this.getInfoFromSelectedPaymentProvider();
+    },
+    setFields() {
+      let request = null;
+
+      request = {
+        customer_first_name: this.customer_first_name,
+        customer_last_name: this.customer_last_name,
+        customer_email: this.customer_email,
+        phone: this.phone,
+        address_line1: this.address_line1,
+        address_line2: this.address_line2,
+        city: this.city,
+        province_state: this.province_state,
+        postal_zip_code: this.postal_zip_code,
+        country: this.country,
+        order_number: this.order,
+        payment_provider_id: this.payment_provider_id,
+        payment_data: this.payment_data,
+        ticket_delivery_method: this.ticket_delivery_method
+      };
+
+      return request;
+    },
+    checkUpdatedItems(newPrices, productId) {
+      newPrices.forEach((prices, index) => {
+        let itemIndex = this.newItemValues.findIndex(
+          item =>
+            item.price_type_id == prices.priceTypeId &&
+            item.product_id == productId
+        );
+
+        if (itemIndex < 0) {
+          this.newItemValues.push({
+            amount: prices.amount,
+            price_type_id: prices.priceTypeId,
+            product_id: productId
+          });
+        } else {
+          this.newItemValues[itemIndex].amount = prices.amount;
+          this.newItemValues[itemIndex].price_type_id = prices.priceTypeId;
+          this.newItemValues[itemIndex].product_id = productId;
+        }
+      });
+
+      this.checkProductsDifferences();
+    },
+    checkProductsDifferences() {
+      this.requestForUpdate = false;
+
+      this.newItemValues.forEach((newValues, index) => {
+        this.oldItemValues.forEach((oldValues, index) => {
+          if (
+            newValues.product_id == oldValues.product_id &&
+            newValues.price_type_id == oldValues.price_type_id
+          ) {
+            if (newValues.amount != oldValues.amount) {
+              this.requestForUpdate = true;
+            }
+          }
+        });
+      });
+    },
+    showRequiredFields() {
+      if (this.requestForUpdate == true) {
+        this.$swal({
+          text: "One or more items need to be updated",
+          icon: "error"
+        });
       }
 
-      this.localErrors = []
+      this.localErrors = [];
       var regex = /\S+@\S+\.\S+/;
 
-      if(this.customer_first_name == ""){
+      if (this.customer_first_name == "") {
         this.localErrors.push({
-          name:"name",
+          name: "name",
           message: "First name is required"
-        })
+        });
       }
 
-      if(this.customer_last_name == ""){
+      if (this.customer_last_name == "") {
         this.localErrors.push({
-          name:"lastname",
+          name: "lastname",
           message: "Lastname is required"
-        })
+        });
       }
 
-      if(this.customer_email == ""){
+      if (this.customer_email == "") {
         this.localErrors.push({
-          name:"email",
+          name: "email",
           message: "Email is required"
-        })
-      }
-
-      else if(!regex.test(this.customer_email)){
-
+        });
+      } else if (!regex.test(this.customer_email)) {
         this.localErrors.push({
-          name:"email",
+          name: "email",
           message: "Email is not valid"
-        })
-
+        });
       }
 
-      if(this.phone == ""){
+      if (this.phone == "") {
         this.localErrors.push({
-          name:"phone",
+          name: "phone",
           message: "Phone is required"
-        })
+        });
       }
 
-      if(this.selectedPaymentProvider.prompt_billing_address == true){
-
-        if(this.address_line1 == ""){
+      if (this.selectedPaymentProvider.prompt_billing_address == true) {
+        if (this.address_line1 == "") {
           this.localErrors.push({
-            name:"address_line1",
+            name: "address_line1",
             message: "Address line 1 is required"
-          })
+          });
         }
 
-        if(this.city == ""){
+        if (this.city == "") {
           this.localErrors.push({
-            name:"city",
+            name: "city",
             message: "City is required"
-          })
+          });
         }
 
-        if(this.province_state == ""){
+        if (this.province_state == "") {
           this.localErrors.push({
-            name:"province_state",
+            name: "province_state",
             message: "Province state is required"
-          })
+          });
         }
 
-        if(this.postal_zip_code == ""){
+        if (this.postal_zip_code == "") {
           this.localErrors.push({
-            name:"postal_zip_code",
+            name: "postal_zip_code",
             message: "Postal zip code is required"
-          })
+          });
         }
 
-        if(this.country == ""){
+        if (this.country == "") {
           this.localErrors.push({
-            name:"country",
+            name: "country",
             message: "Country is required"
-          })
+          });
         }
-
       }
-
     },
-    async checkout(){
+    async checkout() {
+      this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id;
 
-      this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id
-
-      
       if(this.payment_provider_id == 26){
 
         this.payment_data = {
@@ -702,159 +749,149 @@ export default {
 
       }
 
-      let request = this.setFields()
+      let request = this.setFields();
       this.onLoadingCheckout = true
-      let res = await this.$axios.post("checkout",request)
+      let res = await this.$axios.post("checkout", request);
       this.onLoadingCheckout = false
 
-      if(res.data.status.result_messages[0] == "OK"){
+      if (res.data.status.result_messages[0] == "OK") {
         this.$swal({
-          text:"Payment completed successfully",
-          icon:"success"
-        }).then(ans => {
-
-          localStorage.removeItem("orders")
-          this.$router.push("/")
-
-        })
-      }else{
-
-        this.$swal({
-          text: res.data.status.result_code[0],
-          icon:"error"
-        })
-
-        this.checkoutCount = 0;
-
-      }
-
-
-    },
-    async setDiscountCode(){
-
-      this.onLoadingOrderUpdate = true
-      let res = await this.$axios.post("orders/discount-order",{
-          "order_number": this.order,
-          "discount_code": this.discountCode
-      })
-
-      this.onLoadingOrderUpdate = false
-
-      if(res.data.status.result_messages[0] != "OK"){
-
-          this.$swal({
-              text:res.data.status.result_messages[0],
-              icon: "error"
-          })
-   
-      }else{
-
-        this.$swal({
-          text:res.data.status.result_messages[0],
+          text: "Payment completed successfully",
           icon: "success"
         }).then(ans => {
+          localStorage.removeItem("orders");
+          this.$store.dispatch("storeCartAmount", { amount: 0});
+          this.$router.push("/");
+        });
+      } else {
+        this.$swal({
+          text: res.data.status.result_code[0],
+          icon: "error"
+        });
 
-          this.getItems()
-
-        })
+        this.checkoutCount = 0;
       }
-
-      
-
     },
-    paypalResponse(response){
-      
+    async setDiscountCode() {
+      this.onLoadingOrderUpdate = true
+      let res = await this.$axios.post("orders/discount-order", {
+        order_number: this.order,
+        discount_code: this.discountCode
+      });
+      this.onLoadingOrderUpdate = false
+
+      if (res.data.status.result_messages[0] != "OK") {
+        this.$swal({
+          text: res.data.status.result_messages[0],
+          icon: "error"
+        });
+      } else {
+        this.$swal({
+          text: res.data.status.result_messages[0],
+          icon: "success"
+        }).then(ans => {
+          this.getItems();
+        });
+      }
+    },
+    paypalResponse(response) {
       if(response.state == "approved"){
 
         this.checkout()
 
       }
-
     },
-    loadLibraries(){
-      if(process.browser){
-
+    loadLibraries() {
+      if (process.browser) {
         window.setTimeout(() => {
-          this.showPayButton = true
-          let recaptchaScript = document.createElement('script')
-          recaptchaScript.setAttribute('src', 'https://jstest.authorize.net/v1/Accept.js')
-          document.body.appendChild(recaptchaScript)
+          this.showPayButton = true;
+          let recaptchaScript = document.createElement("script");
+          recaptchaScript.setAttribute(
+            "src",
+            "https://jstest.authorize.net/v1/Accept.js"
+          );
+          document.body.appendChild(recaptchaScript);
 
-          let acceptUi = document.createElement('script')
-          acceptUi.setAttribute('src', 'https://jstest.authorize.net/v3/AcceptUI.js')
-          document.body.appendChild(acceptUi)
+          let acceptUi = document.createElement("script");
+          acceptUi.setAttribute(
+            "src",
+            "https://jstest.authorize.net/v3/AcceptUI.js"
+          );
+          document.body.appendChild(acceptUi);
 
           window.payResponse = this.payResponse;
-
-        }, 5000)
+        }, 5000);
       }
     },
-    async nearbyProductsFetch(){
-      var itemIdArray = []
-  
+    async nearbyProductsFetch() {
+      var itemIdArray = [];
+
       this.items.forEach(data => {
-        itemIdArray.push(data.item_id)
+        itemIdArray.push(data.item_id);
+      });
 
-      })
-      let res = await this.$axios.get("products/nearby/"+itemIdArray[0])
-      this.nearbyProducts = res.data
-
+      let res = await this.$axios.get("products/nearby/" + itemIdArray[0]);
+      this.nearbyProducts = res.data;
     },
-    async getConfig(){
+    async getConfig() {
+      let config = await this.$axios.get("configcms");
 
-      let config = await this.$axios.get("configcms")
-
-      if(config.data.hero){
-        this.backImage = process.env.SERVER_URL+config.data.hero
+      if (config.data.hero) {
+        this.backImage = process.env.SERVER_URL + config.data.hero;
       }
 
-      if(config.data.logo){
-      
-        if(process.browser){
-          localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
+      if (config.data.logo) {
+        if (process.browser) {
+          localStorage.setItem(
+            "logo",
+            process.env.SERVER_URL + config.data.logo
+          );
         }
       }
 
-      if(config.data.color){
-        if(process.browser){
-          localStorage.setItem("color", config.data.color)
+      if (config.data.color) {
+        if (process.browser) {
+          localStorage.setItem("color", config.data.color);
         }
       }
-      
+    }
+  },
+  async created() {
+    await this.getItems();
+    this.nearbyProductsFetch();
+
+    if (this.order) {
+      this.getPaymentProviders();
     }
 
+    this.getConfig();
+    if (process.browser) {
+      let color = localStorage.getItem("color");
 
-  },
-  async created(){
-    await this.getItems()
-    this.nearbyProductsFetch()
-    
-    if(this.order){
-      this.getPaymentProviders()
-    }
-
-    this.getConfig()
-  },
-  mounted(){
-
-    this.paypalEnv = process.env.PAYPAL_ENV
-    this.loadLibraries()
-    if(process.browser){
-      let color = localStorage.getItem("color")
-      
-      if(color){
-        $(".change-color").css("background", color)
+      if (color) {
+        $(".change-color").css("background", color);
+        $(".change-text-color").css("color", color)
       }
     }
-    
+  },
+  mounted() {
+    this.paypalEnv = process.env.PAYPAL_ENV;
+    this.loadLibraries();
+    if (process.browser) {
+      let color = localStorage.getItem("color");
 
+      if (color) {
+        $(".change-color").css("background", color);
+        $(".change-text-color").css("color", color)
+      }
+    }
   },
   watch: {
-    $route () {
-      console.log('route changed', this.$route)
+    $route() {
+      console.log("route changed", this.$route);
     }
-  },
-}
+  }
+};
 </script>
 
 <style lang="scss">
@@ -862,9 +899,9 @@ export default {
   margin-top: 5rem;
   margin-bottom: 5rem;
   padding: 0 6rem;
-   @include respond-to(xs) {
-    padding: 0 .5rem;
-   }
+  @include respond-to(xs) {
+    padding: 0 0.5rem;
+  }
 
   .v-card {
     border: none;
@@ -882,6 +919,10 @@ export default {
       text-align: center;
     }
   }
+  .v-expansion-panel-header {
+    background: #b9b9b9;
+    color: #fff;
+  }
 
   .v-expansion-panel--active > .v-expansion-panel-header {
     background: #ef1856;
@@ -898,7 +939,7 @@ export default {
     width: 20px;
     height: 20px;
     display: flex;
-    flex: unset!important;
+    flex: unset !important;
     margin-right: 10px;
   }
 
@@ -920,22 +961,23 @@ export default {
       height: 150px;
       width: 300px;
       object-fit: cover;
-       @include respond-to(xs) {
-          width: 100%;
-       }
+      @include respond-to(xs) {
+        width: 100%;
+      }
     }
   }
 
   .content-panel {
     margin-top: 3rem;
- @include respond-to(xs) {
-    text-align: center;
- }
+    @include respond-to(xs) {
+      text-align: center;
+    }
     .flex {
       display: flex;
-        @include respond-to(xs) {
-justify-content: center;
-        }
+      flex-direction: initial;
+      @include respond-to(xs) {
+        justify-content: center;
+      }
     }
 
     .txt-panel {
@@ -954,9 +996,9 @@ justify-content: center;
       display: grid;
       margin-bottom: 1rem;
       grid-template-columns: 1fr 1fr;
-        @include respond-to(xs) {
-grid-template-columns: 1fr;
-        }
+      @include respond-to(xs) {
+        grid-template-columns: 1fr;
+      }
 
       img {
         width: 25px;
@@ -969,9 +1011,9 @@ grid-template-columns: 1fr;
         display: flex;
         margin-left: 1.4rem;
         @include respond-to(xs) {
-align-items: center;
-    justify-content: center;
-        margin-left: 0;
+          align-items: center;
+          justify-content: center;
+          margin-left: 0;
         }
 
         p {
@@ -1071,10 +1113,10 @@ align-items: center;
       .theme--light.v-image {
         width: 274px;
         height: 182px;
-         @include respond-to(xs) {
+        @include respond-to(xs) {
           width: 163px;
           height: 87px;
-         }
+        }
       }
     }
     .v-card__text {
@@ -1109,16 +1151,13 @@ align-items: center;
   }
 }
 .v-input .v-label {
-
-    padding-left: 10px;
+  padding-left: 10px;
 }
 .paymethod {
-  
   .theme--light.v-label {
     font-size: 1rem;
     color: #000 !important;
     padding-left: 1rem;
- 
   }
   .v-text-field--filled > .v-input__control > .v-input__slot,
   .v-text-field--full-width > .v-input__control > .v-input__slot,
@@ -1138,6 +1177,10 @@ align-items: center;
     flex-direction: column;
     align-items: center;
     margin-left: 3rem;
+    @include respond-to(xs) {
+    margin-left: 0;
+    margin-bottom: 3rem;
+    }
     img {
       width: 50px;
       height: 50px;
@@ -1147,39 +1190,79 @@ align-items: center;
   .theme--light.v-icon {
     color: rgb(239 24 86);
   }
-  .total_txt {
-    text-align: center;
-    p {
-      font-weight: bold;
-      color: #000;
-      font-size: 1.2rem;
-    }
-  }
-  .btn{
-    padding: 10px;
+
+  .btn {
+    padding: 11px 40px;
     text-decoration: none;
+    font-size: .8rem;
   }
-  .center{
-        justify-content: center;
+  .center {
+    justify-content: center;
     align-items: center;
     display: flex;
   }
+}
+.main-card {
+  padding-top: 3rem;
+  margin-bottom: 5rem;
+}
+button:disabled {
+  background: #b9b9b9 !important;
+}
+.btn {
+  background: #ef1856;
+  color: #fff;
+  min-width: auto;
+  border-radius: 9px !important;
+  padding: 0.5rem 2rem;
+  font-size: 0.7rem;
+}
 
+.center {
+  text-align: center;
 }
- .main-card {
-    padding-top: 3rem;
-        margin-bottom: 5rem;
- }
-   button:disabled {
-    background: #b9b9b9!important;
+.total_txt {
+  font-size: 1.2rem;
+  text-align: center;
+  p {
+    font-weight: bold;
+    color: #000;
+    font-size: 1.2rem;
+  }
 }
- .btn{
- 
-background: #EF1856;
-    color: #fff;
-    min-width: auto;
-    border-radius: 9px!important;
-    padding: .5rem 2rem;
-    font-size: .7rem;
- }
+.center2 {
+  justify-content: center;
+  align-items: center;
+}
+.card-line{
+  .line{
+    border-right: 1px solid #00000021;
+  }
+  .v-input__slot{
+    width: 60%;
+      @include respond-to(xs) {
+width: 100%;
+      }
+  }
+}
+.btn-borde{
+      border: 1px solid;
+    background: transparent!important;
+    color: #ef1856!important;
+}
+.main-form{
+  margin-top: 5rem;
+}
+.paymethod{
+  p{
+    font-weight: bold;
+        margin-left: 1rem;
+  }
+}
+  @include respond-to(xs) {
+.btn {
+
+    margin-bottom: 2rem;
+}
+  }
 </style>

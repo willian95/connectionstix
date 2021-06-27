@@ -1,6 +1,7 @@
 <template>
   <footer class="" id="footer">
-    <div class="row ">
+    <client-only>
+      <div class="row ">
       <div class="container">
         <div class="content-footer">
           <div class="center">
@@ -110,6 +111,7 @@
         </div>
       </div>
     </div>
+    </client-only>
   </footer>
 </template>
 

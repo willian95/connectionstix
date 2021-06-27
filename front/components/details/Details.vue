@@ -107,7 +107,6 @@
             <button
               v-show="onLoadingBook == false"
               :disabled="total <= 0"
-              href=""
               class="btn change-color"
               @click="bookNow()"
             >
@@ -890,10 +889,14 @@ img{
 .modal-table{
      max-height: 400px;
     overflow: auto;
+        height: 500px;
   .td-flex{
         display: flex;
     align-items: center;
         height: 4rem;
+        @include respond-to(xs) {
+font-size: .8rem;
+        }
   }
   .v-input--selection-controls {
     margin-top: 24px;
@@ -903,6 +906,11 @@ img{
 tr{
   display: flex;
     justify-content: space-around;
+     @include respond-to(xs) {
+       display: revert;
+ 
+    font-size: .8rem;
+     }
 }
 thead{
   background: #ef1856;
@@ -923,8 +931,15 @@ thead{
   }
   .btn-modal
       {
+        position: fixed;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
         margin-top: 2rem;
     text-align: center;
+    @include respond-to(xs) {
+bottom: -1rem;
+    }
     .btn{
       padding: .5rem 1.5rem;
     }
