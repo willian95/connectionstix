@@ -151,7 +151,7 @@ export default {
       if(config.data.logo){
       
         if(process.browser){
-          localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
+          localStorage.setItem("logo",  process.env.SERVER_URL+"/"+config.data.logo)
         }
       }
 

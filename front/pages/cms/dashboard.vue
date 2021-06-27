@@ -356,7 +356,7 @@
                 
                 this.primaryColor = config.data.color
                 this.imagePreview = config.data.hero ? process.env.SERVER_URL+config.data.hero : ''
-                this.logoPreview = config.data.logo ? process.env.SERVER_URL+config.data.logo : ''
+                this.logoPreview = config.data.logo ? process.env.SERVER_URL+"/"+config.data.logo : ''
                 this.overlay = config.data.overlay
             }
 
