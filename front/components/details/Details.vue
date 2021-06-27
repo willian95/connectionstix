@@ -105,6 +105,7 @@
               </p>
             </div>
             <button
+              v-show="onLoadingBook == false"
               :disabled="total <= 0"
               href=""
               class="btn change-color"
@@ -112,6 +113,11 @@
             >
               {{ $t('bookNow') }}
             </button>
+            <v-progress-circular
+              v-show="onLoadingBook == true"
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
           </div>
         </v-card>
       </v-col>
@@ -278,6 +284,7 @@ export default {
       selectedAvailableDate:"",
       fromDate:"",
       toDate:"",
+      onLoadingBook:false,
       headers: [
         { text: "From", value: "from_datetime",sortable: false  },
         { text: "To", value: "to_datetime",sortable: false  },
@@ -368,6 +375,7 @@ export default {
       });
     },
     bookNow() {
+      this.onLoadingBook = true
       if(this.checkAvailability == true){
 
         this.availabilityCheck()
@@ -411,7 +419,8 @@ export default {
           order = await this.storeOrder();
         }
 
-        this.addItem(order);
+        await this.addItem(order);
+        this.onLoadingBook = false
       }
     },
     async storeOrder() {

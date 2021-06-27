@@ -15,6 +15,17 @@
             {{ $t('reviewSelectedAttractions') }}</v-expansion-panel-header
           >
           <v-expansion-panel-content>
+            <center>
+
+  
+                <v-progress-circular
+                  v-show="onLoadingAttraction"
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
+
+        
+            </center>
             <div v-for="item in items" :key="'item-'+item.item_id">
               <Detail :thumbnail="item.thumbnail" :itemId="item.item_id" :productId="item.product_id" :prices="item.pricing.price_types" :productName="item.product_name" :currencySymbol="currencySymbol" :currencyCode="currencyCode" :remove="remove" :order="order" :getItems="getItems" :discountEnabled="item.pricing.discounts_enabled" :checkUpdatedItems="checkUpdatedItems"/>
             </div>
@@ -36,6 +47,7 @@
           <v-expansion-panel-content>
             <v-container>
               <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
+                
                 <v-slide-group
                   mobile-break-point="1000"
                   show-arrows
@@ -88,14 +100,19 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="1" md="3">
-                <button class="btn change-color" @click="setDiscountCode()">{{ $t('updateOrder') }}</button>
+                <button class="btn change-color" @click="setDiscountCode()" v-show="!onLoadingOrderUpdate">{{ $t('updateOrder') }}</button>
+                <v-progress-circular
+                  v-show="onLoadingOrderUpdate == true"
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
               </v-col>
             </v-row>
             <v-row>
               <v-col class="center" cols="12" sm="4" md="4">
                 <div class="total_txt">
                   <p>Total</p>
-                  <p>$ {{ total }} CAD</p>
+                  <p>{{ grandTotalCurrencySymbol }} {{ total }} {{ grandTotalCurrencyCode }}</p>
                 </div>
               </v-col>
               <button class="btn change-color" @click="setShowCheckout()">{{ $t('checkout') }}</button><NuxtLink class="btn change-color" :to="{ path:'/' }"><button class="btn change-color">{{ $t('continueShopping') }}</button></NuxtLink>
@@ -241,24 +258,24 @@
               </v-row>
             
             
-              <v-row class="paymethod" v-show="showCheckout">
+              <v-row class="paymethod" v-show="showCheckout && !onLoadingCheckout">
                 
                 <v-col class="center"  cols="12" sm="4" md="4">
-
+                   <no-ssr>
                   <button class="btn change-color" @click="showRequiredFields()" v-if="payButtonDisabled">{{ $t('payNow') }}</button>
 
-                  <no-ssr>
+                 
                     <paypal-checkout
                     v-if="selectedPaymentProvider.payment_provider_id != 4 && !payButtonDisabled"
                     :env="paypalEnv"
                     :amount="total.toString()"
-                    currency="CAD"
+                    :currency="grandTotalCurrencyCode"
                     :locale="$i18n.locale.toString() == 'en' ? $i18n.locale.toString()+'_US' : $i18n.locale.toString()+'_'+$i18n.locale.toString().toUpperCase()"
                     :client="selectedPaymentProvider.data ? {[paypalEnv]:selectedPaymentProvider.data.client_id} : ''"
-                    payment-completed="paypalResponse"
+                    v-on:payment-completed="paypalResponse"
                     >
                     </paypal-checkout>
-                  </no-ssr>
+                 
 
                   <!--<button class="btn change-color" @click="checkout()" v-if="selectedPaymentProvider.payment_provider_id != 4 && !payButtonDisabled">{{ $t('payNow') }}</button>-->
 
@@ -272,9 +289,17 @@
                       data-paymentOptions='{"showCreditCard": true, "showBankAccount": true}' 
                       data-responseHandler="payResponse">{{ $t('payNow') }}
                   </button>
+                   </no-ssr>
           
                 </v-col>
               </v-row>
+
+              <center v-show="onLoadingCheckout">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
+              </center>
 
             </div>
           </v-expansion-panel-content>
@@ -327,6 +352,8 @@ export default {
     items:[],
     nearbyProducts:[],
     total:0,
+    grandTotalCurrencyCode:"",
+    grandTotalCurrencySymbol:"",
     panel: [0, 1, 2, 3],
     disabled: false,
     readonly: false,
@@ -340,6 +367,9 @@ export default {
     itemsAmountUpdated:true,
     requestForUpdate:false,
     paypalEnv:'sandbox',
+    onLoadingAttraction:false,
+    onLoadingOrderUpdate:false,
+    onLoadingCheckout:false,
 
     customer_first_name:"",
     customer_last_name:"",
@@ -384,8 +414,9 @@ export default {
 
         let order = window.localStorage.getItem("orders")
         if(order != null){
-
+          this.onLoadingAttraction = true
           let res = await this.$axios.get("orders/item-list/"+order)
+          this.onLoadingAttraction = false
           this.items = res.data.items
           this.currencyCode = res.data.currency_code
           this.currencySymbol = res.data.currency_symbol
@@ -413,6 +444,8 @@ export default {
       let res = await this.$axios.get("orders/totals/"+this.order)
       this.total = res.data.grand_total
       this.isGrandTotalDiscountEnabled = res.data.discounts_enabled
+      this.grandTotalCurrencyCode = res.data.currency_code
+      this.grandTotalCurrencySymbol = res.data.currency_symbol
 
     },
     setShowCheckout(){
@@ -660,13 +693,19 @@ export default {
 
       this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id
 
+      
       if(this.payment_provider_id == 26){
-        this.payment_data = this.selectedPaymentProvider.data
+
+        this.payment_data = {
+          "order_id": this.order
+        }
+
       }
 
       let request = this.setFields()
-
+      this.onLoadingCheckout = true
       let res = await this.$axios.post("checkout",request)
+      this.onLoadingCheckout = false
 
       if(res.data.status.result_messages[0] == "OK"){
         this.$swal({
@@ -693,10 +732,13 @@ export default {
     },
     async setDiscountCode(){
 
+      this.onLoadingOrderUpdate = true
       let res = await this.$axios.post("orders/discount-order",{
           "order_number": this.order,
           "discount_code": this.discountCode
       })
+
+      this.onLoadingOrderUpdate = false
 
       if(res.data.status.result_messages[0] != "OK"){
 
@@ -721,7 +763,13 @@ export default {
 
     },
     paypalResponse(response){
-      console.log(response)
+      
+      if(response.state == "approved"){
+
+        this.checkout()
+
+      }
+
     },
     loadLibraries(){
       if(process.browser){
@@ -748,7 +796,6 @@ export default {
         itemIdArray.push(data.item_id)
 
       })
-
       let res = await this.$axios.get("products/nearby/"+itemIdArray[0])
       this.nearbyProducts = res.data
 

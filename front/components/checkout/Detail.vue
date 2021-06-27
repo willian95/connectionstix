@@ -33,7 +33,14 @@
                     v-if="discountEnabled"
                     ></v-text-field>
 
-                <button class="btn" :disabled="isDisabled  && discountCode == ''" @click="update()">{{ $t('update') }}</button>
+                <button class="btn" :disabled="isDisabled  && discountCode == ''" @click="update()" v-show="!onLoadingUpdate">{{ $t('update') }}</button>
+                <center>
+                    <v-progress-circular
+                    v-show="onLoadingUpdate == true"
+                    indeterminate
+                    color="primary"
+                    ></v-progress-circular>
+                </center>
                 
                 </v-card>
             </v-col>
@@ -96,7 +103,8 @@ export default {
             priceTypes:[],
             oldAmounts:[],
             isDisabled:true,
-            discountCode:""
+            discountCode:"",
+            onLoadingUpdate:false
         }
     },
     methods: {
@@ -144,6 +152,7 @@ export default {
         async update(){
             let discountResponse = true
             let updateResponse = true
+            this.onLoadingUpdate = true
 
             if(this.discountCode != ""){
                 discountResponse = await this.setDiscountCode()
@@ -165,6 +174,8 @@ export default {
                 })
 
             }
+
+            this.onLoadingUpdate = false
 
         },
         async setDiscountCode(){
