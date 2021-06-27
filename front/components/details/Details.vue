@@ -304,7 +304,7 @@ export default {
     },
     chooseDate(){
 
-      if(this.selectedAvailableDate != ""){
+      if(this.selectedAvailableDate >= 0){
         this.closeDatesModal()
         this.fromDate = this.availableDates[this.selectedAvailableDate].from_datetime
         this.toDate = this.availableDates[this.selectedAvailableDate].to_datetime
@@ -327,6 +327,7 @@ export default {
     closeDatesModal(){
       
       this.modalClass = "custom-modal-close"
+      this.onLoadingBook = false
 
     },
     substract(priceTypeId) {
