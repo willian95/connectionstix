@@ -12,16 +12,22 @@ import {
     @PrimaryGeneratedColumn()
     id: number;
   
-    @Column()
+    @Column({
+      nullable: true,
+    })
     color: string;
   
-    @Column()
+    @Column({
+      nullable: true,
+    })
     logo: string;
 
-    @Column()
+    @Column({
+      nullable: true,
+    })
     hero: string;
 
-    @Column()
+    @Column({ type: 'boolean', default: true})
     overlay: boolean;
   
     @Column()
