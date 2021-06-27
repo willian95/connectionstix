@@ -77,12 +77,46 @@ export default {
           $(".header-2").css("background", "transparent")
         }
       }
+    },
+    async getConfig(){
+
+      let config = await this.$axios.get("configcms")
+      this.overlay =  config.data.overlay
+
+      if(config.data.hero){
+        this.backImage = process.env.SERVER_URL+config.data.hero
+      }
+
+      if(config.data.logo){
+      
+        if(process.browser){
+          localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
+        }
+      }
+
+      if(config.data.color){
+        if(process.browser){
+          localStorage.setItem("color", config.data.color)
+        }
+      }
+
+      if(config.data.overlay){
+        if(process.browser){
+          
+          localStorage.setItem("overlay", config.data.overlay)
+          
+        }
+      }
+
+      this.getLogo()
+      
     }
   },
   mounted(){
 
     this.getLocalStorageOrders()
-    this.getLogo()
+
+    this.getConfig()
     this.getColor()
     this.language = this.$i18n.locale
 

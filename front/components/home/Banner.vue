@@ -76,12 +76,46 @@ export default {
         this.logo = window.localStorage.getItem("logo")
       }
 
+    },
+    async getConfig(){
+
+      let config = await this.$axios.get("configcms")
+      console.log("config", config)
+      this.overlay =  config.data.overlay
+
+      if(config.data.hero){
+        this.backImage = process.env.SERVER_URL+config.data.hero
+      }
+
+      if(config.data.logo){
+      
+        if(process.browser){
+          localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
+        }
+      }
+
+      if(config.data.color){
+        if(process.browser){
+          localStorage.setItem("color", config.data.color)
+        }
+      }
+
+      if(config.data.overlay){
+        if(process.browser){
+          
+          localStorage.setItem("overlay", config.data.overlay)
+          
+        }
+      }
+
+      this.getLogo()
+      
     }
 
   },
   mounted(){
     this.getCountries()
-    this.getLogo()
+    this.getConfig()
     if(process.browser){
       let color = localStorage.getItem("color")
       
