@@ -1,6 +1,8 @@
 <template>
   <div>
+    <client-only>
     <Navbar :transparent="false"></Navbar>
+    </client-only>
     <!------------------------------------>
 
     <div class="container main-checkout">

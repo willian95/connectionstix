@@ -1,7 +1,9 @@
 <template>
   <div class="" id="app" data-app>
     <div>
+      <client-only>
       <Navbar :transparent="!overlay" :positionAbsolute="true"/>
+      </client-only>
       <!---    <Logo />-->
       <Banner :getFilteredProducts="getFilteredProducts" :backImage="backImage" v-show="!overlay"/>
       <div class="content-mix mt-12">

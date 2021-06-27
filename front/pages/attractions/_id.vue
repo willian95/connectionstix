@@ -1,6 +1,8 @@
 <template>
   <div class="details-custom">
-    <Navbar :transparent="false" :positionAbsolute="false"></Navbar>
+    <client-only>
+      <Navbar :transparent="false" :positionAbsolute="false"></Navbar>
+    </client-only>
     <div >
       <div class="details-img mb-5"> 
         <img class="" :src="mainImage" alt="" v-show="!overlay"/>
