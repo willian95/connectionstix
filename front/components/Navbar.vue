@@ -3,10 +3,10 @@
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
     <div class="dflex-sec">
       <client-only>
-      <nuxt-link :to="{ path: '/'}"><img class="brand" :src="logo" alt="" /></nuxt-link>
+      <nuxt-link :to="{ path: '/'}"><img v-if="logo" class="brand" :src="logo" alt="" /></nuxt-link>
       </client-only>
       <div class="select-language">
-        <v-col class="d-flex" cols="12" sm="4">
+        <v-col class="d-flex" cols="12" sm="6">
           <v-select :items="languages" solo v-model="language" @change="changeLanguage()"></v-select>
         </v-col>
 
