@@ -86,7 +86,7 @@
           <div class="main-min">
             <button class="flex" @click="showCancellationPolicyModal(cancellationPolicy)">
               <img class="" src="~assets/images/iconos/info.png" alt="" />
-              <p>{{ $t('cancellationPollicy') }}</p>
+              <p>{{ $t('cancellationPolicy') }}</p>
             </button>
           </div>
           <div class="main-min">
