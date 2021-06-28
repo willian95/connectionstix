@@ -86,13 +86,13 @@
           <div class="main-min">
             <button class="flex" @click="showCancellationPolicyModal(cancellationPolicy)">
               <img class="" src="~assets/images/iconos/info.png" alt="" />
-              <p>Cancellation policy</p>
+              <p>{{ $t('cancellationPollicy') }}</p>
             </button>
           </div>
           <div class="main-min">
             <button class="flex" @click="showProductModal(productId)">
               <img class="" src="~assets/images/iconos/info.png" alt="" />
-              <p>More info</p>
+              <p>{{ $t('moreInfo') }}</p>
             </button>
           </div>
         </v-card>
