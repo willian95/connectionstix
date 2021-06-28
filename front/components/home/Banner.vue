@@ -202,7 +202,14 @@ export default {
     @include respond-to(xs) {
       max-width: 92%;
     }
-
+     @include respond-to(sm) {
+        .btn {
+            margin-bottom: 0rem;
+        }
+     }
+ @include respond-to(md) {
+    max-width: 85%;
+ }
     & label {
       color: #000;
       font-size: 1.2rem;

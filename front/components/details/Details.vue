@@ -1,69 +1,78 @@
 <template>
   <v-container class="grey lighten-5 custom-details">
     <v-row no-gutters>
-      <v-col cols="12" md="4">
+      <v-col cols="12" sm="4" md="4">
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
-          
-          <div id="open-modal" :class="'modal-window open-modal '+modalClass">
-            <div  class="modal-table" >
+          <div id="open-modal" :class="'modal-window open-modal ' + modalClass">
+            <div class="modal-table">
               <table style="width: 100%">
                 <thead>
                   <tr>
-                    <th class="th-start">{{ $t('fromDatetime') }}</th>
-                    <th class="th-start">{{ $t('toDatetime') }}</th>
+                    <th class="th-start">{{ $t("fromDatetime") }}</th>
+                    <th class="th-start">{{ $t("toDatetime") }}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(date, index) in availableDates" :key="'date-'+index">
-                 
-                    <td class="td-flex"> <v-radio-group
+                  <tr
+                    v-for="(date, index) in availableDates"
+                    :key="'date-' + index"
+                  >
+                    <td class="td-flex">
+                      <v-radio-group
                         v-model="selectedAvailableDate"
-                        name="rowSelector">
-                        <v-radio :value="index"/>
-                      </v-radio-group> 
-                      {{ date.from_datetime.substring(0, 10) }}</td>
+                        name="rowSelector"
+                      >
+                        <v-radio :value="index" />
+                      </v-radio-group>
+                      {{ date.from_datetime.substring(0, 10) }}
+                    </td>
                     <td>{{ date.to_datetime.substring(0, 10) }}</td>
                   </tr>
                 </tbody>
               </table>
 
-              <button title="Close" class="modal-close" @click="closeDatesModal()">x</button>
+              <button
+                title="Close"
+                class="modal-close"
+                @click="closeDatesModal()"
+              >
+                x
+              </button>
               <div class="btn-modal">
-                  <button class="btn" @click="chooseDate()">{{ $t('chooseDate') }}</button>
+                <button class="btn" @click="chooseDate()">
+                  {{ $t("chooseDate") }}
+                </button>
               </div>
             </div>
-         
-            
-           
           </div>
 
           <div>
             <div class="flex" v-if="checkAvailability">
               <client-only>
-              <div class="date-custom">
-                <img src="~assets/images/iconos/calendar.png" alt="">
+                <div class="date-custom">
+                  <img src="~assets/images/iconos/calendar.png" alt="" />
                   <date-picker
-                  placeholder="MM/DD/YYYY"
-                  format="MM/dd/yyyy"
-                  v-model="date_today"
-                />
-              </div>
+                    placeholder="MM/DD/YYYY"
+                    format="MM/dd/yyyy"
+                    v-model="date_today"
+                  />
+                </div>
 
-               <div class="date-custom">
-                  <img src="~assets/images/iconos/calendar.png" alt="">
+                <div class="date-custom">
+                  <img src="~assets/images/iconos/calendar.png" alt="" />
                   <date-picker
-                  placeholder="MM/DD/YYYY"
-                  format="MM/dd/yyyy"
-                  v-model="next_date"
-                />
-               </div>
+                    placeholder="MM/DD/YYYY"
+                    format="MM/dd/yyyy"
+                    v-model="next_date"
+                  />
+                </div>
               </client-only>
             </div>
 
             <div
               class="main-min"
               v-for="(price, index) in pricing.prices"
-              :key="'price-'+index"
+              :key="'price-' + index"
             >
               <div class="flex">
                 <p>
@@ -80,7 +89,10 @@
                 >
               </div>
               <div class="content-mx">
-                <div class="style-btn change-color" @click="substract(price.price_type_id)">
+                <div
+                  class="style-btn change-color"
+                  @click="substract(price.price_type_id)"
+                >
                   -
                 </div>
                 <p v-if="prices.length > 0">{{ prices[index].amount }}</p>
@@ -110,7 +122,7 @@
               class="btn change-color"
               @click="bookNow()"
             >
-              {{ $t('bookNow') }}
+              {{ $t("bookNow") }}
             </button>
             <v-progress-circular
               v-show="onLoadingBook == true"
@@ -120,7 +132,7 @@
           </div>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="6" md="8">
+      <v-col cols="12" sm="8" md="8">
         <v-card class="pa-2 card-shadows" outlined tile>
           <h3 class="title-custom">{{ title }}</h3>
           <div class="custom-ubication">
@@ -142,18 +154,23 @@
               </ul>
             </div>
           </div>
-          <h3 class="title-custom" v-if="address">{{ $t('attractionAddress') }}</h3>
+          <h3 class="title-custom" v-if="address">
+            {{ $t("attractionAddress") }}
+          </h3>
           <p>{{ address }}</p>
 
           <v-row class="mt-1">
             <v-col class="line" cols="6" md="6">
-              <h3 class="title-custom">{{ $t('openingHours') }}</h3>
+              <h3 class="title-custom">{{ $t("openingHours") }}</h3>
               <ul>
-                <li v-for="(openingHour, index) in operationHours" :key="'open-'+index">
+                <li
+                  v-for="(openingHour, index) in operationHours"
+                  :key="'open-' + index"
+                >
                   {{ openingHour.day }}:
                   <span
                     v-if="openingHour.open == null && openingHour.close == null"
-                    >{{ $t('closedAllDay') }}</span
+                    >{{ $t("closedAllDay") }}</span
                   >
                   <span v-else>
                     {{ openingHour.open }} to {{ openingHour.close }}
@@ -162,7 +179,7 @@
               </ul>
             </v-col>
             <v-col cols="6" md="6" v-if="duration.length">
-              <h3 class="title-custom">{{ $t('duration') }}</h3>
+              <h3 class="title-custom">{{ $t("duration") }}</h3>
 
               <p>{{ duration.length }} {{ duration.unit }}</p>
 
@@ -174,27 +191,32 @@
             </v-col>
           </v-row>
           <div class="descripon">
-            <h3 class="title-custom" v-if="description">{{ $t('description') }}</h3>
+            <h3 class="title-custom" v-if="description">
+              {{ $t("description") }}
+            </h3>
             <p v-if="description">
               {{ description }}
             </p>
 
             <h3 class="title-custom" v-if="highlights.length > 0">
-              {{ $t('hightlights') }}
+              {{ $t("hightlights") }}
             </h3>
             <ul>
-              <li v-for="(highlight, index) in highlights" :key="'highlight-'+index">
+              <li
+                v-for="(highlight, index) in highlights"
+                :key="'highlight-' + index"
+              >
                 {{ highlight }}
               </li>
             </ul>
 
             <div>
-              <h3 class="title-custom">{{ $t('knowBefore') }}</h3>
+              <h3 class="title-custom">{{ $t("knowBefore") }}</h3>
               <div class="know-info">
                 <div
                   class="item"
                   v-for="(inclusion, index) in inclusions"
-                  :key="'inclusion-'+index"
+                  :key="'inclusion-' + index"
                 >
                   <div>
                     <!--<img src="~assets/images/iconos/pet.png" alt="" />-->
@@ -205,7 +227,7 @@
                 <div
                   class="item"
                   v-for="(exclusion, index) in exclusions"
-                  :key="'exclusion-'+index"
+                  :key="'exclusion-' + index"
                 >
                   <div>
                     <!--<img src="~assets/images/iconos/wheelcair.png" alt="" />-->
@@ -218,7 +240,7 @@
                 <div
                   class="item"
                   v-for="(know, index) in knowBeforeYouGoChecklist"
-                  :key="'know-'+index"
+                  :key="'know-' + index"
                 >
                   <div>
                     <img :src="know.icon" alt="" />
@@ -231,14 +253,14 @@
               <ul>
                 <li
                   v-for="(optional, index) in knowBeforeYouGoOptional"
-                  :key="'optional-'+index"
+                  :key="'optional-' + index"
                 >
                   {{ optional }}
                 </li>
               </ul>
             </div>
 
-            <h3 class="title-custom">{{ $t('cancellationPolicy') }}</h3>
+            <h3 class="title-custom">{{ $t("cancellationPolicy") }}</h3>
             <p>
               {{ cancellationPolicy }}
             </p>
@@ -274,15 +296,15 @@ export default {
       priceTypes: [],
       total: 0,
       date_today: new Date(),
-      next_date:"",
-      modalClass:"custom-modal-close",
-      selectedAvailableDate:"",
-      fromDate:"",
-      toDate:"",
-      onLoadingBook:false,
+      next_date: "",
+      modalClass: "custom-modal-close",
+      selectedAvailableDate: "",
+      fromDate: "",
+      toDate: "",
+      onLoadingBook: false,
       headers: [
-        { text: "From", value: "from_datetime",sortable: false  },
-        { text: "To", value: "to_datetime",sortable: false  },
+        { text: "From", value: "from_datetime", sortable: false },
+        { text: "To", value: "to_datetime", sortable: false }
       ],
       availableDates: []
     };
@@ -298,33 +320,29 @@ export default {
 
       this.getTotal();
     },
-    chooseDate(){
-
-      if(this.selectedAvailableDate >= 0){
-        this.closeDatesModal()
-        this.fromDate = this.availableDates[this.selectedAvailableDate].from_datetime
-        this.toDate = this.availableDates[this.selectedAvailableDate].to_datetime
-        this.getLocalStorageOrders()
-      }else{
-
+    chooseDate() {
+      if (this.selectedAvailableDate >= 0) {
+        this.closeDatesModal();
+        this.fromDate = this.availableDates[
+          this.selectedAvailableDate
+        ].from_datetime;
+        this.toDate = this.availableDates[
+          this.selectedAvailableDate
+        ].to_datetime;
+        this.getLocalStorageOrders();
+      } else {
         this.$swal({
-          text: this.$t('youHaveToChooseDate'),
+          text: this.$t("youHaveToChooseDate"),
           icon: "error"
-        })
-
+        });
       }
-
     },
-    showDatesModal(){
-     
-      this.modalClass = "custom-modal-open"
-
+    showDatesModal() {
+      this.modalClass = "custom-modal-open";
     },
-    closeDatesModal(){
-      
-      this.modalClass = "custom-modal-close"
-      this.onLoadingBook = false
-
+    closeDatesModal() {
+      this.modalClass = "custom-modal-close";
+      this.onLoadingBook = false;
     },
     substract(priceTypeId) {
       let res = this.checkDuplicate(priceTypeId);
@@ -371,17 +389,14 @@ export default {
       });
     },
     bookNow() {
-      this.onLoadingBook = true
-      if(this.checkAvailability == true){
-
-        this.availabilityCheck()
-      }else{
+      this.onLoadingBook = true;
+      if (this.checkAvailability == true) {
+        this.availabilityCheck();
+      } else {
         this.getLocalStorageOrders();
       }
-      
     },
-    async availabilityCheck(){
-
+    async availabilityCheck() {
       this.formatPriceTypes();
 
       let res = await this.$axios.post("products/availability", {
@@ -391,22 +406,17 @@ export default {
         price_types: this.priceTypes
       });
 
-      if(res.data.status){
-        if(res.data.status.result_messages[0] != "OK"){
-     
+      if (res.data.status) {
+        if (res.data.status.result_messages[0] != "OK") {
           this.$swal({
-            text:res.data.status.result_messages[0],
-            icon:"error"
-          })
-        }else{
-          
-          this.availableDates = res.data.data.availability
-          this.showDatesModal()
-
+            text: res.data.status.result_messages[0],
+            icon: "error"
+          });
+        } else {
+          this.availableDates = res.data.data.availability;
+          this.showDatesModal();
         }
       }
-      
-
     },
     async getLocalStorageOrders() {
       if (process.browser) {
@@ -416,7 +426,7 @@ export default {
         }
 
         await this.addItem(order);
-        this.onLoadingBook = false
+        this.onLoadingBook = false;
       }
     },
     async storeOrder() {
@@ -440,7 +450,7 @@ export default {
         await this.$store.dispatch("storeCartAmount", { amount: numberItems });
 
         this.$swal({
-          text: this.$t('productBooked'),
+          text: this.$t("productBooked"),
           icon: "success"
         }).then(ans => {
           this.prices.forEach((data, index) => {
@@ -450,18 +460,15 @@ export default {
           this.$router.push("/checkout");
         });
       } else {
-
-        if(res.data.status.result_code == 1000){
+        if (res.data.status.result_code == 1000) {
           window.localStorage.removeItem("orders");
-          this.getLocalStorageOrders()
-        }else{
+          this.getLocalStorageOrders();
+        } else {
           this.$swal({
             text: res.data.status.result_messages[0],
             icon: "error"
           });
         }
-
-       
       }
     },
     formatPriceTypes() {
@@ -487,30 +494,27 @@ export default {
       });
 
       setTimeout(() => {
-        if(process.browser){
-          let color = localStorage.getItem("color")
-          
-          if(color){
-            $(".change-color").css("background", color)
+        if (process.browser) {
+          let color = localStorage.getItem("color");
+
+          if (color) {
+            $(".change-color").css("background", color);
           }
         }
-      }, 1000)
-
+      }, 1000);
     },
     nextDateAvailable: function(newVal, oldVal) {
       this.next_date = newVal;
     }
   },
-  mounted(){
+  mounted() {
+    if (process.browser) {
+      let color = localStorage.getItem("color");
 
-    if(process.browser){
-      let color = localStorage.getItem("color")
-      
-      if(color){
-        $(".change-color").css("background", color)
+      if (color) {
+        $(".change-color").css("background", color);
       }
-    }  
-
+    }
   }
 };
 </script>
@@ -531,18 +535,16 @@ export default {
     .map {
       width: 300px;
       height: 100%;
-         @include respond-to(xs) {
-width: 200px;
-
-         }
+      @include respond-to(xs) {
+        width: 200px;
+      }
     }
 
     div {
       margin-left: 4rem;
- @include respond-to(xs) {
-margin-left: 0rem;
-         }
-
+      @include respond-to(xs) {
+        margin-left: 0rem;
+      }
 
       ul {
         list-style: none;
@@ -551,9 +553,9 @@ margin-left: 0rem;
           width: 100px;
           height: 100%;
           object-fit: contain;
-            @include respond-to(xs) {
-             width: 65px;
-            }
+          @include respond-to(xs) {
+            width: 65px;
+          }
         }
       }
     }
@@ -565,10 +567,9 @@ margin-left: 0rem;
 
   p {
     font-size: 1.1rem;
-       @include respond-to(xs) {
-          font-size: .8rem;
-       }
-   
+    @include respond-to(xs) {
+      font-size: 0.8rem;
+    }
   }
 
   .line::before {
@@ -584,8 +585,8 @@ margin-left: 0rem;
 
     .col-md-6 {
       padding-left: 0;
-      span{
-           font-weight: 400;
+      span {
+        font-weight: 400;
       }
     }
 
@@ -607,17 +608,17 @@ margin-left: 0rem;
     grid-gap: 1.5rem 12rem;
     max-width: 90%;
     @include respond-to(xs) {
-    grid-gap: 1.5rem 2.5rem;
+      grid-gap: 1.5rem 2.5rem;
     }
 
     img {
       width: 35px;
       height: 35px;
       object-fit: contain;
-         @include respond-to(xs) {
-    width: 25px;
-    height: 25px;
-         }
+      @include respond-to(xs) {
+        width: 25px;
+        height: 25px;
+      }
     }
 
     .item {
@@ -661,20 +662,22 @@ margin-left: 0rem;
     height: 100px !important;
     margin-left: 2rem;
     @include respond-to(xs) {
-width: 40px !important;
+      width: 40px !important;
     }
   }
 
   .main-min {
-display: grid;
+    display: grid;
     margin-bottom: 2rem;
     grid-template-columns: 1fr 1fr;
 
     @include respond-to(xs) {
-     padding: 20px;
-     margin-bottom: 0;
+      padding: 20px;
+      margin-bottom: 0;
     }
-
+@include respond-to(sm) {
+padding: 3px;
+}
     img {
       width: 25px;
       height: 27px;
@@ -685,8 +688,13 @@ display: grid;
     .content-mx {
       display: flex;
       margin-left: 1.4rem;
-          gap: 1rem;
-
+      gap: 1rem;
+      @include respond-to(sm) {
+        gap: 0rem;
+      }
+@include respond-to(md) {
+     gap: 0rem;
+}
       p {
         margin: 0 0.8rem;
       }
@@ -706,7 +714,6 @@ display: grid;
       }
     }
   }
-
 
   .book-shadows {
     box-shadow: 0px 0px 8px #00000033;
@@ -755,7 +762,7 @@ display: grid;
   }
 
   /**********modal**********/
-  .interior{
+  .interior {
     margin-bottom: 2rem;
   }
   .modal-window {
@@ -773,7 +780,7 @@ display: grid;
     opacity: 1;
     pointer-events: auto;
   }
-  .modal-window .modal-table{
+  .modal-window .modal-table {
     width: 700px;
     position: absolute;
     top: 50%;
@@ -781,10 +788,10 @@ display: grid;
     transform: translate(-50%, -50%);
     padding: 2em;
     background: white;
-        padding-top: 4rem;
-        @include respond-to(xs) {
-          width: 100%;
-        }
+    padding-top: 4rem;
+    @include respond-to(xs) {
+      width: 100%;
+    }
   }
   .modal-window header {
     font-weight: bold;
@@ -803,7 +810,6 @@ display: grid;
     width: auto;
     text-decoration: none;
     right: 29px;
- 
   }
   .modal-close:hover {
     color: black;
@@ -824,121 +830,144 @@ display: grid;
     > tr:last-child
     > th {
     color: #ffff;
-   font-size: 1.2rem;
+    font-size: 1.2rem;
   }
   .v-data-table-header {
     background: #ef1856;
     color: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-      .text-start:nth-child(1){
-    opacity: 0; 
-}
+    .text-start:nth-child(1) {
+      opacity: 0;
+    }
   }
-  .v-data-footer{
+  .v-data-footer {
     display: none;
   }
   .theme--light.v-data-table {
-
     border: 1px solid #00000017;
-}
+  }
 
-.theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr > td:not(.v-data-table__mobile-row), .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr > th:not(.v-data-table__mobile-row) {
+  .theme--light.v-data-table
+    > .v-data-table__wrapper
+    > table
+    > tbody
+    > tr
+    > td:not(.v-data-table__mobile-row),
+  .theme--light.v-data-table
+    > .v-data-table__wrapper
+    > table
+    > tbody
+    > tr
+    > th:not(.v-data-table__mobile-row) {
     border-bottom: thin solid rgba(0, 0, 0, 0.12);
     border-bottom: 0;
     color: #000;
     font-size: 1.2rem;
+  }
 }
 
-}
-
-
-
-.date-custom{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-    border: 1px solid rgba(6,6,6,0.32157);
-    border-radius: 7px;
-    text-align: center;
-   
-    padding: 0.4rem 0;
-  padding: 8px 1rem;
-    align-items: center;
- & input{
-   /*border: 1px solid #06060652;*/
-    border-radius: 7px;
-    text-align: center;
-        max-width: 150px;
- }
-img{
-      width: 27px;
-      margin-right: -15px;
-}
-}
-.flex{
+.date-custom {
   display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-        margin-bottom: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(6, 6, 6, 0.32157);
+  border-radius: 7px;
+  text-align: center;
+
+  padding: 0.4rem 0;
+  padding: 8px 1rem;
+  align-items: center;
+     @include respond-to(sm) {
+font-size: .7rem;
+     }
+  & input {
+    /*border: 1px solid #06060652;*/
+    border-radius: 7px;
+    text-align: center;
+    max-width: 150px;
+  }
+  img {
+    width: 27px;
+    margin-right: -15px;
+      @include respond-to(sm) {
+    width: 20px;
+      }
+  }
 }
-.modal-table{
-     max-height: 400px;
-    overflow: auto;
-        height: 500px;
-  .td-flex{
-        display: flex;
+.flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+     @include respond-to(xs) {
+ margin-bottom: 1rem;
+  p{
+                font-size: .7rem;
+          }
+     }
+        @include respond-to(sm) {
+          p{
+                font-size: .7rem;
+          }
+      }
+}
+.modal-table {
+  max-height: 400px;
+  overflow: auto;
+  height: 500px;
+  .td-flex {
+    display: flex;
     align-items: center;
-        height: 4rem;
-        @include respond-to(xs) {
-font-size: .8rem;
-        }
+    height: 4rem;
+    @include respond-to(xs) {
+      font-size: 0.8rem;
+    }
   }
   .v-input--selection-controls {
     margin-top: 24px;
-   
+
     margin-right: 18px;
-}
-tr{
-  display: flex;
+  }
+  tr {
+    display: flex;
     justify-content: space-around;
-     @include respond-to(xs) {
-       display: revert;
- 
-    font-size: .8rem;
-     }
-}
-thead{
-  background: #ef1856;
+    @include respond-to(xs) {
+      display: revert;
+
+      font-size: 0.8rem;
+    }
+  }
+  thead {
+    background: #ef1856;
     color: #fff;
     border-top-right-radius: 10px;
+  }
 }
-}
-.custom-modal-open{
-    visibility: visible;
-    opacity: 1;
+.custom-modal-open {
+  visibility: visible;
+  opacity: 1;
 }
 
-.custom-modal-close{
+.custom-modal-close {
   display: none;
 }
- .th-start{
-    text-align: start;
+.th-start {
+  text-align: start;
+}
+.btn-modal {
+  position: fixed;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  margin-top: 2rem;
+  text-align: center;
+  @include respond-to(xs) {
+    bottom: -1rem;
   }
-  .btn-modal
-      {
-        position: fixed;
-    bottom: 2rem;
-    left: 0;
-    right: 0;
-        margin-top: 2rem;
-    text-align: center;
-    @include respond-to(xs) {
-bottom: -1rem;
-    }
-    .btn{
-      padding: .5rem 1.5rem;
-    }
+  .btn {
+    padding: 0.5rem 1.5rem;
   }
+}
 </style>

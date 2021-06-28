@@ -406,11 +406,17 @@ export default {
     display: block;
 
   }
+     @include respond-to(sm) {
+display: flex;
+     }
   .items {
     width: 50%;
       @include respond-to(xs) {
 width: 100%;
       }
+       @include respond-to(sm) {
+ width: 50%;
+       }
   }
       .itemend{
          display: inline-grid;

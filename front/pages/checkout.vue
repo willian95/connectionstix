@@ -999,9 +999,13 @@ export default {
       margin-bottom: 1rem;
       grid-template-columns: 1fr 1fr;
       @include respond-to(xs) {
-        grid-template-columns: 1fr;
+           margin-top: 1rem;
       }
-
+      @include respond-to(sm) {
+          p{
+                font-size: .7rem;
+          }
+      }
       img {
         width: 25px;
         height: 27px;
@@ -1156,6 +1160,12 @@ export default {
   padding-left: 10px;
 }
 .paymethod {
+   @include respond-to(sm) {
+.v-input--radio-group__input {
+    display: flex;
+    justify-content: center;
+}
+   }
   .theme--light.v-label {
     font-size: 1rem;
     color: #000 !important;
@@ -1183,11 +1193,17 @@ export default {
     margin-left: 0;
     margin-bottom: 3rem;
     }
+       @include respond-to(sm) {
+margin-right: 4rem;
+    margin-bottom: 3rem;
+       }
     img {
       width: 50px;
       height: 50px;
       object-fit: contain;
     }
+
+
   }
   .theme--light.v-icon {
     color: rgb(239 24 86);

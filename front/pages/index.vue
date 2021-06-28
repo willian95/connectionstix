@@ -2,21 +2,27 @@
   <div class="" id="app" data-app>
     <div>
       <client-only>
-      <Navbar :transparent="!overlay" :positionAbsolute="true"/>
+        <Navbar :transparent="!overlay" :positionAbsolute="true" />
       </client-only>
       <!---    <Logo />-->
-      <Banner :getFilteredProducts="getFilteredProducts" :backImage="backImage" v-show="!overlay"/>
+      <Banner
+        :getFilteredProducts="getFilteredProducts"
+        :backImage="backImage"
+        v-show="!overlay"
+      />
       <div class="content-mix mt-12">
         <div class="row">
           <div class="col-md-12 ">
             <ul class="list-unstyled mb-0">
-              <li class="mb-3" v-for="(tag, index) in tagList" :key="'tag-'+index">
+              <li
+                class="mb-3"
+                v-for="(tag, index) in tagList"
+                :key="'tag-' + index"
+              >
                 <div>
                   <img class="img-icon" :src="tag.icon" alt="" />
                 </div>
-                <div
-                  class="cursore-pointer"
-                >
+                <div class="cursore-pointer">
                   {{ tag.name }}
                 </div>
               </li>
@@ -27,11 +33,16 @@
               <div></div>
               <p class="title-mix">See all</p>
               <no-ssr>
-                <isotope class="mix-grid" ref="projects" :list="projects" :options="{}">
+                <isotope
+                  class="mix-grid"
+                  ref="projects"
+                  :list="projects"
+                  :options="{}"
+                >
                   <div
                     class="text-white thumbnail "
                     v-for="(item, index) in projects"
-                    :key="'projects-'+index"
+                    :key="'projects-' + index"
                   >
                     <div class="cursore-pointer d-block pos-r p-1">
                       <img class="w-100" :src="item.thumbnail" />
@@ -42,7 +53,7 @@
                           <h3>{{ item.product_name }}</h3>
                           <p
                             v-for="(price, index) in item.pricing.prices"
-                            v-bind:key="'item-'+index"
+                            v-bind:key="'item-' + index"
                           >
                             {{ item.pricing.currency_symbol }}
                             {{ price.current_price }}
@@ -51,8 +62,10 @@
                           </p>
                           <div class="txt-star">
                             <NuxtLink
-                              :to="localePath('/attractions/' + item.product_id)"
-                              >{{ $t('moreInfo') }}</NuxtLink
+                              :to="
+                                localePath('/attractions/' + item.product_id)
+                              "
+                              >{{ $t("moreInfo") }}</NuxtLink
                             >
                           </div>
                         </div>
@@ -79,8 +92,8 @@ export default {
     return {
       filterOption: "See All",
       tagList: [],
-      backImage:'/banner.png',
-      overlay:true,
+      backImage: "/banner.png",
+      overlay: true,
       projects: []
     };
   },
@@ -126,44 +139,40 @@ export default {
       let res = await this.$axios.get("tags/all");
       this.tagList = res.data;
     },
-    async getConfig(){
+    async getConfig() {
+      let config = await this.$axios.get("configcms");
+      this.overlay = config.data.overlay;
 
-      let config = await this.$axios.get("configcms")
-      this.overlay =  config.data.overlay
-
-      if(config.data.hero){
-        this.backImage = process.env.SERVER_URL+config.data.hero
+      if (config.data.hero) {
+        this.backImage = process.env.SERVER_URL + config.data.hero;
       }
 
-      if(config.data.logo){
-      
-        if(process.browser){
-          localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
+      if (config.data.logo) {
+        if (process.browser) {
+          localStorage.setItem(
+            "logo",
+            process.env.SERVER_URL + config.data.logo
+          );
         }
       }
 
-      if(config.data.color){
-        if(process.browser){
-          localStorage.setItem("color", config.data.color)
+      if (config.data.color) {
+        if (process.browser) {
+          localStorage.setItem("color", config.data.color);
         }
       }
 
-      if(config.data.overlay){
-        if(process.browser){
-          
-          localStorage.setItem("overlay", config.data.overlay)
-          
+      if (config.data.overlay) {
+        if (process.browser) {
+          localStorage.setItem("overlay", config.data.overlay);
         }
       }
-
-      
-      
     }
   },
   created() {
     this.getTags();
     this.getAllProducts();
-    this.getConfig()
+    this.getConfig();
   }
 };
 </script>
@@ -175,6 +184,16 @@ export default {
   @include respond-to(xs) {
     padding: 0 0;
     padding-bottom: 25rem;
+    .mt-12 {
+      margin-top: 23rem;
+    }
+  }
+  @include respond-to(sm) {
+    padding-bottom: 0rem;
+  }
+  @include respond-to(md) {
+    overflow: hidden;
+    padding: 0 3rem;
   }
 
   & ul {
@@ -186,6 +205,10 @@ export default {
       display: inline-flex;
       overflow: scroll;
       margin-top: 3rem;
+    }
+    @include respond-to(sm) {
+      text-align: center;
+      justify-content: center;
     }
   }
   & li {
@@ -200,6 +223,9 @@ export default {
       font-size: 0.8rem;
       min-width: 90px;
     }
+     @include respond-to(md) {
+    padding: 0 1.5rem;
+     }
   }
   & .title-mix {
     text-align: center;
@@ -233,6 +259,10 @@ export default {
     flex-wrap: wrap;
     grid-gap: 3rem;
     text-align: start;
+      @include respond-to(md) {
+grid-gap: 2rem;
+height: max-content!important;
+      }
     & .item {
       position: relative !important;
       left: auto !important;
@@ -244,6 +274,11 @@ export default {
       @include respond-to(xs) {
         width: 100%;
         margin: 10px;
+      }
+      @include respond-to(sm) {
+        width: 43%;
+        margin: 10px;
+        height: max-content;
       }
 
       & img {
@@ -277,6 +312,9 @@ export default {
       font-size: 0.9rem;
       font-weight: 400;
       color: #ef1856;
+    }
+    @include respond-to(sm) {
+      height: auto !important;
     }
     .txt-star {
       display: flex;

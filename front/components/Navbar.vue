@@ -6,7 +6,7 @@
       <nuxt-link :to="{ path: '/'}"><img class="brand" :src="logo" alt="" /></nuxt-link>
       </client-only>
       <div class="select-language">
-        <v-col class="d-flex" cols="12" sm="4">
+        <v-col class="d-flex" cols="12" sm="5">
           <v-select :items="languages" solo v-model="language" @change="changeLanguage()"></v-select>
         </v-col>
 
@@ -149,6 +149,9 @@ header {
   padding: 0.5rem 7rem;
   z-index: 9;
   top: 0;
+   @include respond-to(sm) {
+   padding: 1rem;
+   }
 
   .dflex-sec{
         display: inline-flex;
@@ -167,10 +170,10 @@ header {
     }
   }
   .select-language {
-   display: inline-flex;
+
     @include respond-to(xs) {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+
       margin-left: 0;
 
       .d-flex{
