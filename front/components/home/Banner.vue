@@ -1,8 +1,8 @@
 <template>
   <div class="banner">
-    <img class="background" :src="backImage" alt="" />
+    <img v-if="backImage" class="background" :src="backImage" alt="" />
     <div class="banner__content">
-      <img :src="logo" alt="" />
+      <img v-if="logo" :src="logo" alt="" />
       <h2>{{ $t('bookNow') }}</h2>
       <p>{{ $t('homePrice') }}</p>
       <span>{{ $t('homeKidPrice') }}</span>
