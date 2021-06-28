@@ -112,11 +112,15 @@
     .login_admin button {
         outline: none !important;
         border: none;
-        background: #0d3c66;
+          background: #EF1856;
         width: 114px;
 
         font-family: inherit !important;
     }
+    .login_admin  .row {
+   
+    margin: 0px;
+}
 
     .login_admin button:hover {
         cursor: pointer;
