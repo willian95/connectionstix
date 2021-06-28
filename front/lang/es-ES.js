@@ -42,7 +42,18 @@ export default {
     payNow:"Paga ahora",
     discountCode:"Código de descuento",
     checkout:"Pagar",
-    continueShopping:"Seguir comprando"
+    continueShopping:"Seguir comprando",
+
+    productBooked:"Producto agregado al carrito",
+    chooseDate:"Elegir fecha",
+    youHaveToChooseDate:"Debes elegir una fecha",
+    fromDatetime:"Fecha inicio",
+    toDatetime:"Fecha fin",
+    closedAllDay:"Cerrado todo el día",
+    productRemoved:"Producto eliminado",
+    itemUpdated:"Articulo actualizado",
+    oneOrMoreItemsUpdate:"Uno o más articulos necesitan ser actualizados",
+    paymentSuccessful:"Pago completado exitosamente",
 
 
 }

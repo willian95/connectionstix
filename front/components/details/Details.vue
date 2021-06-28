@@ -9,8 +9,8 @@
               <table style="width: 100%">
                 <thead>
                   <tr>
-                    <th class="th-start">From datetime</th>
-                    <th class="th-start">To datetime</th>
+                    <th class="th-start">{{ $t('fromDatetime') }}</th>
+                    <th class="th-start">{{ $t('toDatetime') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -29,7 +29,7 @@
 
               <button title="Close" class="modal-close" @click="closeDatesModal()">x</button>
               <div class="btn-modal">
-                  <button class="btn" @click="chooseDate()">Choose date</button>
+                  <button class="btn" @click="chooseDate()">{{ $t('chooseDate') }}</button>
               </div>
             </div>
          
@@ -153,7 +153,7 @@
                   {{ openingHour.day }}:
                   <span
                     v-if="openingHour.open == null && openingHour.close == null"
-                    >Closed all day</span
+                    >{{ $t('closedAllDay') }}</span
                   >
                   <span v-else>
                     {{ openingHour.open }} to {{ openingHour.close }}
@@ -240,11 +240,7 @@
 
             <h3 class="title-custom">{{ $t('cancellationPolicy') }}</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-              nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
-              tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-              consequat. Duis autem
+              {{ cancellationPolicy }}
             </p>
           </div>
         </v-card>
@@ -312,7 +308,7 @@ export default {
       }else{
 
         this.$swal({
-          text:"You have to choose a date",
+          text: this.$t('youHaveToChooseDate'),
           icon: "error"
         })
 
@@ -444,7 +440,7 @@ export default {
         await this.$store.dispatch("storeCartAmount", { amount: numberItems });
 
         this.$swal({
-          text: "Product booked",
+          text: this.$t('productBooked'),
           icon: "success"
         }).then(ans => {
           this.prices.forEach((data, index) => {

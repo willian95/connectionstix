@@ -164,7 +164,7 @@
 
             <div class="main-form" v-show="showCheckout">
               <v-row>
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("firstName") }}</label>
                   <v-text-field
                     label="John"
@@ -174,7 +174,7 @@
                   ></v-text-field>
                   <LocalErrorShow :errors="localErrors" :name="'name'" />
                 </v-col>
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("lastname") }}</label>
                   <v-text-field
                     label="Doe"
@@ -184,7 +184,7 @@
                   ></v-text-field>
                   <LocalErrorShow :errors="localErrors" :name="'lastname'" />
                 </v-col>
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("email") }}</label>
                   <v-text-field
                     label="johndoe@email.com"
@@ -195,7 +195,7 @@
                   <LocalErrorShow :errors="localErrors" :name="'email'" />
                 </v-col>
 
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("phone") }}</label>
                   <v-text-field
                     label="555123123"
@@ -208,7 +208,7 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">{{ $t("ticketDelivery") }}</label>
                   <v-select
                     :items="deliveryMethods"
@@ -222,7 +222,7 @@
              
                 <v-row>
                      <p>{{ $t("paymentMethod") }}</p>
-                  <v-col cols="12" sm="12" md="12">
+                  <v-col cols="12" sm="12" md="4">
                     <v-radio-group
                       v-model="radios"
                       mandatory
@@ -253,7 +253,7 @@
               <v-row
                 v-if="selectedPaymentProvider.prompt_billing_address == true"
               >
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("address1") }}</label>
                   <v-text-field
                     label="john doe st"
@@ -267,7 +267,7 @@
                   />
                 </v-col>
 
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">{{ $t("address2") }}</label>
                   <v-text-field
                     label="john any st"
@@ -277,7 +277,7 @@
                   ></v-text-field>
                 </v-col>
 
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("city") }}</label>
                   <v-text-field
                     label="San Diego"
@@ -288,7 +288,7 @@
                   <LocalErrorShow :errors="localErrors" :name="'city'" />
                 </v-col>
 
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("provinceState") }}</label>
                   <v-text-field
                     label="California"
@@ -302,7 +302,7 @@
                   />
                 </v-col>
 
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("postalCode") }}</label>
                   <v-text-field
                     label="100010101"
@@ -317,7 +317,7 @@
                   />
                 </v-col>
 
-                <v-col cols="12" sm="1" md="3">
+                <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("cuntry") }}</label>
                   <v-text-field
                     label="USA"
@@ -568,7 +568,7 @@ export default {
         await this.$store.dispatch("storeCartAmount", { amount: numberItems });
 
         this.$swal({
-          text: "Product removed",
+          text: this.$t("productRemoved"),
           icon: "success"
         }).then(ans => {
           _this.getItems();
@@ -758,7 +758,7 @@ export default {
 
       if (res.data.status.result_messages[0] == "OK") {
         this.$swal({
-          text: "Payment completed successfully",
+          text: this.$t('paymentSuccessful'),
           icon: "success"
         }).then(ans => {
           localStorage.removeItem("orders");

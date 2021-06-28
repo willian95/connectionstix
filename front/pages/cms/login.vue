@@ -83,7 +83,7 @@
 
                         this.$swal({
                             icon: 'error',
-                            text: "Hay campos que debes revisar",
+                            text: "Some fields entry are wrong",
                             toast: true,
                             position: 'top-end',
                         })

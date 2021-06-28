@@ -42,6 +42,17 @@ export default {
     payNow:"Pay now",
     discountCode:"Discount code",
     checkout:"Checkout",
-    continueShopping:"Continue shopping"
+    continueShopping:"Continue shopping",
+
+    productBooked:"Product added to cart",
+    chooseDate:"Choose date",
+    youHaveToChooseDate:"You have to choose a date",
+    fromDatetime:"From datetime",
+    toDatetime:"To datetime",
+    closedAllDay:"Closed all day",
+    productRemoved:"Product removed",
+    itemUpdated:"Item updated",
+    oneOrMoreItemsUpdate:"One or more items need to be updated",
+    paymentSuccessful:"Payment completed successfully",
 
 }
