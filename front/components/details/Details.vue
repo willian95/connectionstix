@@ -24,9 +24,9 @@
                       >
                         <v-radio :value="index" />
                       </v-radio-group>
-                      {{ date.from_datetime.substring(0, 10) }}
+                      {{ dateString(date.from_datetime) }}
                     </td>
-                    <td>{{ date.to_datetime.substring(0, 10) }}</td>
+                    <td>{{ dateString(date.to_datetime) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -135,26 +135,8 @@
       <v-col cols="12" sm="8" md="8">
         <v-card class="pa-2 card-shadows" outlined tile>
           <h3 class="title-custom">{{ title }}</h3>
-          <div class="custom-ubication">
-            <img class="map" src="~assets/images/iconos/mapa.png" alt="" />
-            <div>
-              <p>
-                Take me there/ <br />
-                meeting point
-              </p>
-              <ul>
-                <li>
-                  <img src="~assets/images/iconos/1.png" alt="" />
-                  <img
-                    class="icon-map"
-                    src="~assets/images/iconos/2.png"
-                    alt=""
-                  />
-                </li>
-              </ul>
-            </div>
-          </div>
-          <h3 class="title-custom" v-if="address">
+          
+          <h3 class="title-custom" v-if="address != '  '">
             {{ $t("attractionAddress") }}
           </h3>
           <p>{{ address }}</p>
@@ -481,6 +463,20 @@ export default {
           });
         }
       });
+    },
+    dateString(date){
+
+      let year = date.substring(0, 4)
+      let month = date.substring(5, 7)
+      let day = date.substring(8, 10)
+
+      if(this.$i18n.locale == "en"){
+        return month+"-"+day+"-"+year
+      }else{  
+        return day+"-"+month+"-"+year
+      }
+      
+
     }
   },
   watch: {

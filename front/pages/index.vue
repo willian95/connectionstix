@@ -18,6 +18,8 @@
                 class="mb-3"
                 v-for="(tag, index) in tagList"
                 :key="'tag-' + index"
+
+                @click="getProductsByTag(tag.tag_id, tag.name)"
               >
                 <div>
                   <img class="img-icon" :src="tag.icon" alt="" />
@@ -31,7 +33,7 @@
           <div class="col-md-12">
             <div class="m-auto w-100">
               <div></div>
-              <p class="title-mix">See all</p>
+              <p class="title-mix">{{ tagName }}</p>
               <no-ssr>
                 <isotope
                   class="mix-grid"
@@ -94,7 +96,8 @@ export default {
       tagList: [],
       backImage: "/banner.png",
       overlay: true,
-      projects: []
+      projects: [],
+      tagName:"See all"
     };
   },
 
@@ -122,12 +125,13 @@ export default {
         //show products not found
       }
     },
-    async getProductsByTag(tag) {
+    async getProductsByTag(tag, tagName) {
+
+      this.tagName = tagName
+
       let res = await this.$axios.post("products/list", {
         tag: tag
       });
-
-      console.log(res);
 
       if (res.data.status.result_messages[0] == "OK") {
         this.projects = res.data.data.products;
