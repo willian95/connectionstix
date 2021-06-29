@@ -180,7 +180,7 @@
               {{ description }}
             </p>
 
-            <h3 class="title-custom" v-if="highlights.length > 0">
+            <h3 class="title-custom mt4" v-if="highlights.length > 0">
               {{ $t("hightlights") }}
             </h3>
             <ul>
@@ -193,7 +193,7 @@
             </ul>
 
             <div>
-              <h3 class="title-custom">{{ $t("knowBefore") }}</h3>
+              <h3 class="title-custom mt4">{{ $t("knowBefore") }}</h3>
               <div class="know-info">
                 <div
                   class="item"
@@ -242,7 +242,7 @@
               </ul>
             </div>
 
-            <h3 class="title-custom">{{ $t("cancellationPolicy") }}</h3>
+            <h3 class="title-custom mt4">{{ $t("cancellationPolicy") }}</h3>
             <p>
               {{ cancellationPolicy }}
             </p>
@@ -532,7 +532,7 @@ export default {
       width: 300px;
       height: 100%;
       @include respond-to(xs) {
-        width: 200px;
+        width: 150px;
       }
     }
 
@@ -544,7 +544,9 @@ export default {
 
       ul {
         list-style: none;
-
+ @include respond-to(xs) {
+display: flex;
+ }
         img {
           width: 100px;
           height: 100%;
@@ -666,7 +668,10 @@ export default {
     display: grid;
     margin-bottom: 2rem;
     grid-template-columns: 1fr 1fr;
-
+        font-weight: 700;
+.flex{
+      align-items: start;
+}
     @include respond-to(xs) {
       padding: 20px;
       margin-bottom: 0;
@@ -684,7 +689,7 @@ padding: 3px;
     .content-mx {
       display: flex;
       margin-left: 1.4rem;
-      gap: 1rem;
+     
       @include respond-to(sm) {
         gap: 0rem;
       }
@@ -719,10 +724,7 @@ padding: 3px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
-    padding-bottom: 3rem;
-    padding-top: 3rem;
-    padding-left: 13px;
+    padding: 2rem;
     .main-book {
       line-height: 0;
       text-align: center;
@@ -755,6 +757,10 @@ padding: 3px;
   }
   .mb-2 {
     margin-bottom: 2rem;
+  }
+
+  .mt4{
+    margin-top: 4rem;
   }
 
   /**********modal**********/

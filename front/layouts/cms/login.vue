@@ -306,7 +306,7 @@
         border: none;
         border-radius: 0;
         margin-bottom: 10px;
-        border-bottom: 1px solid #076d9d;
+        border-bottom: 1px solid #EF1856;
         border-radius: 0;
         visibility: hidden;
         opacity: 0;
@@ -398,7 +398,7 @@
         height: 18px;
         border-radius: 2px;
         background: #fff;
-        border: 1px solid #6675df;
+        border: 1px solid #EF1856;
         left: 0;
         top: 50%;
         -webkit-transform: translateY(-50%);
@@ -409,7 +409,7 @@
     }
 
     .input-checkbox100:checked+.label-checkbox100::before {
-        color: #6675df;
+        color: #EF1856;
     }
 
 
@@ -437,7 +437,7 @@
         width: 100%;
         height: 50px;
         border-radius: 10px;
-        background: #6675df;
+        background: #EF1856;
 
         font-family: Montserrat-Bold;
         font-size: 12px;

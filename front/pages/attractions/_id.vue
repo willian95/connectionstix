@@ -266,7 +266,7 @@ height: 30vh;
 }
 .slide_events{
       margin-bottom: 7rem;
-
+margin-top: 4rem;
   .card-slide_events {
      box-shadow: 0px 2px 10px rgb(0 0 0 / 25%)!important;
     border-radius: 15px;

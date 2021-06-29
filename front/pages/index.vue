@@ -10,25 +10,37 @@
         :backImage="backImage"
         v-show="!overlay"
       />
-      <div class="content-mix mt-12">
+      <div class="content-mix ">
         <div class="row">
           <div class="col-md-12 ">
-            <ul class="list-unstyled mb-0">
-              <li
+            <v-slide-group
+              class="list-unstyled mb-0"
+              mobile-break-point="1000"
+              show-arrows
+            >
+              <v-btn
+                class="mx-2"
+                active-class="purple white--text"
+                depressed
+                rounded
+              ></v-btn>
+              <v-slide-item
                 class="mb-3"
                 v-for="(tag, index) in tagList"
                 :key="'tag-' + index"
 
                 @click="getProductsByTag(tag.tag_id, tag.name)"
               >
-                <div>
-                  <img class="img-icon" :src="tag.icon" alt="" />
-                </div>
-                <div class="cursore-pointer">
-                  {{ tag.name }}
-                </div>
-              </li>
-            </ul>
+                <v-card  class="ma-4 w-card_slider ">
+                  <div>
+                    <img class="img-icon" :src="tag.icon" alt="" />
+                  </div>
+                  <div class="cursore-pointer">
+                    {{ tag.name }}
+                  </div>
+                </v-card>
+              </v-slide-item>
+            </v-slide-group>
           </div>
           <div class="col-md-12">
             <div class="m-auto w-100">
@@ -227,9 +239,9 @@ export default {
       font-size: 0.8rem;
       min-width: 90px;
     }
-     @include respond-to(md) {
-    padding: 0 1.5rem;
-     }
+    @include respond-to(md) {
+      padding: 0 1.5rem;
+    }
   }
   & .title-mix {
     text-align: center;
@@ -257,16 +269,16 @@ export default {
   }
   .mix-grid {
     position: relative;
-    /* display: grid;
-  grid-template-columns: 1fr 1fr 1fr;*/
-    display: flex;
-    flex-wrap: wrap;
-    grid-gap: 3rem;
-    text-align: start;
-      @include respond-to(md) {
-grid-gap: 2rem;
-height: max-content!important;
-      }
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    gap: 3rem;
+    display: grid;
+    grid-auto-rows: 18rem;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    @include respond-to(md) {
+      grid-gap: 2rem;
+      height: max-content !important;
+    }
     & .item {
       position: relative !important;
       left: auto !important;
@@ -274,13 +286,13 @@ height: max-content!important;
       box-shadow: 0px 2px 10px #00000040;
       border-radius: 15px;
       text-align: start;
-      width: 30%;
+      height: max-content;
+
       @include respond-to(xs) {
-        width: 100%;
         margin: 10px;
       }
       @include respond-to(sm) {
-        width: 43%;
+        /* width: 43%;*/
         margin: 10px;
         height: max-content;
       }
@@ -314,7 +326,7 @@ height: max-content!important;
     }
     a {
       font-size: 0.9rem;
-      font-weight: 400;
+      font-weight: 800;
       color: #ef1856;
     }
     @include respond-to(sm) {
@@ -339,6 +351,33 @@ height: max-content!important;
     @include respond-to(xs) {
       width: 25px;
     }
+  }
+
+  .theme--light.v-btn.v-btn--has-bg {
+    display: none;
+  }
+  .v-sheet.v-card {
+    text-align: center;
+    box-shadow: none !important;
+    color: #c9c9c9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .v-icon.v-icon {
+    color: #ef1856;
+    font-size: 5rem !important;
+  }
+  .v-slide-group__content {
+    justify-content: center;
+  }
+  .w-card_slider {
+    width: 160px;
+    cursor: pointer;
+      @include respond-to(xs) {
+width: 104px;
+      }
   }
 }
 </style>
