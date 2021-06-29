@@ -29,9 +29,9 @@
                 v-for="(tag, index) in tagList"
                 :key="'tag-' + index"
 
-                @click="getProductsByTag(tag.tag_id, tag.name)"
+               
               >
-                <v-card  class="ma-4 w-card_slider ">
+                <v-card  class="ma-4 w-card_slider "  @click="getProductsByTag(tag.tag_id, tag.name)">
                   <div>
                     <img class="img-icon" :src="tag.icon" alt="" />
                   </div>
