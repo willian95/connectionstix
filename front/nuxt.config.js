@@ -60,6 +60,11 @@ export default {
     langDir:'lang',
     locales: ['en', 'es'],
     defaultLocale: 'en',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      onlyOnRoot: true,  // recommended
+    },
     strategy: 'prefix_except_default',
     vueI18nLoader: true,
     locales: [

@@ -21,6 +21,7 @@ export default {
     duration:"Duration",
     description:"Description",
     hightlights:"Hightlights",
+    NoProductsFound:"No products found",
 
     reviewSelectedAttractions:"Review your selected attraction(s)",
     moreOptions:"More options to choose for...",

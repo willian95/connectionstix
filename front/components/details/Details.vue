@@ -148,7 +148,7 @@
           <v-row class="mt-1">
             <v-col class="line" cols="6" md="6">
               <h3 class="title-custom">{{ $t("openingHours") }}</h3>
-              <ul>
+              <!--<ul>
                 <li
                   v-for="(openingHour, index) in operationHours"
                   :key="'open-' + index"
@@ -159,10 +159,25 @@
                     >{{ $t("closedAllDay") }}</span
                   >
                   <span v-else>
-                    {{ openingHour.open }} to {{ openingHour.close }}
+                    {{ hourString(openingHour.open) }} to {{ hourString(openingHour.close) }}
                   </span>
                 </li>
-              </ul>
+              </ul>-->
+              <table class="table" v-for="(openingHour, index) in operationHours" :key="'open-' + index">
+                <tr>
+                  <td style="width: 120px;"><strong>{{ openingHour.day }}:</strong></td>
+                  <td>
+                    <span
+                      v-if="openingHour.open == null && openingHour.close == null"
+                      >{{ $t("closedAllDay") }}</span
+                    >
+                    <span v-else>
+                      {{ hourString(openingHour.open) }} to {{ hourString(openingHour.close) }}
+                    </span>
+                  </td>
+                </tr>
+
+              </table>
             </v-col>
             <v-col cols="6" md="6" v-if="duration.length">
               <h3 class="title-custom">{{ $t("duration") }}</h3>
@@ -205,7 +220,7 @@
                   :key="'inclusion-' + index"
                 >
                   <div>
-                    <!--<img src="~assets/images/iconos/pet.png" alt="" />-->
+                  
                     <p>{{ inclusion }}:</p>
                   </div>
                   <img src="~assets/images/iconos/check.png" alt="" />
@@ -216,7 +231,7 @@
                   :key="'exclusion-' + index"
                 >
                   <div>
-                    <!--<img src="~assets/images/iconos/wheelcair.png" alt="" />-->
+              
                     <p>{{ exclusion }}:</p>
                   </div>
                   <img src="~assets/images/iconos/nocheck.png" alt="" />
@@ -232,7 +247,8 @@
                     <img :src="know.icon" alt="" />
                     <p>{{ know.label }}</p>
                   </div>
-                  <img src="~assets/images/iconos/check.png" alt="" />
+                  <img src="~assets/images/iconos/check.png" alt="" v-if="know.value" />
+                  <img src="~assets/images/iconos/nocheck.png" alt="" v-else />
                 </div>
               </div>
 
@@ -298,10 +314,12 @@ export default {
   methods: {
     add(priceTypeId, price) {
       let res = this.checkDuplicate(priceTypeId, price);
-      console.log(res, this.prices);
+
       if (res.exists == true) {
-        this.prices[res.priceIndex].amount =
-          this.prices[res.priceIndex].amount + 1;
+        if((this.prices[res.priceIndex].amount + 1) <= process.env.MAX_AMOUNT){
+          this.prices[res.priceIndex].amount = this.prices[res.priceIndex].amount + 1;
+        }
+        
       }
 
       this.getTotal();
@@ -394,6 +412,7 @@ export default {
 
       if (res.data.status) {
         if (res.data.status.result_messages[0] != "OK") {
+          this.onLoadingBook = false;
           this.$swal({
             text: res.data.status.result_messages[0],
             icon: "error"
@@ -443,7 +462,7 @@ export default {
             this.prices[index].amount = 0;
           });
 
-          this.$router.push("/checkout");
+          this.$router.push(this.localePath({ name: "checkout" }));
         });
       } else {
         if (res.data.status.result_code == 1000) {
@@ -481,6 +500,39 @@ export default {
       }
       
 
+    },
+    hourString(hour){
+
+      let timeArray = hour.split(":")
+      
+      let hourPart = parseInt(timeArray[0])
+      let minutePart = timeArray[1]
+
+      
+
+      if(this.$i18n.locale == "en"){
+        return hour
+      }else{  
+
+        let meridian = "am"
+
+        if(parseInt(hourPart) > 12){
+          meridian = "pm"
+          hourPart = parseInt(hourPart) - 12
+          
+        }
+
+        else if(parseInt(hourPart) == "00"){
+          meridian = "am"
+          hourPart = 12
+        }
+
+       
+        hourPart = hourPart < 10 ? "0"+hourPart : hourPart
+        
+        return hourPart + ":" + minutePart + " " + meridian
+      }
+
     }
   },
   watch: {
@@ -514,6 +566,7 @@ export default {
       if (color) {
         $(".change-color").css("background", color);
       }
+
     }
   }
 };

@@ -10,46 +10,6 @@
             
     </div>
 
-    <div id="open-modal-product" :class="'modal-window open-modal '+modalProductClass">
-        <div  class="modal-table" >
-            <div >
-                <div class="details-img mb-5"> 
-                    <img class="" :src="mainImage" alt=""/>
-                    <div>
-                        <p><strong>{{ title }}</strong></p>
-                    </div>
-                </div>
-            </div>
-           <v-container class="mt-5" v-if="images.length > 1">
-            <v-sheet
-                class="mt-5 mx-auto slider-images"
-                elevation="8"
-                max-width="100%"
-            >
-                <v-slide-group mobile-break-point="1000" show-arrows center-active>
-                <v-btn
-                    class="mx-2"
-                    active-class="purple white--text"
-                    depressed
-                    rounded
-                ></v-btn>
-
-                <v-slide-item v-for="(slide, i) in images" :key="i">
-                    <v-card width="250" class="ma-4  ">
-                    <v-img contain :src="slide"></v-img>
-                    </v-card>
-                </v-slide-item>
-                </v-slide-group>
-            </v-sheet>
-            </v-container>
-            <p v-if="description">
-              {{ description }}
-            </p>
-            <button title="Close" class="modal-close" @click="closeProductModal()">x</button>
-        </div>
-            
-    </div>
-
 
     <v-row no-gutters class="row-center">
       <v-col cols="12" sm="4" md="4">
@@ -83,17 +43,19 @@
         
 
         <v-card class="pa-2" outlined tile>
-          <div class="main-min">
+          <div class="main-min" v-if="cancellationPolicy">
             <button class="flex" @click="showCancellationPolicyModal(cancellationPolicy)">
               <img class="" src="~assets/images/iconos/info.png" alt="" />
               <p>{{ $t('cancellationPolicy') }}</p>
             </button>
           </div>
           <div class="main-min">
-            <button class="flex" @click="showProductModal(productId)">
-              <img class="" src="~assets/images/iconos/info.png" alt="" />
-              <p>{{ $t('moreInfo') }}</p>
-            </button>
+            <NuxtLink :to="localePath('/attractions/' + productId)">
+              <button class="flex">
+                <img class="" src="~assets/images/iconos/info.png" alt="" />
+                <p class="text-dark">{{ $t('moreInfo') }}</p>
+              </button>
+            </NuxtLink>
           </div>
         </v-card>
       </v-col>
@@ -194,10 +156,16 @@ export default {
       }
     },
     addItem(index) {
-      this.amounts[index].amount++;
-      this.setTotal();
-      this.checkOldAndNewAmounts();
-      this.checkUpdatedItems(this.amounts, this.productId);
+      
+      if((this.amounts[index].amount + 1) <= process.env.MAX_AMOUNT){
+
+        this.amounts[index].amount++;
+        this.setTotal();
+        this.checkOldAndNewAmounts();
+        this.checkUpdatedItems(this.amounts, this.productId);
+
+      }
+
     },
     checkOldAndNewAmounts() {
       this.isDisabled = true;

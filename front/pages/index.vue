@@ -17,6 +17,7 @@
               class="list-unstyled mb-0"
               mobile-break-point="1000"
               show-arrows
+              v-if="tagList.length > 0"
             >
               <v-btn
                 class="mx-2"
@@ -28,8 +29,6 @@
                 class="mb-3"
                 v-for="(tag, index) in tagList"
                 :key="'tag-' + index"
-
-               
               >
                 <v-card  class="ma-4 w-card_slider "  @click="getProductsByTag(tag.tag_id, tag.name)">
                   <div>
@@ -45,7 +44,14 @@
           <div class="col-md-12">
             <div class="m-auto w-100">
               <div></div>
-              <p class="title-mix">{{ tagName }}</p>
+              <p class="title-mix" v-if="tagList.length > 0">{{ tagName }}</p>
+
+              <div>
+                <h3 class="text-center" v-if="showNoProductsMessage">
+                  {{ $t("NoProductsFound") }}
+                </h3>
+              </div>
+
               <no-ssr>
                 <isotope
                   class="mix-grid"
@@ -117,7 +123,11 @@ export default {
       backImage: "/banner.png",
       overlay: true,
       projects: [],
-      tagName:"See all"
+      tagName:"See all",
+      showNoProductsMessage:false,
+      country:"",
+      province:"",
+      city:""
     };
   },
 
@@ -133,6 +143,12 @@ export default {
       this.projects = res.data;
     },
     async getFilteredProducts(countryCode, state, city) {
+
+      this.country = countryCode
+      this.province = state
+      this.city = city
+
+      this.showNoProductsMessage = false
       let res = await this.$axios.post("products/list", {
         country: countryCode,
         state: state,
@@ -142,21 +158,37 @@ export default {
       if (res.data.status.result_messages[0] == "OK") {
         this.projects = res.data.data.products;
       } else {
-        //show products not found
+        
+        this.projects = []
+        this.showNoProductsMessage = true
+
       }
     },
     async getProductsByTag(tag, tagName) {
+      console.log("tag", tag)
+      let payload = {}
+      this.showNoProductsMessage = false
 
       this.tagName = tagName
+      
 
-      let res = await this.$axios.post("products/list", {
-        tag: tag
-      });
+
+      payload = {
+        "tag": tag,
+        "country": this.country ? this.country : '',
+        "province":this.province ? this.province : '',
+        "city":this.city ? this.city : ''
+      }
+
+      console.log("payload", payload)
+
+      let res = await this.$axios.post("products/list", payload);
 
       if (res.data.status.result_messages[0] == "OK") {
         this.projects = res.data.data.products;
       } else {
-        //show products not found
+        this.projects = []
+        this.showNoProductsMessage = true
       }
     },
     async getTags() {

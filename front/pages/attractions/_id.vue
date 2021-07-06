@@ -102,6 +102,7 @@ export default {
     async getData(id){
 
       let res = await this.$axios.get("products/"+id)
+      
       this.mainImage = res.data.images[0]
       this.title = res.data.product_name
       this.images = res.data.images
@@ -110,6 +111,7 @@ export default {
       this.inclusions = res.data.inclusions ? res.data.inclusions : []
       this.exclusions = res.data.exclusions ? res.data.exclusions : []
       let knowBeforeYouGo = res.data.know_before_you_go ? res.data.know_before_you_go : []
+
       if(knowBeforeYouGo.hasOwnProperty("checklist")){
         this.knowBeforeYouGoChecklist = res.data.know_before_you_go.checklist
       }

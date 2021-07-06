@@ -16,7 +16,8 @@
               v-model="country"
               :items="countries"
               label="Select..."
-              item-text="country_code"
+              item-text="name"
+              item-value="country_code"
               solo
               @change="getStates()"
             ></v-select>
