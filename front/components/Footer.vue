@@ -148,7 +148,7 @@ export default {
 <style lang="scss">
 footer {
   background: #ef1856;
-
+margin-top: 3rem;
   & img {
     width: 200px;
     height: 100%;
