@@ -242,7 +242,7 @@
               </ul>
             </div>
 
-            <h3 class="title-custom mt4">{{ $t("cancellationPolicy") }}</h3>
+            <h3 class="title-custom mt4" v-if="cancellationPolicy">{{ $t("cancellationPolicy") }}</h3>
             <p>
               {{ cancellationPolicy }}
             </p>
