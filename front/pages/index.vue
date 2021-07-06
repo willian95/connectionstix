@@ -58,6 +58,11 @@
                     v-for="(item, index) in projects"
                     :key="'projects-' + index"
                   >
+                   <NuxtLink
+                              :to="
+                                localePath('/attractions/' + item.product_id)
+                              "
+                              >
                     <div class="cursore-pointer d-block pos-r p-1">
                       <img class="w-100" :src="item.thumbnail" />
                       <div
@@ -75,16 +80,19 @@
                             {{ price.price_type_name }}
                           </p>
                           <div class="txt-star">
-                            <NuxtLink
+                         <!---   <NuxtLink
                               :to="
                                 localePath('/attractions/' + item.product_id)
                               "
                               >{{ $t("moreInfo") }}</NuxtLink
-                            >
+                            >-->
+                            <span>{{ $t("moreInfo") }}</span>
                           </div>
                         </div>
                       </div>
                     </div>
+                    </NuxtLink
+                            >
                   </div>
                 </isotope>
               </no-ssr>
@@ -324,10 +332,15 @@ export default {
     p {
       font-weight: 500;
     }
-    a {
+    span {
       font-size: 0.9rem;
       font-weight: 800;
       color: #ef1856;
+    text-decoration: underline;
+    }
+    a{
+          text-decoration: none;
+              color: #000;
     }
     @include respond-to(sm) {
       height: auto !important;
