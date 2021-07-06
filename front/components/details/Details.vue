@@ -5,7 +5,8 @@
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
           <div id="open-modal" :class="'modal-window open-modal ' + modalClass">
             <div class="modal-table">
-              <table style="width: 100%">
+  
+                <table style="width: 100%">
                 <thead>
                   <tr>
                     <th class="th-start">{{ $t("fromDatetime") }}</th>
@@ -13,6 +14,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                         <div class="content-tables">
                   <tr
                     v-for="(date, index) in availableDates"
                     :key="'date-' + index"
@@ -28,8 +30,10 @@
                     </td>
                     <td>{{ dateString(date.to_datetime) }}</td>
                   </tr>
+                         </div>
                 </tbody>
               </table>
+        
 
               <button
                 title="Close"
@@ -516,6 +520,10 @@ export default {
 </script>
 
 <style lang="scss">
+.content-tables{
+      height: 35vh;
+    overflow-x: hidden;
+}
 .custom-details {
   .title-custom {
     font-size: 1.6rem;
@@ -960,7 +968,7 @@ font-size: .7rem;
 }
 .btn-modal {
   position: fixed;
-  bottom: 2rem;
+  bottom: 1rem;
   left: 0;
   right: 0;
   margin-top: 2rem;
