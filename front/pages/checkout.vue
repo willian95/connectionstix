@@ -347,7 +347,7 @@
                     :currency="grandTotalCurrencyCode"
                     :locale="$i18n.locale.toString() == 'en' ? $i18n.locale.toString()+'_US' : $i18n.locale.toString()+'_'+$i18n.locale.toString().toUpperCase()"
                     :client="selectedPaymentProvider.data ? {[paypalEnv]:selectedPaymentProvider.data.client_id} : ''"
-                    v-on:payment-completed="paypalResponse"
+                    v-on:payment-authorized="paypalResponse"
                     >
                     </paypal-checkout>
 
@@ -490,7 +490,8 @@ export default {
     discountCode: "",
     showPayButton: false,
     checkoutCount: 0,
-    showCheckout: false
+    showCheckout: false,
+    paypalOrder:""
   }),
   components: { Detail, LocalErrorShow },
   methods: {
@@ -746,7 +747,7 @@ export default {
       if(this.payment_provider_id == 26){
 
         this.payment_data = {
-          "order_id": this.order
+          "order_id": this.paypalOrder
         }
 
       }
@@ -797,12 +798,11 @@ export default {
       }
     },
     paypalResponse(response) {
-      if(response.state == "approved"){
-        
-        this.order = response.cart
-        this.checkout()
+      
+      
+      this.paypalOrder = response.orderID
+      this.checkout()
 
-      }
     },
     loadLibraries() {
       if (process.browser) {
@@ -873,7 +873,7 @@ export default {
 
       if (color) {
         $(".change-color").css("background", color);
-        $(".change-text-color").css("color", "#fff")
+        //$(".change-text-color").css("color", "#fff")
       }
     }
   },
@@ -885,7 +885,7 @@ export default {
 
       if (color) {
         $(".change-color").css("background", color);
-        $(".change-text-color").css("color", "#fff")
+        //$(".change-text-color").css("color", "#fff")
       }
     }
   },

@@ -14,7 +14,12 @@
     </div>
     <!-------------------------------------------------->
     <v-container class="mt-5" v-if="images.length > 1">
-
+      <CoolLightBox 
+        :items="images" 
+        :index="lightboxIndex"
+        :effect="'fade'"
+        @close="lightboxIndex = null">
+      </CoolLightBox>
       <v-sheet
         class="mt-5 mx-auto slider-images"
         elevation="8"
@@ -30,7 +35,7 @@
 
           <v-slide-item   v-for="(slide, i) in images" :key="i">
             <v-card width="250" class="ma-4  ">
-              <v-img contain :src="slide"></v-img>
+              <v-img contain :src="slide" @click="lightboxIndex = i"></v-img>
             </v-card>
           </v-slide-item>
         </v-slide-group>
@@ -101,6 +106,7 @@ export default {
     nextDateAvailable:"",
     pricing:[],
     nearby:[],
+    lightboxIndex:null,
   }),
   methods:{
 

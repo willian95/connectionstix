@@ -123,7 +123,7 @@
             <button
               v-show="onLoadingBook == false"
               :disabled="total <= 0"
-              class="btn change-color"
+              class="btn"
               @click="bookNow()"
             >
               {{ $t("bookNow") }}
@@ -637,6 +637,10 @@ display: flex;
     border-right: 2px solid #00000014;
     height: 200px;
     right: 53%;
+  }
+
+  .vdp-datepicker .day-heder{
+    font-size: 12px;
   }
 
   .mt-1 {

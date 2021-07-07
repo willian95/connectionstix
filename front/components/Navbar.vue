@@ -40,7 +40,7 @@ export default {
     languages: ["en", "es"],
     language:"",
     logo:"",
-    logoSecondary:"",
+    secondaryLogo:"",
     navbarClass:""
   }),
   methods:{
