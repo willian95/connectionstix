@@ -14,12 +14,13 @@
     </div>
     <!-------------------------------------------------->
     <v-container class="mt-5" v-if="images.length > 1">
+
       <v-sheet
         class="mt-5 mx-auto slider-images"
         elevation="8"
         max-width="100%"
       >
-        <v-slide-group mobile-break-point="1000" show-arrows center-active>
+        <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
           <v-btn
             class="mx-2"
             active-class="purple white--text"
@@ -27,7 +28,7 @@
             rounded
           ></v-btn>
 
-          <v-slide-item v-for="(slide, i) in images" :key="i">
+          <v-slide-item   v-for="(slide, i) in images" :key="i">
             <v-card width="250" class="ma-4  ">
               <v-img contain :src="slide"></v-img>
             </v-card>
@@ -73,8 +74,12 @@
 <script>
 import Navbar from "~/components/Navbar";
 import Details from "~/components/details/Details";
+
+import CoolLightBox from 'vue-cool-lightbox';
+import 'vue-cool-lightbox/dist/vue-cool-lightbox.min.css';
+
 export default {
-  components: { Navbar, Details },
+  components: { Navbar, Details,  CoolLightBox },
 
   data: () => ({
     productId:"",
@@ -190,7 +195,7 @@ export default {
     position: relative;
 
     img {
-      height: 84vh;
+     height: 60vh;
       object-fit: cover;
          @include respond-to(xs) {
 height: 30vh;
@@ -211,7 +216,7 @@ height: 30vh;
     content: "";
     top: 0;
     width: 100%;
-    height: 84vh;
+   height: 60vh;
     position: absolute;
      @include respond-to(xs) {
 height: 30vh;

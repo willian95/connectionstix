@@ -999,6 +999,10 @@ export default {
       display: grid;
       margin-bottom: 1rem;
       grid-template-columns: 1fr 1fr;
+        a{
+        color: #f02d65;
+    text-decoration: none;
+      }
       @include respond-to(xs) {
            margin-top: 1rem;
       }
@@ -1068,6 +1072,7 @@ export default {
       p {
         font-weight: 500;
       }
+    
     }
 
     .mt4 {
