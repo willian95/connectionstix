@@ -778,7 +778,7 @@ export default {
       this.onLoadingOrderUpdate = true
       let res = await this.$axios.post("orders/discount-order", {
         order_number: this.order,
-        discount_code: this.discountCode
+        discountCode: this.discountCode
       });
       this.onLoadingOrderUpdate = false
 
@@ -798,7 +798,8 @@ export default {
     },
     paypalResponse(response) {
       if(response.state == "approved"){
-
+        
+        this.order = response.cart
         this.checkout()
 
       }

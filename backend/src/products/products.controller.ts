@@ -41,25 +41,24 @@ export class ProductsController {
             if(this.setParameterString(body).length > 0){
                 parameterString += "?"+this.setParameterString(body)
             }
-
+            
             let endpoint ="/commerce/products"+parameterString
 
             const agent = this.generalFunctionService.getAgent()
         
             let header = this.generalFunctionService.getHeader();
-          
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
-        
+            
             return response.data
 
         }catch(err){
 
             return err.response.data
 
-        }   
+        }
 
         
     }

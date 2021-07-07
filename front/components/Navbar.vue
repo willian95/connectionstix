@@ -14,8 +14,8 @@
     </div>
     <div>
       <NuxtLink class="nav-link" :to="localePath('/checkout')">
-      <img src="~assets/images/iconos/cart.png" alt="">
-      <p>{{ numberItems }}</p>
+        <img src="~assets/images/iconos/cart.png" alt="">
+        <p class="change-font-color">{{ numberItems }}</p>
       </NuxtLink>
     </div>
   </header>
@@ -71,7 +71,9 @@ export default {
           let color = localStorage.getItem("color")
       
           if(color){
-            $(".change-color").css("background", color)
+            $(".change-color").css("color", color)
+            $(".change-font-color").css("color", color)
+            
           }
         }else{
           $(".header-2").css("background", "transparent")
@@ -140,6 +142,11 @@ export default {
 .absolute-position{
   position: absolute;
 }
+
+.change-font-color{
+  background-color: #fff;
+}
+
 header {
   display: flex;
   justify-content: space-between;

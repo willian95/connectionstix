@@ -7,11 +7,11 @@ export class ProvincesController {
     constructor(private generalFunctionService: GeneralFunctionService, private httpService:HttpService) {}
 
 
-    @Get(':country_code')
-    async find(@Param('country_code') country_code): Promise<any> {
+    @Get(':country_code/:orderNumber')
+    async find(@Param('country_code') country_code, @Param('orderNumber') orderNumber: string): Promise<any> {
 
         try{
-            let endpoint ="/geoinfo/countries/"+country_code+"/provinces-states"
+            let endpoint ="/geoinfo/countries/"+country_code+"/provinces-states?order_number="+orderNumber
 
             const agent = this.generalFunctionService.getAgent()
         

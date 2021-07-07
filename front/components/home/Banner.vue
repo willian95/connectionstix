@@ -43,6 +43,7 @@
               label="Select..."
               item-text="name"
               item-value="city_code"
+
               solo
             ></v-select>
           </v-col>
@@ -74,17 +75,41 @@ export default {
     city: "",
     image: "",
     logo: "",
+    orderNumber:"",
   }),
   methods: {
     async getCountries() {
-      let res = await this.$axios.get("countries/all");
+
+      this.getOrderNumber()
+
+      let res = await this.$axios.get("countries/all/"+this.orderNumber);
       this.countries = res.data;
+
+      this.countries.forEach(data => {
+
+        if(data.selected == true){
+          this.country = data.country_code
+          this.getStates()
+        }
+
+      })
+
     },
     async getStates() {
+     
       this.states = [];
       this.cities = [];
-      let res = await this.$axios.get("provinces/" + this.country);
+      let res = await this.$axios.get("provinces/" + this.country+"/"+this.orderNumber);
       this.states = res.data;
+
+      this.states.forEach(data => {
+
+        if(data.selected == true){
+          this.state = data.province_state_code
+          this.getCities()
+        }
+
+      })
     },
     async getCities() {
       this.cities = [];
@@ -92,6 +117,21 @@ export default {
         "cities/" + this.country + "/" + this.state
       );
       this.cities = res.data;
+
+      this.cities.forEach(data => {
+
+        if(data.selected == true){
+          this.city = data.city_code
+
+          if(this.orderNumber){
+            this.getFilteredProducts(this.country, this.state, this.city)
+          }
+
+        }
+
+      })
+
+      
     },
     async getLogo() {
       if (process.browser) {
@@ -130,6 +170,15 @@ export default {
 
       this.getLogo();
     },
+    getOrderNumber(){
+
+      let order = window.localStorage.getItem("orders")
+
+      if(order != null){
+        this.orderNumber = order
+      }
+
+    }
   },
   mounted() {
     this.getCountries();

@@ -197,7 +197,7 @@ export class OrdersController {
 
             let response = await this.httpService.post(process.env.API_URL+endpoint,
                 {
-                    discount_code: body.discount_code
+                    discount_code: body.discountCode
                 },
                 {
                     headers:header,
@@ -219,6 +219,7 @@ export class OrdersController {
     async addDiscountToItem(@Body() body){
 
         try{
+
             let endpoint ="/commerce/orders/"+body.order_number+"/items/"+body.item_id+"/discount"
 
             let header = this.generalFunctionService.getHeader();
@@ -226,7 +227,7 @@ export class OrdersController {
 
             let response = await this.httpService.post(process.env.API_URL+endpoint,
                 {
-                    discount_code: body.discount_code
+                    discount_code: body.discountCode
                 },
                 {
                     headers:header,

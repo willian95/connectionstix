@@ -132,7 +132,7 @@
                                         <div class="row row-paddingless mb-10">
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label for="">Image</label>
+                                                    <label for="">Main Logo</label>
                                                     <input type="file" class="form-control" @change="onLogoChange"  accept="image/*">
                                                 </div>
                                             </div>
@@ -148,6 +148,50 @@
                                             <p v-if="logoStatus == 'uploading' && logoProgress < 100">Uploading</p>
                                             <p v-if="logoStatus == 'uploading' && logoProgress == 100">Wait a few more seconds</p>
                                             <p v-if="logoStatus == 'ready' && logoProgress == 100">Image ready</p>
+                                            
+                                        </div>
+
+                                        <div class="row row-paddingless mb-10">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="">Second Logo</label>
+                                                    <input type="file" class="form-control" @change="onSecondLogoChange"  accept="image/*">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <img :src="secondLogoPreview" class="w-100" v-if="secondLogoPreview">
+                                            </div>
+
+                                            <div v-if="secondLogoProgress == 'subiendo'" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${secondLogoProgress}%`}">
+                                                {{ secondLogoProgress }}%
+                                            </div>
+                                            
+                                            <p v-if="secondLogoProgress == 'uploading' && secondLogoProgress < 100">Uploading</p>
+                                            <p v-if="secondLogoProgress == 'uploading' && secondLogoProgress == 100">Wait a few more seconds</p>
+                                            <p v-if="secondLogoProgress == 'ready' && secondLogoProgress == 100">Image ready</p>
+                                            
+                                        </div>
+
+                                        <div class="row row-paddingless mb-10">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="">Footer Logo</label>
+                                                    <input type="file" class="form-control" @change="onFooterLogoChange"  accept="image/*">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <img :src="footerLogoPreview" class="w-100" v-if="footerLogoPreview">
+                                            </div>
+
+                                            <div v-if="footerLogoProgress == 'subiendo'" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${footerLogoProgress}%`}">
+                                                {{ footerLogoProgress }}%
+                                            </div>
+                                            
+                                            <p v-if="footerLogoProgress == 'uploading' && footerLogoProgress < 100">Uploading</p>
+                                            <p v-if="footerLogoProgress == 'uploading' && footerLogoProgress == 100">Wait a few more seconds</p>
+                                            <p v-if="footerLogoProgress == 'ready' && footerLogoProgress == 100">Image ready</p>
                                             
                                         </div>
                                         
@@ -203,6 +247,20 @@
                 logoProgress:0,
                 logoStatus:"",
                 onLoadingLogo:false,
+
+                secondLogoPreview:"",
+                secondLogo:null,
+                secondFinalLogoName:"",
+                secondLogoProgress:0,
+                secondLogoStatus:"",
+                secondOnLoadingLogo:false,
+
+                footerLogoPreview:"",
+                footerLogo:null,
+                footerFinalLogoName:"",
+                footerLogoProgress:0,
+                footerLogoStatus:"",
+                footerOnLoadingLogo:false,
             }
         },
         methods:{
@@ -244,6 +302,46 @@
                         icon:"error"
                     })
                     this.logoPreview = ""
+                }
+                
+            },
+            onSecondLogoChange(e){
+                let picture = e.target.files[0];
+
+                this.secondLogoPreview = URL.createObjectURL(picture);
+
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+
+                if(files[0]['type'].split('/')[0] == "image"){
+                    this.secondLogo = files[0]
+                }else{
+                    this.$swal({
+                        text:"You have to choose an image file",
+                        icon:"error"
+                    })
+                    this.secondLogoPreview = ""
+                }
+                
+            },
+            onFooterLogoChange(e){
+                let picture = e.target.files[0];
+
+                this.footerLogoPreview = URL.createObjectURL(picture);
+
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+
+                if(files[0]['type'].split('/')[0] == "image"){
+                    this.footerLogo = files[0]
+                }else{
+                    this.$swal({
+                        text:"You have to choose an image file",
+                        icon:"error"
+                    })
+                    this.footerLogoPreview = ""
                 }
                 
             },
@@ -317,7 +415,83 @@
                     this.finalLogoName = res.data
 
                     this.onLoadingLogo = false
-                    this.file = null
+                    this.logo = null
+                    
+
+                }
+
+            },
+            async updateSecondLogo(){
+                
+            
+                if(this.secondLogo != null){
+
+                    this.secondOnLoadingLogo = true
+
+                    this.secondLogoProgress = 0;
+                
+                    let formData = new FormData()
+                    formData.append("file", this.secondLogo)
+
+                    var _this = this
+                    this.secondLogoStatus = "uploading";
+                    
+                    var config = {
+                        headers: { "X-Requested-With": "XMLHttpRequest" },
+                        onUploadProgress: function(progressEvent) {
+                            
+                            var progressPercent = Math.round((progressEvent.loaded * 100.0) / progressEvent.total);
+                        
+                            _this.logoProgress = progressPercent
+                        
+                            
+                        }
+                    }
+
+                    let res = await this.$axios.post("/files/upload", formData, config)
+                    this.secondLogoStatus = "ready";
+                    this.secondFinalLogoName = res.data
+
+                    this.secondOnLoadingLogo = false
+                    this.secondLogo = null
+                    
+
+                }
+
+            },
+            async updateFooterLogo(){
+                
+            
+                if(this.footerLogo != null){
+
+                    this.footerOnLoadingLogo = true
+
+                    this.footerLogoProgress = 0;
+                
+                    let formData = new FormData()
+                    formData.append("file", this.footerLogo)
+
+                    var _this = this
+                    this.footerLogoStatus = "uploading";
+                    
+                    var config = {
+                        headers: { "X-Requested-With": "XMLHttpRequest" },
+                        onUploadProgress: function(progressEvent) {
+                            
+                            var progressPercent = Math.round((progressEvent.loaded * 100.0) / progressEvent.total);
+                        
+                            _this.footerProgress = progressPercent
+                        
+                            
+                        }
+                    }
+
+                    let res = await this.$axios.post("/files/upload", formData, config)
+                    this.footerLogoStatus = "ready";
+                    this.footerFinalLogoName = res.data
+
+                    this.footerOnLoadingLogo = false
+                    this.footerLogo = null
                     
 
                 }
@@ -327,10 +501,14 @@
 
                 await this.updateImage()
                 await this.updateLogo()
+                await this.updateSecondLogo()
+                await this.updateFooterLogo()
 
                 let res = await this.$axios.post("configcms/store",{
                     hero: this.finalPictureName,
                     logo: this.finalLogoName,
+                    secondLogo: this.secondFinalLogoName,
+                    footerLogo: this.footerFinalLogoName,
                     color: this.primaryColor,
                     overlay: this.overlay
                 })

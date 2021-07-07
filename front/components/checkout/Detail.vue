@@ -203,7 +203,8 @@ export default {
     async setDiscountCode() {
       let res = await this.$axios.post("orders/discount-item", {
         order_number: this.order,
-        item_id: this.itemId
+        item_id: this.itemId,
+        discountCode: this.discountCode
       });
 
       if (res.data.status.result_messages[0] != "OK") {

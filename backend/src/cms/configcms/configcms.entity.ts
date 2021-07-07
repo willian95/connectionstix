@@ -25,6 +25,16 @@ import {
     @Column({
       nullable: true,
     })
+    secondaryLogo: string;
+
+    @Column({
+      nullable: true,
+    })
+    footerLogo: string;
+
+    @Column({
+      nullable: true,
+    })
     hero: string;
 
     @Column({ type: 'boolean', default: true})

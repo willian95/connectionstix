@@ -17,6 +17,14 @@ export class ConfigcmsService {
                 configcmsModel.logo = configcms.logo
             }
 
+            if(configcms.secondLogo != ""){
+                configcmsModel.secondaryLogo = configcms.secondLogo
+            }
+
+            if(configcms.footerLogo != ""){
+                configcmsModel.footerLogo = configcms.footerLogo
+            }
+
             await configcmsModel.save()
 
         }else{
@@ -30,6 +38,13 @@ export class ConfigcmsService {
             }
             if(configcms.logo != ""){
                 configcmsModel.logo = configcms.logo
+            }
+            if(configcms.secondLogo != ""){
+                configcmsModel.secondaryLogo = configcms.secondLogo
+            }
+
+            if(configcms.footerLogo != ""){
+                configcmsModel.footerLogo = configcms.footerLogo
             }
 
             await configcmsModel.save()

@@ -176,7 +176,7 @@ export default {
       payload = {
         "tag": tag,
         "country": this.country ? this.country : '',
-        "province":this.province ? this.province : '',
+        "state":this.province ? this.province : '',
         "city":this.city ? this.city : ''
       }
 
