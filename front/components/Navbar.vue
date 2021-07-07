@@ -22,7 +22,7 @@
     <div>
       <NuxtLink class="nav-link" :to="localePath('/checkout')">
         <img src="~assets/images/iconos/cart.png" alt="">
-        <p class="change-font-color">{{ numberItems }}</p>
+        <p class="change-navbar-font-color">{{ numberItems }}</p>
       </NuxtLink>
     </div>
   </header>
@@ -81,12 +81,18 @@ export default {
       if(process.browser){
         if(this.transparent == false){
           let color = localStorage.getItem("color")
+
       
           if(color){
-            $(".change-color").css("color", color)
-            $(".change-font-color").css("color", color)
+            $(".change-color").css("background", color)
+            $(".change-navbar-font-color").css("color", color)
             
           }
+
+     
+            
+        
+
         }else{
           $(".header-2").css("background", "transparent")
         }
@@ -126,6 +132,13 @@ export default {
       if(config.data.color){
         if(process.browser){
           localStorage.setItem("color", config.data.color)
+        }
+      }
+
+
+      if(config.data.textColor){
+        if(process.browser){
+          localStorage.setItem("textColor", config.data.textColor)
         }
       }
 
@@ -170,9 +183,6 @@ export default {
   position: absolute;
 }
 
-.change-font-color{
-  background-color: #fff;
-}
 
 header {
   display: flex;

@@ -35,6 +35,16 @@
                                             </div>
                                             
                                         </div>
+
+                                        <div class="row row-paddingless mb-10">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="">Text color</label>
+                                                    <input type="color" class="form-control" v-model="textColor">
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
                                         
                                     </div>
                                     <!--end::Items-->
@@ -230,6 +240,7 @@
         auth:"auth",
         data(){
             return{
+                textColor:"",
                 primaryColor:"",
                 onLoadingColor:false,
                 overlay:false,
@@ -510,6 +521,7 @@
                     secondLogo: this.secondFinalLogoName,
                     footerLogo: this.footerFinalLogoName,
                     color: this.primaryColor,
+                    textColor: this.textColor,
                     overlay: this.overlay
                 })
 
@@ -533,8 +545,11 @@
                 let config = await this.$axios.get('/configcms')
                 
                 this.primaryColor = config.data.color
+                this.textColor = config.data.textColor
                 this.imagePreview = config.data.hero ? process.env.SERVER_URL+config.data.hero : ''
                 this.logoPreview = config.data.logo ? process.env.SERVER_URL+config.data.logo : ''
+                this.secondLogoPreview = config.data.secondaryLogo ? process.env.SERVER_URL+config.data.secondaryLogo : ''
+                this.footerLogoPreview = config.data.footerLogo ? process.env.SERVER_URL+config.data.footerLogo : ''
                 this.overlay = config.data.overlay
             }
 

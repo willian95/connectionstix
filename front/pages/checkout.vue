@@ -857,6 +857,12 @@ export default {
           localStorage.setItem("color", config.data.color);
         }
       }
+
+      if (config.data.textColor) {
+        if (process.browser) {
+          localStorage.setItem("textColor", config.data.textColor);
+        }
+      }
     }
   },
   async created() {
@@ -870,10 +876,15 @@ export default {
     this.getConfig();
     if (process.browser) {
       let color = localStorage.getItem("color");
+      let textColor = localStorage.getItem("textColor");
 
       if (color) {
         $(".change-color").css("background", color);
-        //$(".change-text-color").css("color", "#fff")
+      }
+
+      if (textColor) {
+        
+        $(".change-text-color").css("color", textColor)
       }
     }
   },
@@ -882,11 +893,19 @@ export default {
     this.loadLibraries();
     if (process.browser) {
       let color = localStorage.getItem("color");
+      let textColor = localStorage.getItem("textColor");
 
       if (color) {
         $(".change-color").css("background", color);
-        //$(".change-text-color").css("color", "#fff")
+        
       }
+
+      if (textColor) {
+        $(".change-text-color").css("color", textColor)
+        
+      }
+
+      
     }
   },
   watch: {

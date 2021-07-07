@@ -123,7 +123,7 @@
             <button
               v-show="onLoadingBook == false"
               :disabled="total <= 0"
-              class="btn"
+              class="btn change-color change-font-color"
               @click="bookNow()"
             >
               {{ $t("bookNow") }}
@@ -548,10 +548,16 @@ export default {
       setTimeout(() => {
         if (process.browser) {
           let color = localStorage.getItem("color");
+          let textColor = localStorage.getItem("textColor");
 
           if (color) {
             $(".change-color").css("background", color);
           }
+
+          if(textColor){
+            $(".change-font-color").css("color", textColor);
+          }
+
         }
       }, 1000);
     },
