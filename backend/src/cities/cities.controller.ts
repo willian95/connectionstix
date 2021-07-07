@@ -1,4 +1,4 @@
-import { Controller, Get, HttpService, Param } from '@nestjs/common';
+import { Controller, Get, HttpService, Param, Req } from '@nestjs/common';
 import {GeneralFunctionService} from '../general-function/general-function.service'; 
 
 
@@ -8,10 +8,10 @@ export class CitiesController {
     constructor(private generalFunctionService: GeneralFunctionService, private httpService:HttpService) {}
 
     @Get('/:country_code/:province_state_code')
-    async find(@Param('country_code') country_code: string, @Param('province_state_code') province_state_code: string): Promise<any> {
+    async find(@Param('country_code') country_code: string, @Param('province_state_code') province_state_code: string, @Req() request): Promise<any> {
 
         try{
-            let endpoint ="/geoinfo/countries/"+country_code+"/provinces-states/"+province_state_code+"/cities"
+            let endpoint ="/geoinfo/countries/"+country_code+"/provinces-states/"+province_state_code+"/cities?order_number="+request.query.orderNumber
 
             const agent = this.generalFunctionService.getAgent()
         

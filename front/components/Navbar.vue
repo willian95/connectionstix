@@ -3,7 +3,14 @@
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
     <div class="dflex-sec">
       <client-only>
-      <nuxt-link :to="{ path: '/'}"><img v-if="logo" class="brand" :src="logo" alt="" /></nuxt-link>
+        <nuxt-link :to="{ path: '/'}">
+          <div v-if="transparent == true">
+            <img v-if="logo" class="brand" :src="logo" alt="" />
+          </div>
+          <div v-else>
+            <img v-if="secondaryLogo" class="brand" :src="secondaryLogo" alt="" />
+          </div>
+        </nuxt-link>
       </client-only>
       <div class="select-language">
         <v-col class="d-flex" cols="12" sm="5">
@@ -33,6 +40,7 @@ export default {
     languages: ["en", "es"],
     language:"",
     logo:"",
+    logoSecondary:"",
     navbarClass:""
   }),
   methods:{
@@ -57,6 +65,10 @@ export default {
 
       if(process.browser){
         this.logo = window.localStorage.getItem("logo")
+      }
+
+      if(process.browser){
+        this.secondaryLogo = window.localStorage.getItem("secondaryLogo")
       }
 
     },
@@ -93,6 +105,21 @@ export default {
       
         if(process.browser){
           localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
+        }
+      }
+
+      if(config.data.secondaryLogo){
+      
+        if(process.browser){
+          localStorage.setItem("secondaryLogo",  process.env.SERVER_URL+config.data.secondaryLogo)
+          console.log("secondLogo", config.data.secondaryLogo)
+        }
+      }
+
+      if(config.data.footerLogo){
+      
+        if(process.browser){
+          localStorage.setItem("footerLogo",  process.env.SERVER_URL+config.data.footerLogo)
         }
       }
 

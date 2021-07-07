@@ -5,7 +5,7 @@
         <div class="container">
           <div class="content-footer">
             <div class="center">
-              <img class="brand" :src="logo" alt="" />
+              <img class="brand" :src="footerLogo" alt="" />
             </div>
             <div class="flex-footer">
               <ul>
@@ -125,12 +125,12 @@
 export default {
   data: () => ({
     icons: ["mdi-instagram", "mdi-facebook", "mdi-twitter", "mdi-linkedin"],
-    logo: ""
+    footerLogo: "",
   }),
   methods: {
     async getLogo() {
       if (process.browser) {
-        this.logo = window.localStorage.getItem("logo");
+        this.footerLogo = window.localStorage.getItem("footerLogo");
       }
     }
   },
