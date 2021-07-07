@@ -370,6 +370,7 @@ export default {
   align-items: center;
 
   text-align: center;
+
   @include respond-to(xs) {
     display: block;
 

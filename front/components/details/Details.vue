@@ -996,6 +996,7 @@ font-size: .7rem;
   tr {
     display: flex;
     justify-content: space-around;
+        align-items: center;
     @include respond-to(xs) {
       display: revert;
 
