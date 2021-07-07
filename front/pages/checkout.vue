@@ -873,7 +873,7 @@ export default {
 
       if (color) {
         $(".change-color").css("background", color);
-        $(".change-text-color").css("color", color)
+        $(".change-text-color").css("color", "#fff")
       }
     }
   },
@@ -885,7 +885,7 @@ export default {
 
       if (color) {
         $(".change-color").css("background", color);
-        $(".change-text-color").css("color", color)
+        $(".change-text-color").css("color", "#fff")
       }
     }
   },

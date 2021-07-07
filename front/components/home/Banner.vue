@@ -100,7 +100,7 @@ export default {
      
       this.states = [];
       this.cities = [];
-      let res = await this.$axios.get("provinces/" + this.country+"/"+this.orderNumber+"?orderNumber="+this.orderNumber);
+      let res = await this.$axios.get("provinces/" + this.country+"/?orderNumber="+this.orderNumber);
       this.states = res.data;
 
       this.states.forEach(data => {
