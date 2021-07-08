@@ -33,7 +33,7 @@
                 <v-card  class="ma-4 w-card_slider "  @click="getProductsByTag(tag.tag_id, tag.name)">
                   <div>
                     <img class="img-icon" :src="tag.icon" alt="" />
-                    <img class="img-icon" :src="tag.icon_selected" alt="" />
+                    <!--<img class="img-icon" :src="tag.icon_selected" alt="" />-->
                   </div>
                   <div class="cursore-pointer">
                     {{ tag.name }}

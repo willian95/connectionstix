@@ -148,21 +148,7 @@
           <v-row class="mt-1">
             <v-col class="line" cols="6" md="6">
               <h3 class="title-custom">{{ $t("openingHours") }}</h3>
-              <!--<ul>
-                <li
-                  v-for="(openingHour, index) in operationHours"
-                  :key="'open-' + index"
-                >
-                  {{ openingHour.day }}:
-                  <span
-                    v-if="openingHour.open == null && openingHour.close == null"
-                    >{{ $t("closedAllDay") }}</span
-                  >
-                  <span v-else>
-                    {{ hourString(openingHour.open) }} to {{ hourString(openingHour.close) }}
-                  </span>
-                </li>
-              </ul>-->
+
               <table class="table" v-for="(openingHour, index) in operationHours" :key="'open-' + index">
                 <tr>
                   <td style="width: 120px;"><strong>{{ openingHour.day }}:</strong></td>
@@ -508,30 +494,25 @@ export default {
       let hourPart = parseInt(timeArray[0])
       let minutePart = timeArray[1]
 
-      
 
-      if(this.$i18n.locale == "en"){
-        return hour
-      }else{  
+      let meridian = "am"
 
-        let meridian = "am"
-
-        if(parseInt(hourPart) > 12){
-          meridian = "pm"
-          hourPart = parseInt(hourPart) - 12
-          
-        }
-
-        else if(parseInt(hourPart) == "00"){
-          meridian = "am"
-          hourPart = 12
-        }
-
-       
-        hourPart = hourPart < 10 ? "0"+hourPart : hourPart
+      if(parseInt(hourPart) > 12){
+        meridian = "pm"
+        hourPart = parseInt(hourPart) - 12
         
-        return hourPart + ":" + minutePart + " " + meridian
       }
+
+      else if(parseInt(hourPart) == "00"){
+        meridian = "am"
+        hourPart = 12
+      }
+
+      
+      hourPart = hourPart < 10 ? "0"+hourPart : hourPart
+      
+      return hourPart + ":" + minutePart + " " + meridian
+      
 
     }
   },
