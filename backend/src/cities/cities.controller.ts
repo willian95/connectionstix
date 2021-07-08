@@ -11,7 +11,17 @@ export class CitiesController {
     async find(@Param('country_code') country_code: string, @Param('province_state_code') province_state_code: string, @Req() request): Promise<any> {
 
         try{
-            let endpoint ="/geoinfo/countries/"+country_code+"/provinces-states/"+province_state_code+"/cities?order_number="+request.query.orderNumber
+
+            let orderNumber = request.query
+            let endpoint = ""
+   
+            if(orderNumber.orderNumber != ""){
+                endpoint ="/geoinfo/countries/"+country_code+"/provinces-states/"+province_state_code+"/cities?order_number="+orderNumber.orderNumber
+            }else{
+
+                endpoint ="/geoinfo/countries/"+country_code+"/provinces-states/"+province_state_code+"/cities"
+
+            }
 
             const agent = this.generalFunctionService.getAgent()
         
@@ -21,6 +31,16 @@ export class CitiesController {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
+
+            /*console.log(" ")
+            console.log(" ")
+            console.log(" ")
+            console.log("cities")
+            console.log(endpoint)
+            console.log(" ")
+            console.log(" ")
+            console.log(" ")
+            console.log(" ")*/
         
             return response.data.data
 

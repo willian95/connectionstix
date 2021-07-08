@@ -15,7 +15,7 @@ export class CountriesController {
             let endpoint = ""
    
             if(orderNumber.orderNumber != ""){
-                endpoint ="/geoinfo/countries?"+orderNumber
+                endpoint ="/geoinfo/countries?order_number="+orderNumber.orderNumber
             }else{
 
                 endpoint ="/geoinfo/countries"
@@ -29,6 +29,16 @@ export class CountriesController {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
+
+            /*console.log(" ")
+            console.log(" ")
+            console.log(" ")
+            console.log("countries")
+            console.log(endpoint)
+            console.log(" ")
+            console.log(" ")
+            console.log(" ")
+            console.log(" ")*/
         
             return response.data.data
 
