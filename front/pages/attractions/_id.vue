@@ -301,4 +301,8 @@ margin-top: 4rem;
 }
 }
 
+.vdp-datepicker__calendar header {
+    display: contents!important;
+
+}
 </style>
