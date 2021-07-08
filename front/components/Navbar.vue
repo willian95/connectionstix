@@ -13,7 +13,7 @@
         </nuxt-link>
       </client-only>
       <div class="select-language">
-        <v-col class="d-flex" cols="12" sm="5">
+        <v-col class="d-flex" cols="5">
           <v-select :items="languages" solo v-model="language" @change="changeLanguage()"></v-select>
         </v-col>
 
@@ -214,6 +214,7 @@ header {
     }
   }
   .select-language {
+
 
     @include respond-to(xs) {
       display: grid;

@@ -151,7 +151,7 @@
                         {{ $t("checkout") }}
                       </button>
                       <NuxtLink class="btn btn-borde" :to="{ path: '/' }"
-                        ><button class="change-text-color">
+                        ><button class="color">
                           {{ $t("continueShopping") }}
                         </button></NuxtLink
                       >
