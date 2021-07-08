@@ -1,7 +1,7 @@
 
 body{
   font-family: 'Poppins', sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 *{
@@ -121,4 +121,8 @@ display: none;
 .v-input input {
  
   padding: 0 1rem;
+}
+.cool-lightbox.cool-lightbox--can-zoom .cool-lightbox__slide img {
+
+    object-fit: contain;
 }

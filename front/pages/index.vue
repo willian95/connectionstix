@@ -425,4 +425,7 @@ width: 104px;
       }
   }
 }
+body{
+  overflow: hidden;
+}
 </style>

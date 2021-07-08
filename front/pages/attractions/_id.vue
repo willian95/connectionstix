@@ -272,6 +272,7 @@ height: 30vh;
   }
   .theme--light.v-image {
     height: 140px;
+        cursor: pointer;
   }
   .theme--light.v-sheet--outlined {
     border: none;
@@ -300,4 +301,8 @@ margin-top: 4rem;
 }
 }
 
+.vdp-datepicker__calendar header {
+    display: contents!important;
+
+}
 </style>
