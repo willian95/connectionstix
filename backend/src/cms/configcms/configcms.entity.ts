@@ -16,6 +16,11 @@ import {
       nullable: true,
     })
     color: string;
+
+    @Column({
+      nullable: true,
+    })
+    textColor: string;
   
     @Column({
       nullable: true,

@@ -9,6 +9,7 @@ export class ConfigcmsService {
 
             let configcmsModel = new Configcms
             configcmsModel.color = configcms.color
+            configcmsModel.textColor = configcms.textColor
             configcmsModel.overlay = configcms.overlay ? configcms.overlay : 0
             if(configcms.hero != ""){
                 configcmsModel.hero = configcms.hero
@@ -32,6 +33,7 @@ export class ConfigcmsService {
             let configcmsModel = await Configcms.findOne()
 
             configcmsModel.color = configcms.color
+            configcmsModel.textColor = configcms.textColor
             configcmsModel.overlay = configcms.overlay ? configcms.overlay : 0
             if(configcms.hero != ""){
                 configcmsModel.hero = configcms.hero
