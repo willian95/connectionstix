@@ -584,6 +584,7 @@ export default {
           this.currencySymbol = res.data.currency_symbol;
           this.order = order;
           this.requestForUpdate = false;
+          this.discountCodeRequestForUpdate = false
 
           this.items.forEach((item, index) => {
             item.pricing.price_types.forEach((price, index) => {
