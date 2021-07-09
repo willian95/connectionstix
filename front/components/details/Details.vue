@@ -188,7 +188,7 @@
             <h3 class="title-custom mt4" v-if="highlights.length > 0">
               {{ $t("hightlights") }}
             </h3>
-            <ul>
+            <ul class="highlight">
               <li
                 v-for="(highlight, index) in highlights"
                 :key="'highlight-' + index"
@@ -1024,5 +1024,10 @@ font-size: .7rem;
   .btn {
     padding: 0.5rem 1.5rem;
   }
+}
+.highlight{
+  list-style: unset;
+    margin-left: 1.5rem;
+        margin-top: 1rem;
 }
 </style>

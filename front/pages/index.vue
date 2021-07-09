@@ -31,11 +31,11 @@
                 :key="'tag-' + index"
               >
                 <v-card  class="ma-4 w-card_slider "  @click="getProductsByTag(tag.tag_id, tag.name)">
-                  <div>
+                  <div class="content-icons">
                     <img class="img-icon" :src="tag.icon" alt="" />
-                    <!--<img class="img-icon" :src="tag.icon_selected" alt="" />-->
+                   <img class="img-icon icon-selected" :src="tag.icon_selected" alt="" />
                   </div>
-                  <div class="cursore-pointer">
+                  <div class="cursore-pointer color-txt">
                     {{ tag.name }}
                   </div>
                 </v-card>
@@ -364,6 +364,7 @@ export default {
     }
     p {
       font-weight: 500;
+          font-size: 1rem;
     }
     span {
       font-size: 0.9rem;
@@ -429,4 +430,33 @@ width: 104px;
 body{
   overflow: hidden;
 }
+
+
+.w-card_slider{
+.content-icons{
+  position:relative;
+  transition: .6s;
+& .icon-selected{
+    position: absolute;
+    left: 0;
+
+    opacity: 0;
+
+}
+}
+  &:hover, &:focus {
+    .icon-selected{
+      opacity: 1;
+    }
+    .color-txt{
+      color: #ef1856;
+      font-weight: bold;
+    }
+}
+.v-card--link:before {
+    background: transparent;
+
+}
+}
+
 </style>
