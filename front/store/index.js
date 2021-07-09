@@ -1,5 +1,5 @@
 export const state = () => ({
-    amount:0
+    amount:0,
 })
   
 export const getters = {

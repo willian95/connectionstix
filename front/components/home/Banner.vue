@@ -123,14 +123,21 @@ export default {
 
         if(data.selected == true){
           this.city = data.city_code
-
+          this.getCities(this.city)
           if(this.orderNumber){
             this.getFilteredProducts(this.country, this.state, this.city)
           }
+          
 
         }
 
       })
+
+      if(city != ""){
+
+        
+
+      }
 
       
     },

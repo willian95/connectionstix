@@ -8,6 +8,7 @@
       <Banner
         :getFilteredProducts="getFilteredProducts"
         :backImage="backImage"
+        :getTags="getTags"
         v-show="!overlay"
       />
       <div class="content-mix ">
@@ -166,7 +167,7 @@ export default {
       }
     },
     async getProductsByTag(tag, tagName) {
-      console.log("tag", tag)
+   
       let payload = {}
       this.showNoProductsMessage = false
 
@@ -181,8 +182,6 @@ export default {
         "city":this.city ? this.city : ''
       }
 
-      console.log("payload", payload)
-
       let res = await this.$axios.post("products/list", payload);
 
       if (res.data.status.result_messages[0] == "OK") {
@@ -192,8 +191,8 @@ export default {
         this.showNoProductsMessage = true
       }
     },
-    async getTags() {
-      let res = await this.$axios.get("tags/all");
+    async getTags(cityCode) {
+      let res = await this.$axios.get("tags/all?cityCode="+cityCode);
       this.tagList = res.data;
     },
     async getConfig() {
@@ -227,8 +226,12 @@ export default {
     }
   },
   created() {
-    this.getTags();
-    this.getAllProducts();
+    //this.getTags();
+    //this.getAllProducts();
+    if(this.overlay == true){
+      this.getTags()
+    }
+
     this.getConfig();
   }
 };
