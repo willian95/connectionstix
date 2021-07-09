@@ -4,9 +4,9 @@
     <img v-if="backImage" class="background" :src="backImage" alt="" />
     <div class="banner__content">
       <img v-if="logo" :src="logo" alt="" />
-      <h2>{{ $t("bookNow") }}</h2>
+     <!---<h2>{{ $t("bookNow") }}</h2>
       <p>{{ $t("homePrice") }}</p>
-      <span>{{ $t("homeKidPrice") }}</span>
+      <span>{{ $t("homeKidPrice") }}</span>-->
       <!------------------------------------>
       <v-container class="content-choose">
         <v-row>
@@ -288,7 +288,7 @@ height: 60vh;
     border-radius: 1.5rem;
     padding: 2rem 2rem;
     max-width: 72%;
-    margin-top: 4rem;
+    margin-top: 11rem;
     @include respond-to(xs) {
       max-width: 92%;
           margin-top: 1rem;

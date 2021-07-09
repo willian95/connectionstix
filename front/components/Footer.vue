@@ -218,4 +218,10 @@ margin-top: 3rem;
     }
   }
 }
+.content-footer{
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 </style>
