@@ -62,14 +62,14 @@
                   />
                 </div>
 
-                <div class="date-custom">
+                <!--<div class="date-custom">
                   <img src="~assets/images/iconos/calendar.png" alt="" />
                   <date-picker
                     placeholder="MM/DD/YYYY"
                     format="MM/dd/yyyy"
                     v-model="next_date"
                   />
-                </div>
+                </div>-->
               </client-only>
             </div>
 
