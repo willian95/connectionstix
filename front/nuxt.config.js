@@ -33,7 +33,7 @@ export default {
   plugins: [
     { src: '~/plugins/vue-datepicker', ssr: false },
     { src: "~plugins/isotope.js", ssr: false },
-    { src: '~/plugins/paypal.js', ssr: false }
+    { src: '~/plugins/paypal.js', ssr: false },
      //   {src : "~/plugins/vuetify.js"},
   ],
 

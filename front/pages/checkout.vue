@@ -7,7 +7,7 @@
 
     <div class="container main-checkout">
       <client-only>
-      <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
+      <v-expansion-panels v-model="panel" :disabled="disabled" multiple v-show="renderPage">
         <v-expansion-panel>
           
             <v-expansion-panel-header class="change-color"
@@ -45,8 +45,10 @@
                 :order="order"
                 :getItems="getItems"
                 :discountEnabled="item.pricing.discounts_enabled"
+                :discountCodeProp="item.pricing.discount_code == null ? '' : item.pricing.discount_code"
                 :checkUpdatedItems="checkUpdatedItems"
                 :cancellationPolicy="item.cancellation_policy"
+                :checkDiscountCode="checkDiscountCode"
               />
             </div>
           </v-expansion-panel-content>
@@ -55,7 +57,7 @@
         <!------------------------->
 
         <!--------------slider items------------->
-        <v-expansion-panel v-show="nearbyProducts.length > 0">
+        <v-expansion-panel v-show="nearbyProducts.length > 0 && renderPage">
           <v-expansion-panel-header class="change-color"
             ><img
               class="icon-arrow"
@@ -99,7 +101,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
         <!------------Billing info------------------>
-        <v-expansion-panel>
+        <v-expansion-panel v-show="renderPage">
           <v-expansion-panel-header class="change-color"
             ><img
               class="icon-arrow"
@@ -138,7 +140,7 @@
                   <v-col class="center" cols="12" sm="12" md="12">
                     <div class="total_txt">
                       <p>Total</p>
-                      <p>{{ grandTotalCurrencySymbol }} {{ total }} {{ grandTotalCurrencyCode }}</p>
+                      <p>{{ grandTotalCurrencySymbol }} {{ currencyFormatDE(total) }} {{ grandTotalCurrencyCode }}</p>
                     </div>
                   </v-col>
 
@@ -252,7 +254,11 @@
 
               <v-row
                 v-if="selectedPaymentProvider.prompt_billing_address == true"
+                class="paymethod"
               >
+                <v-col cols="12">
+                  <p>{{ $t("billingAddress") }}</p>
+                </v-col>
                 <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("address1") }}</label>
                   <v-text-field
@@ -309,7 +315,7 @@
                     single-line
                     outlined
                     v-model="postal_zip_code"
-                    @keypress="isNumber($event)"
+                   
                   ></v-text-field>
                   <LocalErrorShow
                     :errors="localErrors"
@@ -318,7 +324,7 @@
                 </v-col>
 
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("cuntry") }}</label>
+                  <label for="">* {{ $t("country") }}</label>
                   <v-text-field
                     label="USA"
                     single-line
@@ -331,6 +337,15 @@
 
               <v-row class="paymethod" v-show="showCheckout  && !onLoadingCheckout">
                 <v-col class="center" cols="12" sm="12" md="12">
+
+                  <center>
+                    <v-progress-circular
+                      v-show="onLoadingPay"
+                      indeterminate
+                      color="primary"
+                    ></v-progress-circular>
+                  </center>
+
                   <button
                     class="btn change-color"
                     @click="showRequiredFields()"
@@ -380,7 +395,7 @@
                     "
                     data-acceptUIFormBtnTxt="Submit"
                     data-acceptUIFormHeaderTxt="Card Information"
-                    data-paymentOptions='{"showCreditCard": true, "showBankAccount": true}'
+                    data-paymentOptions='{"showCreditCard": true, "showBankAccount": false}'
                     data-responseHandler="payResponse"
                   >
                     {{ $t("payNow") }}
@@ -447,6 +462,7 @@ export default {
     }
   },
   data: () => ({
+    renderPage:false,
     order: "",
     currencySymbol: "",
     currencyCode: "",
@@ -467,6 +483,7 @@ export default {
     oldItemValues: [],
     itemsAmountUpdated: true,
     requestForUpdate: false,
+    discountCodeRequestForUpdate: false,
     paypalEnv: "sandbox",
     onLoadingAttraction:false,
     onLoadingOrderUpdate:false,
@@ -491,11 +508,18 @@ export default {
     showPayButton: false,
     checkoutCount: 0,
     showCheckout: false,
-    paypalOrder:""
+    paypalOrder:"",
+
+    oldDiscountCodes:[],
+    newDiscountCodes:[],
+    onLoadingPay:false
+
   }),
   components: { Detail, LocalErrorShow },
   methods: {
     payResponse(response) {
+      this.onLoadingPay = true
+      this.payButtonDisabled = true
       this.payment_data = {
         opaque_data_descriptor: response.opaqueData.dataDescriptor,
         opaque_data_value: response.opaqueData.dataValue
@@ -505,6 +529,48 @@ export default {
         this.checkout();
         this.checkoutCount++;
       }
+    },
+    checkDiscountCode(itemId, discountCode){
+
+      this.newDiscountCodes.forEach((data, index) => {
+
+        if(data.item == itemId){
+          this.newDiscountCodes[index].discount = discountCode
+        }
+
+      })
+
+      this.checkForDiscountUdateRequest()
+
+    },
+    checkForDiscountUdateRequest(){
+
+      this.discountCodeRequestForUpdate = false
+
+      this.newDiscountCodes.forEach((newDiscount) => {
+
+        this.oldDiscountCodes.forEach((oldDiscount) => {
+
+          if(newDiscount.item == oldDiscount.item){
+
+            if(newDiscount.discount != oldDiscount.discount){
+              this.discountCodeRequestForUpdate = true
+            }
+
+          }
+
+        })
+
+      })
+
+    },
+    currencyFormatDE(num) {
+      return (
+          num
+          .toFixed(2) // always two decimal digits
+          .replace('.', ',') // replace decimal point character with ,
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      ) // use . as a separator
     },
     async getItems() {
       if (process.browser) {
@@ -529,6 +595,11 @@ export default {
             });
           });
 
+          this.items.forEach((item, index) => {
+            this.oldDiscountCodes.push({"item":item.item_id, "discount": item.pricing.discount_code == null ? '' : item.pricing.discount_code})
+            this.newDiscountCodes.push({"item":item.item_id, "discount":item.pricing.discount_code == null ? '' : item.pricing.discount_code})
+          });
+
           await this.getTotal();
         }
       }
@@ -536,12 +607,27 @@ export default {
     async getTotal() {
       let res = await this.$axios.get("orders/totals/" + this.order);
       this.total = res.data.grand_total;
+      this.discountCode = res.data.discounts.length > 0 ? res.data.discounts[0].discount_code : '' 
       this.isGrandTotalDiscountEnabled = res.data.discounts_enabled
       this.grandTotalCurrencyCode = res.data.currency_code
       this.grandTotalCurrencySymbol = res.data.currency_symbol
     },
     setShowCheckout() {
-      this.showCheckout = true;
+
+      if (this.requestForUpdate == true || this.discountCodeRequestForUpdate) {
+        
+        this.$swal({
+          text: this.$t("oneOrMoreItemsUpdate"),
+          icon: "error"
+        });
+
+      }else{
+
+        this.showCheckout = true;
+
+      }
+
+      
     },
     isNumber(evt) {
       evt = evt ? evt : window.event;
@@ -568,12 +654,24 @@ export default {
         let numberItems = await this.getCartCount(this.order);
         await this.$store.dispatch("storeCartAmount", { amount: numberItems });
 
-        this.$swal({
-          text: this.$t("productRemoved"),
-          icon: "success"
-        }).then(ans => {
-          _this.getItems();
-        });
+        if(this.items.length > 1){
+          this.$swal({
+            text: this.$t("productRemoved"),
+            icon: "success"
+          }).then(ans => {
+            _this.getItems();
+          });
+        }else{
+
+          this.$swal({
+            text: this.$t("shoppingCartEmpty"),
+            icon: "success"
+          }).then(ans => {
+            this.$router.push(this.localePath({ path: "/" }));
+          });
+
+        }
+
       } else {
         this.$swal({
           text: res.data.status.result_messages[0],
@@ -585,7 +683,6 @@ export default {
       this.paymentProviders.forEach((data, index) => {
         if (index == this.radios) {
           this.selectedPaymentProvider = data;
-          console.log(this.selectedPaymentProvider)
         }
       });
     },
@@ -621,6 +718,7 @@ export default {
 
       return request;
     },
+
     checkUpdatedItems(newPrices, productId) {
       newPrices.forEach((prices, index) => {
         let itemIndex = this.newItemValues.findIndex(
@@ -661,12 +759,6 @@ export default {
       });
     },
     showRequiredFields() {
-      if (this.requestForUpdate == true) {
-        this.$swal({
-          text: "One or more items need to be updated",
-          icon: "error"
-        });
-      }
 
       this.localErrors = [];
       var regex = /\S+@\S+\.\S+/;
@@ -674,33 +766,33 @@ export default {
       if (this.customer_first_name == "") {
         this.localErrors.push({
           name: "name",
-          message: "First name is required"
+          message: this.$t("firstnameRequired")
         });
       }
 
       if (this.customer_last_name == "") {
         this.localErrors.push({
           name: "lastname",
-          message: "Lastname is required"
+          message: this.$t("lastnameRequired")
         });
       }
 
       if (this.customer_email == "") {
         this.localErrors.push({
           name: "email",
-          message: "Email is required"
+          message: this.$t("emailRequired")
         });
       } else if (!regex.test(this.customer_email)) {
         this.localErrors.push({
           name: "email",
-          message: "Email is not valid"
+          message: this.$t("emailNotValid")
         });
       }
 
       if (this.phone == "") {
         this.localErrors.push({
           name: "phone",
-          message: "Phone is required"
+          message: this.$t("phoneRequired")
         });
       }
 
@@ -708,35 +800,35 @@ export default {
         if (this.address_line1 == "") {
           this.localErrors.push({
             name: "address_line1",
-            message: "Address line 1 is required"
+            message: this.$t("addres1Required")
           });
         }
 
         if (this.city == "") {
           this.localErrors.push({
             name: "city",
-            message: "City is required"
+            message: this.$t("cityRequired")
           });
         }
 
         if (this.province_state == "") {
           this.localErrors.push({
             name: "province_state",
-            message: "Province state is required"
+            message: this.$t("provinceRequired")
           });
         }
 
         if (this.postal_zip_code == "") {
           this.localErrors.push({
             name: "postal_zip_code",
-            message: "Postal zip code is required"
+            message: this.$t("zipCodeRequired")
           });
         }
 
         if (this.country == "") {
           this.localErrors.push({
             name: "country",
-            message: "Country is required"
+            message: this.$t("countryRequired")
           });
         }
       }
@@ -756,6 +848,9 @@ export default {
       this.onLoadingCheckout = true
       let res = await this.$axios.post("checkout", request);
       this.onLoadingCheckout = false
+
+      this.onLoadingPay = false
+      this.payButtonDisabled = false
 
       if (res.data.status.result_messages[0] == "OK") {
         this.$swal({
@@ -799,12 +894,14 @@ export default {
     },
     paypalResponse(response) {
       
-      
+      this.payButtonDisabled= true
+      this.onLoadingPay =true
       this.paypalOrder = response.orderID
       this.checkout()
 
     },
     loadLibraries() {
+      this.renderPage = false
       if (process.browser) {
         window.setTimeout(() => {
           this.showPayButton = true;
@@ -823,7 +920,8 @@ export default {
           document.body.appendChild(acceptUi);
 
           window.payResponse = this.payResponse;
-        }, 5000);
+          this.renderPage = true
+        }, 3000);
       }
     },
     async nearbyProductsFetch() {

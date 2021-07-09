@@ -20,10 +20,13 @@
       </div>
     </div>
     <div>
-      <NuxtLink class="nav-link" :to="localePath('/checkout')">
+      <NuxtLink class="nav-link" :to="localePath('/checkout')" v-if="numberItems > 0">
         <img src="~assets/images/iconos/cart.png" alt="">
         <p class="change-navbar-font-color">{{ numberItems }}</p>
       </NuxtLink>
+      <div v-else class="nav-link" @click="showEmptyCartMessage()" style="cursor: pointer">
+        <img src="~assets/images/iconos/cart.png" alt="">
+      </div>
     </div>
   </header>
 </template>
@@ -44,6 +47,14 @@ export default {
     navbarClass:""
   }),
   methods:{
+    showEmptyCartMessage(){
+
+       this.$swal({
+          text: this.$t("shoppingCartEmpty"),
+          icon: "warning"
+        })
+
+    },
     async getCartCount(order){
 
       let res = await this.$axios.get("orders/item-count/"+order)
@@ -55,8 +66,11 @@ export default {
       if(process.browser){
 
         let order = window.localStorage.getItem("orders")
-        let numberItems = await this.getCartCount(order)
-        await this.$store.dispatch("storeCartAmount", {amount: numberItems})
+        if(order != null){
+          let numberItems = await this.getCartCount(order)
+          await this.$store.dispatch("storeCartAmount", {amount: numberItems})
+        }
+        
 
       }
 
@@ -79,7 +93,9 @@ export default {
     },
     getColor(){
       if(process.browser){
+         
         if(this.transparent == false){
+          
           let color = localStorage.getItem("color")
 
       
@@ -89,12 +105,16 @@ export default {
             
           }
 
-     
-            
-        
-
         }else{
+          
           $(".header-2").css("background", "transparent")
+          let color = localStorage.getItem("color")
+         
+          if(color){
+             console.log("navbar-color", color)
+            $(".change-navbar-font-color").css("color", color)
+            
+          }
         }
       }
     },
@@ -157,9 +177,11 @@ export default {
   mounted(){
 
     this.getLocalStorageOrders()
-
+    window.setTimeout(() => {
+      this.getColor()
+    }, 3000)
     this.getConfig()
-    this.getColor()
+    
     this.language = this.$i18n.locale
 
     if(this.positionAbsolute == true){
@@ -183,6 +205,9 @@ export default {
   position: absolute;
 }
 
+.nav-link .change-navbar-font-color{
+  color: #000;
+}
 
 header {
   display: flex;

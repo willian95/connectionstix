@@ -14,7 +14,7 @@
     <v-row no-gutters class="row-center">
       <v-col cols="12" sm="4" md="4">
         <v-card class="pa-2" outlined tile>
-          <p class="txt-panel">$ {{ total }} CAD</p>
+          <p class="txt-panel">$ {{ currencyFormatDE(total) }}</p>
           <div class="info-panel">
             <p>{{ productName }}</p>
             <img class="" :src="thumbnail" alt="" />
@@ -25,7 +25,7 @@
         <v-card class="pa-2" outlined tile>
           <div class="main-min" v-for="(amount, index) in amounts" :key="index">
             <div class="flex">
-              <p>{{ currencySymbol }} {{ amount.price }} {{ currencyCode }}</p>
+              <p>{{ currencySymbol }} {{ currencyFormatDE(amount.price) }}</p>
             </div>
             <div class="content-mx">
               <div class="style-btn change-color" @click="substract(index)">
@@ -83,11 +83,12 @@
           outlined
           v-model="discountCode"
           v-if="discountEnabled"
+          @keyup="checkDiscountCode(itemId, discountCode)"
         ></v-text-field>
       </div>
       <div class="items itemend">
        <div class="end">
-            <button class="btn change-color" :disabled="isDisabled  && discountCode == ''" @click="update()" v-show="!onLoadingUpdate">{{ $t('update') }}</button>
+            <button class="btn change-color" :disabled="isDisabled && discountCode == discountCodeProp" @click="update()" v-show="!onLoadingUpdate">{{ $t('update') }}</button>
             <center>
                 <v-progress-circular
                 v-show="onLoadingUpdate == true"
@@ -115,9 +116,11 @@ export default {
     "currencySymbol",
     "order",
     "getItems",
-    "discountEnabled",
     "checkUpdatedItems",
-    "productId"
+    "productId",
+    "discountEnabled",
+    "discountCodeProp",
+    "checkDiscountCode"
   ],
   data() {
     return {
@@ -141,6 +144,7 @@ export default {
     };
   },
   methods: {
+    
     setTotal() {
       this.total = 0;
       this.amounts.forEach(data => {
@@ -174,6 +178,14 @@ export default {
           this.isDisabled = false;
         }
       });
+    },
+    currencyFormatDE(num) {
+      return (
+          num
+          .toFixed(2) // always two decimal digits
+          .replace('.', ',') // replace decimal point character with ,
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      ) // use . as a separator
     },
     async update() {
       let discountResponse = true;
@@ -314,6 +326,7 @@ export default {
         price: data.current_price
       });
     });
+    this.discountCode = this.discountCodeProp
     this.fetchProduct()
     this.setTotal();
   },

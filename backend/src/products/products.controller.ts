@@ -66,6 +66,11 @@ export class ProductsController {
     setParameterString(body){
 
         let parameterString = ""
+
+        if(body.tag == 0){
+            return parameterString
+        }
+
         if(body.country){
             parameterString += "country_code="+body.country 
         }

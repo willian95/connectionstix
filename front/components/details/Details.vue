@@ -81,7 +81,7 @@
               <div class="flex">
                 <p>
                   {{ price.price_type_name }} {{ pricing.currency_symbol }}
-                  {{ price.current_price }} {{ pricing.currency_code }}
+                  {{ currencyFormatDE(price.current_price) }}
                 </p>
                 <small
                   >(<span v-if="price.age.minimum"
@@ -115,7 +115,7 @@
               <p><strong>Total </strong></p>
               <p>
                 <strong
-                  >{{ pricing.currency_symbol }} {{ total }}
+                  >{{ pricing.currency_symbol }} {{ currencyFormatDE(total) }}
                   {{ pricing.currency_code }}</strong
                 >
               </p>
@@ -309,6 +309,14 @@ export default {
       }
 
       this.getTotal();
+    },
+    currencyFormatDE(num) {
+      return (
+          num
+          .toFixed(2) // always two decimal digits
+          .replace('.', ',') // replace decimal point character with ,
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      ) // use . as a separator
     },
     chooseDate() {
       if (this.selectedAvailableDate >= 0) {
@@ -547,7 +555,9 @@ export default {
     }
   },
   mounted() {
+    
     if (process.browser) {
+    
       let color = localStorage.getItem("color");
 
       if (color) {

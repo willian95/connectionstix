@@ -83,8 +83,8 @@
                             v-bind:key="'item-' + index"
                           >
                             {{ item.pricing.currency_symbol }}
-                            {{ price.current_price }}
-                            {{ item.pricing.currency_code }} /
+                            {{ currencyFormatDE(price.current_price) }}
+                            /
                             {{ price.price_type_name }}
                           </p>
                           <div class="txt-star">
@@ -127,6 +127,7 @@ export default {
       projects: [],
       tagName:"See all",
       showNoProductsMessage:false,
+      selectedTag: 0,
       country:"",
       province:"",
       city:""
@@ -140,6 +141,14 @@ export default {
         this.filterOption = key;
       }
     },
+    currencyFormatDE(num) {
+      return (
+          num
+          .toFixed(2) // always two decimal digits
+          .replace('.', ',') // replace decimal point character with ,
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      ) // use . as a separator
+    },
     async getAllProducts() {
       let res = await this.$axios.get("products/all");
       this.projects = res.data;
@@ -149,6 +158,10 @@ export default {
       this.country = countryCode
       this.province = state
       this.city = city
+      this.tagName = "See all"
+      this.selectedTag = 0
+
+      this.getTags(city)
 
       this.showNoProductsMessage = false
       let res = await this.$axios.post("products/list", {
@@ -194,6 +207,11 @@ export default {
     async getTags(cityCode) {
       let res = await this.$axios.get("tags/all?cityCode="+cityCode);
       this.tagList = res.data;
+
+      //if(this.tagList.length == 0){
+        this.getAllProducts()
+      //}
+      
     },
     async getConfig() {
       let config = await this.$axios.get("configcms");
@@ -218,19 +236,27 @@ export default {
         }
       }
 
+      if (config.data.textColor) {
+        if (process.browser) {
+          localStorage.setItem("textColor", config.data.textColor);
+        }
+      }
+
       if (config.data.overlay) {
         if (process.browser) {
           localStorage.setItem("overlay", config.data.overlay);
         }
       }
+
+      
+      if(this.overlay == true){
+        await this.getTags("")
+        await this.getAllProducts()
+      }
+
     }
   },
   created() {
-    //this.getTags();
-    //this.getAllProducts();
-    if(this.overlay == true){
-      this.getTags()
-    }
 
     this.getConfig();
   }

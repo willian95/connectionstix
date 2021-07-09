@@ -65,7 +65,7 @@
 
 <script>
 export default {
-  props: ["getFilteredProducts", "backImage"],
+  props: ["getFilteredProducts", "backImage", "getTags"],
   data: () => ({
     countries: [],
     states: [],
@@ -123,7 +123,7 @@ export default {
 
         if(data.selected == true){
           this.city = data.city_code
-          this.getCities(this.city)
+          this.getTags(data.city_code)
           if(this.orderNumber){
             this.getFilteredProducts(this.country, this.state, this.city)
           }
@@ -132,12 +132,6 @@ export default {
         }
 
       })
-
-      if(city != ""){
-
-        
-
-      }
 
       
     },

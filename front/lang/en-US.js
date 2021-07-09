@@ -16,12 +16,13 @@ export default {
     allRightsReserved:"All Rights Reserved",
     attractionAddress:"Attraction address",
     openingHours:"Opening hours",
-    knowBefore:"Know before you go",
+    knowBefore:"What is included",
     cancellationPolicy:"Cancellation policy",
     duration:"Duration",
     description:"Description",
     hightlights:"Hightlights",
     NoProductsFound:"No products found",
+    billingAddress:"Billing address",
 
     reviewSelectedAttractions:"Review your selected attraction(s)",
     moreOptions:"More options to choose for...",
@@ -37,8 +38,8 @@ export default {
     address1:"Address line 1",
     address2:"Address line 2",
     city:"City",
-    provinceState:"Province state",
-    postalCode:"Postal zip code",
+    provinceState:"State/Province",
+    postalCode:"ZIP/Postal code",
     country:"Country",
     payNow:"Pay now",
     discountCode:"Discount code",
@@ -55,5 +56,18 @@ export default {
     itemUpdated:"Item updated",
     oneOrMoreItemsUpdate:"One or more items need to be updated",
     paymentSuccessful:"Payment completed successfully",
+    shoppingCartEmpty:"Shopping cart is empty",
+    
+    firstnameRequired:"First name is required",
+    lastnameRequired:"Lastname is required",
+    emailRequired:"Email is required",
+    emailNotValid:"Email is not valid",
+    phoneRequired:"Phone is required",
+    addres1Required:"Address line 1 is required",
+    cityRequired:"City is required",
+    provinceRequired:"State/Province state is required",
+    zipCodeRequired:"ZIP/Postal code is required",
+    countryRequired:"Country is required"
+
 
 }

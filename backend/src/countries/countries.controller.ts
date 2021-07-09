@@ -34,7 +34,7 @@ export class CountriesController {
             console.log(" ")
             console.log(" ")
             console.log("countries")
-            console.log(endpoint)
+            console.log(response)
             console.log(" ")
             console.log(" ")
             console.log(" ")

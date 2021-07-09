@@ -16,12 +16,13 @@ export default {
     allRightsReserved:"Todos los derechos reservados",
     attractionAddress:"Dirección de la atracción",
     openingHours:"Horas de apertura",
-    knowBefore:"Conoce antes de ir",
+    knowBefore:"Que incluye",
     cancellationPolicy:"Política de cancelación",
     duration:"Duración",
     description:"Descripción",
     hightlights:"Destacados",
     NoProductsFound:"No hay productos para mostrar",
+    billingAddress:"Dirección fiscal",
 
     reviewSelectedAttractions:"Atracciones elegida(s)",
     moreOptions:"Más opciones para elegir...",
@@ -37,7 +38,7 @@ export default {
     address1:"Dirección 1",
     address2:"Dirección 2",
     city:"Ciudad",
-    provinceState:"Provincia estado",
+    provinceState:"Provincia/Estado",
     postalCode:"Código postal",
     country:"País",
     payNow:"Paga ahora",
@@ -55,6 +56,18 @@ export default {
     itemUpdated:"Articulo actualizado",
     oneOrMoreItemsUpdate:"Uno o más articulos necesitan ser actualizados",
     paymentSuccessful:"Pago completado exitosamente",
+    shoppingCartEmpty:"Carrito de compras está vacío",
+
+    firstnameRequired:"Nombre es requerido",
+    lastnameRequired:"Apellido es requerido",
+    emailRequired:"Email es requerido",
+    emailNotValid:"Email no es válido",
+    phoneRequired:"Phone es requerido",
+    addres1Required:"Dirección línea 1 es requerida",
+    cityRequired:"Ciudad es requerida",
+    provinceRequired:"Provincia/Estado es requerido",
+    zipCodeRequired:"Código postal es requerido",
+    countryRequired:"País es requerido"
 
 
 }

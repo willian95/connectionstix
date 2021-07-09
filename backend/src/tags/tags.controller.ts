@@ -1,4 +1,4 @@
-import { Controller, Get, HttpService } from '@nestjs/common';
+import { Controller, Get, HttpService, Req } from '@nestjs/common';
 import {GeneralFunctionService} from '../general-function/general-function.service'; 
 
 @Controller('tags')
@@ -7,19 +7,36 @@ export class TagsController {
     constructor(private generalFunctionService: GeneralFunctionService, private httpService:HttpService) {}
 
     @Get('/all')
-    async getAll(): Promise<any> {
+    async getAll(@Req() request): Promise<any> {
 
         try{
+
             let endpoint ="/commerce/product-tags"
+
+            if(request.query.cityCode != ""){
+                endpoint = endpoint+"?city_code="+request.query.cityCode
+            }
 
             const agent = this.generalFunctionService.getAgent()
         
             let header = this.generalFunctionService.getHeader();
+
+            console.log(" ")
+            console.log(" ")
+            console.log(" ")
+            console.log("tags")
+            console.log(endpoint)
+            console.log(" ")
+            console.log(" ")
+            console.log(" ")
+            console.log(" ")
           
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
+
+            
         
             return response.data.data
 
@@ -31,5 +48,6 @@ export class TagsController {
 
         
     }
+
 
 }
