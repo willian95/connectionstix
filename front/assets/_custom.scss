@@ -126,3 +126,7 @@ display: none;
 
     object-fit: contain;
 }
+.v-card--link:before {
+    background: transparent!important;
+
+}
