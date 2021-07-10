@@ -198,7 +198,8 @@
             </ul>
 
             <div>
-              <h3 class="title-custom mt4">{{ $t("knowBefore") }}</h3>
+              
+              <h3 class="title-custom mt4" v-if="inclusions.length > 0">{{ $t("whatIncluded") }}</h3>
               <div class="know-info">
                 <div
                   class="item"
@@ -223,7 +224,10 @@
                   <img src="~assets/images/iconos/nocheck.png" alt="" />
                 </div>
               </div>
+
+              <h3 class="title-custom mt4" v-if="knowBeforeYouGoChecklist.length > 0">{{ $t("knowBefore") }}</h3>
               <div class="know-info">
+                
                 <div
                   class="item"
                   v-for="(know, index) in knowBeforeYouGoChecklist"
