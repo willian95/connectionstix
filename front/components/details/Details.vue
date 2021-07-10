@@ -288,7 +288,6 @@ export default {
       modalClass: "custom-modal-close",
       selectedAvailableDate: "",
       fromDate: "",
-      toDate: "",
       onLoadingBook: false,
       headers: [
         { text: "From", value: "from_datetime", sortable: false },
@@ -400,7 +399,7 @@ export default {
       let res = await this.$axios.post("products/availability", {
         id: this.productId,
         from_date: this.date_today,
-        to_date: this.next_date,
+        to_date: this.date_today,
         price_types: this.priceTypes
       });
 
