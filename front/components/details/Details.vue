@@ -200,29 +200,35 @@
             <div>
               
               <h3 class="title-custom mt4" v-if="inclusions.length > 0">{{ $t("whatIncluded") }}</h3>
-              <div class="know-info">
-                <div
-                  class="item"
+              <div >
+               <ul class="know-info highlight">
+                  <li
+                 
                   v-for="(inclusion, index) in inclusions"
                   :key="'inclusion-' + index"
                 >
-                  <div>
+                <div class="item">
+                    <div>
                   
                     <p>{{ inclusion }}:</p>
                   </div>
                   <img src="~assets/images/iconos/check.png" alt="" />
                 </div>
-                <div
-                  class="item"
+                </li>
+                <li
+                 
                   v-for="(exclusion, index) in exclusions"
                   :key="'exclusion-' + index"
                 >
-                  <div>
-              
+                  <div class="item">
+                    <div >
+                      
                     <p>{{ exclusion }}:</p>
                   </div>
                   <img src="~assets/images/iconos/nocheck.png" alt="" />
-                </div>
+                    </div>
+                </li>
+               </ul>
               </div>
 
               <h3 class="title-custom mt4" v-if="knowBeforeYouGoChecklist.length > 0">{{ $t("knowBefore") }}</h3>
@@ -670,6 +676,7 @@ display: flex;
     margin-bottom: 2rem;
     grid-gap: 1.5rem 12rem;
     max-width: 90%;
+      list-style: unset!important;
     @include respond-to(xs) {
       grid-gap: 1.5rem 2.5rem;
     }
@@ -688,7 +695,7 @@ display: flex;
       display: inline-flex;
       align-items: center;
       justify-content: space-between;
-
+    width: -webkit-fill-available;
       p {
         margin-bottom: 0;
         margin-left: 1rem;
