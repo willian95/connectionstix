@@ -1035,7 +1035,7 @@ font-size: .7rem;
   }
 }
 .highlight{
-  list-style: unset;
+  list-style: unset!important;
     margin-left: 1.5rem;
         margin-top: 1rem;
 }
