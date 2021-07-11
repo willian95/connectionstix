@@ -5,7 +5,17 @@
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
           <div id="open-modal" :class="'modal-window open-modal ' + modalClass">
             <div class="modal-table">
-  
+                <button :class="disabledPrev ? prevDisabledLinkClass : 'btn'" @click="substractDay()" :disabled="disabledPrev">prev</button>
+                <div class="date-custom">
+                  <img src="~assets/images/iconos/calendar.png" alt="" />
+                  <date-picker
+                    placeholder="MM/DD/YYYY"
+                    format="MM/dd/yyyy"
+                    v-model="date_from"
+                    @selected="testFunction()"
+                  />
+                </div>
+                <button class="btn" @click="addDay()">next</button>
                 <table style="width: 100%">
                 <thead>
                   <tr>
@@ -14,7 +24,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                         <div class="content-tables">
+                  <div class="content-tables">
+                  <tr v-if="onLoadingAvailability == true">
+                   <td colspan="2">
+                      <v-progress-circular
+                      indeterminate
+                      color="primary"
+                    ></v-progress-circular>
+                   </td>
+                  </tr>
                   <tr
                     v-for="(date, index) in availableDates"
                     :key="'date-' + index"
@@ -58,7 +76,7 @@
                   <date-picker
                     placeholder="MM/DD/YYYY"
                     format="MM/dd/yyyy"
-                    v-model="date_today"
+                    v-model="date_from"
                   />
                 </div>
 
@@ -286,14 +304,15 @@ export default {
     "checkAvailability",
     "nextDateAvailable",
     "pricing",
-    "productId"
+    "productId",
   ],
   data() {
     return {
+      onLoadingAvailability:false,
       prices: [],
       priceTypes: [],
       total: 0,
-      date_today: new Date(),
+      date_from: new Date(),
       next_date: "",
       modalClass: "custom-modal-close",
       selectedAvailableDate: "",
@@ -303,7 +322,9 @@ export default {
         { text: "From", value: "from_datetime", sortable: false },
         { text: "To", value: "to_datetime", sortable: false }
       ],
-      availableDates: []
+      availableDates: [],
+      disabledPrev:true,
+      prevDisabledLinkClass:"btn prevDisabledLink",
     };
   },
   methods: {
@@ -343,6 +364,54 @@ export default {
           icon: "error"
         });
       }
+    },
+    addDay(){
+      this.disabledPrev = false
+      var date = new Date(this.date_from);
+      date.setDate(date.getDate() + 1);
+      
+      this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+
+
+      this.availabilityCheck()
+
+    },
+    substractDay(){
+
+      var date = new Date(this.date_from);
+      date.setDate(date.getDate() - 1);
+      
+      if(date < new Date()){
+        this.disabledPrev = true
+        var date = new Date();
+        this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+        this.availabilityCheck()
+      }else{
+        this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+        this.availabilityCheck()
+      }
+
+      
+
+    },
+    testFunction(){
+
+      let date = new Date(this.date_from);
+      
+      if(date < new Date()){
+        this.disabledPrev = true
+        date = new Date();
+        window.setTimeout(() => {
+          this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+        
+          this.availabilityCheck()
+        }, 200)
+        
+      }else{
+        this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+        this.availabilityCheck()
+      }
+
     },
     showDatesModal() {
       this.modalClass = "custom-modal-open";
@@ -405,13 +474,16 @@ export default {
     },
     async availabilityCheck() {
       this.formatPriceTypes();
-
+      this.availableDates = []
+      this.onLoadingAvailability = true
       let res = await this.$axios.post("products/availability", {
         id: this.productId,
-        from_date: this.date_today,
-        to_date: this.date_today,
+        from_date: this.date_from,
+        to_date: this.date_from,
         price_types: this.priceTypes
       });
+
+      this.onLoadingAvailability = false
 
       if (res.data.status) {
         if (res.data.status.result_messages[0] != "OK") {
@@ -496,10 +568,12 @@ export default {
       let month = date.substring(5, 7)
       let day = date.substring(8, 10)
 
+      let hour = date.substring(11, 16)
+
       if(this.$i18n.locale == "en"){
-        return month+"-"+day+"-"+year
+        return month+"-"+day+"-"+year+" - "+hour
       }else{  
-        return day+"-"+month+"-"+year
+        return day+"-"+month+"-"+year+" - "+hour
       }
       
 
@@ -564,7 +638,10 @@ export default {
     }
   },
   mounted() {
-    
+
+    var date = new Date(this.date_from);  
+    this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+
     if (process.browser) {
     
       let color = localStorage.getItem("color");
@@ -579,6 +656,11 @@ export default {
 </script>
 
 <style lang="scss">
+
+.prevDisabledLink{
+  background:#95a5a6 !important;
+}
+
 .content-tables{
       height: 35vh;
     overflow-x: hidden;
