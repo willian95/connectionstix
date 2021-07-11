@@ -77,6 +77,7 @@
                     placeholder="MM/DD/YYYY"
                     format="MM/dd/yyyy"
                     v-model="date_from"
+                    @selected="testFunctionMain()"
                   />
                 </div>
 
@@ -393,6 +394,18 @@ export default {
 
       
 
+    },
+    testFunctionMain(){
+      let date = new Date(this.date_from);
+      
+      if(date < new Date()){
+        this.disabledPrev = true
+        date = new Date();
+        window.setTimeout(() => {
+          this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+        }, 200)
+        
+      }
     },
     testFunction(){
 
