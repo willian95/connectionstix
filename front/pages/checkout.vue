@@ -209,9 +209,7 @@
                   ></v-text-field>
                   <LocalErrorShow :errors="localErrors" :name="'phone'" />
                 </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="12" md="4">
+                  <v-col cols="12" sm="12" md="4">
                   <label for="">{{ $t("ticketDelivery") }}</label>
                   <v-select
                     :items="deliveryMethods"
@@ -220,12 +218,15 @@
                   ></v-select>
                 </v-col>
               </v-row>
+              <!--<v-row>
+              
+              </v-row>--->
 
               <v-row class="paymethod" v-show="showCheckout">
              
              
                 <v-col cols="12">
-                  <p>{{ $t("paymentMethod") }}</p>
+                  <h3 class="title-custom">{{ $t("paymentMethod") }}</h3>
                 </v-col>
                   <v-col cols="12" sm="4" md="4" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-' + index">
 
@@ -269,7 +270,7 @@
                 class="paymethod"
               >
                 <v-col cols="12">
-                  <p>{{ $t("billingAddress") }}</p>
+                  <h3 class="title-custom">{{ $t("billingAddress") }}</h3>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("address1") }}</label>
@@ -1310,7 +1311,7 @@ export default {
 }
 
 .active-payment-provider{
-  background-color:blue !important; 
+  background-color:#989898!important; 
 }
 
 .paymethod {
@@ -1436,5 +1437,12 @@ width: 100%;
 
     margin-bottom: 2rem;
 }
+  }
+  .paymethod{
+    text-align: center;
+  }
+  .title-custom{
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
   }
 </style>
