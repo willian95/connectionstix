@@ -46,9 +46,26 @@ export default {
     '@nuxtjs/vuetify',
     'vue-sweetalert2/nuxt',
     '@nuxtjs/dotenv',
-    'nuxt-i18n'
+    'nuxt-i18n',
+    '@nuxtjs/fontawesome'
    
   ],
+
+  fontawesome: {
+
+    component:'fa',
+    imports: [
+      {
+      set: '@fortawesome/free-solid-svg-icons',
+      icons: ['faFlask', 'faCreditCard']
+      },
+      {set: '@fortawesome/free-brands-svg-icons',
+      icons: ['faPaypal']
+      },
+    ]
+
+  },
+
   styleResources: {
     scss: ['./assets/vars/*.scss',
     './assets/_mixins.scss' ,

@@ -7,6 +7,7 @@
 
     <div class="container main-checkout">
       <client-only>
+  
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple v-show="renderPage">
         <v-expansion-panel>
           
@@ -51,6 +52,7 @@
                 :checkDiscountCode="checkDiscountCode"
               />
             </div>
+            
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -152,11 +154,10 @@
                       >
                         {{ $t("checkout") }}
                       </button>
-                      <NuxtLink class="btn btn-borde" :to="{ path: '/' }"
-                        ><button class="color">
-                          {{ $t("continueShopping") }}
-                        </button></NuxtLink
-                      >
+                      <button class="color btn btn-borde" @click="checkCanContinueShopping()">
+                        {{ $t("continueShopping") }}
+                      </button>
+                      
                     </div>
                   </v-col>
                 </v-row>
@@ -222,34 +223,45 @@
 
               <v-row class="paymethod" v-show="showCheckout">
              
-                <v-row>
-                     <p>{{ $t("paymentMethod") }}</p>
-                  <v-col cols="12" sm="12" md="4">
-                    <v-radio-group
-                      v-model="radios"
-                      mandatory
-                      v-show="showPayButton"
-                    >
-                      <div
-                        class="radio-main"
-                        v-for="(paymentProvider, index) in paymentProviders"
-                        :key="'paymentProviders-' + index"
-                      >
+             
+                <v-col cols="12">
+                  <p>{{ $t("paymentMethod") }}</p>
+                </v-col>
+                  <v-col cols="12" sm="4" md="4" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-' + index">
+
+                    <button class="btn" @click="getInfoFromSelectedPaymentProvider(index)" v-show="paymentProvider.payment_provider_id == 4 || paymentProvider.payment_provider_id == 0">
+                        <fa v-show="paymentProvider.payment_provider_id == 4" :icon="['fas','credit-card']" class="mr-1"></fa>
+                        
+                        <fa v-show="paymentProvider.payment_provider_id == 0" :icon="['fas','flask']" class="mr-1"></fa>
                         {{
                           paymentProvider.payment_provider_name ==
                           "Authorize.net"
                             ? "Pay with card"
                             : paymentProvider.payment_provider_name
                         }}
-                        <v-radio
-                          :key="'radioButton-' + index"
-                          :value="index"
-                          @click="getInfoFromSelectedPaymentProvider()"
-                        ></v-radio>
-                      </div>
-                    </v-radio-group>
+                    </button>
+
+                    <div v-show="paymentProvider.payment_provider_id == 26">
+                      <button class="btn" @click="getInfoFromSelectedPaymentProvider(index), showRequiredFields()" v-if="selectedPaymentProvider.payment_provider_id != 26 || payButtonDisabled">
+                        <fa v-show="paymentProvider.payment_provider_id == 26" :icon="['fab','paypal']" class="mr-1"></fa>
+                        {{ paymentProvider.payment_provider_name }}
+                      </button>
+
+                      <paypal-checkout
+                        v-if="selectedPaymentProvider.payment_provider_id == 26 && !payButtonDisabled"
+                        :env="paypalEnv"
+                        :amount="total.toString()"
+                        :currency="grandTotalCurrencyCode"
+                        :locale="$i18n.locale.toString() == 'en' ? $i18n.locale.toString()+'_US' : $i18n.locale.toString()+'_'+$i18n.locale.toString().toUpperCase()"
+                        :client="selectedPaymentProvider.data ? {[paypalEnv]:selectedPaymentProvider.data.client_id} : ''"
+                        v-on:payment-authorized="paypalResponse"
+                      >
+                      </paypal-checkout>
+                    </div>
+                    
+
                   </v-col>
-                </v-row>
+               
               </v-row>
 
               <v-row
@@ -346,33 +358,30 @@
                     ></v-progress-circular>
                   </center>
 
+
                   <button
                     class="btn change-color"
                     @click="showRequiredFields()"
-                    v-if="payButtonDisabled"
+                    v-if="payButtonDisabled && selectedPaymentProvider.payment_provider_id == 4"
                   >
                     {{ $t("payNow") }}
                   </button>
 
-                 
-                    <paypal-checkout
-                    v-if="selectedPaymentProvider.payment_provider_id == 26 && !payButtonDisabled"
-                    :env="paypalEnv"
-                    :amount="total.toString()"
-                    :currency="grandTotalCurrencyCode"
-                    :locale="$i18n.locale.toString() == 'en' ? $i18n.locale.toString()+'_US' : $i18n.locale.toString()+'_'+$i18n.locale.toString().toUpperCase()"
-                    :client="selectedPaymentProvider.data ? {[paypalEnv]:selectedPaymentProvider.data.client_id} : ''"
-                    v-on:payment-authorized="paypalResponse"
-                    >
-                    </paypal-checkout>
+                  <button
+                    class="btn change-color"
+                    @click="showRequiredFields()"
+                    v-if="payButtonDisabled && selectedPaymentProvider.payment_provider_id == 0"
+                  >
+                    {{ $t("payNow") }}
+                  </button>
 
-                    <button
-                      class="btn change-color"
-                      @click="checkout()"
-                      v-show="selectedPaymentProvider.payment_provider_id == 0 && !payButtonDisabled"
-                    >
-                      {{ $t("payNow") }}
-                    </button>
+                  <button
+                    class="btn change-color"
+                    @click="checkout()"
+                    v-show="selectedPaymentProvider.payment_provider_id == 0 && !payButtonDisabled"
+                  >
+                    {{ $t("payNow") }}
+                  </button>
                  
 
                   <button
@@ -630,6 +639,22 @@ export default {
 
       
     },
+    checkCanContinueShopping(){
+
+      if (this.requestForUpdate == true || this.discountCodeRequestForUpdate) {
+        
+        this.$swal({
+          text: this.$t("oneOrMoreItemsUpdate"),
+          icon: "error"
+        });
+
+      }else{
+
+        this.$router.push(this.localePath({ path: "/" }));
+
+      }
+
+    },
     isNumber(evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
@@ -680,9 +705,9 @@ export default {
         });
       }
     },
-    getInfoFromSelectedPaymentProvider() {
-      this.paymentProviders.forEach((data, index) => {
-        if (index == this.radios) {
+    getInfoFromSelectedPaymentProvider(index) {
+      this.paymentProviders.forEach((data, paymentProviderIndex) => {
+        if (index == paymentProviderIndex) {
           this.selectedPaymentProvider = data;
         }
       });
@@ -693,7 +718,6 @@ export default {
       });
 
       this.paymentProviders = res.data.data;
-      this.selectedPaymentProvider = this.paymentProviders[0];
 
       this.getInfoFromSelectedPaymentProvider();
     },
