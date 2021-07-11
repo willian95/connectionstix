@@ -229,7 +229,7 @@
                 </v-col>
                   <v-col cols="12" sm="4" md="4" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-' + index">
 
-                    <button class="btn" @click="getInfoFromSelectedPaymentProvider(index)" v-show="paymentProvider.payment_provider_id == 4 || paymentProvider.payment_provider_id == 0">
+                    <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn'" @click="getInfoFromSelectedPaymentProvider(index)" v-show="paymentProvider.payment_provider_id == 4 || paymentProvider.payment_provider_id == 0">
                         <fa v-show="paymentProvider.payment_provider_id == 4" :icon="['fas','credit-card']" class="mr-1"></fa>
                         
                         <fa v-show="paymentProvider.payment_provider_id == 0" :icon="['fas','flask']" class="mr-1"></fa>
@@ -242,7 +242,7 @@
                     </button>
 
                     <div v-show="paymentProvider.payment_provider_id == 26">
-                      <button class="btn" @click="getInfoFromSelectedPaymentProvider(index), showRequiredFields()" v-if="selectedPaymentProvider.payment_provider_id != 26 || payButtonDisabled">
+                      <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn'" @click="getInfoFromSelectedPaymentProvider(index), showRequiredFields()" v-if="selectedPaymentProvider.payment_provider_id != 26 || payButtonDisabled">
                         <fa v-show="paymentProvider.payment_provider_id == 26" :icon="['fab','paypal']" class="mr-1"></fa>
                         {{ paymentProvider.payment_provider_name }}
                       </button>
@@ -497,6 +497,7 @@ export default {
     onLoadingAttraction:false,
     onLoadingOrderUpdate:false,
     onLoadingCheckout:false,
+    selectedPaymentProviderActiveClass:"btn active-payment-provider",
 
     customer_first_name: "",
     customer_last_name: "",
@@ -1307,6 +1308,11 @@ export default {
 .v-input .v-label {
   padding-left: 10px;
 }
+
+.active-payment-provider{
+  background-color:blue !important; 
+}
+
 .paymethod {
    @include respond-to(sm) {
 .v-input--radio-group__input {
