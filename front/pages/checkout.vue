@@ -1389,6 +1389,9 @@ button:disabled {
   border-radius: 9px !important;
   padding: 0.5rem 2rem;
   font-size: 0.7rem;
+  @include respond-to(xs) {
+width: 100%;
+  }
 }
 
 .center {
@@ -1432,12 +1435,7 @@ width: 100%;
         margin-left: 1rem;
   }
 }
-  @include respond-to(xs) {
-.btn {
 
-    margin-bottom: 2rem;
-}
-  }
   .paymethod{
     text-align: center;
   }

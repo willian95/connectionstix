@@ -200,13 +200,16 @@ export default {
 .main-banner{
 height: 110vh;
    @include respond-to(xs) {
-     height: 145vh;
+        height: auto;
+    margin-bottom: 19rem;
    }  
        @include respond-to(sm) {
-         height: 95vh;
+            height: auto;
+    margin-bottom: 6rem;
        }
         @include respond-to(md) {
-height: 122vh;
+height: auto;
+    margin-bottom: 6rem;
         }
 }
 .banner {

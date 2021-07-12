@@ -4,8 +4,10 @@
       <v-col cols="12" sm="4" md="4">
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
           <div id="open-modal" :class="'modal-window open-modal ' + modalClass">
-            <div class="modal-table">
-                <button :class="disabledPrev ? prevDisabledLinkClass : 'btn'" @click="substractDay()" :disabled="disabledPrev">prev</button>
+            <div class="content-modal_bg">
+              <div class="modal-table">
+                <div class="content-slider_date">
+                  <button :class="disabledPrev ? prevDisabledLinkClass : 'btn'" @click="substractDay()" :disabled="disabledPrev"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
                 <div class="date-custom">
                   <img src="~assets/images/iconos/calendar.png" alt="" />
                   <date-picker
@@ -15,7 +17,8 @@
                     @selected="testFunction()"
                   />
                 </div>
-                <button class="btn" @click="addDay()">next</button>
+                <button class="btn" @click="addDay()"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
                 <table style="width: 100%">
                 <thead>
                   <tr>
@@ -60,7 +63,9 @@
               >
                 x
               </button>
-              <div class="btn-modal">
+             
+            </div>
+             <div class="btn-modal">
                 <button class="btn" @click="chooseDate()">
                   {{ $t("chooseDate") }}
                 </button>
@@ -165,7 +170,7 @@
           <p>{{ address }}</p>
 
           <v-row class="mt-1">
-            <v-col class="line" cols="6" md="6">
+            <v-col class="line" cols="12" sm="12" md="6">
               <h3 class="title-custom">{{ $t("openingHours") }}</h3>
 
               <table class="table" v-for="(openingHour, index) in operationHours" :key="'open-' + index">
@@ -184,7 +189,7 @@
 
               </table>
             </v-col>
-            <v-col cols="6" md="6" v-if="duration.length">
+            <v-col cols="6" sm="12" md="6" v-if="duration.length">
               <h3 class="title-custom">{{ $t("duration") }}</h3>
 
               <p>{{ duration.length }} {{ duration.unit }}</p>
@@ -950,17 +955,7 @@ padding: 3px;
     pointer-events: auto;
   }
   .modal-window .modal-table {
-    width: 700px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 2em;
-    background: white;
-    padding-top: 4rem;
-    @include respond-to(xs) {
-      width: 100%;
-    }
+ 
   }
   .modal-window header {
     font-weight: bold;
@@ -1104,7 +1099,6 @@ font-size: .7rem;
     justify-content: space-around;
         align-items: center;
     @include respond-to(xs) {
-      display: revert;
 
       font-size: 0.8rem;
     }
@@ -1144,5 +1138,41 @@ font-size: .7rem;
   list-style: unset!important;
     margin-left: 1.5rem;
         margin-top: 1rem;
+}
+.content-slider_date{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+.vdp-datepicker{
+  div{
+    margin-bottom: 0!important;
+  }
+}
+.date-custom {
+
+    margin: 0 1rem;
+}
+.btn {
+ 
+    padding: 6px 16px;
+    font-size: 1rem;
+}
+
+}
+.content-modal_bg{
+      width: 700px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: white;
+    padding-top: 4rem;
+        height: 65vh;
+     @include respond-to(xs) {
+      width: 100%;
+          padding: 0em;
+    }
 }
 </style>

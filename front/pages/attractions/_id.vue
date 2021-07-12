@@ -241,16 +241,14 @@ height: 30vh;
   }
 
   .mdi-chevron-left {
-    color: #ef1856 !important;
+       color: #ef1856 !important;
     position: absolute;
     left: -3rem;
     z-index: 1;
     top: 2rem;
     font-size: 5rem;
   }
-  .mdi-chevron-left::before {
-    color: #ef1856;
-  }
+ 
   .mdi-chevron-right {
     color: #ef1856 !important;
     position: absolute;
