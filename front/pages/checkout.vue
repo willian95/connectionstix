@@ -269,7 +269,7 @@
                 v-if="selectedPaymentProvider.prompt_billing_address == true"
                 class="paymethod"
               >
-                <v-col cols="12">
+                <v-col cols="12" class="billingAddressMarginTop">
                   <h3 class="title-custom">{{ $t("billingAddress") }}</h3>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
@@ -1042,6 +1042,11 @@ export default {
 </script>
 
 <style lang="scss">
+
+.billingAddressMarginTop{
+  margin-top:3rem;
+}
+
 .main-checkout {
   margin-top: 5rem;
   margin-bottom: 5rem;
