@@ -401,34 +401,52 @@ export default {
 
     },
     testFunctionMain(){
-      let date = new Date(this.date_from);
       
-      if(date < new Date()){
-        this.disabledPrev = true
-        date = new Date();
-        window.setTimeout(() => {
-          this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
-        }, 200)
-        
-      }
+      window.setTimeout(() => {
+        let date = new Date(this.date_from);
+
+        if(date < new Date()){
+          this.disabledPrev = true
+          date = new Date();
+          window.setTimeout(() => {
+            this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+          }, 200)
+          
+        }else{
+
+          this.disabledPrev = false
+
+        }
+      }, 200)
     },
     testFunction(){
+     
 
-      let date = new Date(this.date_from);
-      
-      if(date < new Date()){
-        this.disabledPrev = true
-        date = new Date();
-        window.setTimeout(() => {
+      window.setTimeout(() => {
+        
+        let todayDate = new Date()
+        let date = new Date(this.date_from);
+
+
+        if(date < todayDate){
+          this.disabledPrev = true
+          date = new Date();
+          window.setTimeout(() => {
+            this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+          
+            this.availabilityCheck()
+          }, 200)
+          
+        }else{
+          this.disabledPrev = false
           this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
-        
           this.availabilityCheck()
-        }, 200)
-        
-      }else{
-        this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
-        this.availabilityCheck()
-      }
+        }
+
+
+      }, 200)
+
+    
 
     },
     showDatesModal() {
