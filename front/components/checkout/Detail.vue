@@ -183,8 +183,8 @@ export default {
       return (
           num
           .toFixed(2) // always two decimal digits
-          .replace('.', ',') // replace decimal point character with ,
-          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+          //.replace('.', ',') // replace decimal point character with ,
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
       ) // use . as a separator
     },
     async update() {
@@ -192,9 +192,9 @@ export default {
       
       let updateResponse = true;
         this.onLoadingUpdate = true
-      if (this.discountCode != "") {
-        discountResponse = await this.setDiscountCode();
-      }
+      //if (this.discountCode != "") {
+      discountResponse = await this.setDiscountCode();
+      //}
 
       if (!this.isDisabled) {
         updateResponse = await this.updateAmounts();
@@ -205,7 +205,7 @@ export default {
           text: "Item updated",
           icon: "success"
         }).then(ans => {
-          this.discountCode = "";
+          //this.discountCode = "";
           this.getItems();
         });
       }

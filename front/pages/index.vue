@@ -31,7 +31,7 @@
                 v-for="(tag, index) in tagList"
                 :key="'tag-' + index"
               >
-                <v-card  class="ma-4 w-card_slider "  @click="getProductsByTag(tag.tag_id, tag.name)">
+                <v-card  :class="selectedTag == tag.tag_id ? selectedCardTag : cardTag"  @click="getProductsByTag(tag.tag_id, tag.name)">
                   <div class="content-icons">
                     <img class="img-icon" :src="tag.icon" alt="" />
                    <img class="img-icon icon-selected" :src="tag.icon_selected" alt="" />
@@ -120,6 +120,8 @@ export default {
   components: { Navbar, Banner },
   data() {
     return {
+      cardTag:"ma-4 w-card_slider",
+      selectedCardTag:"ma-4 w-card_slider selectedCardTag",
       filterOption: "See All",
       tagList: [],
       backImage: "/banner.png",
@@ -145,8 +147,8 @@ export default {
       return (
           num
           .toFixed(2) // always two decimal digits
-          .replace('.', ',') // replace decimal point character with ,
-          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+          //.replace('.', ',') // replace decimal point character with ,
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
       ) // use . as a separator
     },
     async getAllProducts() {
@@ -161,7 +163,7 @@ export default {
       this.tagName = "See all"
       this.selectedTag = 0
 
-      this.getTags(city)
+      await this.getTags(city)
 
       this.showNoProductsMessage = false
       let res = await this.$axios.post("products/list", {
@@ -185,7 +187,7 @@ export default {
       this.showNoProductsMessage = false
 
       this.tagName = tagName
-      
+      this.selectedTag = tag
 
 
       payload = {
@@ -458,6 +460,16 @@ width: 104px;
 }
 body{
   overflow: hidden;
+}
+
+.selectedCardTag {
+    .icon-selected{
+      opacity: 1;
+    }
+    .color-txt{
+      color: #ef1856;
+      font-weight: bold;
+    }
 }
 
 

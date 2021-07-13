@@ -175,7 +175,7 @@
                     outlined
                     v-model="customer_first_name"
                   ></v-text-field>
-                  <LocalErrorShow :errors="localErrors" :name="'name'" />
+                  <LocalErrorShow :errors="localErrors" :name="'name'" v-show="payButtonDisabled"/>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("lastname") }}</label>
@@ -185,7 +185,7 @@
                     outlined
                     v-model="customer_last_name"
                   ></v-text-field>
-                  <LocalErrorShow :errors="localErrors" :name="'lastname'" />
+                  <LocalErrorShow :errors="localErrors" :name="'lastname'" v-show="payButtonDisabled"/>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
                   <label for="">* {{ $t("email") }}</label>
@@ -195,7 +195,7 @@
                     outlined
                     v-model="customer_email"
                   ></v-text-field>
-                  <LocalErrorShow :errors="localErrors" :name="'email'" />
+                  <LocalErrorShow :errors="localErrors" :name="'email'" v-show="payButtonDisabled"/>
                 </v-col>
 
                 <v-col cols="12" sm="12" md="4">
@@ -207,7 +207,7 @@
                     v-model="phone"
                     @keypress="isNumber($event)"
                   ></v-text-field>
-                  <LocalErrorShow :errors="localErrors" :name="'phone'" />
+                  <LocalErrorShow :errors="localErrors" :name="'phone'" v-show="payButtonDisabled"/>
                 </v-col>
                   <v-col cols="12" sm="12" md="4">
                   <label for="">{{ $t("ticketDelivery") }}</label>
@@ -243,18 +243,19 @@
                     </button>
 
                     <div v-show="paymentProvider.payment_provider_id == 26">
-                      <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn'" @click="getInfoFromSelectedPaymentProvider(index), showRequiredFields()" v-if="selectedPaymentProvider.payment_provider_id != 26 || payButtonDisabled">
+                      <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn'" @click="getInfoFromSelectedPaymentProvider(index), showRequiredFields()">
                         <fa v-show="paymentProvider.payment_provider_id == 26" :icon="['fab','paypal']" class="mr-1"></fa>
                         {{ paymentProvider.payment_provider_name }}
                       </button>
 
                       <paypal-checkout
-                        v-if="selectedPaymentProvider.payment_provider_id == 26 && !payButtonDisabled"
+                        style="opacity:0; margin-top: -40px;"
+                        v-show="!payButtonDisabled"
                         :env="paypalEnv"
                         :amount="total.toString()"
                         :currency="grandTotalCurrencyCode"
                         :locale="$i18n.locale.toString() == 'en' ? $i18n.locale.toString()+'_US' : $i18n.locale.toString()+'_'+$i18n.locale.toString().toUpperCase()"
-                        :client="selectedPaymentProvider.data ? {[paypalEnv]:selectedPaymentProvider.data.client_id} : ''"
+                        :client="{[paypalEnv]:paypalClientInfo}"
                         v-on:payment-authorized="paypalResponse"
                       >
                       </paypal-checkout>
@@ -393,16 +394,8 @@
                     type="button"
                     class="AcceptUI btn change-color"
                     data-billingAddressOptions='{"show":false, "required":false}'
-                    :data-apiLoginID="
-                      selectedPaymentProvider.payment_provider_id == 4
-                        ? selectedPaymentProvider.data.an_api_login_id
-                        : ''
-                    "
-                    :data-clientKey="
-                      selectedPaymentProvider.payment_provider_id == 4
-                        ? selectedPaymentProvider.data.an_public_client_key
-                        : ''
-                    "
+                    :data-apiLoginID="authorizeLoginId"
+                    :data-clientKey="authorizeClientKey"
                     data-acceptUIFormBtnTxt="Submit"
                     data-acceptUIFormHeaderTxt="Card Information"
                     data-paymentOptions='{"showCreditCard": true, "showBankAccount": false}'
@@ -523,20 +516,28 @@ export default {
 
     oldDiscountCodes:[],
     newDiscountCodes:[],
-    onLoadingPay:false
+    onLoadingPay:false,
+
+    authorizeLoginId:"",
+    authorizeClientKey:"",
+    paypalClientInfo:"",
 
   }),
   components: { Detail, LocalErrorShow },
   methods: {
     payResponse(response) {
-      this.onLoadingPay = true
-      this.payButtonDisabled = true
-      this.payment_data = {
-        opaque_data_descriptor: response.opaqueData.dataDescriptor,
-        opaque_data_value: response.opaqueData.dataValue
-      };
+      
 
       if (this.checkoutCount == 0) {
+
+        console.log("repsonse", response)
+        this.onLoadingPay = true
+        this.payButtonDisabled = true
+        this.payment_data = {
+          opaque_data_descriptor: response.opaqueData.dataDescriptor,
+          opaque_data_value: response.opaqueData.dataValue
+        };
+
         this.checkout();
         this.checkoutCount++;
       }
@@ -579,8 +580,8 @@ export default {
       return (
           num
           .toFixed(2) // always two decimal digits
-          .replace('.', ',') // replace decimal point character with ,
-          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+          //.replace('.', ',') // replace decimal point character with ,
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
       ) // use . as a separator
     },
     async getItems() {
@@ -626,7 +627,7 @@ export default {
     },
     setShowCheckout() {
 
-      if (this.requestForUpdate == true || this.discountCodeRequestForUpdate) {
+      if (this.requestForUpdate == true || this.discountCodeRequestForUpdate == true) {
         
         this.$swal({
           text: this.$t("oneOrMoreItemsUpdate"),
@@ -708,20 +709,41 @@ export default {
       }
     },
     getInfoFromSelectedPaymentProvider(index) {
+
       this.paymentProviders.forEach((data, paymentProviderIndex) => {
         if (index == paymentProviderIndex) {
           this.selectedPaymentProvider = data;
         }
       });
+      
+      if(this.selectedPaymentProvider.payment_provider_id == 26){
+        this.showRequiredFields()
+      }
     },
     async getPaymentProviders() {
       let res = await this.$axios.post("checkout/payment-providers", {
         order_number: this.order
       });
 
+      let providers = res.data.data
+
+      providers.forEach((data, index) =>{
+
+        if(data.payment_provider_id == 4){
+          this.authorizeLoginId = data.data.an_api_login_id
+          this.authorizeClientKey = data.data.an_public_client_key
+        }
+
+        if(data.payment_provider_id == 26){
+          this.paypalClientInfo = data.data.client_id
+        }
+
+      })
+
       this.paymentProviders = res.data.data;
 
-      this.getInfoFromSelectedPaymentProvider();
+      
+
     },
     setFields() {
       let request = null;
@@ -786,8 +808,7 @@ export default {
       });
     },
     showRequiredFields() {
-
-      this.localErrors = [];
+      this.localErrors = [];  
       var regex = /\S+@\S+\.\S+/;
 
       if (this.customer_first_name == "") {
@@ -858,7 +879,9 @@ export default {
             message: this.$t("countryRequired")
           });
         }
+        
       }
+
     },
     async checkout() {
       this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id;
