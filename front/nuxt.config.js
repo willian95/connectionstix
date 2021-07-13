@@ -47,7 +47,8 @@ export default {
     'vue-sweetalert2/nuxt',
     '@nuxtjs/dotenv',
     'nuxt-i18n',
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
+    '@nuxtjs/date-fns',
    
   ],
 

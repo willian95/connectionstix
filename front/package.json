@@ -31,6 +31,7 @@
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@nuxtjs/date-fns": "^1.5.0",
     "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/style-resources": "^1.1.0",
     "@nuxtjs/vuetify": "^1.10.3",

@@ -11,9 +11,9 @@
                 <div class="date-custom">
                   <img src="~assets/images/iconos/calendar.png" alt="" />
                   <date-picker
-                    placeholder="MM/DD/YYYY"
+                    placeholder="MM/dd/yyyy"
                     format="MM/dd/yyyy"
-                    v-model="date_from"
+                    v-model="date_show"
                     @selected="testFunction()"
                   />
                 </div>
@@ -81,7 +81,7 @@
                   <date-picker
                     placeholder="MM/DD/YYYY"
                     format="MM/dd/yyyy"
-                    v-model="date_from"
+                    v-model="date_show"
                     @selected="testFunctionMain()"
                   />
                 </div>
@@ -314,6 +314,7 @@ export default {
   ],
   data() {
     return {
+      date_show:"",
       onLoadingAvailability:false,
       prices: [],
       priceTypes: [],
@@ -374,9 +375,11 @@ export default {
     addDay(){
       this.disabledPrev = false
       var date = new Date(this.date_from);
-      date.setDate(date.getDate() + 1);
+      //date.setDate(date.getDate() + 1);
       
-      this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+      this.date_show = this.$dateFns.add(new Date(date.getFullYear(), date.getMonth(),  date.getDate()), {
+        days: 1,
+      })  //new Date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
 
 
       this.availabilityCheck()
@@ -384,16 +387,19 @@ export default {
     },
     substractDay(){
 
-      var date = new Date(this.date_from);
-      date.setDate(date.getDate() - 1);
+      var date = new Date(this.date_show);
       
       if(date < new Date()){
         this.disabledPrev = true
         var date = new Date();
-        this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+        this.date_show = this.$dateFns.sub(new Date(date.getFullYear(), date.getMonth(),  date.getDate()), {
+          days: 1,
+        })  
         this.availabilityCheck()
       }else{
-        this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+        this.date_show = this.$dateFns.sub(new Date(date.getFullYear(), date.getMonth(),  date.getDate()), {
+          days: 1,
+        })  
         this.availabilityCheck()
       }
 
@@ -403,8 +409,7 @@ export default {
     testFunctionMain(){
       
       window.setTimeout(() => {
-        let date = new Date(this.date_from);
-
+        let date = new Date(this.date_show);
         if(date < new Date()){
           this.disabledPrev = true
           date = new Date();
@@ -427,6 +432,7 @@ export default {
         let todayDate = new Date()
         let date = new Date(this.date_from);
 
+        
 
         if(date < todayDate){
           this.disabledPrev = true
@@ -439,7 +445,11 @@ export default {
           
         }else{
           this.disabledPrev = false
-          this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+          this.date_from = new Date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
+
+          //console.log("date", date)
+          //console.log("date-sliced", date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
+
           this.availabilityCheck()
         }
 
@@ -512,6 +522,9 @@ export default {
       this.formatPriceTypes();
       this.availableDates = []
       this.onLoadingAvailability = true
+
+      this.date_from = this.date_show
+
       let res = await this.$axios.post("products/availability", {
         id: this.productId,
         from_date: this.date_from,
@@ -675,8 +688,8 @@ export default {
   },
   mounted() {
 
-    var date = new Date(this.date_from);  
-    this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+    this.date_from = new Date()
+    this.date_show = new Date()
 
     if (process.browser) {
     
