@@ -190,7 +190,7 @@ export default {
   },
   watch: {
     $route () {
-      console.log('route changed', this.$route)
+      
     }
   },
 };

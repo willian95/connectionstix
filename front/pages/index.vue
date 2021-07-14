@@ -188,8 +188,7 @@ export default {
 
       this.tagName = tagName
       this.selectedTag = tag
-
-
+      
       payload = {
         "tag": tag,
         "country": this.country ? this.country : '',

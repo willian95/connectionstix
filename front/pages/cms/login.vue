@@ -71,7 +71,7 @@
                     })
                     
                 }catch(err){
-                    console.log("error", err)
+          
                     if(err.response.data.error){
                         
                         this.$swal({

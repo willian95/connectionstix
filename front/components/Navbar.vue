@@ -111,7 +111,6 @@ export default {
           let color = localStorage.getItem("color")
          
           if(color){
-             console.log("navbar-color", color)
             $(".change-navbar-font-color").css("color", color)
             
           }
@@ -138,7 +137,6 @@ export default {
       
         if(process.browser){
           localStorage.setItem("secondaryLogo",  process.env.SERVER_URL+config.data.secondaryLogo)
-          console.log("secondLogo", config.data.secondaryLogo)
         }
       }
 

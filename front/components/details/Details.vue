@@ -449,9 +449,6 @@ export default {
           this.disabledPrev = false
           this.date_from = new Date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
 
-          //console.log("date", date)
-          //console.log("date-sliced", date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
-
           this.availabilityCheck()
         }
 

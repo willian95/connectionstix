@@ -142,7 +142,6 @@ export default {
     },
     async getConfig() {
       let config = await this.$axios.get("configcms");
-      console.log("config", config);
       this.overlay = config.data.overlay;
 
       if (config.data.hero) {

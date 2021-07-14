@@ -530,7 +530,6 @@ export default {
 
       if (this.checkoutCount == 0) {
 
-        console.log("repsonse", response)
         this.onLoadingPay = true
         this.payButtonDisabled = true
         this.payment_data = {
@@ -1058,7 +1057,7 @@ export default {
   },
   watch: {
     $route() {
-      console.log("route changed", this.$route);
+      
     }
   }
 };
