@@ -120,7 +120,7 @@
                     <label for="">{{ $t("discountCode") }}</label>
                     <v-text-field
                       label="1234 5678 9012 3456"
-                      single-line
+                     
                       outlined
                       v-model="discountCode"
                     ></v-text-field>
@@ -171,7 +171,7 @@
                   <label for="">* {{ $t("firstName") }}</label>
                   <v-text-field
                     label="John"
-                    single-line
+                   
                     outlined
                     v-model="customer_first_name"
                   ></v-text-field>
@@ -181,7 +181,7 @@
                   <label for="">* {{ $t("lastname") }}</label>
                   <v-text-field
                     label="Doe"
-                    single-line
+                   
                     outlined
                     v-model="customer_last_name"
                   ></v-text-field>
@@ -191,7 +191,7 @@
                   <label for="">* {{ $t("email") }}</label>
                   <v-text-field
                     label="johndoe@email.com"
-                    single-line
+                   
                     outlined
                     v-model="customer_email"
                   ></v-text-field>
@@ -202,7 +202,7 @@
                   <label for="">* {{ $t("phone") }}</label>
                   <v-text-field
                     label="555123123"
-                    single-line
+                   
                     outlined
                     v-model="phone"
                     @keypress="isNumber($event)"
@@ -277,7 +277,7 @@
                   <label for="">* {{ $t("address1") }}</label>
                   <v-text-field
                     label="john doe st"
-                    single-line
+                   
                     outlined
                     v-model="address_line1"
                   ></v-text-field>
@@ -291,7 +291,7 @@
                   <label for="">{{ $t("address2") }}</label>
                   <v-text-field
                     label="john any st"
-                    single-line
+                   
                     outlined
                     v-model="address_line2"
                   ></v-text-field>
@@ -301,7 +301,7 @@
                   <label for="">* {{ $t("city") }}</label>
                   <v-text-field
                     label="San Diego"
-                    single-line
+                   
                     outlined
                     v-model="city"
                   ></v-text-field>
@@ -312,7 +312,7 @@
                   <label for="">* {{ $t("provinceState") }}</label>
                   <v-text-field
                     label="California"
-                    single-line
+                   
                     outlined
                     v-model="province_state"
                   ></v-text-field>
@@ -326,7 +326,7 @@
                   <label for="">* {{ $t("postalCode") }}</label>
                   <v-text-field
                     label="100010101"
-                    single-line
+                   
                     outlined
                     v-model="postal_zip_code"
                    
@@ -341,7 +341,7 @@
                   <label for="">* {{ $t("country") }}</label>
                   <v-text-field
                     label="USA"
-                    single-line
+                   
                     outlined
                     v-model="country"
                   ></v-text-field>

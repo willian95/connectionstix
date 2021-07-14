@@ -225,18 +225,19 @@
               
               <h3 class="title-custom mt4" v-if="inclusions.length > 0">{{ $t("whatIncluded") }}</h3>
               <div >
-               <ul class="know-info highlight">
+               <ul class="know-info ">
                   <li
                  
                   v-for="(inclusion, index) in inclusions"
                   :key="'inclusion-' + index"
                 >
                 <div class="item">
+                     <img src="~assets/images/iconos/check.png" alt="" />
                     <div>
                   
                     <p>{{ inclusion }}:</p>
                   </div>
-                  <img src="~assets/images/iconos/check.png" alt="" />
+               
                 </div>
                 </li>
                 <li
@@ -245,11 +246,12 @@
                   :key="'exclusion-' + index"
                 >
                   <div class="item">
+                      <img src="~assets/images/iconos/nocheck.png" alt="" />
                     <div >
                       
                     <p>{{ exclusion }}:</p>
                   </div>
-                  <img src="~assets/images/iconos/nocheck.png" alt="" />
+                
                     </div>
                 </li>
                </ul>
@@ -807,7 +809,7 @@ display: flex;
     margin-bottom: 2rem;
     grid-gap: 1.5rem 12rem;
     max-width: 90%;
-      list-style: unset!important;
+   
     @include respond-to(xs) {
       grid-gap: 1.5rem 2.5rem;
     }
@@ -826,7 +828,7 @@ display: flex;
       display: inline-flex;
       align-items: center;
       justify-content: space-between;
-    width: -webkit-fill-available;
+  
       p {
         margin-bottom: 0;
         margin-left: 1rem;
@@ -1200,7 +1202,7 @@ font-size: .7rem;
     padding: 2em;
     background: white;
     padding-top: 4rem;
-        height: 65vh;
+        height: 70vh;
      @include respond-to(xs) {
       width: 100%;
           padding: 0em;

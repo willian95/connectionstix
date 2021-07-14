@@ -79,7 +79,7 @@
       <div class="items">
         <v-text-field
           :label="$t('discountCode')"
-          single-line
+         
           outlined
           v-model="discountCode"
           v-if="discountEnabled"
@@ -413,27 +413,20 @@ justify-content: center;
      }
     }
   .v-input__slot {
-    width: 50%;
-    border-radius: 12px;
-    margin-left: 2rem;
+     width: 58%;
+    margin-left: 1rem;
         margin-top: 2rem!important;
          @include respond-to(xs) {
 width: 100%;
-    border-radius: 12px;
+    
     margin-left: 0rem;
          }
   }
-  .v-input .v-label {
-    height: 16px;
-    line-height: 7px;
-    letter-spacing: normal;
-  }
-
-  .v-text-field--filled > .v-input__control > .v-input__slot,
-  .v-text-field--full-width > .v-input__control > .v-input__slot,
-  .v-text-field--outlined > .v-input__control > .v-input__slot {
-    min-height: 45px;
-  }
+ 
+.v-label {
+    font-size: 13px;
+}
+ 
 }
 .custom-modal-open{
     visibility: visible;
