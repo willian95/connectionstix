@@ -157,6 +157,8 @@ export default {
     },
     async getFilteredProducts(countryCode, state, city) {
 
+      console.log(countryCode, state, city)
+
       this.country = countryCode
       this.province = state
       this.city = city
