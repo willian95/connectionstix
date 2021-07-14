@@ -249,14 +249,15 @@
                       </button>
 
                       <paypal-checkout
-                        style="opacity:0; margin-top: -40px;"
-                        v-show="!payButtonDisabled"
+                        style="opacity: 0;margin-top: -40px;"
+                        v-show="!paypalButtonDisabled"
                         :env="paypalEnv"
                         :amount="total.toString()"
                         :currency="grandTotalCurrencyCode"
                         :locale="$i18n.locale.toString() == 'en' ? $i18n.locale.toString()+'_US' : $i18n.locale.toString()+'_'+$i18n.locale.toString().toUpperCase()"
                         :client="{[paypalEnv]:paypalClientInfo}"
                         v-on:payment-authorized="paypalResponse"
+                        v-on:paypal-paymentCancelled="getInfoFromSelectedPaymentProvider(index)"
                       >
                       </paypal-checkout>
                     </div>
@@ -431,7 +432,7 @@ export default {
   computed: {
     payButtonDisabled() {
       var regex = /\S+@\S+\.\S+/;
-
+      
       if (this.selectedPaymentProvider.prompt_billing_address == true) {
         if (
           this.customer_first_name == "" ||
@@ -457,9 +458,28 @@ export default {
           this.requestForUpdate == true ||
           !regex.test(this.customer_email)
         ) {
+          
           return true;
         }
       }
+
+      return false;
+    },
+    paypalButtonDisabled() {
+      var regex = /\S+@\S+\.\S+/;
+      
+      if (
+        this.customer_first_name == "" ||
+        this.customer_last_name == "" ||
+        this.customer_email == "" ||
+        this.phone == "" ||
+        this.requestForUpdate == true ||
+        !regex.test(this.customer_email)
+      ) {
+        
+        return true;
+      }
+      
 
       return false;
     }
@@ -521,12 +541,23 @@ export default {
     authorizeLoginId:"",
     authorizeClientKey:"",
     paypalClientInfo:"",
+    showPaypalButton:false,
 
   }),
   components: { Detail, LocalErrorShow },
   methods: {
+
     payResponse(response) {
       
+      var index = 0
+      this.paymentProviders.forEach((data, paymentProviderIndex) => {
+        if (data.payment_provider_id == 26) {
+          index = paymentProviderIndex
+        }
+      });
+      
+      this.getInfoFromSelectedPaymentProvider(index)
+
 
       if (this.checkoutCount == 0) {
 
@@ -943,6 +974,15 @@ export default {
     },
     paypalResponse(response) {
       
+      var index = 0
+      this.paymentProviders.forEach((data, paymentProviderIndex) => {
+        if (data.payment_provider_id == 26) {
+          index = paymentProviderIndex
+        }
+      });
+
+      this.getInfoFromSelectedPaymentProvider(index)
+
       this.payButtonDisabled= true
       this.onLoadingPay =true
       this.paypalOrder = response.orderID
