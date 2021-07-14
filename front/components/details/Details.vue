@@ -235,7 +235,7 @@
                      <img src="~assets/images/iconos/check.png" alt="" />
                     <div>
                   
-                    <p>{{ inclusion }}:</p>
+                    <p>{{ inclusion }}</p>
                   </div>
                
                 </div>
@@ -249,7 +249,7 @@
                       <img src="~assets/images/iconos/nocheck.png" alt="" />
                     <div >
                       
-                    <p>{{ exclusion }}:</p>
+                    <p>{{ exclusion }}</p>
                   </div>
                 
                     </div>
