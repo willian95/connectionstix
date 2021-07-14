@@ -188,6 +188,8 @@ export default {
 
       this.tagName = tagName
       this.selectedTag = tag
+
+      console.log("productTag", this.country, this.province, this.city)
       
       payload = {
         "tag": tag,
