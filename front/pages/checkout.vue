@@ -1019,7 +1019,7 @@ export default {
 
           window.payResponse = this.payResponse;
           this.renderPage = true
-        }, 3000);
+        }, 1000);
       }
     },
     async nearbyProductsFetch() {
@@ -1062,6 +1062,7 @@ export default {
     }
   },
   async created() {
+    this.loadLibraries();
     await this.getItems();
     this.nearbyProductsFetch();
 
@@ -1086,7 +1087,7 @@ export default {
   },
   mounted() {
     this.paypalEnv = process.env.PAYPAL_ENV;
-    this.loadLibraries();
+    
     if (process.browser) {
       let color = localStorage.getItem("color");
       let textColor = localStorage.getItem("textColor");

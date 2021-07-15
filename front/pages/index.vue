@@ -43,7 +43,7 @@
               </v-slide-item>
             </v-slide-group>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12" id="projects-list">
             <div class="m-auto w-100">
               <div></div>
               <p class="title-mix" v-if="tagList.length > 0">{{ tagName }}</p>
@@ -62,6 +62,7 @@
                   :options="{}"
                 >
                   <div
+                    
                     class="text-white thumbnail "
                     v-for="(item, index) in projects"
                     :key="'projects-' + index"
@@ -157,8 +158,6 @@ export default {
     },
     async getFilteredProducts(countryCode, state, city) {
 
-      console.log(countryCode, state, city)
-
       this.country = countryCode
       this.province = state
       this.city = city
@@ -182,6 +181,15 @@ export default {
         this.showNoProductsMessage = true
 
       }
+
+      let distance = $("#projects-list").offset().top
+
+      window.setTimeout(() => {
+        $('html, body').animate({
+          scrollTop: distance
+      }, 2000);
+      }, 500)
+
     },
     async getProductsByTag(tag, tagName) {
    
