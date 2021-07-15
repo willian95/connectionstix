@@ -429,6 +429,7 @@ export default {
     width: 40px;
     height: 100%;
     margin-bottom: 0.5rem;
+        object-fit: contain;
     @include respond-to(xs) {
       width: 25px;
     }
