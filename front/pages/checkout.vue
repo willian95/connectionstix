@@ -117,9 +117,9 @@
                   <v-col class="line" cols="12" sm="12" md="6">
                 <v-row class="" v-show="isGrandTotalDiscountEnabled">
                   <v-col  cols="12" sm="12" md="12">
-                    <label for="">{{ $t("discountCode") }}</label>
+                    
                     <v-text-field
-                      label="1234 5678 9012 3456"
+                      :label='$t("discountCode")'
                      
                       outlined
                       v-model="discountCode"
@@ -168,9 +168,9 @@
             <div class="main-form" v-show="showCheckout">
               <v-row>
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("firstName") }}</label>
+                  
                   <v-text-field
-                    label="John"
+                    :label='"* "+$t("firstName")'
                    
                     outlined
                     v-model="customer_first_name"
@@ -178,9 +178,9 @@
                   <LocalErrorShow :errors="localErrors" :name="'name'" v-show="payButtonDisabled"/>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("lastname") }}</label>
+
                   <v-text-field
-                    label="Doe"
+                    :label='"* "+$t("lastname")'
                    
                     outlined
                     v-model="customer_last_name"
@@ -188,9 +188,8 @@
                   <LocalErrorShow :errors="localErrors" :name="'lastname'" v-show="payButtonDisabled"/>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("email") }}</label>
                   <v-text-field
-                    label="johndoe@email.com"
+                    :label='"* "+$t("email")'
                    
                     outlined
                     v-model="customer_email"
@@ -199,9 +198,9 @@
                 </v-col>
 
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("phone") }}</label>
+                  <label style="opacity: 0;" for="">* {{ $t("phone") }}</label>
                   <v-text-field
-                    label="555123123"
+                    :label='"* "+$t("phone")'
                    
                     outlined
                     v-model="phone"
@@ -249,14 +248,15 @@
                       </button>
 
                       <paypal-checkout
-                        style="opacity:0; margin-top: -40px;"
-                        v-show="!payButtonDisabled"
+                        style="opacity: 0;margin-top: -40px;"
+                        v-show="!paypalButtonDisabled"
                         :env="paypalEnv"
                         :amount="total.toString()"
                         :currency="grandTotalCurrencyCode"
                         :locale="$i18n.locale.toString() == 'en' ? $i18n.locale.toString()+'_US' : $i18n.locale.toString()+'_'+$i18n.locale.toString().toUpperCase()"
                         :client="{[paypalEnv]:paypalClientInfo}"
                         v-on:payment-authorized="paypalResponse"
+                        v-on:payment-cancelled="paypalCancel"
                       >
                       </paypal-checkout>
                     </div>
@@ -274,9 +274,10 @@
                   <h3 class="title-custom">{{ $t("billingAddress") }}</h3>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("address1") }}</label>
+                  
                   <v-text-field
-                    label="john doe st"
+    
+                    :label='"* "+$t("address1")'
                    
                     outlined
                     v-model="address_line1"
@@ -288,9 +289,9 @@
                 </v-col>
 
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">{{ $t("address2") }}</label>
+                 
                   <v-text-field
-                    label="john any st"
+                    :label='$t("address2")'
                    
                     outlined
                     v-model="address_line2"
@@ -298,9 +299,9 @@
                 </v-col>
 
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("city") }}</label>
+
                   <v-text-field
-                    label="San Diego"
+                     :label='"* "+$t("city")'
                    
                     outlined
                     v-model="city"
@@ -309,9 +310,9 @@
                 </v-col>
 
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("provinceState") }}</label>
+                  
                   <v-text-field
-                    label="California"
+                    :label='"* "+$t("provinceState")'
                    
                     outlined
                     v-model="province_state"
@@ -323,9 +324,8 @@
                 </v-col>
 
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("postalCode") }}</label>
                   <v-text-field
-                    label="100010101"
+                    :label='"* "+$t("postalCode")'
                    
                     outlined
                     v-model="postal_zip_code"
@@ -338,9 +338,9 @@
                 </v-col>
 
                 <v-col cols="12" sm="12" md="4">
-                  <label for="">* {{ $t("country") }}</label>
                   <v-text-field
-                    label="USA"
+
+                    :label='"* "+$t("country")'
                    
                     outlined
                     v-model="country"
@@ -431,7 +431,7 @@ export default {
   computed: {
     payButtonDisabled() {
       var regex = /\S+@\S+\.\S+/;
-
+      
       if (this.selectedPaymentProvider.prompt_billing_address == true) {
         if (
           this.customer_first_name == "" ||
@@ -457,9 +457,28 @@ export default {
           this.requestForUpdate == true ||
           !regex.test(this.customer_email)
         ) {
+          
           return true;
         }
       }
+
+      return false;
+    },
+    paypalButtonDisabled() {
+      var regex = /\S+@\S+\.\S+/;
+      
+      if (
+        this.customer_first_name == "" ||
+        this.customer_last_name == "" ||
+        this.customer_email == "" ||
+        this.phone == "" ||
+        this.requestForUpdate == true ||
+        !regex.test(this.customer_email)
+      ) {
+        
+        return true;
+      }
+      
 
       return false;
     }
@@ -521,12 +540,23 @@ export default {
     authorizeLoginId:"",
     authorizeClientKey:"",
     paypalClientInfo:"",
+    showPaypalButton:false,
 
   }),
   components: { Detail, LocalErrorShow },
   methods: {
+
     payResponse(response) {
       
+      var index = 0
+      this.paymentProviders.forEach((data, paymentProviderIndex) => {
+        if (data.payment_provider_id == 26) {
+          index = paymentProviderIndex
+        }
+      });
+      
+      this.getInfoFromSelectedPaymentProvider(index)
+
 
       if (this.checkoutCount == 0) {
 
@@ -941,8 +971,27 @@ export default {
         });
       }
     },
+    paypalCancel(response){
+      var index = 0
+      this.paymentProviders.forEach((data, paymentProviderIndex) => {
+        if (data.payment_provider_id == 26) {
+          index = paymentProviderIndex
+        }
+      });
+
+      this.getInfoFromSelectedPaymentProvider(index)
+    },
     paypalResponse(response) {
       
+      var index = 0
+      this.paymentProviders.forEach((data, paymentProviderIndex) => {
+        if (data.payment_provider_id == 26) {
+          index = paymentProviderIndex
+        }
+      });
+
+      this.getInfoFromSelectedPaymentProvider(index)
+
       this.payButtonDisabled= true
       this.onLoadingPay =true
       this.paypalOrder = response.orderID
