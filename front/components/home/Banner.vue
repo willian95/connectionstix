@@ -8,7 +8,10 @@
       <p>{{ $t("homePrice") }}</p>
       <span>{{ $t("homeKidPrice") }}</span>-->
       <!------------------------------------>
-      <v-container class="content-choose">
+    </div>
+    
+  </div>
+    <v-container class="content-choose">
         <v-row>
           <v-col class="d-flex" cols="12" sm="4">
             <label for="">{{ $t("chooseCountry") }}</label>
@@ -58,8 +61,6 @@
           </button>
         </div>
       </v-container>
-    </div>
-  </div>
  </div>
 </template>
 
@@ -197,23 +198,26 @@ export default {
 
 <style lang="scss">
 .main-banner{
-height: 110vh;
+/*height: 106vh;*/
    @include respond-to(xs) {
         height: auto;
-    margin-bottom: 19rem;
+ 
    }  
        @include respond-to(sm) {
             height: auto;
-    margin-bottom: 6rem;
+ 
        }
         @include respond-to(md) {
 height: auto;
-    margin-bottom: 6rem;
+   
         }
 }
 .banner {
   height: 80vh;
   position: relative;
+      display: flex;
+    justify-content: center;
+    z-index: -1;
     @include respond-to(xs) {
 height: 60vh;
     }
@@ -278,16 +282,20 @@ height: 60vh;
     }
   }
 
-  & .content-choose {
+ 
+}
+  .content-choose {
     background: #fff;
     box-shadow: 0 0 10px #00000052;
     border-radius: 1.5rem;
     padding: 2rem 2rem;
     max-width: 72%;
-    margin-top: 11rem;
+        margin-top: -9rem;
+    margin-bottom: 4rem;
+    z-index: 1;
     @include respond-to(xs) {
       max-width: 92%;
-          margin-top: 1rem;
+    
     }
     @include respond-to(sm) {
       .btn {
@@ -309,8 +317,7 @@ height: 60vh;
     height: 8vh;
 
 }
-  }
-  .btn {
+ .btn {
   
     padding: .8rem 5.8rem;
     margin-top: 1rem;
@@ -318,6 +325,8 @@ height: 60vh;
     font-weight: 600;
 
   }
+  }
+ 
 
   .v-input textarea {
     padding-right: 1rem;
@@ -325,7 +334,6 @@ height: 60vh;
   .center {
     text-align: center;
   }
-}
 .v-text-field.v-text-field--solo .v-input__control {
   min-height: 10px;
 }
