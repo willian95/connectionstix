@@ -1383,9 +1383,10 @@ export default {
     }
   }
 }
+/*
 .v-input .v-label {
   padding-left: 10px;
-}
+}*/
 
 .active-payment-provider{
   background-color:#989898!important; 
@@ -1403,6 +1404,7 @@ export default {
     color: #000 !important;
     padding-left: 1rem;
   }
+  /*
   .v-text-field--filled > .v-input__control > .v-input__slot,
   .v-text-field--full-width > .v-input__control > .v-input__slot,
   .v-text-field--outlined > .v-input__control > .v-input__slot {
@@ -1413,7 +1415,7 @@ export default {
   }
   .v-input--radio-group--column .v-input--radio-group__input {
     flex-direction: initial;
-  }
+  }*/
   .radio-main {
     text-align: center;
     justify-content: center;
@@ -1491,12 +1493,12 @@ width: 100%;
   .line{
     border-right: 1px solid #00000021;
   }
-  .v-input__slot{
+/*  .v-input__slot{
     width: 60%;
       @include respond-to(xs) {
 width: 100%;
       }
-  }
+  }*/
 }
 .btn-borde{
       border: 1px solid;

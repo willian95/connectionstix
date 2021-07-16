@@ -42,9 +42,10 @@ height: 100%;
   border: 1px solid #cacaca;
   border-radius: 10px;
 }
+/*
 .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded) > .v-input__control > .v-input__slot, .v-text-field.v-text-field--enclosed .v-text-field__details {
   padding: 0;
-}
+}*/
 .v-list-item__title {
   color: #000;
   font-weight: 500;
@@ -87,10 +88,11 @@ body,html{
 .v-slide-group.v-item-group > .v-slide-group__next, .v-slide-group.v-item-group > .v-slide-group__prev {
   display: none;
 }
+/*
 .v-input--radio-group__input {
 
   display: block;
-}
+}*/
 .vdp-datepicker__calendar {
 
   left: -4.5rem;
@@ -115,7 +117,12 @@ position: absolute;
 top: -25px;
 right: -10px;
 @include respond-to(xs) {
-display: none;
+  height: 18px;
+  width: 18px;
+  top: -12px;
+  right: -6px;
+  font-size: .8rem;
+  box-shadow: 0px 0px 5px #0000003b;
 }
 }
 }
@@ -126,10 +133,11 @@ display: none;
 :focus-visible {
     outline:none;
 }
+/*
 .v-input input {
  
   padding: 0 1rem;
-}
+}*/
 .cool-lightbox.cool-lightbox--can-zoom .cool-lightbox__slide img {
 
     object-fit: contain;

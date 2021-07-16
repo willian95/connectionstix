@@ -72,7 +72,7 @@
                                 localePath('/attractions/' + item.product_id)
                               "
                               >
-                    <div class="cursore-pointer d-block pos-r p-1">
+                    <div class="cursore-pointer d-block pos-r p-1 item-content">
                       <img class="w-100" :src="item.thumbnail" />
                       <div
                         class="pin pin-xy d-flex text-white thumbnail-overlay  text-mix"
@@ -279,10 +279,10 @@ export default {
 <style lang="scss">
 .content-mix {
   padding: 0 10rem;
-  margin-bottom: 12rem;
+ 
   @include respond-to(xs) {
     padding: 0 0;
-    padding-bottom: 25rem;
+  
     .mt-12 {
       margin-top: 23rem;
     }
@@ -351,25 +351,30 @@ export default {
     }
   }
   .mix-grid {
-    position: relative;
-    /* display: flex; */
-    /* flex-wrap: wrap; */
+     position: relative;
+    height: auto !important;
+    grid-gap: 3rem;
     gap: 3rem;
     display: grid;
     grid-auto-rows: 18rem;
     grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+      @include respond-to(xs) {
+margin: 1rem;
+      }
     @include respond-to(md) {
       grid-gap: 2rem;
       height: max-content !important;
     }
     & .item {
-      position: relative !important;
-      left: auto !important;
-      top: 0 !important;
-      box-shadow: 0px 2px 10px #00000040;
-      border-radius: 15px;
-      text-align: start;
-      height: max-content;
+        position: unset !important;
+    left: auto !important;
+    top: 0 !important;
+    box-shadow: 0px 2px 10px rgb(0 0 0 / 25%);
+    /* border-radius: 15px; */
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
+    display: contents;
 
       @include respond-to(xs) {
         margin: 10px;
@@ -399,6 +404,16 @@ export default {
       & .star-txt {
         text-align: start !important;
       }
+    }
+    & .item-content{
+     box-shadow: 0px 2px 10px rgb(0 0 0 / 25%);
+    border-radius: 15px;
+    }
+    & h3{
+          width: 250px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     }
     & h3,
     p {
