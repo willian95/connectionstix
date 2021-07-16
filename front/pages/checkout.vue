@@ -120,6 +120,7 @@
                     
                     <v-text-field
                       :label='$t("discountCode")'
+                      :placeholder='$t("discountCode")'
                      
                       outlined
                       v-model="discountCode"
