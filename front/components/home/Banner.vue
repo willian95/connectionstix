@@ -302,12 +302,7 @@ height: 60vh;
 .v-label {
   font-size: 10px;
 }
-.v-select__selection--comma {
-  color: #000;
-  font-weight: 500;
-  font-size: 1.1rem;
-  padding: 0 1rem;
-}
+
 }
   .content-choose {
     background: #fff;
@@ -350,6 +345,12 @@ height: 60vh;
     font-weight: 600;
 
   }
+  .v-select__selection--comma {
+  color: #000;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0 1rem;
+}
   }
  
 
