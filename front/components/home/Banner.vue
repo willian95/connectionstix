@@ -283,6 +283,31 @@ height: 60vh;
   }
 
  
+  .v-input textarea {
+    padding-right: 1rem;
+  }
+  .center {
+    text-align: center;
+  }
+.v-text-field.v-text-field--solo .v-input__control {
+  min-height: 10px;
+}
+.row.no-gutters > .col,
+.row.no-gutters > [class*="col-"] {
+  padding: 0 0.5rem 0;
+}
+.v-text-field.v-text-field--enclosed {
+  margin-top: 0.3rem;
+}
+.v-label {
+  font-size: 10px;
+}
+.v-select__selection--comma {
+  color: #000;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0 1rem;
+}
 }
   .content-choose {
     background: #fff;
@@ -328,29 +353,4 @@ height: 60vh;
   }
  
 
-  .v-input textarea {
-    padding-right: 1rem;
-  }
-  .center {
-    text-align: center;
-  }
-.v-text-field.v-text-field--solo .v-input__control {
-  min-height: 10px;
-}
-.row.no-gutters > .col,
-.row.no-gutters > [class*="col-"] {
-  padding: 0 0.5rem 0;
-}
-.v-text-field.v-text-field--enclosed {
-  margin-top: 0.3rem;
-}
-.v-label {
-  font-size: 10px;
-}
-.v-select__selection--comma {
-  color: #000;
-  font-weight: 500;
-  font-size: 1.1rem;
-  padding: 0 1rem;
-}
 </style>
