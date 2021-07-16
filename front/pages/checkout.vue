@@ -279,7 +279,8 @@
                   <v-text-field
     
                     :label='"* "+$t("address1")'
-                   
+                    :placeholder='"* "+$t("address1")'
+                    
                     outlined
                     v-model="address_line1"
                   ></v-text-field>
@@ -1401,7 +1402,6 @@ export default {
    }
   .theme--light.v-label {
     font-size: 1rem;
-    color: #000 !important;
     padding-left: 1rem;
   }
   .v-text-field--filled > .v-input__control > .v-input__slot,
