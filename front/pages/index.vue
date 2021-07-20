@@ -156,7 +156,7 @@ export default {
       let res = await this.$axios.get("products/all");
       this.projects = res.data;
     },
-    async getFilteredProducts(countryCode, state, city) {
+    async getFilteredProducts(countryCode, state, city, isClicked = false) {
 
       this.country = countryCode
       this.province = state
@@ -184,11 +184,14 @@ export default {
 
       let distance = $("#projects-list").offset().top
 
-      window.setTimeout(() => {
-        $('html, body').animate({
-          scrollTop: distance
-      }, 2000);
-      }, 500)
+      if(isClicked){
+        window.setTimeout(() => {
+          $('html, body').animate({
+            scrollTop: distance
+        }, 2000);
+        }, 500)
+      }
+      
 
     },
     async getProductsByTag(tag, tagName) {

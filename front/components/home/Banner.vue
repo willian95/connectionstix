@@ -54,7 +54,7 @@
         <div class="center">
           <button
             class="btn"
-            @click="getFilteredProducts(country, state, city)"
+            @click="getFilteredProducts(country, state, city, true)"
             id="goBtn"
           >
             {{ $t("homeGo") }}
