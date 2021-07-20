@@ -196,7 +196,15 @@ export default {
     }
   },
   created(){
-    this.componentLoaded = true
+   if(process.browser){
+
+      window.setTimeout(
+        () => {
+          this.componentLoaded = true
+        }, 100
+      )
+
+   }
   }
 };
 </script>
