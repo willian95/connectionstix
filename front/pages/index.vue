@@ -453,7 +453,7 @@ margin: 1rem;
 
   .img-icon {
     width: 40px;
-    height: 100%;
+    height: 60px;
     margin-bottom: 0.5rem;
         object-fit: contain;
     @include respond-to(xs) {
@@ -470,7 +470,7 @@ margin: 1rem;
     color: #c9c9c9;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    //justify-content: center;
     align-items: center;
   }
   .v-icon.v-icon {
