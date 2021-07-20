@@ -549,7 +549,8 @@ export default {
   methods: {
 
     payResponse(response) {
-      
+
+     
       var index = 0
       this.paymentProviders.forEach((data, paymentProviderIndex) => {
         if (data.payment_provider_id == 26) {
@@ -557,7 +558,10 @@ export default {
         }
       });
       
-      this.getInfoFromSelectedPaymentProvider(index)
+      if(this.selectedPaymentProvider.payment_provider_id == 26){
+        this.getInfoFromSelectedPaymentProvider(index)
+      }
+      
 
 
       if (this.checkoutCount == 0) {
@@ -568,7 +572,7 @@ export default {
           opaque_data_descriptor: response.opaqueData.dataDescriptor,
           opaque_data_value: response.opaqueData.dataValue
         };
-
+        
         this.checkout();
         this.checkoutCount++;
       }
@@ -740,7 +744,7 @@ export default {
       }
     },
     getInfoFromSelectedPaymentProvider(index) {
-
+      console.log(index)
       this.paymentProviders.forEach((data, paymentProviderIndex) => {
         if (index == paymentProviderIndex) {
           this.selectedPaymentProvider = data;
@@ -1064,12 +1068,13 @@ export default {
     }
   },
   async created() {
-    this.loadLibraries();
+    
     await this.getItems();
     this.nearbyProductsFetch();
 
     if (this.order) {
-      this.getPaymentProviders();
+      await this.getPaymentProviders();
+      this.loadLibraries();
     }
 
     this.getConfig();

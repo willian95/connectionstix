@@ -53,10 +53,11 @@
         </v-row>
         <div class="center">
           <button
+            v-show="componentLoaded"
             class="btn"
             @click="getFilteredProducts(country, state, city, true)"
             id="goBtn"
-          >
+          >   
             {{ $t("homeGo") }}
           </button>
         </div>
@@ -77,6 +78,7 @@ export default {
     image: "",
     logo: "",
     orderNumber:"",
+    componentLoaded:false
   }),
   methods: {
     //
@@ -193,6 +195,9 @@ export default {
       }
     }
   },
+  created(){
+    this.componentLoaded = true
+  }
 };
 </script>
 
