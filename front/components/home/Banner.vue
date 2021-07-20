@@ -51,16 +51,19 @@
             ></v-select>
           </v-col>
         </v-row>
-        <div class="center">
-          <button
-            v-show="componentLoaded"
-            class="btn"
-            @click="getFilteredProducts(country, state, city, true)"
-            id="goBtn"
-          >   
-            {{ $t("homeGo") }}
-          </button>
-        </div>
+      
+          <p style="text-align: center;">
+            <button
+              v-show="componentLoaded"
+              class="btn"
+              @click="getFilteredProducts(country, state, city, true)"
+              id="goBtn"
+            >   
+              {{ $t("homeGo") }}
+            </button>
+
+          </p>
+        
       </v-container>
  </div>
 </template>
@@ -358,6 +361,11 @@ height: 60vh;
     font-weight: 600;
 
   }
+
+  .centered-p{
+    text-align: center;
+  }
+
   .v-select__selection--comma {
   color: #000;
   font-weight: 500;
