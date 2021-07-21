@@ -68,7 +68,8 @@ export default {
     cityRequired:"City is required",
     provinceRequired:"State/Province state is required",
     zipCodeRequired:"ZIP/Postal code is required",
-    countryRequired:"Country is required"
+    countryRequired:"Country is required",
+    "wait":"Please wait"
 
 
 }

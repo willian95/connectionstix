@@ -37,7 +37,7 @@
                    <img class="img-icon icon-selected" :src="tag.icon_selected" alt="" />
                   </div>
                   <div class="cursore-pointer color-txt">
-                    {{ tag.name }}
+                    {{ tag.name }} {{ tag.tag_id }}
                   </div>
                 </v-card>
               </v-slide-item>
@@ -128,7 +128,7 @@ export default {
       backImage: "/banner.png",
       overlay: true,
       projects: [],
-      tagName:"See all",
+      tagName:"See All",
       showNoProductsMessage:false,
       selectedTag: 0,
       country:"",
@@ -161,10 +161,11 @@ export default {
       this.country = countryCode
       this.province = state
       this.city = city
-      this.tagName = "See all"
+      this.tagName = "See All"
       this.selectedTag = 0
 
       await this.getTags(city)
+      this.getProductsByTag(this.selectedTag, this.tagName)
 
       this.showNoProductsMessage = false
       let res = await this.$axios.post("products/list", {
@@ -223,6 +224,7 @@ export default {
     async getTags(cityCode) {
       let res = await this.$axios.get("tags/all?cityCode="+cityCode);
       this.tagList = res.data;
+
 
       //if(this.tagList.length == 0){
         this.getAllProducts()
@@ -491,13 +493,13 @@ body{
 }
 
 .selectedCardTag {
-    .icon-selected{
-      opacity: 1;
-    }
-    .color-txt{
-      color: #ef1856;
-      font-weight: bold;
-    }
+  .icon-selected{
+    opacity: 1 !important;
+  }
+  .color-txt{
+    color: #ef1856;
+    font-weight: bold;
+  }
 }
 
 
