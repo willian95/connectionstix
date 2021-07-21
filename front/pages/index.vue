@@ -450,17 +450,15 @@ margin: 1rem;
     color: #ef1856;
     border-bottom: 1px solid #ef1856;
   }
-
   .img-icon {
-    width: 40px;
-    height: 60px;
+    width: 100%;
+    height: 100%;
     margin-bottom: 0.5rem;
         object-fit: contain;
     @include respond-to(xs) {
       width: 25px;
     }
   }
-
   .theme--light.v-btn.v-btn--has-bg {
     display: none;
   }
