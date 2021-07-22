@@ -53,6 +53,7 @@
                 <v-slide-group
                   class="list-unstyled mb-0"
                   mobile-break-point="1000"
+                  center-active
                   show-arrows
                 >
                   <v-btn
@@ -66,15 +67,23 @@
                   v-for="(slide, i) in nearby"
                     :key="'nearby-' + i"
                   >
-                    <v-card>
-                      <div class="content-icons">
-                        
-                      <img :src="slide.thumbnail" alt="" />
-                      </div>
-                      <div class="cursore-pointer color-txt">
-                        {{ slide.product_name }}
-                      </div>
-                    </v-card>
+                    <NuxtLink class="no-underline" :to="{ path: '/attractions/'+slide.product_id }"
+                      >
+                      <v-card class="ma-4 card-slide_events">
+                          <v-img contain :src="slide.thumbnail"></v-img>
+                        <v-card-text>
+                          <h3 class="no-underline">{{ slide.product_name }}</h3>
+                          <div v-if="slide.pricing">
+                            <p v-for="(price, index) in slide.pricing.prices" v-bind:key="index">
+                            {{ slide.pricing.currency_symbol }} {{ price.current_price }} {{ slide.pricing.currency_code }} / {{ price.price_type_name }}
+                          </p>
+                          </div>
+                          <div class="txt-star">
+                            {{ $t('moreInfo') }}
+                          </div>
+                        </v-card-text>
+                      </v-card>
+                    </NuxtLink>
                   </v-slide-item>
                 </v-slide-group>
               </div>
@@ -251,7 +260,7 @@ export default {
 <style lang="scss">
 
 .content-mix {
-  padding: 0 10rem;
+  padding: 0 0rem;
  
   @include respond-to(xs) {
     padding: 0 0;
