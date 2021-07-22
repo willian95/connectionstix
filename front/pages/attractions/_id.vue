@@ -54,22 +54,24 @@
             rounded
           ></v-btn>
           <v-slide-item v-for="(slide, i) in nearby" :key="i">
+            <NuxtLink class="no-underline" :to="{ path: '/attractions/'+slide.product_id }"
+                    >
             <v-card class="ma-4 card-slide_events">
                 <v-img contain :src="slide.thumbnail"></v-img>
               <v-card-text>
-                <h3>{{ slide.product_name }}</h3>
+                <h3 class="no-underline">{{ slide.product_name }}</h3>
                 <div v-if="slide.pricing">
                   <p v-for="(price, index) in slide.pricing.prices" v-bind:key="index">
                   {{ slide.pricing.currency_symbol }} {{ price.current_price }} {{ slide.pricing.currency_code }} / {{ price.price_type_name }}
                 </p>
                 </div>
                 <div class="txt-star">
-                  <NuxtLink class="" :to="{ path: '/attractions/'+slide.product_id }"
-                    >{{ $t('moreInfo') }}</NuxtLink
-                  >
+                  {{ $t('moreInfo') }}
                 </div>
               </v-card-text>
             </v-card>
+            </NuxtLink
+                  >
           </v-slide-item>
         </v-slide-group>
       </v-sheet>
@@ -206,6 +208,11 @@ export default {
 </script>
 
 <style lang="scss">
+
+.no-underline{
+  text-decoration: none !important;
+}
+
 .details-custom {
   .details-img {
     position: relative;

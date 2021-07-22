@@ -75,7 +75,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <div class="main-accions">
+    <div :class="length > 1 && indexItem < length -1 ? checkoutItemClassBorder : checkoutItemClass">
       <div class="items">
         <v-text-field
           :label="$t('discountCode')"
@@ -106,6 +106,8 @@
 
 export default {
   props: [
+    "indexItem",
+    "length",
     "cancellationPolicy",
     "productName",
     "thumbnail",
@@ -138,7 +140,9 @@ export default {
         mainImage:"",
         title:"",
         images:[],
-        description:""
+        description:"",
+        checkoutItemClass:"main-accions",
+        checkoutItemClassBorder:"main-accions border-bottom-checkout"
 
 
     };
@@ -376,11 +380,15 @@ export default {
   }
 }
 
+.border-bottom-checkout{
+  border-bottom: 1px solid #00000024;
+}
+
 .main-accions {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  border-bottom: 1px solid #00000024;
+  
   align-items: center;
 
   text-align: center;

@@ -55,8 +55,10 @@
 
         
             </center>
-            <div v-for="item in items" :key="'item-' + item.item_id">
+            <div v-for="(item, index) in items" :key="'item-' + item.item_id">
               <Detail
+                :indexItem="index"
+                :length="items.length"
                 :thumbnail="item.thumbnail"
                 :itemId="item.item_id"
                 :productId="item.product_id"
@@ -106,7 +108,7 @@
                   ></v-btn>
                   <v-slide-item v-for="(slide, i) in nearbyProducts" :key="i">
                     <NuxtLink
-                      class=""
+                      class="no-underline"
                       :to="{ path: '/attractions/' + slide.product_id }"
                     >
                       <v-card class="ma-4 card-slide_events">
@@ -1023,6 +1025,10 @@ export default {
 };
 </script>
 <style lang="scss">
+
+.no-underline{
+  text-decoration: none;
+}
 
 .paymentDimmer{
 
