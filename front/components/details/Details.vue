@@ -189,19 +189,26 @@
 
               </table>
             </v-col>
-            <v-col cols="6" sm="12" md="6" v-if="duration.length">
-              <h3 class="title-custom">{{ $t("duration") }}</h3>
+            <v-col cols="6" sm="12" md="6" >
+              <div v-if="duration.length">
+                <h3 class="title-custom">{{ $t("duration") }}</h3>
 
-              <p>{{ duration.length }} {{ duration.unit }}</p>
+                <p>{{ duration.length }} {{ duration.unit }}</p>
+              </div>
+              
+              <div v-if="minimunHeight.imperial || minimunHeight.metric">
+                
+                <h3 class="title-custom mt2">{{ $t("minimunHeight") }}</h3>
 
-            </v-col>
-            <v-col cols="6" sm="12" md="6" v-if="minimunHeight.imperial || minimunHeight.metric">
-              <h3 class="title-custom mt2">{{ $t("minimunHeight") }}</h3>
+                <ul >
+                  <li><span v-if="minimunHeight.imperial">{{ minimunHeight.imperial.height }} {{ minimunHeight.imperial.unit }}</span></li>
+                  <li><span v-if="minimunHeight.metric">{{ minimunHeight.metric.height }} {{ minimunHeight.metric.unit }}</span></li>
+                </ul>
 
-              <ul >
-                <li><span v-if="minimunHeight.imperial">{{ minimunHeight.imperial.height }} {{ minimunHeight.imperial.unit }}</span></li>
-                <li><span v-if="minimunHeight.metric">{{ minimunHeight.metric.height }} {{ minimunHeight.metric.unit }}</span></li>
-              </ul>
+              </div>
+              
+              
+
             </v-col>
             
           </v-row>
