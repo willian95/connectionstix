@@ -170,6 +170,7 @@
                   <v-col class="center" cols="12" sm="12" md="12">
                     <div class="">
                       <button
+                        id="btn-checkout"
                         class="btn change-color"
                         @click="setShowCheckout()"
                       >
@@ -1039,6 +1040,18 @@ export default {
   justify-content: center;
   width:100%;
   height: 100%;
+}
+
+#btn-checkout{
+  @include respond-to(md) {
+    margin-bottom: 10px;
+  }
+  @include respond-to(sm) {
+    margin-bottom: 10px;
+  }
+  @include respond-to(xs) {
+    margin-bottom: 10px;
+  }
 }
 
 .dimmer-body-white{

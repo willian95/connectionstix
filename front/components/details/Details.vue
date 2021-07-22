@@ -194,12 +194,16 @@
 
               <p>{{ duration.length }} {{ duration.unit }}</p>
 
-              <!--<h3 class="title-custom mt2">Minimum height & age</h3>
-              <ul>
-                <li>5,6 - 1,70 CM</li>
-                <li>8 years ></li>
-              </ul>-->
             </v-col>
+            <v-col cols="6" sm="12" md="6" v-if="minimunHeight.imperial || minimunHeight.metric">
+              <h3 class="title-custom mt2">{{ $t("minimunHeight") }}</h3>
+
+              <ul >
+                <li><span v-if="minimunHeight.imperial">{{ minimunHeight.imperial.height }} {{ minimunHeight.imperial.unit }}</span></li>
+                <li><span v-if="minimunHeight.metric">{{ minimunHeight.metric.height }} {{ minimunHeight.metric.unit }}</span></li>
+              </ul>
+            </v-col>
+            
           </v-row>
           <div class="descripon">
             <h3 class="title-custom" v-if="description">
@@ -313,6 +317,7 @@ export default {
     "nextDateAvailable",
     "pricing",
     "productId",
+    "minimunHeight"
   ],
   data() {
     return {
@@ -768,6 +773,15 @@ display: flex;
   }
 
   .line::before {
+    @include respond-to(xs) {
+      display: none;
+    }
+    @include respond-to(sm) {
+      display: none;
+    }
+    @include respond-to(md) {
+      display: none;
+    }
     content: "";
     position: absolute;
     border-right: 2px solid #00000014;

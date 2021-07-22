@@ -69,7 +69,8 @@ export default {
     provinceRequired:"State/Province state is required",
     zipCodeRequired:"ZIP/Postal code is required",
     countryRequired:"Country is required",
-    "wait":"Please wait"
+    "wait":"Please wait",
+    "minimunHeight": "Minimun Height"
 
 
 }

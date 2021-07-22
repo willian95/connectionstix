@@ -42,7 +42,7 @@
       </v-sheet>
     </v-container>
     <no-ssr>
-      <Details :description="description" :title="title" :highlights="highlights" :inclusions="inclusions" :exclusions="exclusions" :knowBeforeYouGoChecklist="knowBeforeYouGoChecklist" :knowBeforeYouGoOptional="knowBeforeYouGoOptional" :cancellationPolicy="cancellationPolicy" :operationHours="operationHours" :duration="duration" :address="address" :checkAvailability="checkAvailability" :pricing="pricing" :productId="productId" :nextDateAvailable="nextDateAvailable"></Details>
+      <Details :description="description" :title="title" :highlights="highlights" :inclusions="inclusions" :exclusions="exclusions" :knowBeforeYouGoChecklist="knowBeforeYouGoChecklist" :knowBeforeYouGoOptional="knowBeforeYouGoOptional" :cancellationPolicy="cancellationPolicy" :operationHours="operationHours" :duration="duration" :address="address" :checkAvailability="checkAvailability" :pricing="pricing" :productId="productId" :nextDateAvailable="nextDateAvailable" :minimunHeight="minimunHeight"></Details>
     </no-ssr>
     <v-container v-if="nearby.length > 0">
       <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
@@ -108,6 +108,7 @@ export default {
     pricing:[],
     nearby:[],
     lightboxIndex:null,
+    minimunHeight:[]
   }),
   methods:{
 
@@ -123,6 +124,7 @@ export default {
       this.inclusions = res.data.inclusions ? res.data.inclusions : []
       this.exclusions = res.data.exclusions ? res.data.exclusions : []
       let knowBeforeYouGo = res.data.know_before_you_go ? res.data.know_before_you_go : []
+      this.minimunHeight = res.data.minimum_height ? res.data.minimum_height : []
 
       if(knowBeforeYouGo.hasOwnProperty("checklist")){
         this.knowBeforeYouGoChecklist = res.data.know_before_you_go.checklist
@@ -135,14 +137,21 @@ export default {
       this.cancellationPolicy = res.data.cancellation_policy
       this.operationHours = res.data.hours_of_operation ? res.data.hours_of_operation : []
       this.duration = res.data.duration
-      let country = res.data.address.country
-      let city = res.data.address.city
-      let state = res.data.address.province_state
+      let country = res.data.address.country ? res.data.address.country : '' 
+      let city = res.data.address.city ? res.data.address.city : ''
+      
+      let state = res.data.address.province_state ? res.data.address.province_state : ''
       let street1 = res.data.address.street_line_1 ? res.data.address.street_line_1 : '' 
       let street2 = res.data.address.street_line_2 ? res.data.address.street_line_2 : ''
       let zipCode = res.data.address.postal_zip_code ? res.data.address.postal_zip_code : ''
 
-      this.address = street1+" "+street2+" "+zipCode
+      let streetComma1 = street1 != "" && (city != "" || state != "" || country != "" || street2 != "" || zipCode != "") ? "," : ''
+      let cityComma = city != "" && (state != "" || country != "" || street2 != "" || zipCode != "") ? "," : ''
+      let stateComma = state != "" && (country != "" || street2 != "" || zipCode != "") ? "," : ''
+      let countryComma = country != "" && (street2 != "" || zipCode != "") ? "," : ''
+      let street2Comma = street2 != "" && zipCode != "" ? "," : ''
+
+      this.address = street1+streetComma1+" "+city+cityComma+" "+state+stateComma+" "+country+countryComma+" "+street2+street2Comma+" "+zipCode
 
       this.checkAvailability = res.data.availability.check_availability
       this.nextDateAvailable = res.data.availability.next_available

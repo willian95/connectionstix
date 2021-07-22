@@ -457,7 +457,7 @@ width: 100%;
     pointer-events: auto;
   }
   .modal-window .modal-table{
-  /*  width: 700px;
+    width: 700px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -467,7 +467,7 @@ width: 100%;
         padding-top: 4rem;
         @include respond-to(xs) {
           width: 100%;
-        }*/
+        }
   }
   .modal-window header {
     font-weight: bold;
