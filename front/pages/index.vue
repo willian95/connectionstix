@@ -530,21 +530,29 @@ body{
       opacity: 0;
 
   }
+
+  & .icon-selected-safari{
+      position: absolute;
+      left: 0;
+      opacity: 0;
+
+  }
 }
   &:hover, &:focus {
     .icon-selected{
       opacity: 1;
+    }
+    .color-txt{
+      color: #ef1856;
+      font-weight: bold;
     }
     .icon-selected-safari{
       opacity: 1; 
       top: 0;
       margin-top: -0.5rem;
     }
-    .color-txt{
-      color: #ef1856;
-      font-weight: bold;
-    }
 }
+
 .v-card--link:before {
     background: transparent;
 
