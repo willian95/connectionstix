@@ -47,34 +47,39 @@
     <no-ssr>
       <v-container v-if="nearby.length > 0">
         <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
-
-          <v-slide-group
-              class="list-unstyled mb-0"
-              mobile-break-point="1000"
-              show-arrows
-            >
-              <v-btn
-                class="mx-2"
-                active-class="purple white--text"
-                depressed
-                rounded
-              ></v-btn>
-              <v-slide-item
-                class="mb-3"
-               v-for="(slide, i) in nearby"
-                :key="'nearby-' + i"
-              >
-                <v-card>
-                  <div class="content-icons">
-                    
-                   <img :src="slide.thumbnail" alt="" />
-                  </div>
-                  <div class="cursore-pointer color-txt">
-                    {{ slide.product_name }}
-                  </div>
-                </v-card>
-              </v-slide-item>
-            </v-slide-group>
+          <div class="content-mix ">
+            <div class="row">
+              <div class="col-md-12 ">
+                <v-slide-group
+                  class="list-unstyled mb-0"
+                  mobile-break-point="1000"
+                  show-arrows
+                >
+                  <v-btn
+                    class="mx-2"
+                    active-class="purple white--text"
+                    depressed
+                    rounded
+                  ></v-btn>
+                  <v-slide-item
+                    class="mb-3"
+                  v-for="(slide, i) in nearby"
+                    :key="'nearby-' + i"
+                  >
+                    <v-card>
+                      <div class="content-icons">
+                        
+                      <img :src="slide.thumbnail" alt="" />
+                      </div>
+                      <div class="cursore-pointer color-txt">
+                        {{ slide.product_name }}
+                      </div>
+                    </v-card>
+                  </v-slide-item>
+                </v-slide-group>
+              </div>
+            </div>
+          </div>
 
 
           <!--<v-slide-group mobile-break-point="1000" show-arrows center-active>
@@ -245,6 +250,213 @@ export default {
 
 <style lang="scss">
 
+.content-mix {
+  padding: 0 10rem;
+ 
+  @include respond-to(xs) {
+    padding: 0 0;
+  
+    .mt-12 {
+      margin-top: 23rem;
+    }
+  }
+  @include respond-to(sm) {
+    padding-bottom: 0rem;
+  }
+  @include respond-to(md) {
+    overflow: hidden;
+    padding: 0 3rem;
+  }
+
+  & ul {
+    list-style: none;
+    display: flex;
+    text-align: center;
+    width: 100%;
+    @include respond-to(xs) {
+      display: inline-flex;
+      overflow: scroll;
+      margin-top: 3rem;
+    }
+    @include respond-to(sm) {
+      text-align: center;
+      justify-content: center;
+    }
+  }
+  & li {
+    color: #00000066;
+    font-weight: 500;
+    line-height: 1;
+    padding: 0 3rem;
+    cursor: pointer;
+    @include respond-to(xs) {
+      line-height: 1.3;
+      padding: 0;
+      font-size: 0.8rem;
+      min-width: 90px;
+    }
+    @include respond-to(md) {
+      padding: 0 1.5rem;
+    }
+  }
+  & .title-mix {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 21px;
+  }
+  .projects {
+    .thumbnail {
+      width: 243px;
+      height: 149px;
+      text-align: start;
+      .thumbnail-overlay {
+        opacity: 0;
+        background-color: rgba(black, 0.8);
+        transition: opacity 0.25s ease-in-out;
+      }
+
+      &:hover {
+        .thumbnail-overlay {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .mix-grid {
+     position: relative;
+    height: auto !important;
+    grid-gap: 3rem;
+    gap: 3rem;
+    display: grid;
+    grid-auto-rows: 18rem;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+      @include respond-to(xs) {
+margin: 1rem;
+      }
+    @include respond-to(md) {
+      grid-gap: 2rem;
+      height: max-content !important;
+    }
+    & .item {
+        position: unset !important;
+    left: auto !important;
+    top: 0 !important;
+    box-shadow: 0px 2px 10px rgb(0 0 0 / 25%);
+    /* border-radius: 15px; */
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
+    display: contents;
+
+      @include respond-to(xs) {
+        margin: 10px;
+      }
+      @include respond-to(sm) {
+        /* width: 43%;*/
+        margin: 10px;
+        height: max-content;
+      }
+
+      & img {
+        height: 170px;
+        width: 100%;
+        object-fit: cover;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+      }
+    }
+    & .text-mix {
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 10px 10px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      text-align: start;
+      & .star-txt {
+        text-align: start !important;
+      }
+    }
+    & .item-content{
+     box-shadow: 0px 2px 10px rgb(0 0 0 / 25%);
+    border-radius: 15px;
+    }
+    & h3{
+          width: 250px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    }
+    & h3,
+    p {
+      text-align: start;
+    }
+    p {
+      font-weight: 500;
+          font-size: 1rem;
+    }
+    span {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #ef1856;
+    text-decoration: underline;
+    }
+    a{
+          text-decoration: none;
+              color: #000;
+    }
+    @include respond-to(sm) {
+      height: auto !important;
+    }
+    .txt-star {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      text-align: start;
+    }
+  }
+  .text-success {
+    color: #ef1856;
+    border-bottom: 1px solid #ef1856;
+  }
+  .img-icon {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0.5rem;
+        object-fit: contain;
+    @include respond-to(xs) {
+      width: 25px;
+    }
+  }
+  .theme--light.v-btn.v-btn--has-bg {
+    display: none;
+  }
+  .v-sheet.v-card {
+    text-align: center;
+    box-shadow: none !important;
+    color: #c9c9c9;
+    display: flex;
+    flex-direction: column;
+    //justify-content: center;
+    align-items: center;
+  }
+  .v-icon.v-icon {
+    color: #ef1856;
+    font-size: 5rem !important;
+  }
+  .v-slide-group__content {
+    justify-content: center;
+  }
+  .w-card_slider {
+    width: 160px;
+    cursor: pointer;
+      @include respond-to(xs) {
+width: 104px;
+      }
+  }
+}
+
 .no-underline{
   text-decoration: none !important;
 }
@@ -308,8 +520,6 @@ height: 30vh;
     z-index: 1;
     top: 2rem;
     font-size: 5rem;
-
-    left: 73rem;
   }
   .theme--light.v-btn.v-btn--has-bg {
     background-color: transparent;
