@@ -37,7 +37,7 @@
                    <img class="img-icon icon-selected" :src="tag.icon_selected" alt="" />
                   </div>
                   <div class="cursore-pointer color-txt">
-                    {{ tag.name }} {{ tag.tag_id }}
+                    {{ tag.name }}
                   </div>
                 </v-card>
               </v-slide-item>
@@ -277,6 +277,12 @@ export default {
   created() {
 
     this.getConfig();
+    if(process.browser){
+      var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+      
+      alert(isSafari);
+      
+    }
   }
 };
 </script>
@@ -507,13 +513,16 @@ body{
 .content-icons{
   position:relative;
   transition: .6s;
-& .icon-selected{
-    position: absolute;
-    left: 0;
+  & .icon-selected{
+      position: absolute;
+      left: 0;
+      opacity: 0;
 
-    opacity: 0;
-
-}
+  }
+  & .icon-selected-safari{
+    top:0;
+    margin-top: -0.5rem;
+  }
 }
   &:hover, &:focus {
     .icon-selected{
