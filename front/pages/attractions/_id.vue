@@ -44,38 +44,41 @@
     <no-ssr>
       <Details :description="description" :title="title" :highlights="highlights" :inclusions="inclusions" :exclusions="exclusions" :knowBeforeYouGoChecklist="knowBeforeYouGoChecklist" :knowBeforeYouGoOptional="knowBeforeYouGoOptional" :cancellationPolicy="cancellationPolicy" :operationHours="operationHours" :duration="duration" :address="address" :checkAvailability="checkAvailability" :pricing="pricing" :productId="productId" :nextDateAvailable="nextDateAvailable" :minimunHeight="minimunHeight"></Details>
     </no-ssr>
-    <v-container v-if="nearby.length > 0">
-      <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
-        <v-slide-group mobile-break-point="1000" show-arrows center-active>
-          <v-btn
-            class="mx-2"
-            active-class="purple white--text"
-            depressed
-            rounded
-          ></v-btn>
-          <v-slide-item v-for="(slide, i) in nearby" :key="i">
-            <NuxtLink class="no-underline" :to="{ path: '/attractions/'+slide.product_id }"
+    <no-ssr>
+      <v-container v-if="nearby.length > 0">
+        <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
+          <v-slide-group mobile-break-point="1000" show-arrows center-active>
+            <v-btn
+              class="mx-2"
+              active-class="purple white--text"
+              depressed
+              rounded
+            ></v-btn>
+            <v-slide-item v-for="(slide, i) in nearby" :key="i">
+              <NuxtLink class="no-underline" :to="{ path: '/attractions/'+slide.product_id }"
+                      >
+              <v-card class="ma-4 card-slide_events">
+                  <v-img contain :src="slide.thumbnail"></v-img>
+                <v-card-text>
+                  <h3 class="no-underline">{{ slide.product_name }}</h3>
+                  <div v-if="slide.pricing">
+                    <p v-for="(price, index) in slide.pricing.prices" v-bind:key="index">
+                    {{ slide.pricing.currency_symbol }} {{ price.current_price }} {{ slide.pricing.currency_code }} / {{ price.price_type_name }}
+                  </p>
+                  </div>
+                  <div class="txt-star">
+                    {{ $t('moreInfo') }}
+                  </div>
+                </v-card-text>
+              </v-card>
+              </NuxtLink
                     >
-            <v-card class="ma-4 card-slide_events">
-                <v-img contain :src="slide.thumbnail"></v-img>
-              <v-card-text>
-                <h3 class="no-underline">{{ slide.product_name }}</h3>
-                <div v-if="slide.pricing">
-                  <p v-for="(price, index) in slide.pricing.prices" v-bind:key="index">
-                  {{ slide.pricing.currency_symbol }} {{ price.current_price }} {{ slide.pricing.currency_code }} / {{ price.price_type_name }}
-                </p>
-                </div>
-                <div class="txt-star">
-                  {{ $t('moreInfo') }}
-                </div>
-              </v-card-text>
-            </v-card>
-            </NuxtLink
-                  >
-          </v-slide-item>
-        </v-slide-group>
-      </v-sheet>
-    </v-container>
+            </v-slide-item>
+          </v-slide-group>
+        </v-sheet>
+      </v-container>
+
+    </no-ssr>
   </div>
 </template>
 
