@@ -170,7 +170,7 @@
           <p>{{ address }}</p>
 
           <v-row class="mt-1">
-            <v-col class="line" cols="12" sm="12" md="6">
+            <v-col :class="duration.length || (minimunHeight.imperial || minimunHeight.metric) ? 'line' : ''" cols="12" sm="12" md="6">
               <h3 class="title-custom">{{ $t("openingHours") }}</h3>
 
               <table class="table" v-for="(openingHour, index) in operationHours" :key="'open-' + index">
