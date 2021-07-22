@@ -47,7 +47,37 @@
     <no-ssr>
       <v-container v-if="nearby.length > 0">
         <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
-          <v-slide-group mobile-break-point="1000" show-arrows center-active>
+
+          <v-slide-group
+              class="list-unstyled mb-0"
+              mobile-break-point="1000"
+              show-arrows
+            >
+              <v-btn
+                class="mx-2"
+                active-class="purple white--text"
+                depressed
+                rounded
+              ></v-btn>
+              <v-slide-item
+                class="mb-3"
+               v-for="(slide, i) in nearby"
+                :key="'nearby-' + i"
+              >
+                <v-card>
+                  <div class="content-icons">
+                    
+                   <img :src="slide.thumbnail" alt="" />
+                  </div>
+                  <div class="cursore-pointer color-txt">
+                    {{ slide.product_name }}
+                  </div>
+                </v-card>
+              </v-slide-item>
+            </v-slide-group>
+
+
+          <!--<v-slide-group mobile-break-point="1000" show-arrows center-active>
             <v-btn
               class="mx-2"
               active-class="purple white--text"
@@ -74,7 +104,10 @@
               </NuxtLink
                     >
             </v-slide-item>
-          </v-slide-group>
+          </v-slide-group>-->
+
+
+
         </v-sheet>
       </v-container>
 
