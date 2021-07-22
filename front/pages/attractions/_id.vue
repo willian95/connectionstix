@@ -14,6 +14,50 @@
     </div>
     <!-------------------------------------------------->
     <v-container class="mt-5" v-if="images.length > 1">
+
+       <!--<div class="content-mix-detail">
+            <div class="row">
+              <div class="col-md-12 ">
+                <v-slide-group
+                  class="list-unstyled mb-0"
+                  mobile-break-point="1000"
+                  center-active
+                  show-arrows
+                >
+                  <v-btn
+                    class="mx-2"
+                    active-class="purple white--text"
+                    depressed
+                    rounded
+                  ></v-btn>
+                  <v-slide-item
+                    class="mb-3"
+                  v-for="(slide, i) in nearby"
+                    :key="'nearby-' + i"
+                  >
+                    <NuxtLink class="no-underline" :to="{ path: '/attractions/'+slide.product_id }"
+                      >
+                      <v-card class="ma-4 card-slide_events">
+                          <v-img contain :src="slide.thumbnail"></v-img>
+                        <v-card-text>
+                          <h3 class="no-underline">{{ slide.product_name }}</h3>
+                          <div v-if="slide.pricing">
+                            <p v-for="(price, index) in slide.pricing.prices" v-bind:key="index">
+                            {{ slide.pricing.currency_symbol }} {{ price.current_price }} {{ slide.pricing.currency_code }} / {{ price.price_type_name }}
+                          </p>
+                          </div>
+                          <div class="txt-star">
+                            {{ $t('moreInfo') }}
+                          </div>
+                        </v-card-text>
+                      </v-card>
+                    </NuxtLink>
+                  </v-slide-item>
+                </v-slide-group>
+              </div>
+            </div>
+          </div>-->
+
       <CoolLightBox 
         :items="images" 
         :index="lightboxIndex"
@@ -25,20 +69,26 @@
         elevation="8"
         max-width="100%"
       >
-        <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
-          <v-btn
-            class="mx-2"
-            active-class="purple white--text"
-            depressed
-            rounded
-          ></v-btn>
+        <div class="content-mix-detail">
+          <div class="row">
+            <div class="col-md-12">
+              <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
+                <v-btn
+                  class="mx-2"
+                  active-class="purple white--text"
+                  depressed
+                  rounded
+                ></v-btn>
 
-          <v-slide-item   v-for="(slide, i) in images" :key="i">
-            <v-card width="250" class="ma-4  ">
-              <v-img contain :src="slide" @click="lightboxIndex = i"></v-img>
-            </v-card>
-          </v-slide-item>
-        </v-slide-group>
+                <v-slide-item   v-for="(slide, i) in images" :key="i">
+                  <v-card width="250" class="ma-4  ">
+                    <v-img contain :src="slide" @click="lightboxIndex = i"></v-img>
+                  </v-card>
+                </v-slide-item>
+              </v-slide-group>
+            </div>
+          </div>
+        </div>
       </v-sheet>
     </v-container>
     <no-ssr>
@@ -89,38 +139,6 @@
               </div>
             </div>
           </div>
-
-
-          <!--<v-slide-group mobile-break-point="1000" show-arrows center-active>
-            <v-btn
-              class="mx-2"
-              active-class="purple white--text"
-              depressed
-              rounded
-            ></v-btn>
-            <v-slide-item v-for="(slide, i) in nearby" :key="i">
-              <NuxtLink class="no-underline" :to="{ path: '/attractions/'+slide.product_id }"
-                      >
-              <v-card class="ma-4 card-slide_events">
-                  <v-img contain :src="slide.thumbnail"></v-img>
-                <v-card-text>
-                  <h3 class="no-underline">{{ slide.product_name }}</h3>
-                  <div v-if="slide.pricing">
-                    <p v-for="(price, index) in slide.pricing.prices" v-bind:key="index">
-                    {{ slide.pricing.currency_symbol }} {{ price.current_price }} {{ slide.pricing.currency_code }} / {{ price.price_type_name }}
-                  </p>
-                  </div>
-                  <div class="txt-star">
-                    {{ $t('moreInfo') }}
-                  </div>
-                </v-card-text>
-              </v-card>
-              </NuxtLink
-                    >
-            </v-slide-item>
-          </v-slide-group>-->
-
-
 
         </v-sheet>
       </v-container>
