@@ -232,6 +232,7 @@ header {
     width: 200px;
     height: 100%;
     //object-fit: contain;
+    display: block;
     @include respond-to(xs) {
     width: 110px;
     }
