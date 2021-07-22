@@ -231,7 +231,7 @@ header {
   .brand {
     width: 200px;
     height: 100%;
-    object-fit: contain;
+    //object-fit: contain;
     @include respond-to(xs) {
     width: 110px;
     }
