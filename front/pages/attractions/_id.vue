@@ -47,7 +47,7 @@
     <no-ssr>
       <v-container v-if="nearby.length > 0">
         <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
-          <div class="content-mix ">
+          <div class="content-mix-detail">
             <div class="row">
               <div class="col-md-12 ">
                 <v-slide-group
@@ -259,7 +259,7 @@ export default {
 
 <style lang="scss">
 
-.content-mix {
+.content-mix-detail {
   padding: 0 0rem;
  
   @include respond-to(xs) {
