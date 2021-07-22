@@ -34,7 +34,7 @@
                 <v-card  :class="selectedTag == tag.tag_id ? selectedCardTag : cardTag"  @click="getProductsByTag(tag.tag_id, tag.name)">
                   <div class="content-icons">
                     <img class="img-icon" :src="tag.icon" alt="" />
-                   <img :class="isSafari ? 'img-icon icon-selected' : 'img-icon icon-selected-safari'" :src="tag.icon_selected" alt="" />
+                   <img :class="isSafari ? 'img-icon icon-selected-safari' : 'img-icon icon-selected'" :src="tag.icon_selected" alt="" />
                   </div>
                   <div class="cursore-pointer color-txt">
                     {{ tag.name }}
