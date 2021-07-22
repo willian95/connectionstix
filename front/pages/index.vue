@@ -34,7 +34,7 @@
                 <v-card  :class="selectedTag == tag.tag_id ? selectedCardTag : cardTag"  @click="getProductsByTag(tag.tag_id, tag.name)">
                   <div class="content-icons">
                     <img class="img-icon" :src="tag.icon" alt="" />
-                   <img :class="isSafari == true ? 'img-icon icon-selected-safari' : 'img-icon icon-selected'" :src="tag.icon_selected" alt="" />
+                   <img class="img-icon icon-selected" :src="tag.icon_selected" alt="" />
                   </div>
                   <div class="cursore-pointer color-txt">
                     {{ tag.name }}
@@ -278,7 +278,6 @@ export default {
     this.getConfig();
     if(process.browser){
       this.isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
-      //this.isSafari = true;
 
       this.selectedCardTag = this.isSafari ? "ma-4 w-card_slider selectedCardTagSafari" : "ma-4 w-card_slider selectedCardTag"
       
@@ -535,12 +534,6 @@ body{
   &:hover, &:focus {
     .icon-selected{
       opacity: 1;
-      top:0;
-    }
-    .icon-selected-safari{
-      opacity: 1;
-      top:0;
-      margin-top: -0.5rem
     }
     .color-txt{
       color: #ef1856;
