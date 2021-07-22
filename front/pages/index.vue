@@ -508,7 +508,7 @@ body{
 }
 
 .selectedCardTagSafari {
-  .icon-selected{
+  .icon-selected-safari{
     opacity: 1 !important;
     top:0;
     margin-top: -0.5rem;
