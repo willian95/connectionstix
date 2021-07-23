@@ -348,6 +348,9 @@ height: 60vh;
       @include respond-to(xs) {
         font-size: 1rem;
       }
+        @include respond-to(md2) {
+      font-size: .5rem;
+    }
     }
     .v-select__slot {
     height: 8vh;

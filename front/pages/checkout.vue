@@ -92,8 +92,8 @@
             {{ $t("moreOptions") }}</v-expansion-panel-header
           >
           <v-expansion-panel-content>
-            <v-container>
-              <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
+          
+              <!--<v-sheet class="mt-5 mx-auto slide_events" elevation="8">
                 
                 <v-slide-group
                   mobile-break-point="1000"
@@ -121,11 +121,79 @@
                     </NuxtLink>
                   </v-slide-item>
                 </v-slide-group>
+              </v-sheet>-->
+
+              <!--<v-sheet
+                class="mt-5 mx-auto slider-images"
+                elevation="8"
+                max-width="100%"
+              >
+                <div class="content-mix-detail">
+                  <div class="row">
+                    <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
+                      <v-btn
+                        class="mx-2"
+                        active-class="purple white--text"
+                        depressed
+                        rounded
+                      ></v-btn>
+
+                      <v-slide-item v-for="(slide, i) in nearbyProducts" :key="i">
+                        <NuxtLink
+                          class="no-underline"
+                          :to="{ path: '/attractions/' + slide.product_id }"
+                        >
+                          <v-card class="ma-4 card-slide_events">
+                            <v-img contain :src="slide.thumbnail"></v-img>
+                            <v-card-text>
+                              <h3>{{ slide.product_name }}</h3>
+                              <div class="txt-star"></div>
+                            </v-card-text>
+                          </v-card>
+                        </NuxtLink>
+                      </v-slide-item>
+                    </v-slide-group>
+                  </div>
+                </div>
+              </v-sheet>-->
+
+              <v-sheet
+                class="mt-5 mx-auto slide_events"
+                elevation="8"
+                max-width="100%"
+              >
+                <div class="content-mix-detail">
+                  <div class="row">
+                    <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
+                      <v-btn
+                        class="mx-2"
+                        active-class="purple white--text"
+                        depressed
+                        rounded
+                      ></v-btn>
+
+                      <v-slide-item v-for="(slide, i) in nearbyProducts" :key="i">
+                        <NuxtLink
+                          class="no-underline"
+                          :to="{ path: '/attractions/' + slide.product_id }"
+                        >
+                          <v-card class="ma-4 card-slide_events">
+                            <v-img contain :src="slide.thumbnail"></v-img>
+                            <v-card-text>
+                              <h3>{{ slide.product_name }}</h3>
+                              <div class="txt-star"></div>
+                            </v-card-text>
+                          </v-card>
+                        </NuxtLink>
+                      </v-slide-item>
+                    </v-slide-group>
+                  </div>
+                </div>
               </v-sheet>
-            </v-container>
+       
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <!------------Billing info------------------>
+        <!------------Billing info----------------->
         <v-expansion-panel v-show="renderPage">
           <v-expansion-panel-header class="change-color"
             ><img
@@ -1434,5 +1502,10 @@ width: 100%;
   .title-custom{
     font-size: 1.5rem;
     margin-bottom: 2rem;
+  }
+  
+   .content-mix-detail .v-slide-group:not(.v-slide-group--has-affixes) > .v-slide-group__prev, .v-slide-group:not(.v-slide-group--has-affixes) > .v-slide-group__next {
+    display: block;
+
   }
 </style>
