@@ -1386,10 +1386,13 @@ font-size: .7rem;
   margin-top: 2rem;
   text-align: center;
   @include respond-to(xs) {
-    bottom: -1rem;
+  
   }
   .btn {
     padding: 0.5rem 1.5rem;
+      @include respond-to(xs) {
+  width: 150px;
+  }
   }
 }
 .highlight{
