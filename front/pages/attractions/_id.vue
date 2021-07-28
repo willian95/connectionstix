@@ -69,7 +69,7 @@
         elevation="8"
         max-width="100%"
       >
-        <div class="content-mix-detail">
+        <div class="content-mix-detail ">
           <div class="row">
             <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
               <v-btn
@@ -95,7 +95,7 @@
     <no-ssr>
       <v-container v-if="nearby.length > 0">
         <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
-          <div class="content-mix-detail">
+          <div class="content-mix-detail content-mix-detail--attraction">
             <div class="row">
               <div class="col-md-12 ">
                 <v-slide-group
@@ -458,7 +458,7 @@ margin: 1rem;
     display: none;
   }
   .v-sheet.v-card {
-    text-align: center;
+    text-align: start;
     box-shadow: none !important;
     color: #c9c9c9;
     display: flex;
@@ -485,7 +485,15 @@ width: 104px;
 .no-underline{
   text-decoration: none !important;
 }
-
+.content-mix-detail--attraction{
+  .v-sheet.v-card {
+    text-align: start!important;
+  }
+  .txt-star{
+        color: #ef1856;
+    text-decoration: underline;
+  }
+}
 .details-custom {
   .details-img {
     position: relative;
