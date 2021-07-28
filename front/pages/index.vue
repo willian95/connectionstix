@@ -33,7 +33,7 @@
               >
                 <v-card  :class="selectedTag == tag.tag_id ? selectedCardTag : cardTag"  @click="getProductsByTag(tag.tag_id, tag.name)">
                   <div class="content-icons">
-                    <img class="img-icon" :src="tag.icon" alt="" />
+                    <img class="img-icon img-icon-nohover" :src="tag.icon" alt="" />
                    <img :class="isSafari ? 'img-icon icon-selected-safari' : 'img-icon icon-selected'" :src="tag.icon_selected" alt="" />
                   </div>
                   <div class="cursore-pointer color-txt">
@@ -540,8 +540,12 @@ body{
   }
 }
   &:hover, &:focus {
+     .img-icon-nohover{
+        opacity: 0;
+    }
     .icon-selected{
       opacity: 1;
+      
     }
     .color-txt{
       color: #ef1856;
@@ -552,6 +556,7 @@ body{
       top: 0;
       margin-top: -0.5rem;
     }
+   
 }
 
 .v-card--link:before {
