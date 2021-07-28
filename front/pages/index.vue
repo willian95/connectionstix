@@ -528,6 +528,7 @@ body{
       position: absolute;
       left: 0;
       opacity: 0;
+      top:0;
 
   }
 
@@ -535,7 +536,7 @@ body{
       position: absolute;
       left: 0;
       opacity: 0;
-
+      top:0;
   }
 }
   &:hover, &:focus {
