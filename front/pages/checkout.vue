@@ -195,7 +195,7 @@
 
              <no-ssr>
               <v-container>
-                <v-sheet class="mt-5 mx-auto slide_events" elevation="8">
+                
                   <div class="content-mix-detail content-mix-detail--checkout">
                     <div class="row">
                       <div class="col-md-12 ">
@@ -239,7 +239,7 @@
                     </div>
                   </div>
 
-                </v-sheet>
+        
               </v-container>
 
             </no-ssr>
