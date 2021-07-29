@@ -1210,8 +1210,7 @@ export default {
       display: flex;
       flex-direction: initial;
       @include respond-to(xs) {
-        justify-content: start;
-         margin-bottom: 0rem;
+        justify-content: center;
       }
     }
     .txt-panel {
@@ -1321,9 +1320,9 @@ export default {
       right: 20px;
       font-size: 5rem;
     }
-    .mdi-chevron-left::before {
+    /*.mdi-chevron-left::before {
       color: #ef1856;
-    }
+    }*/
     .mdi-chevron-right {
       color: #ef1856 !important;
       z-index: 1;
