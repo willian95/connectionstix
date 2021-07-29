@@ -1,7 +1,38 @@
 <template>
   <header :class="transparent == true ? 'header-2 '+navbarClass : 'header-2 change-color '+navbarClass" >
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
-    <div class="dflex-sec">
+    <v-row class="p-1t" no-gutters>
+     <v-col cols="3"   >
+        <client-only>
+        <nuxt-link :to="{ path: '/'}">
+          <div v-if="transparent == true">
+            <img v-if="logo" class="brand" :src="logo" alt="" />
+          </div>
+          <div v-else>
+            <img v-if="secondaryLogo" class="brand" :src="secondaryLogo" alt="" />
+          </div>
+        </nuxt-link>
+      </client-only>
+     </v-col>
+    <v-col cols="4"  >
+      <div class="select-language">
+        <v-select :items="languages" solo v-model="language" @change="changeLanguage()"></v-select>
+    </div>
+    </v-col>
+    <v-col class="text-end" cols="5" >
+      <div class="style-icon_car">
+        <NuxtLink class="nav-link" :to="localePath('/checkout')" v-if="numberItems > 0">
+          <img src="~assets/images/iconos/cart.png" alt="">
+          <p class="change-navbar-font-color">{{ numberItems }}</p>
+        </NuxtLink>
+        <div v-else class="nav-link" @click="showEmptyCartMessage()" style="cursor: pointer">
+          <img src="~assets/images/iconos/cart.png" alt="">
+        </div>
+      </div>
+    </v-col>
+    </v-row>
+
+  <!--  <div class="dflex-sec">
       <client-only>
         <nuxt-link :to="{ path: '/'}">
           <div v-if="transparent == true">
@@ -27,7 +58,7 @@
       <div v-else class="nav-link" @click="showEmptyCartMessage()" style="cursor: pointer">
         <img src="~assets/images/iconos/cart.png" alt="">
       </div>
-    </div>
+    </div>--->
   </header>
 </template>
 <script>
@@ -207,6 +238,7 @@ export default {
 }
 
 header {
+
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -219,6 +251,9 @@ header {
    padding: 1rem;
    
    }
+   .v-select__selections {
+    padding-left: 0;
+}
     /* @include respond-to(xs) {
 
  .select-language .v-select__selections {
@@ -245,9 +280,15 @@ header {
     }
   }
   .select-language {
+    width: 181px;
+    overflow: hidden;
      @include respond-to(xs) {
+            padding-top: 0;
+    width: 136px;
+    padding-left: 1rem;
 .v-select__selections {
     padding-left: 0;
+  
 }
      }
     
@@ -312,6 +353,26 @@ header {
       
     }
   }
- 
+   .text-end{
+   text-align: end;
+   }
+ .style-icon_car{
+       display: flex;
+    align-items: flex-end;
+    width: 100%;
+    text-align: end;
+    justify-content: flex-end;
+
+   img{
+     width: 33px;
+    height: 100%;
+        @include respond-to(xs) {
+    width: 27px;
+        }
+   }
+ }
+ .p-1t{
+       padding-top: 1rem;
+ }
 
 </style>

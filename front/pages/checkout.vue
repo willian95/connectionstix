@@ -207,7 +207,7 @@
                         class="no-underline"
                         :to="{ path: '/attractions/' + slide.product_id }"
                       >
-                        <v-card class="ma-4 card-slide_events">
+                        <v-card class="ma-4 card-slide_events slick-custom">
                           <v-img contain :src="slide.thumbnail"></v-img>
                           <v-card-text>
                             <h3>{{ slide.product_name }}</h3>
@@ -1772,5 +1772,28 @@ width: 104px;
   color: #ef1856!important;
 }
   
-  
+ .slick-custom{
+   
+    margin: 1rem;
+ 
+
+    .v-responsive__content{
+          height: 190px;
+}
+h3{
+      color: #000;
+}
+ }
+   .mdi-chevron-left{
+   position: absolute!important;
+    top: 47%;
+    left: -9px;
+    font-size: 3.5rem!important;
+ }
+ .mdi-chevron-right{
+   position: absolute!important;
+    top: 47%;
+    right: -9px;
+    font-size: 3.5rem!important;
+ }
 </style>
