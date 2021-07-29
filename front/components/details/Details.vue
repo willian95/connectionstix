@@ -1157,7 +1157,7 @@ padding: 3px;
     padding: 2rem;
     overflow: hidden;
 
-  @include respond-to(sm) {
+  @include respond-to(xs) {
  width: 100%;
   }
      
