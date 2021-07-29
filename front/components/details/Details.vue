@@ -1155,7 +1155,7 @@ padding: 3px;
     align-items: center;
     flex-direction: column;
     padding: 2rem;
-       @include respond-to(xs) {
+       @include respond-to(sm) {
          max-width: min-content;
 overflow: hidden;
        }
