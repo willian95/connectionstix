@@ -200,7 +200,7 @@
 
                 <client-only>
                   
-                  <VueSlickCarousel :arrows="false" :swipe="false" v-if="nearbyProducts.length" :infinite="false" :slidesToShow="3" ref="nearbyProductCarousel">
+                  <VueSlickCarousel v-bind="settings"  ref="nearbyProductCarousel" v-if="nearbyProducts.length" @afterChange="afterChange">
                     
                     <div v-for="(slide, i) in nearbyProducts" :key="i">
                       <NuxtLink
@@ -220,8 +220,9 @@
                     
 
                   </VueSlickCarousel>
-                  <i aria-hidden="true" @click="showPrev()" class="v-icon notranslate mdi mdi-chevron-left theme--light custom-color"></i>
-                  <i aria-hidden="true" @click="showNext()" class="v-icon notranslate mdi mdi-chevron-right theme--light custom-color"></i>
+                  <i aria-hidden="true" @click="showPrev()" :class="carouselIndex == 0 ? arrowLeftClassDisabled : arrowLeftClass" style="cursor: pointer;"></i>
+                  <i v-if="width > 600" aria-hidden="true" @click="showNext()" :class="carouselIndex >= nearbyProducts.length - 3 ? arrowRightClassDisabled : arrowRightClass" style="cursor: pointer;"></i>
+                  <i v-else aria-hidden="true" @click="showNext()" :class="carouselIndex == nearbyProducts.length ? arrowRightClassDisabled : arrowRightClass" style="cursor: pointer;"></i>
                   
 
                 </client-only>
@@ -593,7 +594,30 @@ export default {
     currencyCode: "",
     items: [],
     nearbyProducts: [],
+    settings:{
+      arrows:false,
+      swipe:false,
+      infinite:false,
+      slidesToShow:3,
+      slidesToScroll:1,
+      responsive:[
+
+        {
+          "breakpoint": 768,
+          "settings": {
+            "slidesToShow": 1,
+            "slidesToScroll": 1,
+            "initialSlide": 0
+          }
+        }
+      ]
+    },
     total: 0,
+    carouselIndex:0,
+    arrowLeftClass:"v-icon notranslate mdi mdi-chevron-left theme--light custom-color",
+    arrowRightClass:"v-icon notranslate mdi mdi-chevron-right theme--light custom-color",
+    arrowLeftClassDisabled:"v-icon notranslate mdi mdi-chevron-left theme--light disabledArrow",
+    arrowRightClassDisabled:"v-icon notranslate mdi mdi-chevron-right theme--light disabledArrow",
     grandTotalCurrencyCode:"",
     grandTotalCurrencySymbol:"",
     panel: [0, 1, 2, 3],
@@ -634,6 +658,7 @@ export default {
     checkoutCount: 0,
     showCheckout: false,
     paypalOrder:"",
+    width:0,
     oldDiscountCodes:[],
     newDiscountCodes:[],
     onLoadingPay:false,
@@ -644,11 +669,32 @@ export default {
   }),
   components: { Detail, LocalErrorShow },
   methods: {
+    getWidth() {
+      if (self.innerWidth) {
+        return self.innerWidth;
+      }
+
+      if (document.documentElement && document.documentElement.clientWidth) {
+        return document.documentElement.clientWidth;
+      }
+
+      if (document.body) {
+        return document.body.clientWidth;
+      }
+    },
+    afterChange(page){
+      this.width = this.getWidth()
+      this.carouselIndex = page
+
+    },
     showNext() {
+
       this.$refs.nearbyProductCarousel.next()
     },
     showPrev() {
+      
       this.$refs.nearbyProductCarousel.prev()
+      
     },
     payResponse(response) {
      
@@ -1141,6 +1187,10 @@ export default {
 </script>
 <style lang="scss">
 
+.disabledArrow{
+  color:#95a5a6 !important;
+}
+
 .no-underline{
   text-decoration: none;
 }
@@ -1470,9 +1520,7 @@ margin-right: 4rem;
       object-fit: contain;
     }
   }
-  .theme--light.v-icon {
-    color: rgb(239 24 86);
-  }
+
   .btn {
     padding: 11px 40px;
     text-decoration: none;
