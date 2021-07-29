@@ -23,6 +23,7 @@
     "sass": "~1.32.6",
     "vue-cool-lightbox": "^2.7.4",
     "vue-paypal-checkout": "^3.2.0",
+    "vue-slick-carousel": "^1.0.6",
     "vue-sweetalert2": "^4.3.1",
     "vueisotope": "3.1.2",
     "vuejs-datepicker": "^1.6.2",

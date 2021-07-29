@@ -25,11 +25,12 @@
     </v-app>
     
     <!------------------------------------>
-
+    
     
     <div class="container main-checkout">
       <client-only>
-  
+
+        
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple v-show="renderPage">
         <v-expansion-panel>
           
@@ -55,6 +56,20 @@
 
         
             </center>
+
+            <div>
+              <VueSlickCarousel :arrows="false">
+
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+
+              </VueSlickCarousel>
+              <i aria-hidden="true" class="v-icon notranslate mdi mdi-chevron-right theme--light custom-color"></i>
+            </div>
+            
+  
+
             <div v-for="(item, index) in items" :key="'item-' + item.item_id">
               <Detail
                 :indexItem="index"
@@ -193,56 +208,7 @@
                 </v-container>
               </v-sheet>-->
 
-             <no-ssr>
-              <v-container>
-                
-                  <div class="content-mix-detail content-mix-detail--checkout">
-                    <div class="row">
-                      <div class="col-md-12 ">
-                        <v-slide-group
-                          class="list-unstyled mb-0"
-                          mobile-break-point="1000"
-                          center-active
-                          show-arrows
-                        >
-                          <v-btn
-                            class="mx-2"
-                            active-class="purple white--text"
-                            depressed
-                            rounded
-                          ></v-btn>
-                          <v-slide-item
-                            class="mb-3"
-                          v-for="(slide, i) in nearbyProducts"
-                            :key="'nearby-' + i"
-                          >
-                            <NuxtLink class="no-underline" :to="{ path: '/attractions/'+slide.product_id }"
-                              >
-                              <v-card class="ma-4 card-slide_events">
-                                  <v-img contain :src="slide.thumbnail"></v-img>
-                                <v-card-text>
-                                  <h3 class="no-underline">{{ slide.product_name }}</h3>
-                                  <div v-if="slide.pricing">
-                                    <p v-for="(price, index) in slide.pricing.prices" v-bind:key="index">
-                                    {{ slide.pricing.currency_symbol }} {{ price.current_price }} {{ slide.pricing.currency_code }} / {{ price.price_type_name }}
-                                  </p>
-                                  </div>
-                                  <div class="txt-star">
-                                    {{ $t('moreInfo') }}
-                                  </div>
-                                </v-card-text>
-                              </v-card>
-                            </NuxtLink>
-                          </v-slide-item>
-                        </v-slide-group>
-                      </div>
-                    </div>
-                  </div>
-
-        
-              </v-container>
-
-            </no-ssr>
+             
        
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -545,6 +511,9 @@
 <script>
 import Detail from "~/components/checkout/Detail";
 import LocalErrorShow from "../components/localError.vue";
+ import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+  // optional style for arrows & dots
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 export default {
   computed: {
     payButtonDisabled() {
@@ -1772,6 +1741,10 @@ width: 104px;
         color: #ef1856;
     text-decoration: underline;
   }
+}
+
+.custom-color{
+  color: #ef1856!important;
 }
   
   

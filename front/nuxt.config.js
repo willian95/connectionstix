@@ -34,6 +34,7 @@ export default {
     { src: '~/plugins/vue-datepicker', ssr: false },
     { src: "~plugins/isotope.js", ssr: false },
     { src: '~/plugins/paypal.js', ssr: false },
+    { src: '~/plugins/vue-slick-carousel.js', ssr: false}
      //   {src : "~/plugins/vuetify.js"},
   ],
 
