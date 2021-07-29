@@ -1210,7 +1210,7 @@ export default {
       display: flex;
       flex-direction: initial;
       @include respond-to(xs) {
-        justify-content: center;
+        justify-content: start;
       }
     }
     .txt-panel {

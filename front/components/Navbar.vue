@@ -13,7 +13,7 @@
         </nuxt-link>
       </client-only>
       <div class="select-language">
-        <v-col class="d-flex" cols="6">
+        <v-col class="d-flex" cols="7">
           <v-select :items="languages" solo v-model="language" @change="changeLanguage()"></v-select>
         </v-col>
 
@@ -218,7 +218,14 @@ header {
   top: 0;
    @include respond-to(sm) {
    padding: 1rem;
+   
    }
+    /* @include respond-to(xs) {
+
+ .select-language .v-select__selections {
+    max-width: 74%;
+}
+   }*/
 
   .dflex-sec{
         display: inline-flex;
@@ -226,7 +233,8 @@ header {
   }
   @include respond-to(xs) {
     padding: 0.5rem;
-        align-items: baseline;
+     align-items: center;
+}
   }
   .brand {
     width: 200px;
