@@ -123,7 +123,7 @@
                 </v-slide-group>
               </v-sheet>-->
 
-              <!--<v-sheet
+              <v-sheet
                 class="mt-5 mx-auto slider-images"
                 elevation="8"
                 max-width="100%"
@@ -155,9 +155,9 @@
                     </v-slide-group>
                   </div>
                 </div>
-              </v-sheet>-->
+              </v-sheet>
 
-              <v-sheet
+              <!--<v-sheet
                 class="mt-5 mx-auto slide_events"
                 elevation="8"
                 max-width="100%"
@@ -191,7 +191,7 @@
                   </div>
                 </div>
                 </v-container>
-              </v-sheet>
+              </v-sheet>-->
        
           </v-expansion-panel-content>
         </v-expansion-panel>
