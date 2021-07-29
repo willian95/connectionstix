@@ -77,13 +77,12 @@ export default {
     },
     async getLogo(){
 
-      if(process.browser){
-        this.logo = window.localStorage.getItem("logo")
-      }
+      let config = await this.$axios.get("configcms");
 
-      if(process.browser){
-        this.secondaryLogo = window.localStorage.getItem("secondaryLogo")
-      }
+     
+        this.logo = process.env.SERVER_URL + config.data.logo
+        this.secondaryLogo = process.env.SERVER_URL + config.data.secondaryLogo
+      
 
     },
     changeLanguage(){
