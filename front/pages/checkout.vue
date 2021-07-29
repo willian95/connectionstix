@@ -200,7 +200,7 @@
 
                 <client-only>
                   
-                  <VueSlickCarousel :arrows="false" :swipe="false" v-if="nearbyProducts.length" :infinite="false" :slidesPerRow="3" ref="nearbyProductCarousel">
+                  <VueSlickCarousel :arrows="false" :swipe="false" v-if="nearbyProducts.length" :infinite="false" :slidesToShow="3" ref="nearbyProductCarousel">
                     
                     <div v-for="(slide, i) in nearbyProducts" :key="i">
                       <NuxtLink
