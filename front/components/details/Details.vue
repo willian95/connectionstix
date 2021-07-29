@@ -1159,6 +1159,10 @@ padding: 3px;
          max-width: min-content;
 overflow: hidden;
        }
+       @include respond-to(md) {
+         max-width: min-content;
+overflow: hidden;
+       }
     .main-book {
       line-height: 0;
       text-align: center;
