@@ -1391,7 +1391,7 @@ font-size: .7rem;
   .btn {
     padding: 0.5rem 1.5rem;
       @include respond-to(xs) {
-  width: 150px;
+  width: 155px;
   }
   }
 }
@@ -1405,6 +1405,9 @@ font-size: .7rem;
     align-items: center;
     justify-content: center;
     margin-bottom: 1rem;
+       @include respond-to(xs) {
+        margin-top: 4rem;
+       }
 .vdp-datepicker{
   div{
     margin-bottom: 0!important;
