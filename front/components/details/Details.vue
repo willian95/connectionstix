@@ -1156,6 +1156,11 @@ padding: 3px;
     flex-direction: column;
     padding: 2rem;
     overflow: hidden;
+
+  @include respond-to(sm) {
+ width: 100%;
+  }
+     
        @include respond-to(sm) {
          max-width: min-content;
 
