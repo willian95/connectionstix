@@ -162,7 +162,8 @@
                 elevation="8"
                 max-width="100%"
               >
-                <div class="content-mix-detail">
+                <v-container>
+                  <div class="content-mix-detail">
                   <div class="row">
                     <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
                       <v-btn
@@ -189,6 +190,7 @@
                     </v-slide-group>
                   </div>
                 </div>
+                </v-container>
               </v-sheet>
        
           </v-expansion-panel-content>
