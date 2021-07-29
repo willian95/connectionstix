@@ -1148,21 +1148,28 @@ padding: 3px;
 
   .book-shadows {
     box-shadow: 0px 0px 8px #00000033;
-    max-width: 360px;
+        width: 90%;
     border-radius: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     padding: 2rem;
+    overflow: hidden;
+
+  @include respond-to(xs) {
+ width: 100%;
+  }
+     
        @include respond-to(sm) {
          max-width: min-content;
-overflow: hidden;
+
        }
        @include respond-to(md) {
          max-width: min-content;
 overflow: hidden;
        }
+     
     .main-book {
       line-height: 0;
       text-align: center;

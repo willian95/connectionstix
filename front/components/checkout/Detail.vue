@@ -472,7 +472,7 @@ width: 100%;
     transform: translate(-50%, -50%);
     padding: 2em;
     background: white;
-        padding-top: 4rem;
+        padding-top: 1rem;
         @include respond-to(xs) {
           width: 100%;
         }

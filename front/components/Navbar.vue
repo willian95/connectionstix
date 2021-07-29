@@ -246,22 +246,37 @@ header {
     }
   }
   .select-language {
-
-
-    @include respond-to(xs) {
-      display: grid;
-
+     @include respond-to(xs) {
+.v-select__selections {
+    padding-left: 0;
+}
+     }
+    
       margin-left: 0;
-
+      padding-top: 1.5rem;
+   .v-text-field.v-text-field--solo .v-input__control {
+          min-height: auto;
+          padding: 0;
+            }
+            .v-select__selection--comma {
+          margin: 0;
+          margin-left: 2rem;
+            }
+            .v-input input {
+          padding: 0 0rem;
+            }
+            .v-input__slot {
+                margin-bottom: 0;
+            }
       .d-flex{
         padding: 0;
       }
-.v-text-field.v-text-field--solo .v-label {
+      .v-text-field.v-text-field--solo .v-label {
 
-    padding-left: 0rem;
-   
-}
-    }
+          padding-left: 0rem;
+        
+      }
+    
     .v-select__slot {
       height: auto;
       color: #fff;
@@ -299,4 +314,5 @@ header {
     }
   }
  
+
 </style>
