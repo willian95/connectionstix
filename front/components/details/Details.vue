@@ -1155,6 +1155,10 @@ padding: 3px;
     align-items: center;
     flex-direction: column;
     padding: 2rem;
+       @include respond-to(xs) {
+         max-width: min-content;
+overflow: hidden;
+       }
     .main-book {
       line-height: 0;
       text-align: center;
