@@ -229,7 +229,7 @@ height: auto;
         }
 }
 .banner {
-  height: 80vh;
+  height: auto;
   position: relative;
       display: flex;
     justify-content: center;

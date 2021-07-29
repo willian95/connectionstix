@@ -246,8 +246,12 @@ header {
     }
   }
   .select-language {
-
-    @include respond-to(xs) {
+     @include respond-to(xs) {
+.v-select__selections {
+    padding-left: 0;
+}
+     }
+    
       margin-left: 0;
       padding-top: 1.5rem;
    .v-text-field.v-text-field--solo .v-input__control {
@@ -272,7 +276,7 @@ header {
           padding-left: 0rem;
         
       }
-    }
+    
     .v-select__slot {
       height: auto;
       color: #fff;
