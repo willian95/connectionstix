@@ -57,16 +57,7 @@
         
             </center>
 
-            <div>
-              <VueSlickCarousel :arrows="false">
-
-                <div>1</div>
-                <div>2</div>
-                <div>3</div>
-
-              </VueSlickCarousel>
-              <i aria-hidden="true" class="v-icon notranslate mdi mdi-chevron-right theme--light custom-color"></i>
-            </div>
+           
             
   
 
@@ -106,6 +97,18 @@
             />
             {{ $t("moreOptions") }}</v-expansion-panel-header
           >
+
+ <div>
+              <VueSlickCarousel :arrows="false">
+
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+
+              </VueSlickCarousel>
+              <i aria-hidden="true" class="v-icon notranslate mdi mdi-chevron-right theme--light custom-color"></i>
+            </div>
+
           <v-expansion-panel-content>
           
               <!--<v-sheet class="mt-5 mx-auto slide_events" elevation="8">
