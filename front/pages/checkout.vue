@@ -56,17 +56,6 @@
 
         
             </center>
-
-            <div>
-              <VueSlickCarousel :arrows="false">
-
-                <div>1</div>
-                <div>2</div>
-                <div>3</div>
-
-              </VueSlickCarousel>
-              <i aria-hidden="true" class="v-icon notranslate mdi mdi-chevron-right theme--light custom-color"></i>
-            </div>
             
   
 
@@ -207,6 +196,34 @@
                 </div>
                 </v-container>
               </v-sheet>-->
+
+                <client-only>
+                  
+                  <VueSlickCarousel :arrows="false" :swipe="false" v-if="nearbyProducts.length" :infinite="false" :slidesPerRow="3" ref="nearbyProductCarousel">
+                    
+                    <div v-for="(slide, i) in nearbyProducts" :key="i">
+                      <NuxtLink
+                        class="no-underline"
+                        :to="{ path: '/attractions/' + slide.product_id }"
+                      >
+                        <v-card class="ma-4 card-slide_events">
+                          <v-img contain :src="slide.thumbnail"></v-img>
+                          <v-card-text>
+                            <h3>{{ slide.product_name }}</h3>
+                            <div class="txt-star"></div>
+                          </v-card-text>
+                        </v-card>
+                      </NuxtLink>
+                    </div>
+
+                    
+
+                  </VueSlickCarousel>
+                  <i aria-hidden="true" @click="showPrev()" class="v-icon notranslate mdi mdi-chevron-left theme--light custom-color"></i>
+                  <i aria-hidden="true" @click="showNext()" class="v-icon notranslate mdi mdi-chevron-right theme--light custom-color"></i>
+                  
+
+                </client-only>
 
              
        
@@ -626,6 +643,12 @@ export default {
   }),
   components: { Detail, LocalErrorShow },
   methods: {
+    showNext() {
+      this.$refs.nearbyProductCarousel.next()
+    },
+    showPrev() {
+      this.$refs.nearbyProductCarousel.prev()
+    },
     payResponse(response) {
      
       var index = 0
@@ -651,6 +674,7 @@ export default {
         this.checkoutCount++;
       }
     },
+    
     checkDiscountCode(itemId, discountCode){
       this.newDiscountCodes.forEach((data, index) => {
         if(data.item == itemId){
