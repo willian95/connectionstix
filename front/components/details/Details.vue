@@ -638,9 +638,6 @@ export default {
       
 
     },
-    getConfig(){
-
-    },
     hourString(hour){
 
       let timeArray = hour.split(":")

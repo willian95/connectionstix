@@ -315,6 +315,28 @@ export default {
 
 
     },
+
+    async getConfig() {
+      let config = await this.$axios.get("configcms");
+
+      if (config.data.hero) {
+        this.backImage = process.env.SERVER_URL + config.data.hero;
+      }
+
+      if(config.data.color){
+        if(process.browser){
+          $(".change-color").css("background", config.data.color);
+        }
+      }
+
+      if(config.data.textColor){
+        if(process.browser){
+          $(".change-font-color").css("color",  config.data.textColor);
+        }
+      }
+    
+
+    }
     
   },
   created() {
@@ -340,12 +362,7 @@ export default {
     }
   },
   mounted() {
-    if (process.browser) {
-      let color = localStorage.getItem("color");
-      if (color) {
-        $(".change-color").css("background", color);
-      }
-    }
+    this.getConfig()
   }
 };
 </script>
