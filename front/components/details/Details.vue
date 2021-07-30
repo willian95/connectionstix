@@ -638,6 +638,9 @@ export default {
       
 
     },
+    getConfig(){
+
+    },
     hourString(hour){
 
       let timeArray = hour.split(":")
@@ -665,6 +668,27 @@ export default {
       return hourPart + ":" + minutePart + " " + meridian
       
 
+    },
+    async getConfig() {
+      let config = await this.$axios.get("configcms");
+
+      if (config.data.hero) {
+        this.backImage = process.env.SERVER_URL + config.data.hero;
+      }
+
+      if(config.data.color){
+        if(process.browser){
+          $(".change-color").css("background", config.data.color);
+        }
+      }
+
+      if(config.data.textColor){
+        if(process.browser){
+          $(".change-font-color").css("color",  config.data.textColor);
+        }
+      }
+    
+
     }
   },
   watch: {
@@ -677,21 +701,7 @@ export default {
         });
       });
 
-      setTimeout(() => {
-        if (process.browser) {
-          let color = localStorage.getItem("color");
-          let textColor = localStorage.getItem("textColor");
 
-          if (color) {
-            $(".change-color").css("background", color);
-          }
-
-          if(textColor){
-            $(".change-font-color").css("color", textColor);
-          }
-
-        }
-      }, 1000);
     },
     nextDateAvailable: function(newVal, oldVal) {
       this.next_date = newVal;
@@ -701,8 +711,8 @@ export default {
 
     this.date_from = new Date()
     this.date_show = new Date()
-
-    if (process.browser) {
+    this.getConfig()
+    /*if (process.browser) {
     
       let color = localStorage.getItem("color");
 
@@ -710,7 +720,7 @@ export default {
         $(".change-color").css("background", color);
       }
 
-    }
+    }*/
   }
 };
 </script>
