@@ -141,11 +141,7 @@ export default {
 
       
     },
-    async getLogo() {
-      if (process.browser) {
-        this.logo = window.localStorage.getItem("logo");
-      }
-    },
+
     async getConfig() {
       let config = await this.$axios.get("configcms");
       this.overlay = config.data.overlay;
@@ -155,27 +151,15 @@ export default {
       }
 
       if (config.data.logo) {
-        if (process.browser) {
-          localStorage.setItem(
-            "logo",
-            process.env.SERVER_URL + config.data.logo
-          );
-        }
-      }
+        this.logo = process.env.SERVER_URL + config.data.logo;
+      }   
 
       if (config.data.color) {
         if (process.browser) {
-          localStorage.setItem("color", config.data.color);
+          document.getElementById("goBtn").style.background = config.data.color;
         }
       }
 
-      if (config.data.overlay) {
-        if (process.browser) {
-          localStorage.setItem("overlay", config.data.overlay);
-        }
-      }
-
-      this.getLogo();
     },
     getOrderNumber(){
 

@@ -106,46 +106,10 @@ export default {
       }
 
     },
-    async getLogo(){
-
-      let config = await this.$axios.get("configcms");
-
-     
-        this.logo = process.env.SERVER_URL + config.data.logo
-        this.secondaryLogo = process.env.SERVER_URL + config.data.secondaryLogo
-      
-
-    },
     changeLanguage(){
 
       this.$i18n.setLocale(this.language)
 
-    },
-    getColor(){
-      if(process.browser){
-         
-        if(this.transparent == false){
-          
-          let color = localStorage.getItem("color")
-
-      
-          if(color){
-            $(".change-color").css("background", color)
-            $(".change-navbar-font-color").css("color", color)
-            
-          }
-
-        }else{
-          
-          $(".header-2").css("background", "transparent")
-          let color = localStorage.getItem("color")
-         
-          if(color){
-            $(".change-navbar-font-color").css("color", color)
-            
-          }
-        }
-      }
     },
     async getConfig(){
 
@@ -159,55 +123,23 @@ export default {
       if(config.data.logo){
       
         if(process.browser){
-          localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
+          this.logo = process.env.SERVER_URL+config.data.logo
         }
       }
 
       if(config.data.secondaryLogo){
       
         if(process.browser){
-          localStorage.setItem("secondaryLogo",  process.env.SERVER_URL+config.data.secondaryLogo)
+          this.secondaryLogo = process.env.SERVER_URL+config.data.secondaryLogo
         }
       }
-
-      if(config.data.footerLogo){
-      
-        if(process.browser){
-          localStorage.setItem("footerLogo",  process.env.SERVER_URL+config.data.footerLogo)
-        }
-      }
-
-      if(config.data.color){
-        if(process.browser){
-          localStorage.setItem("color", config.data.color)
-        }
-      }
-
-
-      if(config.data.textColor){
-        if(process.browser){
-          localStorage.setItem("textColor", config.data.textColor)
-        }
-      }
-
-      if(config.data.overlay){
-        if(process.browser){
-          
-          localStorage.setItem("overlay", config.data.overlay)
-          
-        }
-      }
-
-      this.getLogo()
       
     }
   },
   mounted(){
 
     this.getLocalStorageOrders()
-    window.setTimeout(() => {
-      this.getColor()
-    }, 3000)
+    
     this.getConfig()
     
     this.language = this.$i18n.locale
@@ -221,7 +153,7 @@ export default {
     transparent: function(newVal, oldVal){
 
         this.transparent = newVal
-        this.getColor()
+        //this.getColor()
 
     }
   },

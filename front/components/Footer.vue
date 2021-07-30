@@ -128,20 +128,35 @@ export default {
     footerLogo: "",
   }),
   methods: {
-    async getLogo() {
+    /*async getLogo() {
       if (process.browser) {
         this.footerLogo = window.localStorage.getItem("footerLogo");
       }
-    }
+    },*/
+    async getConfig() {
+      let config = await this.$axios.get("configcms");
+
+      if (process.browser) {
+        if (config.data.color) {
+          if (process.browser) {
+            this.footerLogo = process.env.SERVER_URL + config.data.footerLogo;
+            document.getElementById("footer").style.background = config.data.color;
+          }
+        }
+
+      }
+
+    },
   },
   mounted() {
-    this.getLogo();
-    if (process.browser) {
+    //this.getLogo();
+    this.getConfig()
+    /*if (process.browser) {
       let color = localStorage.getItem("color");
       if (color) {
         document.getElementById("footer").style.background = color;
       }
-    }
+    }*/
   }
 };
 </script>

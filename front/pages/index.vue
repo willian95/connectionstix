@@ -238,33 +238,6 @@ export default {
         this.backImage = process.env.SERVER_URL + config.data.hero;
       }
 
-      if (config.data.logo) {
-        if (process.browser) {
-          localStorage.setItem(
-            "logo",
-            process.env.SERVER_URL + config.data.logo
-          );
-        }
-      }
-
-      if (config.data.color) {
-        if (process.browser) {
-          localStorage.setItem("color", config.data.color);
-        }
-      }
-
-      if (config.data.textColor) {
-        if (process.browser) {
-          localStorage.setItem("textColor", config.data.textColor);
-        }
-      }
-
-      if (config.data.overlay) {
-        if (process.browser) {
-          localStorage.setItem("overlay", config.data.overlay);
-        }
-      }
-
       
       if(this.overlay == true){
         await this.getTags("")
