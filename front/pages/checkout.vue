@@ -358,7 +358,7 @@
                   <h3 class="title-custom">{{ $t("paymentMethod") }}</h3>
                 </v-col>
                   <v-col cols="12" sm="4" md="4" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-' + index">
-                    <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn'" @click="getInfoFromSelectedPaymentProvider(index)" v-show="paymentProvider.payment_provider_id == 4 || paymentProvider.payment_provider_id == 0">
+                    <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn btn-inactiveClass primary-btn-color'" @click="getInfoFromSelectedPaymentProvider(index)" v-show="paymentProvider.payment_provider_id == 4 || paymentProvider.payment_provider_id == 0">
                         <fa v-show="paymentProvider.payment_provider_id == 4" :icon="['fas','credit-card']" class="mr-1"></fa>
                         
                         <fa v-show="paymentProvider.payment_provider_id == 0" :icon="['fas','flask']" class="mr-1"></fa>
@@ -370,7 +370,7 @@
                         }}
                     </button>
                     <div v-show="paymentProvider.payment_provider_id == 26">
-                      <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn'" @click="getInfoFromSelectedPaymentProvider(index), showRequiredFields()">
+                      <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn btn-inactiveClass primary-btn-color'" @click="getInfoFromSelectedPaymentProvider(index), showRequiredFields()">
                         <fa v-show="paymentProvider.payment_provider_id == 26" :icon="['fab','paypal']" class="mr-1"></fa>
                         {{ paymentProvider.payment_provider_name }}
                       </button>
@@ -392,7 +392,7 @@
                
               </v-row>
               <v-row
-                v-if="selectedPaymentProvider.prompt_billing_address == true"
+                v-show="selectedPaymentProvider.prompt_billing_address == true"
                 class="paymethod"
               >
                 <v-col cols="12" class="billingAddressMarginTop">
@@ -471,21 +471,21 @@
                 <v-col class="center" cols="12" sm="12" md="12">
                   
                   <button
-                    class="btn change-color"
+                    class="btn change-color primary-btn-color"
                     @click="showRequiredFields()"
-                    v-if="payButtonDisabled && selectedPaymentProvider.payment_provider_id == 4"
+                    v-show="payButtonDisabled && selectedPaymentProvider.payment_provider_id == 4"
                   >
                     {{ $t("payNow") }}
                   </button>
                   <button
-                    class="btn change-color"
+                    class="btn change-color primary-btn-color"
                     @click="showRequiredFields()"
-                    v-if="payButtonDisabled && selectedPaymentProvider.payment_provider_id == 0"
+                    v-show="payButtonDisabled && selectedPaymentProvider.payment_provider_id == 0"
                   >
                     {{ $t("payNow") }}
                   </button>
                   <button
-                    class="btn change-color"
+                    class="btn change-color primary-btn-color"
                     @click="checkout()"
                     v-show="selectedPaymentProvider.payment_provider_id == 0 && !payButtonDisabled"
                   >
@@ -499,7 +499,7 @@
                         !payButtonDisabled
                     "
                     type="button"
-                    class="AcceptUI btn change-color"
+                    class="AcceptUI btn change-color primary-btn-color"
                     data-billingAddressOptions='{"show":false, "required":false}'
                     :data-apiLoginID="authorizeLoginId"
                     :data-clientKey="authorizeClientKey"
@@ -614,10 +614,10 @@ export default {
     },
     total: 0,
     carouselIndex:0,
-    arrowLeftClass:"v-icon notranslate mdi mdi-chevron-left theme--light custom-color",
-    arrowRightClass:"v-icon notranslate mdi mdi-chevron-right theme--light custom-color",
-    arrowLeftClassDisabled:"v-icon notranslate mdi mdi-chevron-left theme--light disabledArrow",
-    arrowRightClassDisabled:"v-icon notranslate mdi mdi-chevron-right theme--light disabledArrow",
+    arrowLeftClass:"v-icon notranslate mdi mdi-chevron-left theme--light custom-color-arrow",
+    arrowRightClass:"v-icon notranslate mdi mdi-chevron-right theme--light custom-color-arrow",
+    arrowLeftClassDisabled:"v-icon notranslate mdi mdi-chevron-left theme--light disabledArrow custom-color-arrow",
+    arrowRightClassDisabled:"v-icon notranslate mdi mdi-chevron-right theme--light disabledArrow custom-color-arrow",
     grandTotalCurrencyCode:"",
     grandTotalCurrencySymbol:"",
     panel: [0, 1, 2, 3],
@@ -637,7 +637,7 @@ export default {
     onLoadingAttraction:false,
     onLoadingOrderUpdate:false,
     onLoadingCheckout:false,
-    selectedPaymentProviderActiveClass:"btn active-payment-provider",
+    selectedPaymentProviderActiveClass:"btn primary-btn-color",
     customer_first_name: "",
     customer_last_name: "",
     customer_email: "",
@@ -666,6 +666,8 @@ export default {
     authorizeClientKey:"",
     paypalClientInfo:"",
     showPaypalButton:false,
+    textColor:"",
+    primaryColor:""
   }),
   components: { Detail, LocalErrorShow },
   methods: {
@@ -856,7 +858,7 @@ export default {
       }
     },
     getInfoFromSelectedPaymentProvider(index) {
-      console.log(index)
+     
       this.paymentProviders.forEach((data, paymentProviderIndex) => {
         if (index == paymentProviderIndex) {
           this.selectedPaymentProvider = data;
@@ -866,6 +868,8 @@ export default {
       if(this.selectedPaymentProvider.payment_provider_id == 26){
         this.showRequiredFields()
       }
+      
+
     },
     async getPaymentProviders() {
       let res = await this.$axios.post("checkout/payment-providers", {
@@ -1118,6 +1122,11 @@ export default {
       });
       let res = await this.$axios.get("products/nearby/" + itemIdArray[0]);
       this.nearbyProducts = res.data;
+      
+      if(process.browser){
+        $(".custom-color-arrow").css("color", this.primaryColor)
+      }
+
     },
     async getConfig() {
       let config = await this.$axios.get("configcms");
@@ -1135,34 +1144,37 @@ export default {
       if (config.data.color) {
         if (process.browser) {
           localStorage.setItem("color", config.data.color);
+          this.primaryColor = config.data.color
+          
         }
       }
       if (config.data.textColor) {
         if (process.browser) {
+          this.textColor = config.data.textColor
           localStorage.setItem("textColor", config.data.textColor);
         }
       }
     }
   },
-  async created() {
-    
+  async created() { 
+    await this.getConfig();
     await this.getItems();
     this.nearbyProductsFetch();
     if (this.order) {
       await this.getPaymentProviders();
       this.loadLibraries();
     }
-    this.getConfig();
+    
     if (process.browser) {
-      let color = localStorage.getItem("color");
-      let textColor = localStorage.getItem("textColor");
-      if (color) {
-        $(".change-color").css("background", color);
-      }
-      if (textColor) {
+
+        $(".change-color").css("background", this.primaryColor);
+        $(".btn-borde").css("border-color", this.primaryColor);
+        $(".btn-borde").css("color", this.primaryColor)
+        $(".primary-btn-color").css("background", this.primaryColor)
+
         
-        $(".change-text-color").css("color", textColor)
-      }
+        $(".change-text-color").css("color", this.textColor)
+      
     }
   },
   mounted() {
@@ -1540,7 +1552,6 @@ button:disabled {
   background: #b9b9b9 !important;
 }
 .btn {
-  background: #ef1856;
   color: #fff;
   min-width: auto;
   border-radius: 9px !important;
@@ -1580,7 +1591,7 @@ width: 100%;
 .btn-borde{
       border: 1px solid;
     background: transparent!important;
-    color: #ef1856!important;
+    color: #ef1856;
 }
 .main-form{
   margin-top: 5rem;
@@ -1816,8 +1827,8 @@ width: 104px;
   }
 }
 
-.custom-color{
-  color: #ef1856!important;
+.custom-color-arrow{
+  color: #ef1856;
 }
   
  .slick-custom{
@@ -1843,5 +1854,9 @@ h3{
     top: 47%;
     right: -9px;
     font-size: 3.5rem!important;
+ }
+
+ .btn-inactiveClass{
+   background-color: #989898 !important;
  }
 </style>

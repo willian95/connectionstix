@@ -54,7 +54,7 @@
                 </h3>
               </div>
 
-              <no-ssr>
+              <client-only v-show="productsShow">
                 <isotope
                   class="mix-grid"
                   ref="projects"
@@ -95,7 +95,7 @@
                               "
                               >{{ $t("moreInfo") }}</NuxtLink
                             >-->
-                            <span>{{ $t("moreInfo") }}</span>
+                            <span class="primary-color">{{ $t("moreInfo") }}</span>
                           </div>
                         </div>
                       </div>
@@ -104,7 +104,7 @@
                             >
                   </div>
                 </isotope>
-              </no-ssr>
+              </client-only>
             </div>
           </div>
         </div>
@@ -134,7 +134,10 @@ export default {
       country:"",
       province:"",
       city:"",
-      isSafari:false
+      isSafari:false,
+      primaryColor:"",
+
+      productsShow:false
     };
   },
 
@@ -156,6 +159,7 @@ export default {
     async getAllProducts() {
       let res = await this.$axios.get("products/all");
       this.projects = res.data;
+      $(".primary-color").css("color", this.primaryColor)
     },
     async getFilteredProducts(countryCode, state, city, isClicked = false) {
 
@@ -164,6 +168,8 @@ export default {
       this.city = city
       this.tagName = "See All"
       this.selectedTag = 0
+
+      this.productsShow = false
 
       await this.getTags(city)
       this.getProductsByTag(this.selectedTag, this.tagName)
@@ -193,11 +199,22 @@ export default {
         }, 2000);
         }, 500)
       }
+
+      if(process.browser){
+
+        window.setTimeout(() => {
+          $(".primary-color").css("color", this.primaryColor)
+        }, 100)
+
+      }
+
+      this.productsShow = true
       
 
     },
     async getProductsByTag(tag, tagName) {
-   
+      
+      this.productsShow = false
       let payload = {}
       this.showNoProductsMessage = false
 
@@ -215,15 +232,36 @@ export default {
 
       if (res.data.status.result_messages[0] == "OK") {
         this.projects = res.data.data.products;
+
+        
+
       } else {
         this.projects = []
         this.showNoProductsMessage = true
       }
+
+      if(process.browser){
+
+        window.setTimeout(() => {
+          $(".primary-color").css("color", this.primaryColor)
+        }, 100)
+
+      }
+
+      this.productsShow = true
+      
+
     },
     async getTags(cityCode) {
       let res = await this.$axios.get("tags/all?cityCode="+cityCode);
       this.tagList = res.data;
 
+      if(process.browser){
+        window.setTimeout(() => {
+          $(".v-icon").css("color", this.primaryColor)
+        }, 100)
+      }
+    
 
       //if(this.tagList.length == 0){
         this.getAllProducts()
@@ -234,15 +272,21 @@ export default {
       let config = await this.$axios.get("configcms");
       this.overlay = config.data.overlay;
 
+
       if (config.data.hero) {
         this.backImage = process.env.SERVER_URL + config.data.hero;
       }
+
+      this.primaryColor = config.data.color
 
       
       if(this.overlay == true){
         await this.getTags("")
         await this.getAllProducts()
       }
+
+      
+          
 
     }
   },

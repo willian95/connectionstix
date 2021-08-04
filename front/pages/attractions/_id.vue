@@ -15,49 +15,6 @@
     <!-------------------------------------------------->
     <v-container class="mt-5" v-if="images.length > 1">
 
-       <!--<div class="content-mix-detail">
-            <div class="row">
-              <div class="col-md-12 ">
-                <v-slide-group
-                  class="list-unstyled mb-0"
-                  mobile-break-point="1000"
-                  center-active
-                  show-arrows
-                >
-                  <v-btn
-                    class="mx-2"
-                    active-class="purple white--text"
-                    depressed
-                    rounded
-                  ></v-btn>
-                  <v-slide-item
-                    class="mb-3"
-                  v-for="(slide, i) in nearby"
-                    :key="'nearby-' + i"
-                  >
-                    <NuxtLink class="no-underline" :to="{ path: '/attractions/'+slide.product_id }"
-                      >
-                      <v-card class="ma-4 card-slide_events">
-                          <v-img contain :src="slide.thumbnail"></v-img>
-                        <v-card-text>
-                          <h3 class="no-underline">{{ slide.product_name }}</h3>
-                          <div v-if="slide.pricing">
-                            <p v-for="(price, index) in slide.pricing.prices" v-bind:key="index">
-                            {{ slide.pricing.currency_symbol }} {{ price.current_price }} {{ slide.pricing.currency_code }} / {{ price.price_type_name }}
-                          </p>
-                          </div>
-                          <div class="txt-star">
-                            {{ $t('moreInfo') }}
-                          </div>
-                        </v-card-text>
-                      </v-card>
-                    </NuxtLink>
-                  </v-slide-item>
-                </v-slide-group>
-              </div>
-            </div>
-          </div>-->
-
       <CoolLightBox 
         :items="images" 
         :index="lightboxIndex"
@@ -126,7 +83,7 @@
                             {{ slide.pricing.currency_symbol }} {{ price.current_price }} {{ slide.pricing.currency_code }} / {{ price.price_type_name }}
                           </p>
                           </div>
-                          <div class="txt-star">
+                          <div class="txt-star primary-color">
                             {{ $t('moreInfo') }}
                           </div>
                         </v-card-text>
@@ -175,6 +132,7 @@ export default {
     nextDateAvailable:"",
     pricing:[],
     nearby:[],
+    primaryColor:"",
     lightboxIndex:null,
     minimunHeight:[]
   }),
@@ -231,6 +189,16 @@ export default {
       let res = await this.$axios.get("products/nearby/"+id)
       this.nearby = res.data ? res.data : []
 
+      if(process.browser){
+
+        window.setTimeout(() => {
+        
+          $(".v-icon").css("color", this.primaryColor)
+          $(".primary-color").css("color", this.primaryColor)
+        }, 100)
+
+      }
+
     },
     async getConfig(){
 
@@ -249,10 +217,10 @@ export default {
       }
 
       if(config.data.color){
-        if(process.browser){
-          localStorage.setItem("color", config.data.color)
-        }
+        this.primaryColor = config.data.color
       }
+
+
       
     }
     
@@ -538,7 +506,7 @@ height: 30vh;
   }
 
   .mdi-chevron-left {
-       color: #ef1856 !important;
+    color: #ef1856;
     position: absolute;
     left: -3rem;
     z-index: 1;
@@ -547,7 +515,7 @@ height: 30vh;
   }
  
   .mdi-chevron-right {
-    color: #ef1856 !important;
+    color: #ef1856;
     position: absolute;
     right: 0;
     z-index: 1;

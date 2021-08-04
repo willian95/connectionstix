@@ -12,3 +12,10 @@
         props: ['errors', "name"],
     }
 </script>
+
+<style>
+    .text-danger{
+        color: red;
+    }
+
+</style>

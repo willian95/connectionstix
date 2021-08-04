@@ -7,7 +7,7 @@
             <div class="content-modal_bg">
               <div class="modal-table">
                 <div class="content-slider_date">
-                  <button :class="disabledPrev ? prevDisabledLinkClass : 'btn'" @click="substractDay()" :disabled="disabledPrev"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+                  <button :class="disabledPrev ? prevDisabledLinkClass : 'btn primary-btn-color'" @click="substractDay()" :disabled="disabledPrev"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
                 <div class="date-custom">
                   <img src="~assets/images/iconos/calendar.png" alt="" />
                   <date-picker
@@ -17,11 +17,11 @@
                     @selected="testFunction()"
                   />
                 </div>
-                <button class="btn" @click="addDay()"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                <button class="btn primary-btn-color" @click="addDay()"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
                 </div>
                 <table style="width: 100%">
                 <thead>
-                  <tr>
+                  <tr class="row-color">
                     <th class="th-start">{{ $t("fromDatetime") }}</th>
                     <th class="th-start">{{ $t("toDatetime") }}</th>
                   </tr>
@@ -65,8 +65,8 @@
               </button>
              
             </div>
-             <div class="btn-modal">
-                <button class="btn" @click="chooseDate()">
+             <div class="btn-modal ">
+                <button class="btn primary-btn-color" @click="chooseDate()">
                   {{ $t("chooseDate") }}
                 </button>
               </div>
@@ -339,13 +339,16 @@ export default {
       selectedAvailableDate: "",
       fromDate: "",
       onLoadingBook: false,
+      primaryColor:"",
+      secondaryColor:"",
+      textColor:"",
       headers: [
         { text: "From", value: "from_datetime", sortable: false },
         { text: "To", value: "to_datetime", sortable: false }
       ],
       availableDates: [],
       disabledPrev:true,
-      prevDisabledLinkClass:"btn prevDisabledLink",
+      prevDisabledLinkClass:"btn prevDisabledLink primary-btn-color",
     };
   },
   methods: {
@@ -673,18 +676,13 @@ export default {
         this.backImage = process.env.SERVER_URL + config.data.hero;
       }
 
-      if(config.data.color){
-        if(process.browser){
-          $(".change-color").css("background", config.data.color);
-        }
-      }
+      this.primaryColor = config.data.color
+      this.secondaryColor = config.data.textColor
 
-      if(config.data.textColor){
-        if(process.browser){
-          $(".change-font-color").css("color",  config.data.textColor);
-        }
-      }
-    
+      $(".change-color").css("background", this.primaryColor);
+      $(".primary-btn-color").css("background", this.primaryColor);
+      $(".primary-btn-color").css("color", this.secondaryColor);
+      $(".row-color").css("background", this.primaryColor)
 
     }
   },
@@ -698,6 +696,11 @@ export default {
         });
       });
 
+      if(process.browser){
+        window.setTimeout(() => {
+          $(".change-color").css("background", this.primaryColor);
+        }, 100)
+      }
 
     },
     nextDateAvailable: function(newVal, oldVal) {
@@ -709,15 +712,7 @@ export default {
     this.date_from = new Date()
     this.date_show = new Date()
     this.getConfig()
-    /*if (process.browser) {
-    
-      let color = localStorage.getItem("color");
 
-      if (color) {
-        $(".change-color").css("background", color);
-      }
-
-    }*/
   }
 };
 </script>
