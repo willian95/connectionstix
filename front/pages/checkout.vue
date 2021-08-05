@@ -1318,6 +1318,8 @@ export default {
     .flex {
       display: flex;
       flex-direction: initial;
+      justify-content: flex-start;
+      text-align: start;
       @include respond-to(xs) {
         justify-content: start;
       }
@@ -1332,13 +1334,14 @@ export default {
       display: flex;
       align-items: center;
     }
+ 
     .main-min {
       display: grid;
       margin-bottom: 1rem;
       grid-template-columns: 1fr 1fr;
         a{
         color: #f02d65;
-    text-decoration: none;
+        text-decoration: none;
       }
       @include respond-to(xs) {
            margin-top: 1rem;
@@ -1380,6 +1383,13 @@ export default {
         }
       }
     }
+       .main-min_dates{
+  grid-template-columns: 1fr;
+  h4{
+    margin-bottom: .6rem;
+font-weight: initial;
+  }
+}
     .trash-icon {
       width: 20px;
       height: 25px;

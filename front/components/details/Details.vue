@@ -1339,7 +1339,7 @@ font-size: .7rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
      @include respond-to(xs) {
  margin-bottom: 1rem;
   p{

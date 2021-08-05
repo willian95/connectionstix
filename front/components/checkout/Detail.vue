@@ -21,7 +21,7 @@
           </div>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="4" md="4">
+      <v-col class="flex-customs" cols="12" sm="4" md="4">
         <v-card class="pa-2" outlined tile>
           <div class="main-min" v-for="(amount, index) in amounts" :key="index">
             <div class="flex">
@@ -38,12 +38,8 @@
             </div>
           </div>
         </v-card>
-      </v-col>
-      <v-col cols="12" sm="3" md="3">
-        
-
-        <v-card class="pa-2" outlined tile>
-          <div class="main-min" v-if="cancellationPolicy">
+        <div>
+              <div class="main-min main-min_dates" v-if="cancellationPolicy">
             <button class="flex" @click="showCancellationPolicyModal(cancellationPolicy)">
               <img class="" src="~assets/images/iconos/info.png" alt="" />
               <p>{{ $t('cancellationPolicy') }}</p>
@@ -57,7 +53,37 @@
               </button>
             </NuxtLink>
           </div>
+        </div>
+      </v-col>
+      <v-col class="flex-customs-xs" cols="12" sm="3" md="3">
+        <v-card class="pa-2" outlined tile>
+         <div class="main-min main-min_dates" >
+            <h4>Departure</h4>
+            <div class="flex" >
+              <img class="" src="~assets/images/iconos/arrow1.png" alt="" />
+              <p>11/22/2021</p>
+            </div>
+               <div class="flex" >
+              <img class="" src="~assets/images/iconos/reloj.png" alt="" />
+              <p>2:00 PM</p>
+            </div>
+          </div>
+
+          <div class="main-min main-min_dates" >
+                <h4>Return</h4>
+            <div class="flex" >
+              <img class="" src="~assets/images/iconos/arrow1.png" alt="" />
+              <p>11/22/2021</p>
+            </div>
+               <div class="flex" >
+              <img class="" src="~assets/images/iconos/reloj.png" alt="" />
+              <p>2:00 PM</p>
+            </div>
+          </div>
+
+        
         </v-card>
+        
       </v-col>
       <v-col cols="12" sm="1" md="1">
         <v-card
@@ -524,4 +550,16 @@ width: 100%;
   .modal-window div:not(:last-of-type) {
     margin-bottom: 15px;
   }
+  .flex-customs{
+  display: flex;
+flex-direction: column;
+align-items: center;
+}
+   @include respond-to(xs) {
+ .flex-customs-xs{
+  display: flex;
+flex-direction: column;
+align-items: center;
+}
+   }
 </style>
