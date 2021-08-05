@@ -70,7 +70,10 @@ export default {
     zipCodeRequired:"Código postal es requerido",
     countryRequired:"País es requerido",
     "wait":"Por favor, espere",
-    "minimunHeight": "Altura mínima"
+    "minimunHeight": "Altura mínima",
+
+    "departure":"Salida",
+    "return":"Regreso"
 
 
 }

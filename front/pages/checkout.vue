@@ -78,6 +78,8 @@
                 :checkUpdatedItems="checkUpdatedItems"
                 :cancellationPolicy="item.cancellation_policy"
                 :checkDiscountCode="checkDiscountCode"
+                :fromDatetime="item.from_datetime"
+                :toDatetime="item.to_datetime"
               />
             </div>
             

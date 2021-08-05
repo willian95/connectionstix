@@ -70,7 +70,10 @@ export default {
     zipCodeRequired:"ZIP/Postal code is required",
     countryRequired:"Country is required",
     "wait":"Please wait",
-    "minimunHeight": "Minimun Height"
+    "minimunHeight": "Minimun Height",
+
+    "departure":"Departure",
+    "return":"Return"
 
 
 }

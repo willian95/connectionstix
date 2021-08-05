@@ -57,27 +57,27 @@
       </v-col>
       <v-col class="flex-customs-xs" cols="12" sm="3" md="3">
         <v-card class="pa-2" outlined tile>
-         <div class="main-min main-min_dates" >
-            <h4>Departure</h4>
+         <div class="main-min main-min_dates" v-if="fromDatetime  != null">
+            <h4>{{ $t('departure') }}</h4>
             <div class="flex" >
               <img class="" src="~assets/images/iconos/arrow1.png" alt="" />
-              <p>11/22/2021</p>
+              <p>{{ dateString(fromDatetime.date)  }}</p>
             </div>
                <div class="flex" >
               <img class="" src="~assets/images/iconos/reloj.png" alt="" />
-              <p>2:00 PM</p>
+              <p>{{ fromDatetime.time }} {{ fromDatetime.ampm }}</p>
             </div>
           </div>
 
-          <div class="main-min main-min_dates" >
-                <h4>Return</h4>
+          <div class="main-min main-min_dates" v-if="toDatetime != null">
+                <h4>{{ $t('return') }}</h4>
             <div class="flex" >
               <img class="" src="~assets/images/iconos/arrow1.png" alt="" />
-              <p>11/22/2021</p>
+              <p>{{ dateString(toDatetime.date) }}</p>
             </div>
                <div class="flex" >
               <img class="" src="~assets/images/iconos/reloj.png" alt="" />
-              <p>2:00 PM</p>
+              <p>{{ toDatetime.time }} {{ toDatetime.ampm }}</p>
             </div>
           </div>
 
@@ -148,7 +148,9 @@ export default {
     "productId",
     "discountEnabled",
     "discountCodeProp",
-    "checkDiscountCode"
+    "checkDiscountCode",
+    "fromDatetime",
+    "toDatetime"
   ],
   data() {
     return {
@@ -362,7 +364,24 @@ export default {
       }
     
 
-    }
+    },
+
+    dateString(date){
+
+      let year = date.substring(0, 4)
+      let month = date.substring(5, 7)
+      let day = date.substring(8, 10)
+
+      let hour = date.substring(11, 16)
+
+      if(this.$i18n.locale == "en"){
+        return month+"-"+day+"-"+year
+      }else{  
+        return day+"-"+month+"-"+year
+      }
+      
+
+    },
     
   },
   created() {
