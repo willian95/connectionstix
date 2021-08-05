@@ -10,6 +10,7 @@ export class ConfigcmsService {
             let configcmsModel = new Configcms
             configcmsModel.color = configcms.color
             configcmsModel.textColor = configcms.textColor
+            configcmsModel.iconColor = configcms.iconColor
             configcmsModel.overlay = configcms.overlay ? configcms.overlay : 0
             if(configcms.hero != ""){
                 configcmsModel.hero = configcms.hero
@@ -26,6 +27,8 @@ export class ConfigcmsService {
                 configcmsModel.footerLogo = configcms.footerLogo
             }
 
+            
+
             await configcmsModel.save()
 
         }else{
@@ -34,6 +37,7 @@ export class ConfigcmsService {
 
             configcmsModel.color = configcms.color
             configcmsModel.textColor = configcms.textColor
+            configcmsModel.iconColor = configcms.iconColor
             configcmsModel.overlay = configcms.overlay ? configcms.overlay : 0
             if(configcms.hero != ""){
                 configcmsModel.hero = configcms.hero

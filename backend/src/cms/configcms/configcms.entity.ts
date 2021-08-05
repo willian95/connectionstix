@@ -53,4 +53,10 @@ import {
     @UpdateDateColumn()
     updatedAt: Date;
 
+    @Column({
+      default: "magenta"
+    })
+    iconColor: string
+
+
   }

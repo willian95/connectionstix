@@ -62,6 +62,25 @@
                                         
                                     </div>
                                     <!--end::Items-->
+
+                                    <!--begin::Items-->
+                                    <div>
+                                        <div class="row row-paddingless mb-10">
+                                            <div class="col-12">
+                                                <div class="form-group form-check">
+                                                    <label class="form-check-label" for="overlay">Color icons</label>
+                                                    <select class="form-control" v-model="iconColor">
+                                                        <option value="magenta">Magenta</option>
+                                                        <option value="black">Black</option>
+                                                    </select>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    <!--end::Items-->
                                 </div>
                                 <!--end::Body-->
                             </div>
@@ -272,6 +291,8 @@
                 footerLogoProgress:0,
                 footerLogoStatus:"",
                 footerOnLoadingLogo:false,
+
+                iconColor:"",
             }
         },
         methods:{
@@ -522,7 +543,8 @@
                     footerLogo: this.footerFinalLogoName,
                     color: this.primaryColor,
                     textColor: this.textColor,
-                    overlay: this.overlay
+                    overlay: this.overlay,
+                    iconColor: this.iconColor
                 })
 
                 if(res.data.success == true){
@@ -551,6 +573,7 @@
                 this.secondLogoPreview = config.data.secondaryLogo ? process.env.SERVER_URL+config.data.secondaryLogo : ''
                 this.footerLogoPreview = config.data.footerLogo ? process.env.SERVER_URL+config.data.footerLogo : ''
                 this.overlay = config.data.overlay
+                this.iconColor = config.data.iconColor
             }
 
         },
