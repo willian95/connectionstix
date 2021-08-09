@@ -1,5 +1,5 @@
 
-  
+
 <template>
   <div>
     <div class="paymentDimmer" v-show="onLoadingPay">
@@ -13,7 +13,7 @@
           ></v-progress-circular>
          </center>
         </div>
-        
+
       </div>
 
     </div>
@@ -23,17 +23,17 @@
       <Navbar :transparent="false"></Navbar>
       </client-only>
     </v-app>
-    
+
     <!------------------------------------>
-    
-    
+
+
     <div class="container main-checkout">
       <client-only>
 
-        
+
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple v-show="renderPage">
         <v-expansion-panel>
-          
+
             <v-expansion-panel-header class="change-color"
             ><img
               class="icon-arrow"
@@ -42,22 +42,22 @@
             />
             {{ $t("reviewSelectedAttractions") }}
             </v-expansion-panel-header>
-          
+
 
           <v-expansion-panel-content>
             <center>
 
-  
+
                 <v-progress-circular
                   v-show="onLoadingAttraction"
                   indeterminate
                   color="primary"
                 ></v-progress-circular>
 
-        
+
             </center>
-            
-  
+
+
 
             <div v-for="(item, index) in items" :key="'item-' + item.item_id">
               <Detail
@@ -82,7 +82,7 @@
                 :toDatetime="item.to_datetime"
               />
             </div>
-            
+
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -99,9 +99,9 @@
           >
 
           <v-expansion-panel-content>
-          
+
               <!--<v-sheet class="mt-5 mx-auto slide_events" elevation="8">
-                
+
                 <v-slide-group
                   mobile-break-point="1000"
                   show-arrows
@@ -201,9 +201,9 @@
               </v-sheet>-->
 
                 <client-only>
-                  
+
                   <VueSlickCarousel v-bind="settings"  ref="nearbyProductCarousel" v-if="nearbyProducts.length" @afterChange="afterChange">
-                    
+
                     <div v-for="(slide, i) in nearbyProducts" :key="i">
                       <NuxtLink
                         class="no-underline"
@@ -219,18 +219,18 @@
                       </NuxtLink>
                     </div>
 
-                    
+
 
                   </VueSlickCarousel>
                   <i aria-hidden="true" @click="showPrev()" :class="carouselIndex == 0 ? arrowLeftClassDisabled : arrowLeftClass" style="cursor: pointer;"></i>
                   <i v-if="width > 600" aria-hidden="true" @click="showNext()" :class="carouselIndex >= nearbyProducts.length - 3 ? arrowRightClassDisabled : arrowRightClass" style="cursor: pointer;"></i>
                   <i v-else aria-hidden="true" @click="showNext()" :class="carouselIndex == nearbyProducts.length ? arrowRightClassDisabled : arrowRightClass" style="cursor: pointer;"></i>
-                  
+
 
                 </client-only>
 
-             
-       
+
+
           </v-expansion-panel-content>
         </v-expansion-panel>
         <!------------Billing info----------------->
@@ -248,10 +248,10 @@
                   <v-col class="line" cols="12" sm="12" md="6">
                 <v-row class="" v-show="isGrandTotalDiscountEnabled">
                   <v-col  cols="12" sm="12" md="12">
-                    
+
                     <v-text-field
                       :label='$t("discountCode")'
-                     
+
                       outlined
                       v-model="discountCode"
                     ></v-text-field>
@@ -265,7 +265,7 @@
                       color="primary"
                     ></v-progress-circular>
                   </v-col>
-                 
+
                 </v-row>
               </v-col>
               <v-col class="center" cols="12" sm="12" md="6">
@@ -289,21 +289,21 @@
                       <button class="color btn btn-borde" @click="checkCanContinueShopping()">
                         {{ $t("continueShopping") }}
                       </button>
-                      
+
                     </div>
                   </v-col>
                 </v-row>
               </v-col>
-          
+
             </v-row>
 
             <div class="main-form" v-show="showCheckout">
               <v-row>
                 <v-col cols="12" sm="12" md="4">
-                  
+
                   <v-text-field
                     :label='"* "+$t("firstName")'
-                   
+
                     outlined
                     v-model="customer_first_name"
                   ></v-text-field>
@@ -313,7 +313,7 @@
 
                   <v-text-field
                     :label='"* "+$t("lastname")'
-                   
+
                     outlined
                     v-model="customer_last_name"
                   ></v-text-field>
@@ -322,7 +322,7 @@
                 <v-col cols="12" sm="12" md="4">
                   <v-text-field
                     :label='"* "+$t("email")'
-                   
+
                     outlined
                     v-model="customer_email"
                   ></v-text-field>
@@ -333,7 +333,7 @@
                   <label style="opacity: 0;" for="">* {{ $t("phone") }}</label>
                   <v-text-field
                     :label='"* "+$t("phone")'
-                   
+
                     outlined
                     v-model="phone"
                     @keypress="isNumber($event)"
@@ -351,18 +351,18 @@
                 </v-col>
               </v-row>
               <!--<v-row>
-              
+
               </v-row>--->
               <v-row class="paymethod" v-show="showCheckout">
-             
-             
+
+
                 <v-col cols="12">
                   <h3 class="title-custom">{{ $t("paymentMethod") }}</h3>
                 </v-col>
                   <v-col cols="12" sm="4" md="4" v-for="(paymentProvider, index) in paymentProviders" :key="'paymentProviders-' + index">
                     <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn btn-inactiveClass primary-btn-color'" @click="getInfoFromSelectedPaymentProvider(index)" v-show="paymentProvider.payment_provider_id == 4 || paymentProvider.payment_provider_id == 0">
                         <fa v-show="paymentProvider.payment_provider_id == 4" :icon="['fas','credit-card']" class="mr-1"></fa>
-                        
+
                         <fa v-show="paymentProvider.payment_provider_id == 0" :icon="['fas','flask']" class="mr-1"></fa>
                         {{
                           paymentProvider.payment_provider_name ==
@@ -389,9 +389,9 @@
                       >
                       </paypal-checkout>
                     </div>
-                    
+
                   </v-col>
-               
+
               </v-row>
               <v-row
                 v-show="selectedPaymentProvider.prompt_billing_address == true"
@@ -401,12 +401,12 @@
                   <h3 class="title-custom">{{ $t("billingAddress") }}</h3>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
-                  
+
                   <v-text-field
-    
+
                     :label='"* "+$t("address1")'
                     :placeholder='"* "+$t("address1")'
-                    
+
                     outlined
                     v-model="address_line1"
                   ></v-text-field>
@@ -416,10 +416,10 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
-                 
+
                   <v-text-field
                     :label='$t("address2")'
-                   
+
                     outlined
                     v-model="address_line2"
                   ></v-text-field>
@@ -427,17 +427,17 @@
                 <v-col cols="12" sm="12" md="4">
                   <v-text-field
                      :label='"* "+$t("city")'
-                   
+
                     outlined
                     v-model="city"
                   ></v-text-field>
                   <LocalErrorShow :errors="localErrors" :name="'city'" />
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
-                  
+
                   <v-text-field
                     :label='"* "+$t("provinceState")'
-                   
+
                     outlined
                     v-model="province_state"
                   ></v-text-field>
@@ -449,10 +449,10 @@
                 <v-col cols="12" sm="12" md="4">
                   <v-text-field
                     :label='"* "+$t("postalCode")'
-                   
+
                     outlined
                     v-model="postal_zip_code"
-                   
+
                   ></v-text-field>
                   <LocalErrorShow
                     :errors="localErrors"
@@ -462,7 +462,7 @@
                 <v-col cols="12" sm="12" md="4">
                   <v-text-field
                     :label='"* "+$t("country")'
-                   
+
                     outlined
                     v-model="country"
                   ></v-text-field>
@@ -471,7 +471,7 @@
               </v-row>
               <v-row class="paymethod" v-show="showCheckout  && !onLoadingCheckout">
                 <v-col class="center" cols="12" sm="12" md="12">
-                  
+
                   <button
                     class="btn change-color primary-btn-color"
                     @click="showRequiredFields()"
@@ -493,7 +493,7 @@
                   >
                     {{ $t("payNow") }}
                   </button>
-                 
+
                   <button
                      @click="scrollToTop()"
                     v-show="
@@ -512,7 +512,7 @@
                   >
                     {{ $t("payNow") }}
                   </button>
-          
+
                 </v-col>
               </v-row>
               <!--<center v-show="onLoadingCheckout">
@@ -539,7 +539,7 @@ export default {
   computed: {
     payButtonDisabled() {
       var regex = /\S+@\S+\.\S+/;
-      
+
       if (this.selectedPaymentProvider.prompt_billing_address == true) {
         if (
           this.customer_first_name == "" ||
@@ -565,7 +565,7 @@ export default {
           this.requestForUpdate == true ||
           !regex.test(this.customer_email)
         ) {
-          
+
           return true;
         }
       }
@@ -573,7 +573,7 @@ export default {
     },
     paypalButtonDisabled() {
       var regex = /\S+@\S+\.\S+/;
-      
+
       if (
         this.customer_first_name == "" ||
         this.customer_last_name == "" ||
@@ -582,10 +582,10 @@ export default {
         this.requestForUpdate == true ||
         !regex.test(this.customer_email)
       ) {
-        
+
         return true;
       }
-      
+
       return false;
     }
   },
@@ -696,23 +696,23 @@ export default {
       this.$refs.nearbyProductCarousel.next()
     },
     showPrev() {
-      
+
       this.$refs.nearbyProductCarousel.prev()
-      
+
     },
     payResponse(response) {
-     
+
       var index = 0
       this.paymentProviders.forEach((data, paymentProviderIndex) => {
         if (data.payment_provider_id == 26) {
           index = paymentProviderIndex
         }
       });
-      
+
       if(this.selectedPaymentProvider.payment_provider_id == 26){
         this.getInfoFromSelectedPaymentProvider(index)
       }
-      
+
       if (this.checkoutCount == 0) {
         this.onLoadingPay = true
         this.payButtonDisabled = true
@@ -720,12 +720,12 @@ export default {
           opaque_data_descriptor: response.opaqueData.dataDescriptor,
           opaque_data_value: response.opaqueData.dataValue
         };
-        
+
         this.checkout();
         this.checkoutCount++;
       }
     },
-    
+
     checkDiscountCode(itemId, discountCode){
       this.newDiscountCodes.forEach((data, index) => {
         if(data.item == itemId){
@@ -787,14 +787,14 @@ export default {
     async getTotal() {
       let res = await this.$axios.get("orders/totals/" + this.order);
       this.total = res.data.grand_total;
-      this.discountCode = res.data.discounts.length > 0 ? res.data.discounts[0].discount_code : '' 
+      this.discountCode = res.data.discounts.length > 0 ? res.data.discounts[0].discount_code : ''
       this.isGrandTotalDiscountEnabled = res.data.discounts_enabled
       this.grandTotalCurrencyCode = res.data.currency_code
       this.grandTotalCurrencySymbol = res.data.currency_symbol
     },
     setShowCheckout() {
       if (this.requestForUpdate == true || this.discountCodeRequestForUpdate == true) {
-        
+
         this.$swal({
           text: this.$t("oneOrMoreItemsUpdate"),
           icon: "error"
@@ -802,11 +802,11 @@ export default {
       }else{
         this.showCheckout = true;
       }
-      
+
     },
     checkCanContinueShopping(){
       if (this.requestForUpdate == true || this.discountCodeRequestForUpdate) {
-        
+
         this.$swal({
           text: this.$t("oneOrMoreItemsUpdate"),
           icon: "error"
@@ -860,17 +860,17 @@ export default {
       }
     },
     getInfoFromSelectedPaymentProvider(index) {
-     
+
       this.paymentProviders.forEach((data, paymentProviderIndex) => {
         if (index == paymentProviderIndex) {
           this.selectedPaymentProvider = data;
         }
       });
-      
+
       if(this.selectedPaymentProvider.payment_provider_id == 26){
         this.showRequiredFields()
       }
-      
+
 
     },
     async getPaymentProviders() {
@@ -888,7 +888,7 @@ export default {
         }
       })
       this.paymentProviders = res.data.data;
-      
+
     },
     setFields() {
       let request = null;
@@ -947,7 +947,7 @@ export default {
       });
     },
     showRequiredFields() {
-      this.localErrors = [];  
+      this.localErrors = [];
       var regex = /\S+@\S+\.\S+/;
       if (this.customer_first_name == "") {
         this.localErrors.push({
@@ -1009,16 +1009,16 @@ export default {
             message: this.$t("countryRequired")
           });
         }
-        
+
       }
     },
     scrollToTop(){
 
-   
+
         $('html, body').animate({
             scrollTop: 0
         }, 300);
-  
+
 
     },
     async checkout() {
@@ -1082,7 +1082,7 @@ export default {
       this.getInfoFromSelectedPaymentProvider(index)
     },
     paypalResponse(response) {
-      
+
       var index = 0
       this.paymentProviders.forEach((data, paymentProviderIndex) => {
         if (data.payment_provider_id == 26) {
@@ -1124,7 +1124,7 @@ export default {
       });
       let res = await this.$axios.get("products/nearby/" + itemIdArray[0]);
       this.nearbyProducts = res.data;
-      
+
       if(process.browser){
         $(".custom-color-arrow").css("color", this.primaryColor)
       }
@@ -1147,7 +1147,7 @@ export default {
         if (process.browser) {
           localStorage.setItem("color", config.data.color);
           this.primaryColor = config.data.color
-          
+
         }
       }
       if (config.data.textColor) {
@@ -1158,7 +1158,7 @@ export default {
       }
     }
   },
-  async created() { 
+  async created() {
     await this.getConfig();
     await this.getItems();
     this.nearbyProductsFetch();
@@ -1166,7 +1166,7 @@ export default {
       await this.getPaymentProviders();
       this.loadLibraries();
     }
-    
+
     if (process.browser) {
 
         $(".change-color").css("background", this.primaryColor);
@@ -1174,26 +1174,26 @@ export default {
         $(".btn-borde").css("color", this.primaryColor)
         $(".primary-btn-color").css("background", this.primaryColor)
 
-        
+
         $(".change-text-color").css("color", this.textColor)
-      
+
     }
   },
   mounted() {
     this.paypalEnv = process.env.PAYPAL_ENV;
-    
+
     if (process.browser) {
       let color = localStorage.getItem("color");
       let textColor = localStorage.getItem("textColor");
       if (color) {
         $(".change-color").css("background", color);
-        
+
       }
       if (textColor) {
         $(".change-text-color").css("color", textColor)
-        
+
       }
-      
+
     }
 
   },
@@ -1276,7 +1276,7 @@ export default {
     color: #fff;
   }
   .v-expansion-panel--active > .v-expansion-panel-header {
-    background: #ef1856;
+    background: #000;
     color: #fff;
     min-height: 45px;
     font-size: 1rem;
@@ -1336,7 +1336,7 @@ export default {
       display: flex;
       align-items: center;
     }
- 
+
     .main-min {
       display: grid;
       margin-bottom: 1rem;
@@ -1371,7 +1371,7 @@ export default {
           margin: 0 0.8rem;
         }
         .style-btn {
-          background: #ef1856;
+          background: #000;
           border-radius: 18%;
           height: 21px;
           width: 20px;
@@ -1413,7 +1413,7 @@ font-weight: initial;
       p {
         font-weight: 500;
       }
-    
+
     }
     .mt4 {
       margin-top: 1.4rem;
@@ -1434,7 +1434,7 @@ font-weight: initial;
     margin-bottom: 0;
     margin: 3rem 0;
     .mdi-chevron-left {
-      color: #ef1856 !important;
+      color: #000 !important;
       z-index: 1;
       top: 1rem;
       font-size: 5rem;
@@ -1442,10 +1442,10 @@ font-weight: initial;
       font-size: 5rem;
     }
     /*.mdi-chevron-left::before {
-      color: #ef1856;
+      color: #000;
     }*/
     .mdi-chevron-right {
-      color: #ef1856 !important;
+      color: #000 !important;
       z-index: 1;
       font-size: 5rem;
     }
@@ -1471,7 +1471,7 @@ font-weight: initial;
         font-weight: 500;
       }
       a {
-        color: #ef1856;
+        color: #000;
       }
     }
     .v-btn:not(.v-btn--round).v-size--default {
@@ -1499,7 +1499,7 @@ font-weight: initial;
   padding-left: 10px;
 }
 .active-payment-provider{
-  background-color:#989898!important; 
+  background-color:#989898!important;
 }
 .paymethod {
    @include respond-to(sm) {
@@ -1603,7 +1603,7 @@ width: 100%;
 .btn-borde{
       border: 1px solid;
     background: transparent!important;
-    color: #ef1856;
+    color: #000;
 }
 .main-form{
   margin-top: 5rem;
@@ -1624,10 +1624,10 @@ width: 100%;
 
 .content-mix-detail {
   padding: 0 0rem;
- 
+
   @include respond-to(xs) {
     padding: 0 0;
-  
+
     .mt-12 {
       margin-top: 23rem;
     }
@@ -1771,7 +1771,7 @@ margin: 1rem;
     span {
       font-size: 0.9rem;
       font-weight: 800;
-      color: #ef1856;
+      color: #000;
     text-decoration: underline;
     }
     a{
@@ -1789,8 +1789,8 @@ margin: 1rem;
     }
   }
   .text-success {
-    color: #ef1856;
-    border-bottom: 1px solid #ef1856;
+    color: #000;
+    border-bottom: 1px solid #000;
   }
   .img-icon {
     width: 100%;
@@ -1814,7 +1814,7 @@ margin: 1rem;
     align-items: center;
   }
   .v-icon.v-icon {
-    color: #ef1856;
+    color: #000;
     font-size: 5rem !important;
   }
   .v-slide-group__content {
@@ -1834,19 +1834,19 @@ width: 104px;
     text-align: start!important;
   }
   .txt-star{
-        color: #ef1856;
+        color: #000;
     text-decoration: underline;
   }
 }
 
 .custom-color-arrow{
-  color: #ef1856;
+  color: #000;
 }
-  
+
  .slick-custom{
-   
+
     margin: 1rem;
- 
+
 
     .v-responsive__content{
           height: 190px;

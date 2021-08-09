@@ -4,7 +4,7 @@
       <Navbar :transparent="false" :positionAbsolute="false"></Navbar>
     </client-only>
     <div >
-      <div class="details-img mb-5"> 
+      <div class="details-img mb-5">
         <img class="" :src="mainImage" alt="" v-show="!overlay"/>
         <div class="overlay" v-show="!overlay"></div>
         <div v-show="!overlay">
@@ -15,8 +15,8 @@
     <!-------------------------------------------------->
     <v-container class="mt-5" v-if="images.length > 1">
 
-      <CoolLightBox 
-        :items="images" 
+      <CoolLightBox
+        :items="images"
         :index="lightboxIndex"
         :effect="'fade'"
         @close="lightboxIndex = null">
@@ -141,7 +141,7 @@ export default {
     async getData(id){
 
       let res = await this.$axios.get("products/"+id)
-      
+
       this.mainImage = res.data.images[0]
       this.title = res.data.product_name
       this.images = res.data.images
@@ -163,11 +163,11 @@ export default {
       this.cancellationPolicy = res.data.cancellation_policy
       this.operationHours = res.data.hours_of_operation ? res.data.hours_of_operation : []
       this.duration = res.data.duration
-      let country = res.data.address.country ? res.data.address.country : '' 
+      let country = res.data.address.country ? res.data.address.country : ''
       let city = res.data.address.city ? res.data.address.city : ''
-      
+
       let state = res.data.address.province_state ? res.data.address.province_state : ''
-      let street1 = res.data.address.street_line_1 ? res.data.address.street_line_1 : '' 
+      let street1 = res.data.address.street_line_1 ? res.data.address.street_line_1 : ''
       let street2 = res.data.address.street_line_2 ? res.data.address.street_line_2 : ''
       let zipCode = res.data.address.postal_zip_code ? res.data.address.postal_zip_code : ''
 
@@ -192,7 +192,7 @@ export default {
       if(process.browser){
 
         window.setTimeout(() => {
-        
+
           $(".v-icon").css("color", this.primaryColor)
           $(".primary-color").css("color", this.primaryColor)
         }, 100)
@@ -210,7 +210,7 @@ export default {
       }
 
       if(config.data.logo){
-      
+
         if(process.browser){
           localStorage.setItem("logo",  process.env.SERVER_URL+config.data.logo)
         }
@@ -221,9 +221,9 @@ export default {
       }
 
 
-      
+
     }
-    
+
 
   },
   created(){
@@ -235,7 +235,7 @@ export default {
   },
   watch: {
     $route () {
-      
+
     }
   },
 };
@@ -245,10 +245,10 @@ export default {
 
 .content-mix-detail {
   padding: 0 0rem;
- 
+
   @include respond-to(xs) {
     padding: 0 0;
-  
+
     .mt-12 {
       margin-top: 23rem;
     }
@@ -392,7 +392,7 @@ margin: 1rem;
     span {
       font-size: 0.9rem;
       font-weight: 800;
-      color: #ef1856;
+      color: #000;
     text-decoration: underline;
     }
     a{
@@ -410,8 +410,8 @@ margin: 1rem;
     }
   }
   .text-success {
-    color: #ef1856;
-    border-bottom: 1px solid #ef1856;
+    color: #000;
+    border-bottom: 1px solid #000;
   }
   .img-icon {
     width: 100%;
@@ -435,7 +435,7 @@ margin: 1rem;
     align-items: center;
   }
   .v-icon.v-icon {
-    color: #ef1856;
+    color: #000;
     font-size: 5rem !important;
   }
   .v-slide-group__content {
@@ -458,7 +458,7 @@ width: 104px;
     text-align: start!important;
   }
   .txt-star{
-        color: #ef1856;
+        color: #000;
     text-decoration: underline;
   }
 }
@@ -506,16 +506,16 @@ height: 30vh;
   }
 
   .mdi-chevron-left {
-    color: #ef1856;
+    color: #000;
     position: absolute;
     left: -3rem;
     z-index: 1;
     top: 2rem;
     font-size: 5rem;
   }
- 
+
   .mdi-chevron-right {
-    color: #ef1856;
+    color: #000;
     position: absolute;
     right: 0;
     z-index: 1;
@@ -558,7 +558,7 @@ margin-top: 4rem;
           font-weight: 500;
     }
     a{
-      color: #ef1856;
+      color: #000;
     }
 }
 }

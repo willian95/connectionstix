@@ -14,7 +14,7 @@
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },
             ],
             link: [
-                { rel: 'stylesheet', href: '/cms/css/bootstrap.min.css' }, 
+                { rel: 'stylesheet', href: '/cms/css/bootstrap.min.css' },
             ]
         }
 
@@ -112,13 +112,13 @@
     .login_admin button {
         outline: none !important;
         border: none;
-          background: #EF1856;
+          background: #000;
         width: 114px;
 
         font-family: inherit !important;
     }
     .login_admin  .row {
-   
+
     margin: 0px;
 }
 
@@ -306,7 +306,7 @@
         border: none;
         border-radius: 0;
         margin-bottom: 10px;
-        border-bottom: 1px solid #EF1856;
+        border-bottom: 1px solid #000;
         border-radius: 0;
         visibility: hidden;
         opacity: 0;
@@ -398,7 +398,7 @@
         height: 18px;
         border-radius: 2px;
         background: #fff;
-        border: 1px solid #EF1856;
+        border: 1px solid #000;
         left: 0;
         top: 50%;
         -webkit-transform: translateY(-50%);
@@ -409,7 +409,7 @@
     }
 
     .input-checkbox100:checked+.label-checkbox100::before {
-        color: #EF1856;
+        color: #000;
     }
 
 
@@ -437,7 +437,7 @@
         width: 100%;
         height: 50px;
         border-radius: 10px;
-        background: #EF1856;
+        background: #000;
 
         font-family: Montserrat-Bold;
         font-size: 12px;
