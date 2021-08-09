@@ -2,7 +2,7 @@
   <client-only>
     <footer class="" id="footer" v-show="showFooter">
       
-        <div class="row ">
+        <div class="row">
           <div class="container">
             <div class="content-footer">
               <div class="center">
@@ -107,13 +107,13 @@
                 </ul>
               </div>
             </div>
+          </div>
 
           <div class="col-md-12">
             <v-card-text class="py-2 white--text text-center last">
               <strong>
                 Connections Tix Inc dba Playtime Tickets Copyright © {{ $t("allRightsReserved") }}
-                {{ new Date().getFullYear() }}</strong
-              >
+                {{ new Date().getFullYear() }}</strong>
             </v-card-text>
           </div>
         </div>
