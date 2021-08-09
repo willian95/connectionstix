@@ -54,7 +54,7 @@
                          </div>
                 </tbody>
               </table>
-        
+
 
               <button
                 title="Close"
@@ -63,7 +63,7 @@
               >
                 x
               </button>
-             
+
             </div>
              <div class="btn-modal ">
                 <button class="btn primary-btn-color" @click="chooseDate()">
@@ -163,7 +163,7 @@
       <v-col cols="12" sm="8" md="8">
         <v-card class="pa-2 card-shadows" outlined tile>
           <h3 class="title-custom">{{ title }}</h3>
-          
+
           <h3 class="title-custom" v-if="address != '  '">
             {{ $t("attractionAddress") }}
           </h3>
@@ -195,9 +195,9 @@
 
                 <p>{{ duration.length }} {{ duration.unit }}</p>
               </div>
-              
+
               <div v-if="minimunHeight.imperial || minimunHeight.metric">
-                
+
                 <h3 class="title-custom mt2">{{ $t("minimunHeight") }}</h3>
 
                 <ul >
@@ -206,11 +206,11 @@
                 </ul>
 
               </div>
-              
-              
+
+
 
             </v-col>
-            
+
           </v-row>
           <div class="descripon">
             <h3 class="title-custom" v-if="description">
@@ -233,36 +233,36 @@
             </ul>
 
             <div>
-              
+
               <h3 class="title-custom mt4" v-if="inclusions.length > 0">{{ $t("whatIncluded") }}</h3>
               <div >
                <ul class="know-info ">
                   <li
-                 
+
                   v-for="(inclusion, index) in inclusions"
                   :key="'inclusion-' + index"
                 >
                 <div class="item">
                      <img src="~assets/images/iconos/check.png" alt="" />
                     <div>
-                  
+
                     <p>{{ inclusion }}</p>
                   </div>
-               
+
                 </div>
                 </li>
                 <li
-                 
+
                   v-for="(exclusion, index) in exclusions"
                   :key="'exclusion-' + index"
                 >
                   <div class="item">
                       <img src="~assets/images/iconos/nocheck.png" alt="" />
                     <div >
-                      
+
                     <p>{{ exclusion }}</p>
                   </div>
-                
+
                     </div>
                 </li>
                </ul>
@@ -270,7 +270,7 @@
 
               <h3 class="title-custom mt4" v-if="knowBeforeYouGoChecklist.length > 0">{{ $t("knowBefore") }}</h3>
               <div class="know-info">
-                
+
                 <div
                   class="item"
                   v-for="(know, index) in knowBeforeYouGoChecklist"
@@ -359,7 +359,7 @@ export default {
         if((this.prices[res.priceIndex].amount + 1) <= process.env.MAX_AMOUNT){
           this.prices[res.priceIndex].amount = this.prices[res.priceIndex].amount + 1;
         }
-        
+
       }
 
       this.getTotal();
@@ -393,7 +393,7 @@ export default {
       this.disabledPrev = false
       var date = new Date(this.date_from);
       //date.setDate(date.getDate() + 1);
-      
+
       this.date_show = this.$dateFns.add(new Date(date.getFullYear(), date.getMonth(),  date.getDate()), {
         days: 1,
       })  //new Date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
@@ -405,26 +405,26 @@ export default {
     substractDay(){
 
       var date = new Date(this.date_show);
-      
+
       if(date < new Date()){
         this.disabledPrev = true
         var date = new Date();
         this.date_show = this.$dateFns.sub(new Date(date.getFullYear(), date.getMonth(),  date.getDate()), {
           days: 1,
-        })  
+        })
         this.availabilityCheck()
       }else{
         this.date_show = this.$dateFns.sub(new Date(date.getFullYear(), date.getMonth(),  date.getDate()), {
           days: 1,
-        })  
+        })
         this.availabilityCheck()
       }
 
-      
+
 
     },
     testFunctionMain(){
-      
+
       window.setTimeout(() => {
         let date = new Date(this.date_show);
         if(date < new Date()){
@@ -433,7 +433,7 @@ export default {
           window.setTimeout(() => {
             this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
           }, 200)
-          
+
         }else{
 
           this.disabledPrev = false
@@ -442,24 +442,24 @@ export default {
       }, 200)
     },
     testFunction(){
-     
+
 
       window.setTimeout(() => {
-        
+
         let todayDate = new Date()
         let date = new Date(this.date_from);
 
-        
+
 
         if(date < todayDate){
           this.disabledPrev = true
           date = new Date();
           window.setTimeout(() => {
             this.date_from = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
-          
+
             this.availabilityCheck()
           }, 200)
-          
+
         }else{
           this.disabledPrev = false
           this.date_from = new Date(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate())
@@ -470,7 +470,7 @@ export default {
 
       }, 200)
 
-    
+
 
     },
     showDatesModal() {
@@ -635,16 +635,16 @@ export default {
 
       if(this.$i18n.locale == "en"){
         return month+"-"+day+"-"+year+" - "+hour
-      }else{  
+      }else{
         return day+"-"+month+"-"+year+" - "+hour
       }
-      
+
 
     },
     hourString(hour){
 
       let timeArray = hour.split(":")
-      
+
       let hourPart = parseInt(timeArray[0])
       let minutePart = timeArray[1]
 
@@ -654,7 +654,7 @@ export default {
       if(parseInt(hourPart) > 12){
         meridian = "pm"
         hourPart = parseInt(hourPart) - 12
-        
+
       }
 
       else if(parseInt(hourPart) == "00"){
@@ -662,11 +662,11 @@ export default {
         hourPart = 12
       }
 
-      
+
       hourPart = hourPart < 10 ? "0"+hourPart : hourPart
-      
+
       return hourPart + ":" + minutePart + " " + meridian
-      
+
 
     },
     async getConfig() {
@@ -721,10 +721,10 @@ export default {
 
 .content-mix {
   padding: 0 10rem;
- 
+
   @include respond-to(xs) {
     padding: 0 0;
-  
+
     .mt-12 {
       margin-top: 23rem;
     }
@@ -868,7 +868,7 @@ margin: 1rem;
     span {
       font-size: 0.9rem;
       font-weight: 800;
-      color: #ef1856;
+      color: #000;
     text-decoration: underline;
     }
     a{
@@ -886,8 +886,8 @@ margin: 1rem;
     }
   }
   .text-success {
-    color: #ef1856;
-    border-bottom: 1px solid #ef1856;
+    color: #000;
+    border-bottom: 1px solid #000;
   }
   .img-icon {
     width: 100%;
@@ -911,7 +911,7 @@ margin: 1rem;
     align-items: center;
   }
   .v-icon.v-icon {
-    color: #ef1856;
+    color: #000;
     font-size: 5rem !important;
   }
   .v-slide-group__content {
@@ -1036,7 +1036,7 @@ display: flex;
     margin-bottom: 2rem;
     grid-gap: 1.5rem 12rem;
     max-width: 90%;
-   
+
     @include respond-to(xs) {
       grid-gap: 1.5rem 2.5rem;
     }
@@ -1055,7 +1055,7 @@ display: flex;
       display: inline-flex;
       align-items: center;
       justify-content: space-between;
-  
+
       p {
         margin-bottom: 0;
         margin-left: 1rem;
@@ -1121,7 +1121,7 @@ padding: 3px;
     .content-mx {
       display: flex;
       margin-left: 1.4rem;
-     
+
       @include respond-to(sm) {
         gap: 0rem;
       }
@@ -1133,7 +1133,7 @@ padding: 3px;
       }
 
       .style-btn {
-        background: #ef1856;
+        background: #000;
         border-radius: 18%;
         height: 21px;
         width: 20px;
@@ -1162,7 +1162,7 @@ padding: 3px;
   @include respond-to(xs) {
  width: 100%;
   }
-     
+
        @include respond-to(sm) {
          max-width: min-content;
 
@@ -1171,7 +1171,7 @@ padding: 3px;
          max-width: min-content;
 overflow: hidden;
        }
-     
+
     .main-book {
       line-height: 0;
       text-align: center;
@@ -1230,7 +1230,7 @@ overflow: hidden;
     pointer-events: auto;
   }
   .modal-window .modal-table {
- 
+
   }
   .modal-window header {
     font-weight: bold;
@@ -1272,7 +1272,7 @@ overflow: hidden;
     font-size: 1.2rem;
   }
   .v-data-table-header {
-    background: #ef1856;
+    background: #000;
     color: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -1379,7 +1379,7 @@ font-size: .7rem;
     }
   }
   thead {
-    background: #ef1856;
+    background: #000;
     color: #fff;
     border-top-right-radius: 10px;
   }
@@ -1403,7 +1403,7 @@ font-size: .7rem;
   margin-top: 2rem;
   text-align: center;
   @include respond-to(xs) {
-  
+
   }
   .btn {
     padding: 0.5rem 1.5rem;
@@ -1435,7 +1435,7 @@ font-size: .7rem;
     margin: 0 1rem;
 }
 .btn {
- 
+
     padding: 6px 16px;
     font-size: 1rem;
 }

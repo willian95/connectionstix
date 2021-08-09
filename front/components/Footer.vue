@@ -110,7 +110,7 @@
           <div class="col-md-12">
             <v-card-text class="py-2 white--text text-center last">
               <strong>
-                Connections Tix Inc dba Playtime Tickets Copyright © {{ $t("allRightsReserved") }} 
+                Connections Tix Inc dba Playtime Tickets Copyright © {{ $t("allRightsReserved") }}
                 {{ new Date().getFullYear() }}</strong
               >
             </v-card-text>
@@ -162,7 +162,7 @@ export default {
 </script>
 <style lang="scss">
 footer {
-  background: #ef1856;
+  background: #000;
 margin-top: 3rem;
   & img {
     width: 200px;

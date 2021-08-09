@@ -62,7 +62,7 @@
                   :options="{}"
                 >
                   <div
-                    
+
                     class="text-white thumbnail "
                     v-for="(item, index) in projects"
                     :key="'projects-' + index"
@@ -184,7 +184,7 @@ export default {
       if (res.data.status.result_messages[0] == "OK") {
         this.projects = res.data.data.products;
       } else {
-        
+
         this.projects = []
         this.showNoProductsMessage = true
 
@@ -209,18 +209,18 @@ export default {
       }
 
       this.productsShow = true
-      
+
 
     },
     async getProductsByTag(tag, tagName) {
-      
+
       this.productsShow = false
       let payload = {}
       this.showNoProductsMessage = false
 
       this.tagName = tagName
       this.selectedTag = tag
-      
+
       payload = {
         "tag": tag,
         "country": this.country ? this.country : '',
@@ -233,7 +233,7 @@ export default {
       if (res.data.status.result_messages[0] == "OK") {
         this.projects = res.data.data.products;
 
-        
+
 
       } else {
         this.projects = []
@@ -249,7 +249,7 @@ export default {
       }
 
       this.productsShow = true
-      
+
 
     },
     async getTags(cityCode) {
@@ -261,12 +261,12 @@ export default {
           $(".v-icon").css("color", this.primaryColor)
         }, 100)
       }
-    
+
 
       //if(this.tagList.length == 0){
         this.getAllProducts()
       //}
-      
+
     },
     async getConfig() {
       let config = await this.$axios.get("configcms");
@@ -279,14 +279,14 @@ export default {
 
       this.primaryColor = config.data.color
 
-      
+
       if(this.overlay == true){
         await this.getTags("")
         await this.getAllProducts()
       }
 
-      
-          
+
+
 
     }
   },
@@ -297,7 +297,7 @@ export default {
       this.isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
 
       this.selectedCardTag = this.isSafari ? "ma-4 w-card_slider selectedCardTagSafari" : "ma-4 w-card_slider selectedCardTag"
-      
+
     }
   }
 };
@@ -306,10 +306,10 @@ export default {
 <style lang="scss">
 .content-mix {
   padding: 0 10rem;
- 
+
   @include respond-to(xs) {
     padding: 0 0;
-  
+
     .mt-12 {
       margin-top: 23rem;
     }
@@ -453,7 +453,7 @@ margin: 1rem;
     span {
       font-size: 0.9rem;
       font-weight: 800;
-      color: #ef1856;
+      color: #000;
     text-decoration: underline;
     }
     a{
@@ -471,8 +471,8 @@ margin: 1rem;
     }
   }
   .text-success {
-    color: #ef1856;
-    border-bottom: 1px solid #ef1856;
+    color: #000;
+    border-bottom: 1px solid #000;
   }
   .img-icon {
     width: 100%;
@@ -496,7 +496,7 @@ margin: 1rem;
     align-items: center;
   }
   .v-icon.v-icon {
-    color: #ef1856;
+    color: #000;
     font-size: 5rem !important;
   }
   .v-slide-group__content {
@@ -519,7 +519,7 @@ body{
     opacity: 1 !important;
   }
   .color-txt{
-    color: #ef1856;
+    color: #000;
     font-weight: bold;
   }
 }
@@ -531,7 +531,7 @@ body{
     margin-top: -0.5rem;
   }
   .color-txt{
-    color: #ef1856;
+    color: #000;
     font-weight: bold;
   }
 }
@@ -562,18 +562,18 @@ body{
     }
     .icon-selected{
       opacity: 1;
-      
+
     }
     .color-txt{
-      color: #ef1856;
+      color: #000;
       font-weight: bold;
     }
     .icon-selected-safari{
-      opacity: 1; 
+      opacity: 1;
       top: 0;
       margin-top: -0.5rem;
     }
-   
+
 }
 
 .v-card--link:before {
