@@ -148,7 +148,7 @@ export default {
 
       }
 
-      this.showFooter
+      this.showFooter = true
 
     },
   },
