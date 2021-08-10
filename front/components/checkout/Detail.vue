@@ -49,7 +49,7 @@
             <NuxtLink :to="localePath('/attractions/' + productId)">
               <button class="flex">
                 <img class="" src="~assets/images/iconos/info.png" alt="" />
-                <p class="change-font-primary-color">{{ $t('moreInfo') }}</p>
+                <p style="color: #4a4a4a">{{ $t('moreInfo') }}</p>
               </button>
             </NuxtLink>
           </div>
