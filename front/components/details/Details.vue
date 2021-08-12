@@ -1157,7 +1157,7 @@ padding: 3px;
     align-items: center;
     flex-direction: column;
     padding: 2rem;
-    overflow: hidden;
+    /*overflow: hidden;*/
 
   @include respond-to(xs) {
  width: 100%;
@@ -1184,6 +1184,9 @@ overflow: hidden;
         width: 150%;
         left: -2rem;
         top: -19px;
+         @include respond-to(xs) {
+            opacity:0;
+         }
       }
       .btn {
         margin-top: 1rem;
