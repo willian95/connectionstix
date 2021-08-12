@@ -49,7 +49,7 @@
             <NuxtLink :to="localePath('/attractions/' + productId)">
               <button class="flex">
                 <img class="" src="~assets/images/iconos/info.png" alt="" />
-                <p class="text-dark">{{ $t('moreInfo') }}</p>
+                <p style="color: #4a4a4a">{{ $t('moreInfo') }}</p>
               </button>
             </NuxtLink>
           </div>
@@ -354,6 +354,7 @@ export default {
       if(config.data.color){
         if(process.browser){
           $(".change-color").css("background", config.data.color);
+          $(".change-font-primary-color").css("color", config.data.color);
         }
       }
 
