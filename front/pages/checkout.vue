@@ -20,7 +20,7 @@
 
     <v-app style="height: 50px;">
       <client-only>
-      <Navbar :transparent="false"></Navbar>
+      <Navbar></Navbar>
       </client-only>
     </v-app>
 
@@ -80,6 +80,7 @@
                 :checkDiscountCode="checkDiscountCode"
                 :fromDatetime="item.from_datetime"
                 :toDatetime="item.to_datetime"
+                :iconColor="iconColor"
               />
             </div>
 
@@ -669,7 +670,8 @@ export default {
     paypalClientInfo:"",
     showPaypalButton:false,
     textColor:"",
-    primaryColor:""
+    primaryColor:"",
+    iconColor:"black"
   }),
   components: { Detail, LocalErrorShow },
   methods: {
@@ -1156,6 +1158,8 @@ export default {
           localStorage.setItem("textColor", config.data.textColor);
         }
       }
+
+      this.iconColor = config.data.iconColor
     }
   },
   async created() {

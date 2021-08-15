@@ -1,7 +1,7 @@
 <template>
   <div class="details-custom">
     <client-only>
-      <Navbar :transparent="false" :positionAbsolute="false"></Navbar>
+      <Navbar></Navbar>
     </client-only>
     <div >
       <div class="details-img mb-5">

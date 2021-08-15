@@ -41,14 +41,18 @@
         <div>
               <div class="main-min main-min_dates" v-if="cancellationPolicy">
             <button class="flex" @click="showCancellationPolicyModal(cancellationPolicy)">
-              <img class="" src="~assets/images/iconos/info.png" alt="" />
+              
+
+              <img class="" v-if="iconColor == 'black'" src="/icons-black/info.png" alt="" />
+              <img class="" v-if="iconColor == 'magenta'" src="/icons-magenta/info.png" alt="" />
               <p>{{ $t('cancellationPolicy') }}</p>
             </button>
           </div>
           <div class="main-min">
             <NuxtLink :to="localePath('/attractions/' + productId)">
               <button class="flex">
-                <img class="" src="~assets/images/iconos/info.png" alt="" />
+                <img class="" v-if="iconColor == 'black'" src="/icons-black/info.png" alt="" />
+              <img class="" v-if="iconColor == 'magenta'" src="/icons-magenta/info.png" alt="" />
                 <p style="color: #4a4a4a">{{ $t('moreInfo') }}</p>
               </button>
             </NuxtLink>
@@ -60,11 +64,14 @@
          <div class="main-min main-min_dates" v-if="fromDatetime  != null">
             <h4>{{ $t('departure') }}</h4>
             <div class="flex" >
-              <img class="" src="~assets/images/iconos/arrow1.png" alt="" />
+              <img class="" v-if="iconColor == 'black'" src="/icons-black/arrow1.png" alt="" />
+              <img class="" v-if="iconColor == 'magenta'" src="/icons-magenta/arrow1.png" alt="" />
               <p>{{ dateString(fromDatetime.date)  }}</p>
             </div>
                <div class="flex" >
-              <img class="" src="~assets/images/iconos/reloj.png" alt="" />
+                  <img class="" v-if="iconColor == 'black'" src="/icons-black/reloj.png" alt="" />
+                  <img class="" v-if="iconColor == 'magenta'" src="/icons-magenta/reloj.png" alt="" />
+   
               <p>{{ fromDatetime.time }} {{ fromDatetime.ampm }}</p>
             </div>
           </div>
@@ -72,11 +79,13 @@
           <div class="main-min main-min_dates" v-if="toDatetime != null">
                 <h4>{{ $t('return') }}</h4>
             <div class="flex" >
-              <img class="" src="~assets/images/iconos/arrow1.png" alt="" />
+                  <img class="" v-if="iconColor == 'black'" src="/icons-black/arrow1.png" alt="" />
+                  <img class="" v-if="iconColor == 'magenta'" src="/icons-magenta/arrow1.png" alt="" />
               <p>{{ dateString(toDatetime.date) }}</p>
             </div>
                <div class="flex" >
-              <img class="" src="~assets/images/iconos/reloj.png" alt="" />
+                  <img class="" v-if="iconColor == 'black'" src="/icons-black/reloj.png" alt="" />
+                  <img class="" v-if="iconColor == 'magenta'" src="/icons-magenta/reloj.png" alt="" />
               <p>{{ toDatetime.time }} {{ toDatetime.ampm }}</p>
             </div>
           </div>
@@ -93,11 +102,9 @@
           style="cursor:pointer;"
           @click="remove(itemId)"
         >
-          <img
-            class="trash-icon"
-            src="~assets/images/iconos/trash.png"
-            alt=""
-          />
+          <img class="trash-icon" v-if="iconColor == 'black'" src="/icons-black/trash.png" alt="" />
+          <img class="trash-icon" v-if="iconColor == 'magenta'" src="/icons-magenta/trash.png" alt="" />
+
         </v-card>
       </v-col>
     </v-row>
@@ -150,7 +157,8 @@ export default {
     "discountCodeProp",
     "checkDiscountCode",
     "fromDatetime",
-    "toDatetime"
+    "toDatetime",
+    "iconColor"
   ],
   data() {
     return {

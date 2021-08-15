@@ -2,7 +2,7 @@
   <div class="" id="app" data-app>
     <div>
       <client-only>
-        <Navbar :transparent="!overlay" :positionAbsolute="true" />
+        <Navbar/>
       </client-only>
       <!---    <Logo />-->
       <Banner
@@ -157,13 +157,19 @@ export default {
       ) // use . as a separator
     },
     async getAllProducts() {
+      //alert("getAllProducts")
       let res = await this.$axios.get("products/all");
       this.projects = res.data;
       $(".primary-color").css("color", this.primaryColor)
     },
     async getFilteredProducts(countryCode, state, city, isClicked = false) {
 
-      this.country = countryCode
+      if(this.selectedCardTag == ""){
+
+        this.getAllProducts()
+
+      }else{
+        this.country = countryCode
       this.province = state
       this.city = city
       this.tagName = "See All"
@@ -180,6 +186,8 @@ export default {
         state: state,
         city: city
       });
+
+      this.projects = []
 
       if (res.data.status.result_messages[0] == "OK") {
         this.projects = res.data.data.products;
@@ -207,6 +215,9 @@ export default {
         }, 100)
 
       }
+      }
+
+      
 
       this.productsShow = true
 
@@ -253,6 +264,9 @@ export default {
 
     },
     async getTags(cityCode) {
+
+      //alert("getTags")
+
       let res = await this.$axios.get("tags/all?cityCode="+cityCode);
       this.tagList = res.data;
 
@@ -264,7 +278,7 @@ export default {
 
 
       //if(this.tagList.length == 0){
-        this.getAllProducts()
+        //this.getAllProducts()
       //}
 
     },
@@ -280,10 +294,10 @@ export default {
       this.primaryColor = config.data.color
 
 
-      if(this.overlay == true){
+      /*if(this.overlay == true){
         await this.getTags("")
         await this.getAllProducts()
-      }
+      }*/
 
 
 

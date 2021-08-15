@@ -129,7 +129,7 @@ export default {
 
         if(data.selected == true){
           this.city = data.city_code
-          this.getTags(data.city_code)
+          //this.getTags(data.city_code)
          
           this.getFilteredProducts(this.country, this.state, this.city)
       

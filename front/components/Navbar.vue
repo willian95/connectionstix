@@ -1,15 +1,17 @@
 <template>
-  <header :class="transparent == true ? 'header-2 '+navbarClass : 'header-2 change-color '+navbarClass" >
+  <header :class="transparent == true ? 'header-2 '+navbarClass : 'header-2 change-color '+navbarClass">
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
     <v-row class="p-1t" no-gutters>
      <v-col cols="3"   >
         <client-only>
         <nuxt-link :to="{ path: '/'}">
           <div v-if="transparent == true">
-            <img v-if="logo" class="brand" :src="logo" alt="" />
+            <img v-if="secondaryLogo" class="brand" :src="secondaryLogo" alt="" />
           </div>
           <div v-else>
-            <img v-if="secondaryLogo" class="brand" :src="secondaryLogo" alt="" />
+            <img v-if="logo && $route.path == '/' " class="brand" :src="logo" alt="" />
+            <img v-if="secondaryLogo && $route.path != '/' " class="brand" :src="secondaryLogo" alt="" />
+            
           </div>
         </nuxt-link>
       </client-only>
@@ -69,13 +71,15 @@ export default {
           return this.$store.getters["getCartAmount"] != 0 ? this.$store.getters["getCartAmount"].amount : 0
       }
   },
-  props:["transparent", "positionAbsolute"],
   data: () => ({
     languages: ["en", "es"],
     language:"",
     logo:"",
     secondaryLogo:"",
-    navbarClass:""
+    navbarClass:"",
+    transparent:true,
+    positionAbsolute:true,
+    showNavbar:false
   }),
   methods:{
     showEmptyCartMessage(){
@@ -113,12 +117,36 @@ export default {
     },
     async getConfig(){
 
+      
+
       let config = await this.$axios.get("configcms")
       this.overlay =  config.data.overlay
+
+      if(this.$route.path == "/"){
+        this.transparent=!this.overlay 
+        this.positionAbsolute=!this.overlay 
+      }else{
+
+        this.transparent=this.overlay 
+        this.positionAbsolute=this.overlay 
+
+      }
+      
+
+      this.showNavbar = true
 
       if(config.data.hero){
         this.backImage = process.env.SERVER_URL+config.data.hero
       }
+
+      if(config.data.color){
+        if(process.browser){
+     
+          $(".change-color").css("background-color", config.data.color);
+        }
+      }
+
+      
 
       if(config.data.logo){
       
@@ -133,26 +161,35 @@ export default {
           this.secondaryLogo = process.env.SERVER_URL+config.data.secondaryLogo
         }
       }
+
+      
+
+      if(this.positionAbsolute == true){
+        this.navbarClass = "absolute-position"
+      }else{
+        this.navbarClass = ""
+      }
       
     }
+  },
+  created(){
+      this.getConfig()
   },
   mounted(){
 
     this.getLocalStorageOrders()
     
-    this.getConfig()
+    //this.getConfig()
     
     this.language = this.$i18n.locale
 
-    if(this.positionAbsolute == true){
-      this.navbarClass = "absolute-position"
-    }
+    
 
   },
   watch:{
     transparent: function(newVal, oldVal){
 
-        this.transparent = newVal
+        
         //this.getColor()
 
     }

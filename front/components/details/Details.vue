@@ -9,7 +9,8 @@
                 <div class="content-slider_date">
                   <button :class="disabledPrev ? prevDisabledLinkClass : 'btn primary-btn-color'" @click="substractDay()" :disabled="disabledPrev"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
                 <div class="date-custom">
-                  <img src="~assets/images/iconos/calendar.png" alt="" />
+                  <img v-if="iconColor == 'black'" src="/icons-black/calendar.png" alt="" />
+                  <img v-if="iconColor == 'magenta'" src="/icons-magenta/calendar.png" alt="" />
                   <date-picker
                     placeholder="MM/dd/yyyy"
                     format="MM/dd/yyyy"
@@ -77,7 +78,8 @@
             <div class="flex" v-if="checkAvailability">
               <client-only>
                 <div class="date-custom">
-                  <img src="~assets/images/iconos/calendar.png" alt="" />
+                  <img v-if="iconColor == 'black'" src="/icons-black/calendar.png" alt="" />
+                  <img v-if="iconColor == 'magenta'" src="/icons-magenta/calendar.png" alt="" />
                   <date-picker
                     placeholder="MM/DD/YYYY"
                     format="MM/dd/yyyy"
@@ -243,8 +245,9 @@
                   :key="'inclusion-' + index"
                 >
                 <div class="item">
-                     <img src="~assets/images/iconos/check.png" alt="" />
-                    <div>
+                    <img v-if="iconColor == 'black'" src="/icons-black/check.png" alt="" />
+                    <img v-if="iconColor == 'magenta'" src="/icons-magenta/check.png" alt="" />
+                  <div>
 
                     <p>{{ inclusion }}</p>
                   </div>
@@ -257,7 +260,8 @@
                   :key="'exclusion-' + index"
                 >
                   <div class="item">
-                      <img src="~assets/images/iconos/nocheck.png" alt="" />
+                      <img v-if="iconColor == 'black'" src="/icons-black/nocheck.png" alt="" />
+                      <img v-if="iconColor == 'magenta'" src="/icons-magenta/nocheck.png" alt="" />
                     <div >
 
                     <p>{{ exclusion }}</p>
@@ -280,8 +284,14 @@
                     <img :src="know.icon" alt="" />
                     <p>{{ know.label }}</p>
                   </div>
-                  <img src="~assets/images/iconos/check.png" alt="" v-if="know.value" />
-                  <img src="~assets/images/iconos/nocheck.png" alt="" v-else />
+                  <div v-if="iconColor == 'magenta'">
+                    <img src="/icons-magenta/check.png" alt="" v-if="know.value" />
+                    <img src="/icons-magenta/nocheck.png" alt="" v-else />
+                  </div>
+                  <div v-if="iconColor == 'black'">
+                    <img src="/icons-black/check.png" alt="" v-if="know.value" />
+                    <img src="/icons-black/nocheck.png" alt="" v-else />
+                  </div>
                 </div>
               </div>
 
@@ -349,6 +359,7 @@ export default {
       availableDates: [],
       disabledPrev:true,
       prevDisabledLinkClass:"btn prevDisabledLink primary-btn-color",
+      iconColor:"magenta"
     };
   },
   methods: {
@@ -678,6 +689,7 @@ export default {
 
       this.primaryColor = config.data.color
       this.secondaryColor = config.data.textColor
+      this.iconColor = config.data.iconColor
 
       $(".change-color").css("background", this.primaryColor);
       $(".primary-btn-color").css("background", this.primaryColor);
