@@ -163,12 +163,13 @@ export default {
       $(".primary-color").css("color", this.primaryColor)
     },
     async getFilteredProducts(countryCode, state, city, isClicked = false) {
-
-      if(this.selectedCardTag == ""){
-
+      
+      if(this.selectedTag == 0){
+        this.getTags(city)
         this.getAllProducts()
 
       }else{
+        
         this.country = countryCode
       this.province = state
       this.city = city
@@ -177,7 +178,7 @@ export default {
 
       this.productsShow = false
 
-      await this.getTags(city)
+      //await this.getTags(city)
       this.getProductsByTag(this.selectedTag, this.tagName)
 
       this.showNoProductsMessage = false
@@ -191,6 +192,8 @@ export default {
 
       if (res.data.status.result_messages[0] == "OK") {
         this.projects = res.data.data.products;
+
+
       } else {
 
         this.projects = []
@@ -240,6 +243,8 @@ export default {
       }
 
       let res = await this.$axios.post("products/list", payload);
+
+      this.projects = []
 
       if (res.data.status.result_messages[0] == "OK") {
         this.projects = res.data.data.products;
