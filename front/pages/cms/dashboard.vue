@@ -68,7 +68,7 @@
                                         <div class="row row-paddingless mb-10">
                                             <div class="col-12">
                                                 <div class="form-group form-check">
-                                                    <label class="form-check-label" for="overlay">Color icons</label>
+                                                    <label class="form-check-label" for="overlay">Icons color</label>
                                                     <select class="form-control" v-model="iconColor">
                                                         <option value="magenta">Magenta</option>
                                                         <option value="black">Black</option>
