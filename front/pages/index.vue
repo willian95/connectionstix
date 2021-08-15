@@ -323,6 +323,10 @@ export default {
 </script>
 
 <style lang="scss">
+.v-icon.v-icon{
+  margin-top: -40px;
+}
+
 .content-mix {
   padding: 0 10rem;
 
