@@ -95,7 +95,7 @@
                               "
                               >{{ $t("moreInfo") }}</NuxtLink
                             >-->
-                            <span class="primary-color">{{ $t("moreInfo") }}</span>
+                            <span class="primary-text-color">{{ $t("moreInfo") }}</span>
                           </div>
                         </div>
                       </div>
@@ -160,7 +160,15 @@ export default {
       //alert("getAllProducts")
       let res = await this.$axios.get("products/all");
       this.projects = res.data;
-      $(".primary-color").css("color", this.primaryColor)
+
+      
+      if(process.browser){
+
+        window.setTimeout(() => {
+          $(".primary-text-color").css("color", this.primaryColor)
+        }, 100)
+
+      }
     },
     async getFilteredProducts(countryCode, state, city, isClicked = false) {
       
@@ -214,7 +222,7 @@ export default {
       if(process.browser){
 
         window.setTimeout(() => {
-          $(".primary-color").css("color", this.primaryColor)
+          $(".primary-text-color").css("color", this.primaryColor)
         }, 100)
 
       }
