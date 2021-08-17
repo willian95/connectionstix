@@ -27,7 +27,7 @@
                     <th class="th-start">{{ $t("toDatetime") }}</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="modal-date">
                   <div class="content-tables">
                   <tr v-if="onLoadingAvailability == true">
                    <td colspan="2">
@@ -730,6 +730,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+.modal-date .v-icon{
+  margin-bottom: -40px;
+}
 
 .content-mix {
   padding: 0 10rem;

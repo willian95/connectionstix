@@ -331,7 +331,7 @@ export default {
 </script>
 
 <style lang="scss">
-.v-icon.v-icon{
+.content-mix .v-icon.v-icon{
   margin-top: -40px;
 }
 
