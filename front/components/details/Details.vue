@@ -732,7 +732,7 @@ export default {
 <style lang="scss">
 
 .modal-date .v-icon{
-  margin-bottom: -40px;
+  margin-bottom: -5px;
 }
 
 .content-mix {
