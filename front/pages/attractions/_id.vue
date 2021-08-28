@@ -47,7 +47,7 @@
       </v-sheet>
     </v-container>
     <no-ssr>
-      <Details :class="images == null || (images.length < 1 && overlay == true) ? 'overlay-margin' : ''" :description="description" :title="title" :highlights="highlights" :inclusions="inclusions" :exclusions="exclusions" :knowBeforeYouGoChecklist="knowBeforeYouGoChecklist" :knowBeforeYouGoOptional="knowBeforeYouGoOptional" :cancellationPolicy="cancellationPolicy" :operationHours="operationHours" :duration="duration" :address="address" :checkAvailability="checkAvailability" :pricing="pricing" :productId="productId" :nextDateAvailable="nextDateAvailable" :minimunHeight="minimunHeight"></Details>
+      <Details :class="images == null || (images.length <= 1 && overlay == true) ? 'overlay-margin' : ''" :description="description" :title="title" :highlights="highlights" :inclusions="inclusions" :exclusions="exclusions" :knowBeforeYouGoChecklist="knowBeforeYouGoChecklist" :knowBeforeYouGoOptional="knowBeforeYouGoOptional" :cancellationPolicy="cancellationPolicy" :operationHours="operationHours" :duration="duration" :address="address" :checkAvailability="checkAvailability" :pricing="pricing" :productId="productId" :nextDateAvailable="nextDateAvailable" :minimunHeight="minimunHeight"></Details>
     </no-ssr>
     <no-ssr>
       <v-container v-if="nearby.length > 0">
@@ -145,6 +145,9 @@ export default {
       this.mainImage = res.data.images[0]
       this.title = res.data.product_name
       this.images = res.data.images
+
+      console.log("images", this.images.length)
+
       this.description = res.data.long_description
       this.highlights = res.data.highlights ? res.data.highlights : []
       this.inclusions = res.data.inclusions ? res.data.inclusions : []

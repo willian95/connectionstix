@@ -334,7 +334,7 @@ export default {
 <style lang="scss">
 
 .overlay-index-margin{
-  margin-top: 40px !important;
+  margin-top: 120px !important;
 }
 
 .content-mix .v-icon.v-icon{
