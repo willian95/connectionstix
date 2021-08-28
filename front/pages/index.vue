@@ -328,9 +328,6 @@ export default {
 
     }
   },
-  mounted(){
-    this.$i18n.setLocale("en")
-  }
 };
 </script>
 
