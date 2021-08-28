@@ -117,8 +117,6 @@ export default {
     },
     async getConfig(){
 
-      
-
       let config = await this.$axios.get("configcms")
       this.overlay =  config.data.overlay
 
@@ -131,7 +129,6 @@ export default {
         this.positionAbsolute=this.overlay 
 
       }
-      
 
       this.showNavbar = true
 
@@ -141,8 +138,10 @@ export default {
 
       if(config.data.color){
         if(process.browser){
-     
-          $(".change-color").css("background-color", config.data.color);
+         
+          window.setTimeout(function(){
+            $(".change-color").css("background-color", config.data.color);
+          }, 400)
         }
       }
 
@@ -162,13 +161,20 @@ export default {
         }
       }
 
-      
+      if(this.$route.path == "/"){
+        if(this.positionAbsolute == true){
+          this.navbarClass = "absolute-position"
+        }
 
-      if(this.positionAbsolute == true){
-        this.navbarClass = "absolute-position"
       }else{
-        this.navbarClass = ""
+        if(this.positionAbsolute == true){
+          this.navbarClass = "absolute-position change-color"
+        }else{
+          this.navbarClass = ""
+        }
       }
+
+      
       
     }
   },

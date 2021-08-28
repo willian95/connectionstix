@@ -141,7 +141,7 @@ export default {
       if (process.browser) {
         if (config.data.color) {
           if (process.browser) {
-            this.footerLogo = process.env.SERVER_URL + config.data.footerLogo;
+            this.footerLogo = process.env.SERVER_URL+ config.data.footerLogo;
             document.getElementById("footer").style.background = config.data.color;
           }
         }

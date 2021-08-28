@@ -13,7 +13,7 @@
       </div>
     </div>
     <!-------------------------------------------------->
-    <v-container class="mt-5" v-if="images.length > 1">
+    <v-container class='mt-5' v-if="images.length > 1">
 
       <CoolLightBox
         :items="images"
@@ -27,7 +27,7 @@
         max-width="100%"
       >
         <div class="content-mix-detail ">
-          <div class="row">
+          <div :class="overlay == true ? 'overlay-margin row' : 'row'">
             <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
               <v-btn
                 class="mx-2"
@@ -47,7 +47,7 @@
       </v-sheet>
     </v-container>
     <no-ssr>
-      <Details :description="description" :title="title" :highlights="highlights" :inclusions="inclusions" :exclusions="exclusions" :knowBeforeYouGoChecklist="knowBeforeYouGoChecklist" :knowBeforeYouGoOptional="knowBeforeYouGoOptional" :cancellationPolicy="cancellationPolicy" :operationHours="operationHours" :duration="duration" :address="address" :checkAvailability="checkAvailability" :pricing="pricing" :productId="productId" :nextDateAvailable="nextDateAvailable" :minimunHeight="minimunHeight"></Details>
+      <Details :class="images.length < 1 ? 'mt-5' : ''" :description="description" :title="title" :highlights="highlights" :inclusions="inclusions" :exclusions="exclusions" :knowBeforeYouGoChecklist="knowBeforeYouGoChecklist" :knowBeforeYouGoOptional="knowBeforeYouGoOptional" :cancellationPolicy="cancellationPolicy" :operationHours="operationHours" :duration="duration" :address="address" :checkAvailability="checkAvailability" :pricing="pricing" :productId="productId" :nextDateAvailable="nextDateAvailable" :minimunHeight="minimunHeight"></Details>
     </no-ssr>
     <no-ssr>
       <v-container v-if="nearby.length > 0">
@@ -242,6 +242,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+.overlay-margin{
+  margin-top: 120px !important;
+}
 
 .content-mix-detail {
   padding: 0 0rem;

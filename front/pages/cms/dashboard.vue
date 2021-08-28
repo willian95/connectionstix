@@ -98,7 +98,7 @@
                                     <div class="card-title">
                                         <div class="card-label">
                                             <div class="font-weight-bolder">
-                                                <h2>Hero image</h2>
+                                                <h2>Hero image (1250px * 850px JPG)</h2>
                                             </div>
                                         </div>
                                     </div>
@@ -161,7 +161,7 @@
                                         <div class="row row-paddingless mb-10">
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label for="">Main Logo</label>
+                                                    <label for="">Main Logo (443px * 95px PNG)</label>
                                                     <input type="file" class="form-control" @change="onLogoChange"  accept="image/*">
                                                 </div>
                                             </div>
@@ -183,7 +183,7 @@
                                         <div class="row row-paddingless mb-10">
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label for="">Second Logo</label>
+                                                    <label for="">Second Logo (443px * 95px PNG)</label>
                                                     <input type="file" class="form-control" @change="onSecondLogoChange"  accept="image/*">
                                                 </div>
                                             </div>
@@ -205,7 +205,7 @@
                                         <div class="row row-paddingless mb-10">
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label for="">Footer Logo</label>
+                                                    <label for="">Footer Logo (443px * 95px PNG)</label>
                                                     <input type="file" class="form-control" @change="onFooterLogoChange"  accept="image/*">
                                                 </div>
                                             </div>
@@ -571,9 +571,14 @@
                 this.imagePreview = config.data.hero ? process.env.SERVER_URL+config.data.hero : ''
                 this.logoPreview = config.data.logo ? process.env.SERVER_URL+config.data.logo : ''
                 this.secondLogoPreview = config.data.secondaryLogo ? process.env.SERVER_URL+config.data.secondaryLogo : ''
-                this.footerLogoPreview = config.data.footerLogo ? process.env.SERVER_URL+config.data.footerLogo : ''
+                this.footerLogoPreview = config.data.footerLogo ?process.env.SERVER_URL+config.data.footerLogo : ''
                 this.overlay = config.data.overlay
                 this.iconColor = config.data.iconColor
+
+                console.log(this.imagePreview)
+                console.log(this.logoPreview)
+                console.log(this.secondLogoPreview)
+                console.log(this.footerLogoPreview)
             }
 
         },
