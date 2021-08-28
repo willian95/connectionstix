@@ -4,7 +4,7 @@
     <v-row class="p-1t" no-gutters>
      <v-col cols="3"   >
         <client-only>
-        <nuxt-link :to="{ path: '/'}">
+        <nuxt-link :to="localePath('/')">
           <div v-if="transparent == true">
             <img v-if="secondaryLogo" class="brand" :src="secondaryLogo" alt="" />
           </div>
