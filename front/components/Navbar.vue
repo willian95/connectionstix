@@ -256,7 +256,6 @@ header {
   }
   .select-language {
     width: 181px;
-    overflow: hidden;
      @include respond-to(xs) {
             padding-top: 0;
     width: 136px;
