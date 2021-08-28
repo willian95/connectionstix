@@ -320,8 +320,6 @@ export default {
   },
   created() {
 
-    this.$i18n.setLocale("en")
-
     this.getConfig();
     if(process.browser){
       this.isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
@@ -329,6 +327,9 @@ export default {
       this.selectedCardTag = this.isSafari ? "ma-4 w-card_slider selectedCardTagSafari" : "ma-4 w-card_slider selectedCardTag"
 
     }
+  },
+  mounted(){
+    this.$i18n.setLocale("en")
   }
 };
 </script>
