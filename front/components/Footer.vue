@@ -1,9 +1,9 @@
 <template>
   <client-only>
     <footer class="" id="footer" v-show="showFooter">
-      
-        <div class="row">
-          <div class="container" v-if="!overlay">
+
+        <div class="row" v-if="!overlay">
+          <div class="container">
             <div class="content-footer">
               <div class="center">
                 <img class="brand" :src="footerLogo" alt="" />
@@ -108,6 +108,10 @@
               </div>
             </div>
           </div>
+
+        </div>
+
+        <div class="row">
 
           <div class="col-md-12">
             <v-card-text class="py-2 white--text text-center last">
