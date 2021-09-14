@@ -2,7 +2,7 @@
   <header :class="transparent == true ? 'header-2 '+navbarClass : 'header-2 change-color '+navbarClass">
     <!---<NuxtLink class="nav-link" :to="{ path: '/attraction'}">Inicio</NuxtLink>--->
     <v-row class="p-1t" no-gutters>
-     <v-col cols="3"   >
+     <v-col cols="3"   v-if="!overlay">
         <client-only>
         <nuxt-link :to="localePath('/')">
           <div v-if="transparent == true">
@@ -20,6 +20,10 @@
       <div class="select-language">
         <v-select :items="languages" solo v-model="language" @change="changeLanguage()"></v-select>
     </div>
+    </v-col>
+    <v-col cols="3"   v-if="overlay">
+      
+    
     </v-col>
     <v-col class="text-end" cols="5" >
       <div class="style-icon_car">
@@ -79,7 +83,8 @@ export default {
     navbarClass:"",
     transparent:true,
     positionAbsolute:true,
-    showNavbar:false
+    showNavbar:false,
+    overlay:false
   }),
   methods:{
     showEmptyCartMessage(){
