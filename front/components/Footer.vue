@@ -3,7 +3,7 @@
     <footer class="" id="footer" v-show="showFooter">
       
         <div class="row">
-          <div class="container">
+          <div class="container" v-if="!overlay">
             <div class="content-footer">
               <div class="center">
                 <img class="brand" :src="footerLogo" alt="" />
@@ -126,6 +126,7 @@
 export default {
   data: () => ({
     showFooter:false,
+    overlay:false,
     icons: ["mdi-instagram", "mdi-facebook", "mdi-twitter", "mdi-linkedin"],
     footerLogo: "",
   }),
@@ -137,7 +138,7 @@ export default {
     },*/
     async getConfig() {
       let config = await this.$axios.get("configcms");
-
+      this.overlay = config.data.overlay;
       if (process.browser) {
         if (config.data.color) {
           if (process.browser) {
