@@ -608,10 +608,18 @@ export default {
         {
           "breakpoint": 768,
           "settings": {
+            "slidesToShow": 3,
+            "slidesToScroll": 1,
+            "initialSlide": 0,
+
+          },
+           "breakpoint": 480,
+          "settings": {
             "slidesToShow": 1,
             "slidesToScroll": 1,
-            "initialSlide": 0
-          }
+            "initialSlide": 0,
+
+          },
         }
       ]
     },
@@ -1854,6 +1862,15 @@ width: 104px;
 
     .v-responsive__content{
           height: 190px;
+               @include respond-to(xs) {
+                height: auto;
+               }
+                @include respond-to(md) {
+                height: auto;
+               }
+                @include respond-to(md2) {
+                height: auto;
+               }
 }
 h3{
       color: #000;

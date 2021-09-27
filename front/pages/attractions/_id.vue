@@ -444,6 +444,9 @@ margin: 1rem;
   .v-icon.v-icon {
     color: #000;
     font-size: 5rem !important;
+    @include respond-to(xs){
+      font-size:4rem!important;
+    }
   }
   .v-slide-group__content {
     justify-content: center;
@@ -515,19 +518,23 @@ height: 30vh;
   .mdi-chevron-left {
     color: #000;
     position: absolute;
-    left: -3rem;
+    left: -2rem;
     z-index: 1;
-    top: 2rem;
+    top: 4rem;
     font-size: 5rem;
+    @include respond-to(xs){
+       left: -1rem;
+    }
   }
 
   .mdi-chevron-right {
     color: #000;
     position: absolute;
-    right: 0;
+    right: -.6rem;
     z-index: 1;
-    top: 2rem;
+    top: 4rem;
     font-size: 5rem;
+
   }
   .theme--light.v-btn.v-btn--has-bg {
     background-color: transparent;
