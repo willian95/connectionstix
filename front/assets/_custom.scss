@@ -85,7 +85,13 @@ body,html{
   text-align: center;
 }
 .v-slide-group.v-item-group > .v-slide-group__next, .v-slide-group.v-item-group > .v-slide-group__prev {
-  display: none;
+ /* display: none;*/
+}
+.content-mix .v-icon.v-icon {
+    font-size: 3rem !important;
+}
+.content-mix .v-icon.v-icon {
+  margin-top: -5rem;
 }
 .v-input--radio-group__input {
 

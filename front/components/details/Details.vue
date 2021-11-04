@@ -1,6 +1,6 @@
 <template>
   <v-container class="grey lighten-5 custom-details">
-    <v-row no-gutters>
+    <v-row >
       <v-col cols="12" sm="4" md="4">
         <v-card class="pa-2 book-shadows mb-2" outlined tile>
           <div id="open-modal" :class="'modal-window open-modal ' + modalClass">
@@ -1175,18 +1175,21 @@ padding: 3px;
     padding: 2rem;
     /*overflow: hidden;*/
 
-  @include respond-to(xs) {
- width: 100%;
-  }
 
-       @include respond-to(sm) {
-         max-width: min-content;
+        @include respond-to(xs) {
+        width: 100%;
+          padding: 1rem;
+        }
 
-       }
-       @include respond-to(md) {
-         max-width: min-content;
-overflow: hidden;
-       }
+        @include respond-to(sm) {
+        /*max-width: min-content;*/
+
+        }
+        @include respond-to(md) {
+        max-width: min-content;
+        overflow: hidden;
+        }
+
 
     .main-book {
       line-height: 0;
