@@ -27,6 +27,7 @@ import { ConfigcmsModule } from './cms/configcms/configcms.module';
 import { User } from './users/user.entity';
 import { Configcms } from './cms/configcms/configcms.entity';
 import { AuthModule } from './auth/auth.module';
+import { PaymentModule } from './payment/payment.module';
 
 const entities = [User, Configcms];
 
@@ -51,7 +52,8 @@ const entities = [User, Configcms];
   ConfigModule,
   UsersModule,
   ConfigcmsModule,
-  AuthModule],
+  AuthModule,
+  PaymentModule],
   controllers: [AppController, ProductsController, CountriesController, TagsController, ProvincesController, CitiesController, OrdersController, ConnectionTestController, CheckoutController, FilesController],
   providers: [AppService, GeneralFunctionService, ProductsService, CountriesService],
 })

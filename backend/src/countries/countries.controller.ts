@@ -10,7 +10,7 @@ export class CountriesController {
     async getAll(@Req() request){
 
         try{
- 
+            
             let orderNumber = request.query
             let endpoint = ""
    
@@ -30,20 +30,12 @@ export class CountriesController {
                 httpsAgent: agent
             }).toPromise()
 
-            /*console.log(" ")
-            console.log(" ")
-            console.log(" ")
-            console.log("countries")
-            console.log(response)
-            console.log(" ")
-            console.log(" ")
-            console.log(" ")
-            console.log(" ")*/
+            
         
             return response.data.data
 
         }catch(err){
-
+          
             return err.response.data
 
         }   
