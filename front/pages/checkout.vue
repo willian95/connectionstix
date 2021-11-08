@@ -1250,10 +1250,9 @@ export default {
 
       this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id;
       if(this.payment_provider_id == 27){
-        this.payment_data = JSON.stringify({
-          locationId,
-          sourceId: token,
-        });
+        this.payment_data = {
+          source_id: token,
+        };
       }
       let request = this.setFields();
       this.onLoadingCheckout = true
