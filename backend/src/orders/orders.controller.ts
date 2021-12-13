@@ -75,7 +75,9 @@ export class OrdersController {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
-        
+            
+            
+
             return response.data.data
 
         }catch(err){
@@ -99,11 +101,12 @@ export class OrdersController {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
-        
+
             return response.data.data
 
         }catch(err){
 
+            
             return err.response.data
 
         }  

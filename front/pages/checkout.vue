@@ -373,6 +373,7 @@
                             : paymentProvider.payment_provider_name
                         }}
                     </button>
+                    
 
                     
 
@@ -397,6 +398,13 @@
                     </div>
 
                     <div v-show="paymentProvider.payment_provider_id == 27">
+                      <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn btn-inactiveClass primary-btn-color'" @click="getInfoFromSelectedPaymentProvider(index)">
+                        {{ paymentProvider.payment_provider_name }}
+                      </button>
+                      
+                    </div>
+
+                    <div v-show="paymentProvider.payment_provider_id == 28">
                       <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn btn-inactiveClass primary-btn-color'" @click="getInfoFromSelectedPaymentProvider(index)">
                         {{ paymentProvider.payment_provider_name }}
                       </button>
@@ -540,6 +548,41 @@
                       </div>
                     
                     </v-col>
+
+                    <v-col cols="12" v-show="selectedPaymentProvider.payment_provider_id == 28">
+                      <form method="post" id="payment-form" v-on:submit.prevent="cloverCreateToken()">
+
+                        <div class="form-row top-row">
+                            <div id="card-number" class="field card-number"></div>
+                            <div class="input-errors" id="card-number-errors" role="alert"></div>
+                        </div>
+                    
+                        <div class="form-row">
+                            <div id="card-date" class="field third-width"></div>
+                            <div class="input-errors" id="card-date-errors" role="alert"></div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div id="card-cvv" class="field third-width"></div>
+                            <div class="input-errors" id="card-cvv-errors" role="alert"></div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div id="card-postal-code" class="field third-width"></div>
+                            <div class="input-errors" id="card-postal-code-errors" role="alert"></div>
+                        </div>
+                        
+                        <div id="card-response" role="alert"></div>
+
+                        <div class="button-container">
+                            <button>Submit Payment</button>
+                        </div>
+                        
+                      </form>
+                    
+                    </v-col>
+
+                    
            
 
 
@@ -620,12 +663,14 @@ export default {
     }
   },
   data: () => ({
+    cloverToken:"",
     renderPage:false,
     order: "",
     currencySymbol: "",
     currencyCode: "",
     items: [],
     nearbyProducts: [],
+    clover:"",
     settings:{
       arrows:false,
       swipe:false,
@@ -919,7 +964,104 @@ export default {
 
       }
 
+      if(this.selectedPaymentProvider.payment_provider_id == 28){
+        
+        this.clover = new Clover(this.selectedPaymentProvider.data.merchant_public_key);
+        const elements = this.clover.elements();
 
+        const styles = {
+            'card-number input': {
+                'width': '20em',
+                'font-size': '20px',
+                'border': '1px gray dotted',
+                'padding': '3px',
+                'margin': '3px',
+                'font-weight': 'bold'
+            },
+            'card-number input': {
+                'background-color': '#BBBBBB'
+            },
+            'card-date input': {
+                'background-color': '#CCCCCC'
+            },
+            'card-cvv input': {
+                'background-color': '#DDDDDD'
+            },
+            'card-postal-code input': {
+                'background-color': '#EEEEEE'
+            }
+        };
+
+        const cardNumber = elements.create('CARD_NUMBER', styles);
+        const cardDate = elements.create('CARD_DATE', styles);
+        const cardCvv = elements.create('CARD_CVV', styles);
+        const cardPostalCode = elements.create('CARD_POSTAL_CODE', styles);
+        
+        cardNumber.mount('#card-number');
+        cardDate.mount('#card-date');
+        cardCvv.mount('#card-cvv');
+        cardPostalCode.mount('#card-postal-code'); 
+
+        const form = document.getElementById('payment-form');
+
+      }
+
+
+    },
+    cloverCreateToken(){
+
+      $("#card-number-errors").html("")
+      $("#card-date-errors").html("")
+      $("#card-cvv-errors").html("")
+      $("#card-cvv-errors").html("")
+      $("#card-postal-code-errors").html("")
+
+      //let clover = new Clover(this.selectedPaymentProvider.data.merchant_public_key);
+      //const elements = clover.elements();
+
+      //console.log(clover.createToken())
+      var _this = this
+      this.clover.createToken()
+        .then(function(result) {
+
+        if (result.errors) {
+          Object.values(result).forEach(function (value) {
+           
+            if(value.CARD_NUMBER){
+              $("#card-number-errors").html(value.CARD_NUMBER)
+            }
+
+            if(value.CARD_DATE){
+              $("#card-date-errors").html(value.CARD_DATE)
+            }
+
+            if(value.CARD_CVV){
+              $("#card-cvv-errors").html(value.CARD_CVV)
+            }
+
+            if(value.CARD_POSTAL_CODE){
+              $("#card-postal-code-errors").html(value.CARD_POSTAL_CODE)
+            }
+
+          });
+        } else {
+          _this.cloverTokenHandler(result.token);
+        }
+      });
+
+    },
+    cloverTokenHandler(token) {
+      
+      this.cloverToken = token
+      // Insert the token ID into the form so it gets submitted to the server
+      var form = document.getElementById('payment-form');
+      var hiddenInput = document.createElement('input');
+      hiddenInput.setAttribute('type', 'hidden');
+      hiddenInput.setAttribute('name', 'cloverToken');
+      hiddenInput.setAttribute('value', token);
+      this.cloverCheckout()
+      //form.appendChild(hiddenInput);
+      //form.submit();
     },
     async getPaymentProviders() {
       let res = await this.$axios.post("checkout/payment-providers", {
@@ -1076,7 +1218,54 @@ export default {
           "order_id": this.paypalOrder
         }
       }
+
       let request = this.setFields();
+      this.onLoadingCheckout = true
+      let res = await this.$axios.post("checkout", request);
+      this.onLoadingCheckout = false
+      this.onLoadingPay = false
+      this.payButtonDisabled = false
+      if (res.data.status.result_messages[0] == "OK") {
+        this.$swal({
+          text: this.$t('paymentSuccessful'),
+          icon: "success"
+        }).then(ans => {
+          localStorage.removeItem("orders");
+          this.$store.dispatch("storeCartAmount", { amount: 0});
+          this.$router.push("/");
+        });
+      } else {
+        this.$swal({
+          text: res.data.status.result_code[0],
+          icon: "error"
+        });
+        this.checkoutCount = 0;
+      }
+    },
+    async cloverCheckout() {
+      this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id;
+
+      let request = {
+        customer_first_name: this.customer_first_name,
+        customer_last_name: this.customer_last_name,
+        customer_email: this.customer_email,
+        phone: this.phone,
+        address_line1: this.address_line1,
+        address_line2: this.address_line2,
+        city: this.city,
+        province_state: this.province_state,
+        postal_zip_code: this.postal_zip_code,
+        country: this.country,
+        order_number: this.order,
+        
+        payment_data: {
+          payment_provider_id: this.payment_provider_id,
+          data:{
+            source: this.cloverToken
+          }
+        },
+        ticket_delivery_method: this.ticket_delivery_method
+      }
       this.onLoadingCheckout = true
       let res = await this.$axios.post("checkout", request);
       this.onLoadingCheckout = false
@@ -1378,6 +1567,8 @@ export default {
         $(".change-text-color").css("color", textColor)
 
       }
+
+      //const clover = new Clover('e8e5915de43a3b53bb00013abd18fa7f');
 
     }
 

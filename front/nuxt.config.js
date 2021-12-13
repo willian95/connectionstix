@@ -22,6 +22,17 @@ export default {
           "https://cdn.jsdelivr.net/npm/font-awesome@4.x/css/font-awesome.min.css"
       }
     ],
+    script:[
+      {
+        src:'https://sandbox.web.squarecdn.com/v1/square.js'
+      },
+      {
+        src:'https://cdn.polyfill.io/v3/polyfill.min.js'
+      },
+      {
+        src:'https://checkout.sandbox.dev.clover.com/sdk.js'
+      }
+    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

@@ -10,17 +10,30 @@ export class CheckoutController {
 
     async paymentProviders(@Body() body){
     
-        let endpoint ="/commerce/orders/"+body.order_number+"/payment-providers"
+        try{
 
-        const agent = this.generalFunctionService.getAgent()
-        let header = this.generalFunctionService.getHeader();
+            let endpoint ="/commerce/orders/"+body.order_number+"/payment-providers"
 
-        let response = await this.httpService.get(process.env.API_URL+endpoint,{
-            headers:header,
-            httpsAgent: agent
-        }).toPromise()
+            const agent = this.generalFunctionService.getAgent()
+            let header = this.generalFunctionService.getHeader();
 
-        return response.data
+            console.log(process.env.API_URL+endpoint, header, agent)
+            
+            let response = await this.httpService.get(process.env.API_URL+endpoint,{
+                headers:header,
+                httpsAgent: agent
+            }).toPromise()
+
+            
+            
+
+            return response.data
+
+        }catch(err){
+
+            console.log(err.response.data)
+
+        }
 
     }
 
