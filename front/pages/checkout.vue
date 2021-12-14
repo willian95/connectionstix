@@ -399,14 +399,18 @@
 
                     <div v-show="paymentProvider.payment_provider_id == 27">
                       <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn btn-inactiveClass primary-btn-color'" @click="getInfoFromSelectedPaymentProvider(index)">
-                        {{ paymentProvider.payment_provider_name }}
+                        <!--{{ paymentProvider.payment_provider_name }}-->
+                        <fa :icon="['fas','credit-card']" class="mr-1"></fa>
+                        Pay with card
                       </button>
                       
                     </div>
 
                     <div v-show="paymentProvider.payment_provider_id == 28">
                       <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn btn-inactiveClass primary-btn-color'" @click="getInfoFromSelectedPaymentProvider(index)">
-                        {{ paymentProvider.payment_provider_name }}
+                        <!--{{ paymentProvider.payment_provider_name }}-->
+                        <fa :icon="['fas','credit-card']" class="mr-1"></fa>
+                        Pay with card
                       </button>
                       
                     </div>
@@ -972,39 +976,43 @@ export default {
         const cloverStyles = {
             'card-number input': {
                 'width': '80%',
-                'font-size': '20px',
+                'font-size': 'inherit',
                 'border': '1px gray solid',
                 'padding': '25px',
                 'margin': '20px',
-                'font-weight': 'bold',
-                'border-radius': '5px'
+                'border-radius': '5px',
+                'color': 'rgba(0, 0, 0, 0.87)'
+            },
+            'card-number .brand':{
+              'margin-right': '20%',
+              'margin-top': '30px'
             },
             'card-date input': {
                 'width': '80%',
-                'font-size': '20px',
+                'font-size': 'inherit',
                 'border': '1px gray solid',
                 'padding': '25px',
                 'margin': '20px',
-                'font-weight': 'bold',
-                'border-radius': '5px'
+                'border-radius': '5px',
+                'color': 'rgba(0, 0, 0, 0.87)'
             },
             'card-cvv input': {
                 'width': '80%',
-                'font-size': '20px',
+                'font-size': 'inherit',
                 'border': '1px gray solid',
                 'padding': '25px',
                 'margin': '20px',
-                'font-weight': 'bold',
-                'border-radius': '5px'
+                'border-radius': '5px',
+                'color': 'rgba(0, 0, 0, 0.87)'
             },
             'card-postal-code input': {
                 'width': '80%',
-                'font-size': '20px',
+                'font-size': 'inherit',
                 'border': '1px gray solid',
                 'padding': '25px',
                 'margin': '20px',
-                'font-weight': 'bold',
-                'border-radius': '5px'
+                'border-radius': '5px',
+                'color': 'rgba(0, 0, 0, 0.87)'
             }
         };
 
@@ -1260,7 +1268,7 @@ export default {
     },
     async cloverCheckout() {
       this.payment_provider_id = this.selectedPaymentProvider.payment_provider_id;
-
+      
       let request = {
         customer_first_name: this.customer_first_name,
         customer_last_name: this.customer_last_name,
@@ -1273,13 +1281,8 @@ export default {
         postal_zip_code: this.postal_zip_code,
         country: this.country,
         order_number: this.order,
-        
-        payment_data: {
-          payment_provider_id: this.payment_provider_id,
-          data:{
-            source: this.cloverToken
-          }
-        },
+        payment_provider_id: this.payment_provider_id,
+        source: this.cloverToken,
         ticket_delivery_method: this.ticket_delivery_method
       }
       this.onLoadingCheckout = true

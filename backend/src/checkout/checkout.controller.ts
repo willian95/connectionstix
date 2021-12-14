@@ -71,7 +71,43 @@ export class CheckoutController {
                 "delivery_method" : body.ticket_delivery_method
             }
 
-            console.log(test)
+            
+
+            if(body.payment_provider_id == 28){
+
+                let response = await this.httpService.post(process.env.API_URL+endpoint,{
+
+                    "customer" : {
+                        "first_name" : body.customer_first_name,
+                        "last_name" : body.customer_last_name,
+                        "email" : body.customer_email,
+                        "phone" : body.phone
+                    },
+                    "payment" : {
+                        "billing_address" : {
+                            "street_line_1" : body.address_line1,
+                            "street_line_2" : body.address_line2,
+                            "city" : body.city,
+                            "province_state" : body.province_state,
+                            "postal_zip_code" : body.postal_zip_code,
+                            "country" : body.country
+                        },
+                        "payment_data" : { 
+                            "payment_provider_id" : body.payment_provider_id,
+                            "data" : body.source 
+                        },   
+                    },
+                    "delivery_method" : body.ticket_delivery_method
+                },{
+                    headers:header,
+                    httpsAgent: agent
+                }).toPromise()
+
+                console.log(response)
+            
+                return response.data
+
+            }
 
 
             let response = await this.httpService.post(process.env.API_URL+endpoint,{
@@ -106,7 +142,7 @@ export class CheckoutController {
 
         }catch(err){
 
-            return err.response.data
+            console.log(err.response.data)
 
         }  
 
