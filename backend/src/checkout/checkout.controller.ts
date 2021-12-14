@@ -12,6 +12,7 @@ export class CheckoutController {
     
         try{
 
+            //let endpoint ="/commerce/orders/21bea9224fee413daf75109125ee37aa/payment-providers"
             let endpoint ="/commerce/orders/"+body.order_number+"/payment-providers"
 
             const agent = this.generalFunctionService.getAgent()
@@ -23,9 +24,6 @@ export class CheckoutController {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
-
-            
-            
 
             return response.data
 

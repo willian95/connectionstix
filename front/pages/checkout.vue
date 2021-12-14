@@ -549,10 +549,10 @@
                     
                     </v-col>
 
-                    <v-col cols="12" v-show="selectedPaymentProvider.payment_provider_id == 28">
+                    <v-col cols="8" v-show="selectedPaymentProvider.payment_provider_id == 28">
                       <form method="post" id="payment-form" v-on:submit.prevent="cloverCreateToken()">
 
-                        <div class="form-row top-row">
+                        <div class="form-row">
                             <div id="card-number" class="field card-number"></div>
                             <div class="input-errors" id="card-number-errors" role="alert"></div>
                         </div>
@@ -575,7 +575,7 @@
                         <div id="card-response" role="alert"></div>
 
                         <div class="button-container">
-                            <button>Submit Payment</button>
+                            <button class="color btn btn-borde">{{ $t('checkout') }} ${{ total }}</button>
                         </div>
                         
                       </form>
@@ -969,33 +969,49 @@ export default {
         this.clover = new Clover(this.selectedPaymentProvider.data.merchant_public_key);
         const elements = this.clover.elements();
 
-        const styles = {
+        const cloverStyles = {
             'card-number input': {
-                'width': '20em',
+                'width': '80%',
                 'font-size': '20px',
-                'border': '1px gray dotted',
-                'padding': '3px',
-                'margin': '3px',
-                'font-weight': 'bold'
-            },
-            'card-number input': {
-                'background-color': '#BBBBBB'
+                'border': '1px gray solid',
+                'padding': '25px',
+                'margin': '20px',
+                'font-weight': 'bold',
+                'border-radius': '5px'
             },
             'card-date input': {
-                'background-color': '#CCCCCC'
+                'width': '80%',
+                'font-size': '20px',
+                'border': '1px gray solid',
+                'padding': '25px',
+                'margin': '20px',
+                'font-weight': 'bold',
+                'border-radius': '5px'
             },
             'card-cvv input': {
-                'background-color': '#DDDDDD'
+                'width': '80%',
+                'font-size': '20px',
+                'border': '1px gray solid',
+                'padding': '25px',
+                'margin': '20px',
+                'font-weight': 'bold',
+                'border-radius': '5px'
             },
             'card-postal-code input': {
-                'background-color': '#EEEEEE'
+                'width': '80%',
+                'font-size': '20px',
+                'border': '1px gray solid',
+                'padding': '25px',
+                'margin': '20px',
+                'font-weight': 'bold',
+                'border-radius': '5px'
             }
         };
 
-        const cardNumber = elements.create('CARD_NUMBER', styles);
-        const cardDate = elements.create('CARD_DATE', styles);
-        const cardCvv = elements.create('CARD_CVV', styles);
-        const cardPostalCode = elements.create('CARD_POSTAL_CODE', styles);
+        const cardNumber = elements.create('CARD_NUMBER', cloverStyles);
+        const cardDate = elements.create('CARD_DATE', cloverStyles);
+        const cardCvv = elements.create('CARD_CVV', cloverStyles);
+        const cardPostalCode = elements.create('CARD_POSTAL_CODE', cloverStyles);
         
         cardNumber.mount('#card-number');
         cardDate.mount('#card-date');
@@ -2259,15 +2275,23 @@ h3{
 
 
 
+#card-date{
+  margin-top: -100px;
+}
 
+#card-cvv{
+  margin-top: -100px;
+}
 
+#card-postal-code{
+  margin-top: -100px;
+}
 
-
-#payment-form {
+/*#payment-form {
   max-width: 550px;
   min-width: 300px;
   margin: 150px auto;
-}
+}*/
 
  .buyer-inputs {
   display: flex;
