@@ -983,6 +983,10 @@ export default {
                 'border-radius': '5px',
                 'color': 'rgba(0, 0, 0, 0.87)'
             },
+            'card-number img':{
+              'margin-top': '28px',
+              'margin-right': '20%'
+            },
             'card-date input': {
                 'width': '80%',
                 'font-size': 'inherit',
