@@ -12,8 +12,8 @@ export class CheckoutController {
     
         try{
 
-            //let endpoint ="/commerce/orders/21bea9224fee413daf75109125ee37aa/payment-providers"
-            let endpoint ="/commerce/orders/"+body.order_number+"/payment-providers"
+            let endpoint ="/commerce/orders/21bea9224fee413daf75109125ee37aa/payment-providers"
+            //let endpoint ="/commerce/orders/"+body.order_number+"/payment-providers"
 
             const agent = this.generalFunctionService.getAgent()
             let header = this.generalFunctionService.getHeader();
