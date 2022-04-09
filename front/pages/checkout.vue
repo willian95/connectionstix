@@ -101,105 +101,6 @@
 
           <v-expansion-panel-content>
 
-              <!--<v-sheet class="mt-5 mx-auto slide_events" elevation="8">
-
-                <v-slide-group
-                  mobile-break-point="1000"
-                  show-arrows
-                  center-active
-                >
-                  <v-btn
-                    class="mx-2"
-                    active-class="purple white--text"
-                    depressed
-                    rounded
-                  ></v-btn>
-                  <v-slide-item v-for="(slide, i) in nearbyProducts" :key="i">
-                    <NuxtLink
-                      class="no-underline"
-                      :to="{ path: '/attractions/' + slide.product_id }"
-                    >
-                      <v-card class="ma-4 card-slide_events">
-                        <v-img contain :src="slide.thumbnail"></v-img>
-                        <v-card-text>
-                          <h3>{{ slide.product_name }}</h3>
-                          <div class="txt-star"></div>
-                        </v-card-text>
-                      </v-card>
-                    </NuxtLink>
-                  </v-slide-item>
-                </v-slide-group>
-              </v-sheet>-->
-
-              <!--<v-sheet
-                class="mt-5 mx-auto slider-images"
-                elevation="8"
-                max-width="100%"
-              >
-                <div class="content-mix-detail">
-                  <div class="row">
-                    <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
-                      <v-btn
-                        class="mx-2"
-                        active-class="purple white--text"
-                        depressed
-                        rounded
-                      ></v-btn>
-
-                      <v-slide-item v-for="(slide, i) in nearbyProducts" :key="i">
-                        <NuxtLink
-                          class="no-underline"
-                          :to="{ path: '/attractions/' + slide.product_id }"
-                        >
-                          <v-card class="ma-4 card-slide_events">
-                            <v-img contain :src="slide.thumbnail"></v-img>
-                            <v-card-text>
-                              <h3>{{ slide.product_name }}</h3>
-                              <div class="txt-star"></div>
-                            </v-card-text>
-                          </v-card>
-                        </NuxtLink>
-                      </v-slide-item>
-                    </v-slide-group>
-                  </div>
-                </div>
-              </v-sheet>-->
-
-              <!--<v-sheet
-                class="mt-5 mx-auto slide_events"
-                elevation="8"
-                max-width="100%"
-              >
-                <v-container>
-                  <div class="content-mix-detail">
-                  <div class="row">
-                    <v-slide-group class="images-wrapper" mobile-break-point="1000" show-arrows center-active>
-                      <v-btn
-                        class="mx-2"
-                        active-class="purple white--text"
-                        depressed
-                        rounded
-                      ></v-btn>
-
-                      <v-slide-item v-for="(slide, i) in nearbyProducts" :key="i">
-                        <NuxtLink
-                          class="no-underline"
-                          :to="{ path: '/attractions/' + slide.product_id }"
-                        >
-                          <v-card class="ma-4 card-slide_events">
-                            <v-img contain :src="slide.thumbnail"></v-img>
-                            <v-card-text>
-                              <h3>{{ slide.product_name }}</h3>
-                              <div class="txt-star"></div>
-                            </v-card-text>
-                          </v-card>
-                        </NuxtLink>
-                      </v-slide-item>
-                    </v-slide-group>
-                  </div>
-                </div>
-                </v-container>
-              </v-sheet>-->
 
                 <client-only>
 
@@ -379,7 +280,7 @@
 
 
                     <div v-show="paymentProvider.payment_provider_id == 26">
-                      <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn btn-inactiveClass primary-btn-color'" @click="getInfoFromSelectedPaymentProvider(index), showRequiredFields()">
+                      <button :class="selectedPaymentProvider.payment_provider_id == paymentProvider.payment_provider_id ? selectedPaymentProviderActiveClass : 'btn btn-inactiveClass primary-btn-color'" @click="getInfoFromSelectedPaymentProvider(index)">
                         <fa v-show="paymentProvider.payment_provider_id == 26" :icon="['fab','paypal']" class="mr-1"></fa>
                         {{ paymentProvider.payment_provider_name }}
                       </button>
@@ -499,7 +400,7 @@
               </v-row>
               <v-row class="paymethod" v-show="showCheckout  && !onLoadingCheckout">
                 <v-col class="center" cols="12" sm="12" md="12">
-
+                  
                   <button
                     class="btn change-color primary-btn-color"
                     @click="showRequiredFields()"
@@ -529,6 +430,7 @@
                         !payButtonDisabled
                     "
                     type="button"
+
                     class="AcceptUI btn change-color primary-btn-color"
                     data-billingAddressOptions='{"show":false, "required":false}'
                     :data-apiLoginID="authorizeLoginId"
@@ -538,7 +440,7 @@
                     data-paymentOptions='{"showCreditCard": true, "showBankAccount": false}'
                     data-responseHandler="payResponse"
                   >
-                    {{ $t("payNow") }}
+                    {{ $t("payNow") }} 
                   </button>
 
                    
@@ -579,7 +481,7 @@
                         <div id="card-response" role="alert"></div>
 
                         <div class="button-container">
-                            <button class="color btn btn-borde">{{ $t('checkout') }} ${{ total }}</button>
+                            <button :disabled="payButtonDisabled" class="color btn btn-borde">{{ $t('checkout') }} ${{ total }}</button>
                         </div>
                         
                       </form>
@@ -628,6 +530,7 @@ export default {
           this.province_state == "" ||
           this.postal_zip_code == "" ||
           this.country == "" ||
+          this.address_line1 == "" ||
           this.requestForUpdate == true ||
           !regex.test(this.customer_email)
         ) {
@@ -951,6 +854,11 @@ export default {
     },
     getInfoFromSelectedPaymentProvider(index) {
 
+      this.firstRequiredFields()
+      if(this.localErrors.length){
+        return
+      }
+
       this.paymentProviders.forEach((data, paymentProviderIndex) => {
         if (index == paymentProviderIndex) {
           this.selectedPaymentProvider = data;
@@ -1163,8 +1071,9 @@ export default {
         });
       });
     },
-    showRequiredFields() {
-      this.localErrors = [];
+
+    firstRequiredFields(){
+      this.localErrors = []
       var regex = /\S+@\S+\.\S+/;
       if (this.customer_first_name == "") {
         this.localErrors.push({
@@ -1195,6 +1104,13 @@ export default {
           message: this.$t("phoneRequired")
         });
       }
+
+    },
+
+    showRequiredFields() {
+      this.localErrors = [];
+      
+      
       if (this.selectedPaymentProvider.prompt_billing_address == true) {
         if (this.address_line1 == "") {
           this.localErrors.push({
