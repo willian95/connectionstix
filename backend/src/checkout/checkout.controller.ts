@@ -17,8 +17,6 @@ export class CheckoutController {
 
             const agent = this.generalFunctionService.getAgent()
             let header = this.generalFunctionService.getHeader();
-
-            console.log(process.env.API_URL+endpoint, header, agent)
             
             let response = await this.httpService.get(process.env.API_URL+endpoint,{
                 headers:header,
@@ -44,7 +42,7 @@ export class CheckoutController {
 
             const agent = this.generalFunctionService.getAgent()
         
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
 
             let test = {
 

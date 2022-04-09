@@ -554,7 +554,8 @@ export default {
         id: this.productId,
         from_date: this.date_from,
         to_date: this.date_from,
-        price_types: this.priceTypes
+        price_types: this.priceTypes,
+        pid:window.localStorage.getItem("pid")
       });
 
       this.onLoadingAvailability = false
@@ -596,7 +597,8 @@ export default {
         product_id: this.productId,
         price_types: this.priceTypes,
         from_datetime: this.fromDate,
-        to_datetime: this.toDate
+        to_datetime: this.toDate,
+        pid:window.localStorage.getItem("pid")
       });
 
       if (res.data.status.result_messages[0] == "OK") {

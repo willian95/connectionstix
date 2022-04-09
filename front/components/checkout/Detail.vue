@@ -256,7 +256,8 @@ export default {
       let res = await this.$axios.post("orders/discount-item", {
         order_number: this.order,
         item_id: this.itemId,
-        discountCode: this.discountCode
+        discountCode: this.discountCode,
+        pid:window.localStorage.getItem("pid")
       });
 
       if (res.data.status.result_messages[0] != "OK") {
@@ -275,7 +276,8 @@ export default {
       let res = await this.$axios.post("orders/item-update", {
         request_number: this.order,
         item_id: this.itemId,
-        price_types: this.priceTypes
+        price_types: this.priceTypes,
+        pid:window.localStorage.getItem("pid")
       });
 
       if (res.data.status.result_messages[0] != "OK") {

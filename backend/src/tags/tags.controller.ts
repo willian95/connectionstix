@@ -20,24 +20,12 @@ export class TagsController {
             const agent = this.generalFunctionService.getAgent()
         
             let header = this.generalFunctionService.getHeader();
-
-            console.log(" ")
-            console.log(" ")
-            console.log(" ")
-            console.log("tags")
-            console.log(endpoint)
-            console.log(" ")
-            console.log(" ")
-            console.log(" ")
-            console.log(" ")
           
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
                 headers:header,
                 httpsAgent: agent
             }).toPromise()
 
-            
-        
             return response.data.data
 
         }catch(err){

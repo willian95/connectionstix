@@ -37,7 +37,7 @@ export class OrdersController {
         try{
             let endpoint ="/commerce/orders/"+body.request_number+"/items"
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
             const agent = this.generalFunctionService.getAgent()
             
             let response = await this.httpService.post(process.env.API_URL+endpoint, {
@@ -143,7 +143,7 @@ export class OrdersController {
         try{
             let endpoint ="/commerce/orders/"+body.request_number+"/items/"+body.item_id
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.put(process.env.API_URL+endpoint,{
@@ -171,7 +171,7 @@ export class OrdersController {
         try{
             let endpoint ="/commerce/orders/"+body.request_number+"/items/"+body.item_id
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.delete(process.env.API_URL+endpoint,{
@@ -195,7 +195,7 @@ export class OrdersController {
         try{
             let endpoint ="/commerce/orders/"+body.order_number+"/discount"
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.post(process.env.API_URL+endpoint,
@@ -225,7 +225,7 @@ export class OrdersController {
 
             let endpoint ="/commerce/orders/"+body.order_number+"/items/"+body.item_id+"/discount"
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.post(process.env.API_URL+endpoint,

@@ -1,4 +1,4 @@
-import { Controller, Get, HttpService, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, HttpService, Param, Post, Body, Req } from '@nestjs/common';
 import {GeneralFunctionService} from '../general-function/general-function.service'; 
 
 @Controller('products')
@@ -7,14 +7,14 @@ export class ProductsController {
     constructor(private generalFunctionService: GeneralFunctionService, private httpService:HttpService) {}
 
     @Get('/all')
-    async getAll(): Promise<any> {
+    async getAll(@Req() request): Promise<any> {
 
         try{
             let endpoint ="/commerce/products"
 
             const agent = this.generalFunctionService.getAgent()
-        
-            let header = this.generalFunctionService.getHeader();
+
+            let header = this.generalFunctionService.getHeader(request.query.pid);
           
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
                 headers:header,
@@ -34,7 +34,7 @@ export class ProductsController {
 
     @Post('/list')
     async getProductList(@Body() body): Promise<any> {
-
+  
         try{
 
             let parameterString = ""
@@ -46,7 +46,7 @@ export class ProductsController {
 
             const agent = this.generalFunctionService.getAgent()
         
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
                 headers:header,
                 httpsAgent: agent
@@ -157,7 +157,7 @@ export class ProductsController {
             let endpoint ="/commerce/products/"+body.id+"/availability"
 
             var agent = this.generalFunctionService.getAgent()
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
 
             let response = await this.httpService.post(process.env.API_URL+endpoint,{
                 from_date: body.from_date.toString().substring(0, 10), 

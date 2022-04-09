@@ -5,11 +5,12 @@ import utc from 'dayjs/plugin/utc';
 import sha512 from 'js-sha512';
 import utf8 from 'utf8'
 import * as https from 'https';
+import { info } from 'console';
 
 @Injectable()
 export class GeneralFunctionService {
 
-    getHeader():any{
+    getHeader(pid=""):any{
              
         dayjs.extend(utc)
 
@@ -29,8 +30,9 @@ export class GeneralFunctionService {
             'X-Dtx-Client-Hash':clientHash,
             'X-Dtx-Client-Id':process.env.CLIENT_ID,
             'X-Dtx-Request-Id':requestId,
-            'X-Dtx-Timestamp':utcTime
-        }
+            'X-Dtx-Timestamp':utcTime,
+            'X-Dtx-Profile-Id':pid
+        };
 
         return requestHeader
         

@@ -920,7 +920,8 @@ export default {
     async remove(itemId) {
       let res = await this.$axios.post("/orders/item-delete", {
         request_number: this.order,
-        item_id: itemId
+        item_id: itemId,
+        pid:window.localStorage.getItem("pid")
       });
       var _this = this;
       if (res.data.status.result_messages[0] == "OK") {
@@ -1089,7 +1090,8 @@ export default {
     },
     async getPaymentProviders() {
       let res = await this.$axios.post("checkout/payment-providers", {
-        order_number: this.order
+        order_number: this.order,
+        pid:window.localStorage.getItem("pid")
       });
       let providers = res.data.data
       providers.forEach((data, index) =>{
@@ -1120,7 +1122,8 @@ export default {
         order_number: this.order,
         payment_provider_id: this.payment_provider_id,
         payment_data: this.payment_data,
-        ticket_delivery_method: this.ticket_delivery_method
+        ticket_delivery_method: this.ticket_delivery_method,
+        pid:window.localStorage.getItem("pid")
       };
       return request;
     },
@@ -1283,7 +1286,8 @@ export default {
         order_number: this.order,
         payment_provider_id: this.payment_provider_id,
         source: this.cloverToken,
-        ticket_delivery_method: this.ticket_delivery_method
+        ticket_delivery_method: this.ticket_delivery_method,
+        pid:window.localStorage.getItem("pid")
       }
       this.onLoadingCheckout = true
       let res = await this.$axios.post("checkout", request);
@@ -1311,7 +1315,8 @@ export default {
       this.onLoadingOrderUpdate = true
       let res = await this.$axios.post("orders/discount-order", {
         order_number: this.order,
-        discountCode: this.discountCode
+        discountCode: this.discountCode,
+        pid:window.localStorage.getItem("pid")
       });
       this.onLoadingOrderUpdate = false
       if (res.data.status.result_messages[0] != "OK") {

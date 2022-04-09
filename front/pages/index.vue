@@ -156,7 +156,7 @@ export default {
     },
     async getAllProducts() {
       //alert("getAllProducts")
-      let res = await this.$axios.get("products/all");
+      let res = await this.$axios.get("products/all?pid="+window.localStorage.getItem("pid"));
       this.projects = res.data;
       
       if(process.browser){
@@ -184,7 +184,8 @@ export default {
       let res = await this.$axios.post("products/list", {
         country: countryCode,
         state: state,
-        city: city
+        city: city,
+        pid:window.localStorage.getItem("pid")
       });
       this.projects = []
       if (res.data.status.result_messages[0] == "OK") {
@@ -220,7 +221,8 @@ export default {
         "tag": tag,
         "country": this.country ? this.country : '',
         "state":this.province ? this.province : '',
-        "city":this.city ? this.city : ''
+        "city":this.city ? this.city : '',
+        pid:window.localStorage.getItem("pid")
       }
       let res = await this.$axios.post("products/list", payload);
       this.projects = []
@@ -265,7 +267,15 @@ export default {
   },
   created() {
     this.getConfig();
+
     if(process.browser){
+
+      if(this.$route.query?.pid){
+        window.localStorage.setItem("pid", this.$route.query?.pid)
+      }else{
+        window.localStorage.removeItem("pid")
+      }
+      
       this.isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
       this.selectedCardTag = this.isSafari ? "ma-4 w-card_slider selectedCardTagSafari" : "ma-4 w-card_slider selectedCardTag"
     }

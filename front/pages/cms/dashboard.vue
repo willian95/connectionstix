@@ -399,8 +399,7 @@
                             var progressPercent = Math.round((progressEvent.loaded * 100.0) / progressEvent.total);
                         
                             _this.imageProgress = progressPercent
-                        
-                            
+
                         }
                     }
 
