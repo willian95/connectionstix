@@ -188,7 +188,7 @@
                       >
                         {{ $t("checkout") }}
                       </button>
-                      <button class="color btn btn-borde" @click="checkCanContinueShopping()">
+                      <button id="btn-black-shopping" class="color btn btn-borde" @click="checkCanContinueShopping()">
                         {{ $t("continueShopping") }}
                       </button>
 
@@ -424,6 +424,7 @@
                   </button>
 
                   <button
+                    
                      @click="scrollToTop()"
                     v-show="
                       selectedPaymentProvider.payment_provider_id == 4 &&
@@ -456,32 +457,43 @@
                     </v-col>
 
                     <v-col cols="8" v-show="selectedPaymentProvider.payment_provider_id == 28">
-                      <form method="post" id="payment-form" v-on:submit.prevent="cloverCreateToken()">
-
-                        <div class="form-row">
-                            <div id="card-number" class="field card-number"></div>
-                            <div class="input-errors" id="card-number-errors" role="alert"></div>
-                        </div>
+                      <form method="post" id="payment-form" v-on:submit.prevent="cloverCreateToken()" style="margin-top: 40px">
                     
-                        <div class="form-row">
-                            <div id="card-date" class="field third-width"></div>
-                            <div class="input-errors" id="card-date-errors" role="alert"></div>
+                        <div class="row">
+                            <div class="col-12">
+                              <div id="card-date" class="field third-width"></div>
+                            </div>
                         </div>
                         
-                        <div class="form-row">
-                            <div id="card-cvv" class="field third-width"></div>
-                            <div class="input-errors" id="card-cvv-errors" role="alert"></div>
-                        </div>
                         
-                        <div class="form-row">
-                            <div id="card-postal-code" class="field third-width"></div>
-                            <div class="input-errors" id="card-postal-code-errors" role="alert"></div>
+                        <div class="row">
+                            <div class="col-12">
+                              <div id="card-cvv" class="field third-width"></div>
+                            </div>
                         </div>
+                       
                         
+                        <div class="row">
+                            <div class="col-12">
+                              <div id="card-postal-code" class="field third-width"></div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row" style="margin-top: -90px;">
+                            <div class="col-12">
+                              <div id="card-number" class="field card-number"></div>
+                            </div>
+                            
+                        </div>
+                        <div class="input-errors" id="card-date-errors" style="margin-top: -65px;" role="alert"></div>
+                         <div class="input-errors" id="card-cvv-errors" role="alert"></div>
+                         <div class="input-errors" id="card-postal-code-errors" role="alert"></div>
+                         <div class="input-errors" id="card-number-errors" role="alert"></div>
                         <div id="card-response" role="alert"></div>
 
-                        <div class="button-container">
-                            <button :disabled="payButtonDisabled" class="color btn btn-borde">{{ $t('checkout') }} ${{ total }}</button>
+                        <div class="button-container" style="margin-top: 25px;">
+                            <button id="button-final-checkout" :disabled="payButtonDisabled" class="color btn btn-borde">{{ $t('checkout') }} ${{ total }}</button>
                         </div>
                         
                       </form>
@@ -959,7 +971,7 @@ export default {
 
         if (result.errors) {
           Object.values(result).forEach(function (value) {
-           
+            console.log("value", value)
             if(value.CARD_NUMBER){
               $("#card-number-errors").html(value.CARD_NUMBER)
             }
@@ -1533,6 +1545,14 @@ export default {
   position: fixed;
   z-index:99999;
 
+}
+
+#button-final-checkout{
+  color: #000;
+}
+
+#btn-black-shopping{
+  color: #000;
 }
 
 .dimmer-body{

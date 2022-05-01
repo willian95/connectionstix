@@ -11,13 +11,13 @@ import { info } from 'console';
 export class GeneralFunctionService {
 
     getHeader(pid=""):any{
-             
+        console.log(pid)
         dayjs.extend(utc)
 
         let utcTime = dayjs().utc().format()
         let requestId = uuidv4().toString();
         
-        let stringToHash = process.env.SHARED_SECRET+":"+requestId+":"+utcTime+":";
+        let stringToHash = process.env.SHARED_SECRET+":"+requestId+":"+utcTime+":"+pid;
 
         let raw_hash = sha512.sha512.digest(utf8.encode(stringToHash));
 
@@ -31,7 +31,7 @@ export class GeneralFunctionService {
             'X-Dtx-Client-Id':process.env.CLIENT_ID,
             'X-Dtx-Request-Id':requestId,
             'X-Dtx-Timestamp':utcTime,
-            'X-Dtx-Profile-Id':pid
+            'X-Dtx-profile-id':pid
         };
 
         return requestHeader
