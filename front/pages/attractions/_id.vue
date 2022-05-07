@@ -140,7 +140,11 @@ export default {
 
     async getData(id){
 
-      let res = await this.$axios.get("products/"+id)
+      let res = await this.$axios.get("products/"+id, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      })
 
       this.mainImage = res.data.images[0]
       this.title = res.data.product_name
@@ -189,7 +193,11 @@ export default {
     },
     async getNearbyProducts(id){
 
-      let res = await this.$axios.get("products/nearby/"+id)
+      let res = await this.$axios.get("products/nearby/"+id, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      })
       this.nearby = res.data ? res.data : []
 
       if(process.browser){

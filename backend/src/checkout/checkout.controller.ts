@@ -16,7 +16,7 @@ export class CheckoutController {
             //let endpoint ="/commerce/orders/"+body.order_number+"/payment-providers"
 
             const agent = this.generalFunctionService.getAgent()
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
             
             let response = await this.httpService.get(process.env.API_URL+endpoint,{
                 headers:header,

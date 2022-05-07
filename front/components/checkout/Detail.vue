@@ -345,7 +345,11 @@ export default {
     },
     async fetchProduct(){
 
-      let res = await this.$axios.get("products/"+this.productId)
+      let res = await this.$axios.get("products/"+this.productId, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      })
       this.mainImage = res.data.images[0]
       this.title = res.data.product_name
       this.images = res.data.images

@@ -100,14 +100,14 @@ export class ProductsController {
     }
 
     @Get(':id')
-    async find(@Param('id') id): Promise<any> {
-
+    async find(@Param('id') id, @Req() request): Promise<any> {
+        
         try{
             let endpoint ="/commerce/products/"+id
 
             const agent = this.generalFunctionService.getAgent()
         
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(request.query.pid);
           
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
                 headers:header,
@@ -125,14 +125,14 @@ export class ProductsController {
     }
 
     @Get('nearby/:id')
-    async nearby(@Param('id') id): Promise<any> {
-
+    async nearby(@Param('id') id, @Req() request): Promise<any> {
+        
         try{
             let endpoint ="/commerce/products/"+id+"/nearby"
 
             const agent = this.generalFunctionService.getAgent()
         
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(request.query.pid);
           
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
                 headers:header,

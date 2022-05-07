@@ -25,7 +25,7 @@ export class CitiesController {
 
             const agent = this.generalFunctionService.getAgent()
         
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(request.query.pid);
           
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
                 headers:header,

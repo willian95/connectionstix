@@ -763,7 +763,11 @@ export default {
         let order = window.localStorage.getItem("orders");
         if (order != null) {
            this.onLoadingAttraction = true
-          let res = await this.$axios.get("orders/item-list/" + order);
+          let res = await this.$axios.get("orders/item-list/" + order, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      });
           this.onLoadingAttraction = false
           this.items = res.data.items;
           this.currencyCode = res.data.currency_code;
@@ -789,7 +793,11 @@ export default {
       }
     },
     async getTotal() {
-      let res = await this.$axios.get("orders/totals/" + this.order);
+      let res = await this.$axios.get("orders/totals/" + this.order, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      });
       this.total = res.data.grand_total;
       this.discountCode = res.data.discounts.length > 0 ? res.data.discounts[0].discount_code : ''
       this.isGrandTotalDiscountEnabled = res.data.discounts_enabled
@@ -829,7 +837,11 @@ export default {
       }
     },
     async getCartCount(order) {
-      let res = await this.$axios.get("orders/item-count/" + order);
+      let res = await this.$axios.get("orders/item-count/" + order, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      });
       return res.data.data.number_of_items;
     },
     async remove(itemId) {
@@ -1311,7 +1323,11 @@ export default {
       this.items.forEach(data => {
         itemIdArray.push(data.item_id);
       });
-      let res = await this.$axios.get("products/nearby/" + itemIdArray[0]);
+      let res = await this.$axios.get("products/nearby/" + itemIdArray[0], {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      });
       this.nearbyProducts = res.data;
 
       if(process.browser){

@@ -89,7 +89,11 @@ export default {
 
       this.getOrderNumber()
 
-      let res = await this.$axios.get("countries/all?orderNumber="+this.orderNumber);
+      let res = await this.$axios.get("countries/all?orderNumber="+this.orderNumber, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      });
       this.countries = res.data;
 
       this.countries.forEach(data => {
@@ -106,7 +110,11 @@ export default {
      
       this.states = [];
       this.cities = [];
-      let res = await this.$axios.get("provinces/" + this.country+"?orderNumber="+this.orderNumber);
+      let res = await this.$axios.get("provinces/" + this.country+"?orderNumber="+this.orderNumber, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      });
       this.states = res.data;
 
       this.states.forEach(data => {
@@ -121,7 +129,11 @@ export default {
     async getCities() {
       this.cities = [];
       let res = await this.$axios.get(
-        "cities/" + this.country + "/" + this.state+"?orderNumber="+this.orderNumber
+        "cities/" + this.country + "/" + this.state+"?orderNumber="+this.orderNumber,{
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      }
       );
       this.cities = res.data;
 

@@ -22,7 +22,7 @@ export class CountriesController {
 
             }
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(request.query.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.get(process.env.API_URL+endpoint, {

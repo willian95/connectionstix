@@ -241,16 +241,18 @@ export default {
     },
     async getTags(cityCode) {
       //alert("getTags")
-      let res = await this.$axios.get("tags/all?cityCode="+cityCode);
+      let res = await this.$axios.get("tags/all?cityCode="+cityCode, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      });
       this.tagList = res.data;
       if(process.browser){
         window.setTimeout(() => {
           $(".v-icon").css("color", this.primaryColor)
         }, 100)
       }
-      //if(this.tagList.length == 0){
-        //this.getAllProducts()
-      //}
+
     },
     async getConfig() {
       let config = await this.$axios.get("configcms");
@@ -259,10 +261,7 @@ export default {
         this.backImage = process.env.SERVER_URL + config.data.hero;
       }
       this.primaryColor = config.data.color
-      /*if(this.overlay == true){
-        await this.getTags("")
-        await this.getAllProducts()
-      }*/
+
     }
   },
   created() {

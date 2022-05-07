@@ -1,4 +1,4 @@
-import { Controller , Post, Get, HttpService, Body, Param } from '@nestjs/common';
+import { Controller , Post, Get, HttpService, Body, Param, Req } from '@nestjs/common';
 import {GeneralFunctionService} from '../general-function/general-function.service'; 
 
 @Controller('orders')
@@ -8,12 +8,12 @@ export class OrdersController {
 
 
     @Post('/create')
-    async create(){
+    async create(@Body() body){
 
         try{
             let endpoint ="/commerce/orders"
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(body.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.post(process.env.API_URL+endpoint, {}, {
@@ -63,12 +63,12 @@ export class OrdersController {
     }
 
     @Get('/totals/:request_number')
-    async getTotals(@Param('request_number') request_number){
+    async getTotals(@Param('request_number') request_number, @Req() request){
 
         try{
             let endpoint ="/commerce/orders/"+request_number+"/totals"
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(request.query.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
@@ -89,12 +89,12 @@ export class OrdersController {
     }
 
     @Get('/item-list/:request_number')
-    async getItemList(@Param('request_number') request_number){
+    async getItemList(@Param('request_number') request_number, @Req() request){
 
         try{
             let endpoint ="/commerce/orders/"+request_number+"/items"
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(request.query.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
@@ -114,12 +114,12 @@ export class OrdersController {
     }
 
     @Get('/item/:request_number/:item_id')
-    async getSpecificItem(@Param('request_number') request_number, @Param('item_id') item_id){
+    async getSpecificItem(@Param('request_number') request_number, @Param('item_id') item_id, @Req() request){
 
         try{
             let endpoint ="/commerce/orders/"+request_number+"/items/"+item_id
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(request.query.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.get(process.env.API_URL+endpoint, {
@@ -249,12 +249,12 @@ export class OrdersController {
     }
 
     @Get("item-count/:order_number")
-    async itemCount(@Param('order_number') order_number){
+    async itemCount(@Param('order_number') order_number, @Req() request){
 
         try{
             let endpoint ="/commerce/orders/"+order_number+"/items/count"
 
-            let header = this.generalFunctionService.getHeader();
+            let header = this.generalFunctionService.getHeader(request.query.pid);
             const agent = this.generalFunctionService.getAgent()
 
             let response = await this.httpService.get(process.env.API_URL+endpoint,

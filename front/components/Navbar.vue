@@ -97,7 +97,11 @@ export default {
     },
     async getCartCount(order){
 
-      let res = await this.$axios.get("orders/item-count/"+order)
+      let res = await this.$axios.get("orders/item-count/"+order, {
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      })
       return res.data.data.number_of_items
 
     },

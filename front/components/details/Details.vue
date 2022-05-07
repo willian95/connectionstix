@@ -526,7 +526,11 @@ export default {
       return sum;
     },
     async getCartCount(order) {
-      let res = await this.$axios.get("orders/item-count/" + order);
+      let res = await this.$axios.get("orders/item-count/" + order,{
+        params:{
+          pid:window.localStorage.getItem("pid")
+        }
+      });
       return res.data.data.number_of_items;
     },
     getTotal() {
@@ -585,7 +589,9 @@ export default {
       }
     },
     async storeOrder() {
-      let res = await this.$axios.post("orders/create");
+      let res = await this.$axios.post("orders/create",{
+        pid:window.localStorage.getItem("pid")
+      });
       window.localStorage.setItem("orders", res.data.order_number);
       return res.data.order_number;
     },
