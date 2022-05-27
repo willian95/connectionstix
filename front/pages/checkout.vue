@@ -493,7 +493,7 @@
                         <div id="card-response" role="alert"></div>
 
                         <div class="button-container" style="margin-top: 25px;">
-                            <button id="button-final-checkout" class="color btn btn-borde">{{ $t('checkout') }} ${{ total }}</button>
+                            <button id="button-final-checkout" style="margin-right: 70px;" class="color btn btn-borde">{{ $t('checkout') }} ${{ total }}</button>
                         </div>
                         
                       </form>
