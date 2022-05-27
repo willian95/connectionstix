@@ -457,7 +457,7 @@
                     </v-col>
 
                     <v-col cols="8" v-show="selectedPaymentProvider.payment_provider_id == 28">
-                      <form method="post" id="payment-form" v-on:submit.prevent="cloverCreateToken()" style="margin-top: 40px">
+                      <form method="post" id="payment-form" v-on:submit.prevent="cloverCreateToken()" style="margin-top: 40px" v-show="address_line1 && city && province_state && postal_zip_code && country">
                     
                         <div class="row">
                             <div class="col-12">
@@ -493,7 +493,7 @@
                         <div id="card-response" role="alert"></div>
 
                         <div class="button-container" style="margin-top: 25px;">
-                            <button id="button-final-checkout" :disabled="payButtonDisabled" class="color btn btn-borde">{{ $t('checkout') }} ${{ total }}</button>
+                            <button id="button-final-checkout" class="color btn btn-borde">{{ $t('checkout') }} ${{ total }}</button>
                         </div>
                         
                       </form>
