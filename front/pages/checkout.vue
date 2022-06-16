@@ -446,7 +446,7 @@
 
                    
                     <v-col cols="12" v-show="selectedPaymentProvider.payment_provider_id == 27">
-                      <div id="payment-container">
+                      <div id="payment-container" v-show="address_line1 && city && province_state && postal_zip_code && country && customer_first_name && customer_last_name && customer_email && phone">
                         <form id="payment-form">
                           <div id="card-container"></div>
                           <button id="card-button" type="button">{{ $t('checkout') }} ${{ total }}</button>
@@ -457,7 +457,7 @@
                     </v-col>
 
                     <v-col cols="8" v-show="selectedPaymentProvider.payment_provider_id == 28">
-                      <form method="post" id="payment-form" v-on:submit.prevent="cloverCreateToken()" style="margin-top: 40px" v-show="address_line1 && city && province_state && postal_zip_code && country">
+                      <form method="post" id="payment-form" v-on:submit.prevent="cloverCreateToken()" style="margin-top: 40px" v-show="address_line1 && city && province_state && postal_zip_code && country && customer_first_name && customer_last_name && customer_email && phone">
                     
                         <div class="row">
                             <div class="col-12">
